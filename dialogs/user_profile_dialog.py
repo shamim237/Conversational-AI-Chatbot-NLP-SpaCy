@@ -10,7 +10,7 @@ from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.book_appointment import AppointmentDialog
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
-from dialogs.tobe_loggedin_dialog import ToBeLoggedInDialog
+# from dialogs.tobe_loggedin_dialog import ToBeLoggedInDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from user_info import check_user
 
@@ -34,7 +34,7 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(DateTimePrompt(DateTimePrompt.__name__))
         self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
-        self.add_dialog(ToBeLoggedInDialog(ToBeLoggedInDialog.__name__))
+        # self.add_dialog(ToBeLoggedInDialog(ToBeLoggedInDialog.__name__))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))
@@ -69,7 +69,8 @@ class UserProfileDialog(ComponentDialog):
         status = check_user(userId, token)
 
         if userId == 0 or status == "Fail" or status == 400:
-            return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
+            # return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
+            pass
         else:
             if status == "Success":
                 await step_context.context.send_activity(
