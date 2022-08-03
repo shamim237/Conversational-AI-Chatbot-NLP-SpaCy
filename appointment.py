@@ -11,7 +11,6 @@ def get_patientId(email, pharmacyId):
 
 def save_appoint(date, startTime, endTime, patientId, pharmacistId, pharmacist, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
-    # print(date, startTime, endTime, patientId, pharmacistId, pharmacist)
     dictToSend = {"dateUtc": date, "startTime": startTime, "endTime": endTime, "patientId": patientId, "pharmacistId": pharmacistId, "pharmacistName": pharmacist, "pharmacyId": pharmacyId}
     res = requests.post('https://jarvin-dev.azurewebsites.net/api/UpsertAppointment', headers= headers, json=dictToSend)
     dictFromServer = res.json()

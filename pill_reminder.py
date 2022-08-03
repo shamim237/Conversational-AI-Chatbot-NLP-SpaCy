@@ -1,6 +1,5 @@
 import requests
-import json
-import gspread
+
 
 
 def check_reminder(id, pharmacyId, token):
@@ -159,11 +158,6 @@ def save_reminder_multi_time_capsule(patientId, pharmacyId, token, pillName, pil
     dictFromServer = res.json()
     status = dictFromServer
     return status
-
-# times = ["12:15:00", "16:00:00"]
-# day = ["2022-07-22", "2022-07-29"]
-# ss = test_dict(106, 1, " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTgzOTQwODcsImV4cCI6MTY1ODk5ODg4NywiaWF0IjoxNjU4Mzk0MDg3fQ.askPmJhzEDYWzxXov7xJA9xXxvwKQYxYdpPOCwuwa6c", "Lapa", "0", "1", times, day, "true", "2")
-# print(ss)
 
 def save_reminder_spec_days_one(patientId, pharmacyId, token, pillName, time, day):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
