@@ -7,7 +7,7 @@ from nlp_model.predict import predict_class
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
-from pill_reminder import get_patient_id
+# from pill_reminder import get_patient_id
 from outlets import check_outlet, outlet_name, get_avail_slot, get_timeslots, match, get_timeslots2
 from user_info import check_email
 from appointment import save_appoint
@@ -198,7 +198,8 @@ class AppointmentDialog(ComponentDialog):
             endTime = times
             startTime = datetime.strptime(endTime, "%H:%M:%S") - timedelta(hours = 0, minutes = 15)
             startTime = startTime.strftime("%H:%M:%S")
-            patientId = get_patient_id(email, pharmacyId)
+            # patientId = get_patient_id(email, pharmacyId)
+            patientId = userId
             pharmacistId = id
             save_appoint(date, startTime, endTime, patientId, pharmacistId, pharmacist, pharmacyId, token)
             await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))

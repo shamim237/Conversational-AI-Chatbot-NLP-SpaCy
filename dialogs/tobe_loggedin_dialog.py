@@ -12,7 +12,7 @@ from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.book_non_dialog import BookNonInDialog
 from dialogs.non_upload_dialog import UploadNonInDialog
 from dialogs.any_non_dialog import NonAnyDialog
-from dialogs.pill_reminder_dialog import PillReminderDialog
+# from dialogs.pill_reminder_dialog import PillReminderDialog
 from validate_email import email_or_gmail, validateuser, user_id, user_id_email, gmail_token, email_token
 from username import check_name_email, check_name_gmail, check_passwrd_email
 from reset_pass import sendcode, resetpass
@@ -34,7 +34,7 @@ class ToBeLoggedInDialog(ComponentDialog):
         self.add_dialog(UploadNonInDialog(UploadNonInDialog.__name__))
         self.add_dialog(NonAnyDialog(NonAnyDialog.__name__))
         self.add_dialog(BookNonInDialog(BookNonInDialog.__name__))
-        self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
+        # self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
@@ -124,18 +124,8 @@ class ToBeLoggedInDialog(ComponentDialog):
         global names
         global pharmacyId
 
-        # ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        # sh = ac.open("logs_checker")
-        # wks = sh.worksheet("Sheet1")
-
         pharmacyId = step_context.context.activity.from_property.name
         email = step_context.result
-        # try:
-        #     # wks.update_acell("D1", pharmacyId)
-        #     # wks.update_acell("F1", email)
-        # except:
-        #     pass
-        
 
         passwrd = "jsvisvl"
         login = "siovnosnvn"
@@ -195,7 +185,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     if job == "health_records":
                         return await step_context.begin_dialog(HealthRecordDialog.__name__) 
                     if job == "reminder":
-                        return await step_context.begin_dialog(PillReminderDialog.__name__)
+                        pass
 
                 if prompts == "What would you like to start with?":
                     job = predict_class(step_context.values["command"])
@@ -204,7 +194,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     if job == "health_records":
                         return await step_context.begin_dialog(HealthRecordDialog.__name__)
                     if job == "reminder":
-                        return await step_context.begin_dialog(PillReminderDialog.__name__)
+                        pass
 
                 if prompts == "Have you consulted with a Doctor/Pharmacist?":
                     jobs = predict_class(step_context.values["command"])
@@ -245,7 +235,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__) 
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                    pass
 
             if prompts == "What would you like to start with?":
                 if job == "appointment":
@@ -253,7 +243,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__)
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                    pass
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 if job == "positive":               
@@ -321,7 +311,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         if job == "health_records":
                             return await step_context.begin_dialog(HealthRecordDialog.__name__) 
                         if job == "reminder":
-                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+                            pass
 
                     if prompts == "What would you like to start with?":
                         if job == "appointment":
@@ -329,7 +319,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         if job == "health_records":
                             return await step_context.begin_dialog(HealthRecordDialog.__name__) 
                         if job == "reminder":
-                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+                            pass
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
                         if job == "positive":
@@ -369,7 +359,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__) 
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                    pass
             
             if prompts == "What would you like to start with?":
                 name = step_context.result
@@ -381,7 +371,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__) 
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                    pass
             
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 job = predict_class(step_context.values["command"])
@@ -412,7 +402,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__)
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                    pass
 
             if prompts == "What would you like to start with?":
                 if job == "appointment":
@@ -420,7 +410,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__)
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                    pass
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 if job == "positive":
@@ -476,7 +466,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         if job == "health_records":
                             return await step_context.begin_dialog(HealthRecordDialog.__name__)
                         if job == "reminder":
-                            return await step_context.begin_dialog(PillReminderDialog.__name__) 
+                            pass 
 
                     if prompts == "What would you like to start with?":
                         if job == "appointment":
@@ -484,7 +474,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         if job == "health_records":
                             return await step_context.begin_dialog(HealthRecordDialog.__name__)
                         if job == "reminder":
-                            return await step_context.begin_dialog(PillReminderDialog.__name__) 
+                            pass 
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
                         if job == "positive":
@@ -523,7 +513,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__) 
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                    pass
 
             if prompts == "What would you like to start with?":
                 if job == "appointment":
@@ -531,7 +521,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__)
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                    pass
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 if job == "positive":
@@ -648,7 +638,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         if job == "health_records":
                             return await step_context.begin_dialog(HealthRecordDialog.__name__)
                         if job == "reminder":
-                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+                            pass
 
                     if prompts == "What would you like to start with?":
                         if job == "appointment":
@@ -656,7 +646,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         if job == "health_records":
                             return await step_context.begin_dialog(HealthRecordDialog.__name__)
                         if job == "reminder":
-                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+                            pass
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
                         if job == "positive":
@@ -707,7 +697,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__)
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__) 
+                    pass 
 
             if prompts == "What would you like to start with?":
                 if job == "appointment":
@@ -715,7 +705,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__)
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                    pass
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 if job == "positive":
@@ -771,7 +761,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         if job == "health_records":
                             return await step_context.begin_dialog(HealthRecordDialog.__name__)
                         if job == "reminder":
-                            return await step_context.begin_dialog(PillReminderDialog.__name__) 
+                            pass 
 
                     if prompts == "What would you like to start with?":
                         if job == "appointment":
@@ -779,7 +769,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         if job == "health_records":
                             return await step_context.begin_dialog(HealthRecordDialog.__name__)
                         if job == "reminder":
-                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+                            pass
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
                         if job == "positive":
@@ -804,7 +794,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__)
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__) 
+                    pass 
 
             if prompts == "What would you like to start with?":
                 if job == "appointment":
@@ -812,7 +802,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if job == "health_records":
                     return await step_context.begin_dialog(HealthRecordDialog.__name__)
                 if job == "reminder":
-                    return await step_context.begin_dialog(PillReminderDialog.__name__) 
+                    pass 
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 if job == "positive":
