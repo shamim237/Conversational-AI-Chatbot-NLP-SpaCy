@@ -1,6 +1,5 @@
 from datetime import datetime
 import requests
-import numpy as np
 import re
 import json
 

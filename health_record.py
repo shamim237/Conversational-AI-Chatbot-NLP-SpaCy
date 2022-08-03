@@ -1,9 +1,5 @@
 import requests
 
-
-
-
-
 def check_health_record(id, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
     dictToSend = {"pageIndex": 1, "pageSize": 40, "pharmacyId": pharmacyId, "patientId": id, "lastUpdatedTimeTicks": 0}

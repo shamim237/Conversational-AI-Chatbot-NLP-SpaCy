@@ -5,12 +5,12 @@ from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
 from botbuilder.core import MessageFactory, UserState
 from botbuilder.dialogs import ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult
-from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
+from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, PromptOptions
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.book_appointment import AppointmentDialog
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
-# from dialogs.tobe_loggedin_dialog import ToBeLoggedInDialog
+from dialogs.tobe_loggedin_dialog import ToBeLoggedInDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from user_info import check_user
 
@@ -34,13 +34,12 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(DateTimePrompt(DateTimePrompt.__name__))
         self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
-        # self.add_dialog(ToBeLoggedInDialog(ToBeLoggedInDialog.__name__))
+        self.add_dialog(ToBeLoggedInDialog(ToBeLoggedInDialog.__name__))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
-        self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.initial_dialog_id = "WFDialog"
         
 
@@ -69,8 +68,7 @@ class UserProfileDialog(ComponentDialog):
         status = check_user(userId, token)
 
         if userId == 0 or status == "Fail" or status == 400:
-            # return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
-            pass
+            return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
         else:
             if status == "Success":
                 await step_context.context.send_activity(
@@ -86,7 +84,7 @@ class UserProfileDialog(ComponentDialog):
 
         prompts = "nothing"
         step_context.values["goodbad"] = step_context.result
-        health = predict_class(step_context.result)
+        health = predict_class(step_context.values["goodbad"])
 
         if health == "good":
             prompts = "Would you like to subscribe to a daily health tip from an expert?"
@@ -117,6 +115,7 @@ class UserProfileDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(prompt=MessageFactory.text("Have you consulted with any Doctor/Pharmacist?")),)
+
         if health == "appointment":
             await step_context.context.send_activity(
                 MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
@@ -126,10 +125,12 @@ class UserProfileDialog(ComponentDialog):
             await step_context.context.send_activity(
                 MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
             return await step_context.begin_dialog(HealthRecordDialog.__name__)
+
         if health == "reminder":
             await step_context.context.send_activity(
                 MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
             return await step_context.begin_dialog(PillReminderDialog.__name__)
+
         if health == "adv_pill_reminder":
             ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
             sh = ac.open("logs_checker")
@@ -138,6 +139,7 @@ class UserProfileDialog(ComponentDialog):
             await step_context.context.send_activity(
                 MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+            
         else:
             prompts = "What would you like to start with?"
             await step_context.context.send_activity(

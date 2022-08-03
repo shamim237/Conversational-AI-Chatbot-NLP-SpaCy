@@ -2,7 +2,6 @@ from botbuilder.core import MessageFactory
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
-from botbuilder.dialogs.choices import Choice
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
@@ -12,6 +11,8 @@ import pandas as pd
 from word2number import w2n
 from date_regex import cal_date_adv
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+
+
 class AdvPillReminderDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
         super(AdvPillReminderDialog, self).__init__(dialog_id or AdvPillReminderDialog.__name__)

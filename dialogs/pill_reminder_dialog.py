@@ -11,7 +11,6 @@ from pill_reminder import save_reminder_spec_days_multi, save_reminder_multi_tim
     save_reminder_one_time_capsule, save_reminder_multi_time_capsule, save_reminder_spec_days_one_syrup, save_reminder_spec_days_multi_syrup, save_reminder_spec_days_one_syringe, save_reminder_spec_days_multi_syringe,\
         save_reminder_spec_days_one_drops, save_reminder_spec_days_multi_drops, save_reminder_one_time_syrup, save_reminder_multi_time_syrup,save_reminder_one_time_syringe, save_reminder_multi_time_syringe, save_reminder_one_time_drop,\
             save_reminder_multi_time_drop
-import gspread
 from datetime import date, timedelta
 from word2number import w2n
 import recognizers_suite as Recognizers
@@ -360,10 +359,6 @@ class PillReminderDialog(ComponentDialog):
         dosage_mls = "mivivniinn"
         typessd = "vnoiwnvonvo"
         prob = "ssjnvisnv"
-
-        # ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        # sh = ac.open("logs_checker")
-        # wks = sh.worksheet("Sheet1")
 
         if meds == "med name nibo":
             med_name= step_context.result
@@ -982,16 +977,11 @@ class PillReminderDialog(ComponentDialog):
             return await step_context.end_dialog()
 
         if prob == "syrup dose koto":
-            # ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            # sh = ac.open("logs_checker")
-            # wks = sh.worksheet("Sheet1")
-            # wks.update_acell("A1", doses)
-            # wks.update_acell("B1", option)
+
             dosess = step_context.result
             dose = str(dosess)
             dose = dose.lower()
             dose = dose.replace(" ml", "").replace("ml", "")
-            # wks.update_acell("C1", dose)
             if option == "Recurring":
                 patientid = userId
                 pharmacyid = 1
@@ -1523,11 +1513,6 @@ class PillReminderDialog(ComponentDialog):
 
         if typessd == "types kmn":
             typo = step_context.result
-            # ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            # sh = ac.open("logs_checker")
-            # wks = sh.worksheet("Sheet1")
-            # wks.update_acell("A1", str(typo))
-            # wks.update_acell("B1", typessd)
             if typo == "Tablet":
                 if option == "Recurring":
                     patientid = userId

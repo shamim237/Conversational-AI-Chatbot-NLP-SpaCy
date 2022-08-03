@@ -1,17 +1,11 @@
-import os
-import json
-import urllib.request
-import urllib.parse
 from botbuilder.core import MessageFactory
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.choices import Choice
-from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, AttachmentPrompt, PromptOptions, PromptValidatorContext
+from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, AttachmentPrompt, PromptOptions
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
-# from upload import picture_url
-# import gspread
 from user_info import check_email
 from nlp_model.predict import predict_class
 from health_record import save_health_record_1, save_health_record_2, save_health_record_3, save_health_record_4, save_health_record_5
@@ -84,19 +78,12 @@ class HealthRecordDialog(ComponentDialog):
         userId = step_context.context.activity.from_property.id
         email = check_email(userId, token)
 
-        # ac = gspread.service_account("sppech-to-text-351109-41a4f352dd45.json")
-        # sh = ac.open("userId")
-        # wks = sh.worksheet("Sheet1") 
-
         image = step_context.result
-        # wks.update_acell("C1", fid)
         urls1 = []
         ids1 = []
         for i in image:
             furl= i.content_url
-            # wks.update_acell("A1", furl)
             fid = i.name
-            # wks.update_acell("B1", fid)
             urls1.append(furl)
             ids1.append(fid)
 
