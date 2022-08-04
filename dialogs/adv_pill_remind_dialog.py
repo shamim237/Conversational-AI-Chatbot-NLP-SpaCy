@@ -75,8 +75,8 @@ class AdvPillReminderDialog(ComponentDialog):
         pred = reminder_class(main)
 
         try:
-            wks.update_acell("E1", main)
-            wks.update_acell("E2", pred)
+            wks.update_acell("F1", main)
+            wks.update_acell("E2", str(pred))
         except:
             pass
 
