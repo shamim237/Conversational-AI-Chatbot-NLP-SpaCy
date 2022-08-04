@@ -6,5 +6,5 @@ def predict_class(msg):
     return res.text
 
 
-# ss = predict_class("remind me to take Napa at everyday morning")
-# print(ss)
+ss = predict_class("remind me to take crocin 250mg daily at 9pm for two months")
+print(ss)

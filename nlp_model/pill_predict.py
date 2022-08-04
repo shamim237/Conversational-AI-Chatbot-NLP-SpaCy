@@ -12,3 +12,6 @@ def reminder_class(msg):
 # wks = sh.worksheet("Sheet1")
 # main = wks.acell("A2").value
 # print(main)
+
+# ss = reminder_class(main)
+# print(ss)

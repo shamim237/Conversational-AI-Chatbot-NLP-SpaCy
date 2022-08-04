@@ -70,8 +70,15 @@ class AdvPillReminderDialog(ComponentDialog):
         sh = ac.open("logs_checker")
         wks = sh.worksheet("Sheet1")
         main = wks.acell("A2").value
+        wks.update_acell("E1", main)
 
-        pred = reminder_class(main)   
+        pred = reminder_class(main)
+
+        try:
+            wks.update_acell("E1", main)
+            wks.update_acell("E2", pred)
+        except:
+            pass
 
         classes = []
         med_names = []
