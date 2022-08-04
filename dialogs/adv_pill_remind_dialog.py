@@ -34,6 +34,7 @@ class AdvPillReminderDialog(ComponentDialog):
                     self.scnd_step,
                     self.thrd_step,
                     self.fourth_step,
+                    self.fifth_step,
                 ],
             )
         )
@@ -287,9 +288,12 @@ class AdvPillReminderDialog(ComponentDialog):
                 TextPrompt.__name__,
                 PromptOptions(prompt=MessageFactory.text("How many days you need to take the medicines? Hint- 2 weeks/three months.")),)
 
+################################################################################ CASE-2 ############################################################################################################################################
+############################################################## remind me to take napa daily at morning for three weeks. #############################################################################################################################################
+#############################################################################################################################################################################################################################
+
         if time_med == "just name,u_time and period is here-med_time needs to be added" or time_med == "just name,u_time,period and duration is here-med_time needs to be added":
             types_med = "type nite hobe"   
-
             times1 = []
             time1 = step_context.result
             culture = Culture.English
@@ -326,6 +330,10 @@ class AdvPillReminderDialog(ComponentDialog):
                         type=ActionTypes.im_back,
                         value= "Syrup"),])
             return await step_context.context.send_activity(reply)   
+
+################################################################################ CASE-1 ############################################################################################################################################
+############################################################## remind me to take napa daily at 4pm for three weeks. #############################################################################################################################################
+#############################################################################################################################################################################################################################
 
         #remind me to take napa daily at 4pm for three weeks.
         if not_med == "just name,time,period and duration is here-med_not needs to be added": 
@@ -368,9 +376,14 @@ class AdvPillReminderDialog(ComponentDialog):
         global dropfor
         dropfor = "smvinmvnsin"
         dosage11 = "sjvisdnin"
+
         ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
         sh = ac.open("logs_checker")
         wks = sh.worksheet("Sheet1")
+
+################################################################################ CASE-1 ############################################################################################################################################
+############################################################## remind me to take napa daily at 4pm for three weeks. #############################################################################################################################################
+#############################################################################################################################################################################################################################
 
         if dosage_q == "koto dosage":
             dosage = step_context.result
@@ -387,28 +400,17 @@ class AdvPillReminderDialog(ComponentDialog):
             pill_time = times[0] 
             shape_type = "0"
             place = ""
-
-            wks.update_acell("H1", dosage)
-            wks.update_acell("I1", pill_name)
-            wks.update_acell("J1", patientid)
-            wks.update_acell("K1", pharmacyid)
-            wks.update_acell("L1", tokens)
-            wks.update_acell("M1", pill_time)
+            dosage_ml = ""
 
             dates = cal_date_adv(durations[0])
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
 
-            wks.update_acell("N1", dates[0])
-
-            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place)
-
-            wks.update_acell("O1", "dhukseee")   
             #remind me to take napa daily at 4pm for three weeks.
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
             return await step_context.end_dialog()
-
 
         if dosage_drop_1 == "koto drop1":
             dropfor = "drop kothay"
@@ -438,37 +440,138 @@ class AdvPillReminderDialog(ComponentDialog):
                         type=ActionTypes.im_back,
                         value= "Ear"),
                 ])
-            return await step_context.context.send_activity(reply)   
+            return await step_context.context.send_activity(reply)  
 
+        if dosage_cap_1 == "koto dosage2":
+            dosage = step_context.result
+            try:
+                dosage = w2n.word_to_num(dosage)
+            except:
+                dosage = 1
+            med_type = "2"
+            pill_name = med_names[0]
+            patientid = userId
+            pharmacyid = pharmacyId
+            tokens = token
+            color_code = ""
+            pill_time = times[0] 
+            shape_type = "-1"
+            place = ""
+            dosage_ml = ""
+
+            dates = cal_date_adv(durations[0])
+
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
+
+            #remind me to take napa daily at 4pm for three weeks.
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your pill reminder has been set."))
+            await step_context.context.send_activity(
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()
+
+        if dosage_inj_1 == "koto dosage3":
+            dosage = step_context.result
+            dosage = str(dosage)
+            dosage = dosage.lower()
+            dosage = dosage.replace("mL", "").replace("ml", "")
+            try:
+                dosage_ml = w2n.word_to_num(dosage)
+            except:
+                dosage_ml = 1
+            med_type = "3"
+            pill_name = med_names[0]
+            patientid = userId
+            pharmacyid = pharmacyId
+            tokens = token
+            color_code = ""
+            pill_time = times[0] 
+            shape_type = "-1"
+            place = ""
+            dose = "1"
+
+            dates = cal_date_adv(durations[0])
+
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
+
+            #remind me to take napa daily at 4pm for three weeks.
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your pill reminder has been set."))
+            await step_context.context.send_activity(
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()   
+
+        if dosage_syrup_1 == "koto dosage4":
+            dosage = step_context.result
+            dosage = str(dosage)
+            dosage = dosage.lower()
+            dosage = dosage.replace("mL", "").replace("ml", "")
+            try:
+                dosage_ml = w2n.word_to_num(dosage)
+            except:
+                dosage_ml = 1
+            med_type = "4"
+            pill_name = med_names[0]
+            patientid = userId
+            pharmacyid = pharmacyId
+            tokens = token
+            color_code = ""
+            pill_time = times[0] 
+            shape_type = "-1"
+            place = ""
+            dose = "1"
+
+            dates = cal_date_adv(durations[0])
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your pill reminder has been set."))
+            await step_context.context.send_activity(
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()   
+
+################################################################################ CASE-2 ############################################################################################################################################
+############################################################## remind me to take napa daily at morning for three weeks. #############################################################################################################################################
+#############################################################################################################################################################################################################################
+        global dosage_tab_11
+        global dosage_drop_11
+        global dosage_cap_11
+        global dosage_inj_11
+        global dosage_syrup_11
+
+        dosage_tab_11 = "kbdfkbdjf"
+        dosage_drop_11 = "akajkjajf"
+        dosage_cap_11 = "SONSOVNONV"
+        dosage_inj_11 = "QIDIOQDNOI"
+        dosage_syrup_11 = "IQ2H3BB89BC"
 
         if types_med == "type nite hobe" and time_med == "just name,u_time,period and duration is here-med_time needs to be added":
             med_type1 = step_context.result
             if med_type == "Tablet":
-                dosage_qq_11 = "koto dosage11"
+                dosage_tab_11 = "koto dosage11"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?")),)
 
             if med_type1 == "Drop":
-                dosage_drop_12 = "koto drop12"
+                dosage_drop_11 = "koto drop12"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?")),)
 
             if med_type1 == "Capsule":
-                dosage_cap_13 = "koto dosage13"
+                dosage_cap_11 = "koto dosage13"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many caposules you have to take at a time?")),)
 
             if med_type1 == "Syringe":
-                dosage_inj_14 = "koto dosage14"
+                dosage_inj_11 = "koto dosage14"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
 
             if med_type1 == "Syrup":
-                dosage_syrup_15 = "koto dosage15"
+                dosage_syrup_11 = "koto dosage15"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
@@ -476,8 +579,12 @@ class AdvPillReminderDialog(ComponentDialog):
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        if dropfor == "drop kothay":
 
+################################################################################ CASE-1 ############################################################################################################################################
+############################################################## remind me to take napa daily at 4pm for three weeks. #############################################################################################################################################
+#############################################################################################################################################################################################################################
+        
+        if dropfor == "drop kothay":
             place = step_context.result
             med_type = "1"
             pill_name = med_names[0]
@@ -487,10 +594,10 @@ class AdvPillReminderDialog(ComponentDialog):
             pill_time = times[0] 
             color_code = ""
             shape_type = "-1"
-
+            dosage_ml = ""
 
             dates = cal_date_adv(durations[0])
-            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage11, color_code, shape_type, place)
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage11, color_code, shape_type, place, dosage_ml)
 
             #remind me to take napa daily at 4pm for three weeks.
             await step_context.context.send_activity(
@@ -498,7 +605,195 @@ class AdvPillReminderDialog(ComponentDialog):
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage11) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
             return await step_context.end_dialog()
-            
+
+################################################################################ CASE-2 ############################################################################################################################################
+############################################################## remind me to take napa daily at morning for three weeks. #############################################################################################################################################
+#############################################################################################################################################################################################################################
+
+
+        if dosage_tab_11 == "koto dosage11":
+            dosage = step_context.result
+            dosage = str(dosage)
+            dosage = dosage.lower()
+            dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
+            try:
+                dosage = w2n.word_to_num(dosage)
+            except:
+                dosage = 1
+            med_type = "0"
+            pill_name = med_names[0]
+            patientid = userId
+            pharmacyid = pharmacyId
+            tokens = token
+            color_code = "#DB4F64"
+            pill_time = timess
+            shape_type = "0"
+            place = ""
+            dosage_ml = ""
+
+            dates = cal_date_adv(durations[0])
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your pill reminder has been set."))
+            await step_context.context.send_activity(
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()
+
+        global dropfor22
+        global dosage22
+
+        dropfor22 = "dksbnkjs"
+        dosage22 = "kjsnkjsn"
+
+        if dosage_drop_11 == "koto drop12":
+            dropfor22 = "drop kothay"
+            dosage = step_context.result
+            dosage = str(dosage)
+            dosage = dosage.lower()
+            dosage = dosage.replace("drops", "").replace("drop ", "")
+
+            try:
+                dosage22 = w2n.word_to_num(dosage)
+            except:
+                dosage22 = 1
+
+            reply = MessageFactory.text("Where to use the drop?")
+            reply.suggested_actions = SuggestedActions(
+                actions=[
+                    CardAction(
+                        title= "Eye",
+                        type=ActionTypes.im_back,
+                        value= "Eye"),
+                    CardAction(
+                        title= "Nose",
+                        type=ActionTypes.im_back,
+                        value= "Nose"),
+                    CardAction(
+                        title= "Ear",
+                        type=ActionTypes.im_back,
+                        value= "Ear"),
+                ])
+            return await step_context.context.send_activity(reply)
+
+        if dosage_cap_11 == "koto dosage13":
+            dosage = step_context.result
+            dosage = str(dosage)
+            dosage = dosage.lower()
+            dosage = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
+            try:
+                dosage = w2n.word_to_num(dosage)
+            except:
+                dosage = 1
+            med_type = "2"
+            pill_name = med_names[0]
+            patientid = userId
+            pharmacyid = pharmacyId
+            tokens = token
+            color_code = ""
+            pill_time = timess 
+            shape_type = "-1"
+            place = ""
+            dosage_ml = ""
+
+            dates = cal_date_adv(durations[0])
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
+
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your pill reminder has been set."))
+            await step_context.context.send_activity(
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()  
+
+        if dosage_inj_11 == "koto dosage14":
+            dosage = step_context.result
+            dosage = str(dosage)
+            dosage = dosage.lower()
+            dosage = dosage.replace("mL", "").replace("ml", "")
+            try:
+                dosage_ml = w2n.word_to_num(dosage)
+            except:
+                dosage_ml = 1
+            med_type = "3"
+            pill_name = med_names[0]
+            patientid = userId
+            pharmacyid = pharmacyId
+            tokens = token
+            color_code = ""
+            pill_time = timess 
+            shape_type = "-1"
+            place = ""
+            dose = "1"
+
+            dates = cal_date_adv(durations[0])
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
+
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your pill reminder has been set."))
+            await step_context.context.send_activity(
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()  
+
+        if dosage_syrup_11 == "koto dosage15":
+            dosage = step_context.result
+            dosage = str(dosage)
+            dosage = dosage.lower()
+            dosage = dosage.replace("mL", "").replace("ml", "")
+            try:
+                dosage_ml = w2n.word_to_num(dosage)
+            except:
+                dosage_ml = 1
+            med_type = "4"
+            pill_name = med_names[0]
+            patientid = userId
+            pharmacyid = pharmacyId
+            tokens = token
+            color_code = ""
+            pill_time = timess
+            shape_type = "-1"
+            place = ""
+            dose = "1"
+
+            dates = cal_date_adv(durations[0])
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your pill reminder has been set."))
+            await step_context.context.send_activity(
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()  
+
+    
+    async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+################################################################################ CASE-2 ############################################################################################################################################
+############################################################## remind me to take napa daily at morning for three weeks. #############################################################################################################################################
+#############################################################################################################################################################################################################################
+
+        if dropfor22 == "drop kothay":
+            place22 = step_context.result
+            med_type = "1"
+            pill_name = med_names[0]
+            patientid = userId
+            pharmacyid = pharmacyId
+            tokens = token
+            pill_time = timess 
+            color_code = ""
+            shape_type = "-1"
+            dosage_ml = ""
+
+            dates = cal_date_adv(durations[0])
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage22, color_code, shape_type, place22, dosage_ml)
+
+            #remind me to take napa daily at 4pm for three weeks.
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your pill reminder has been set."))
+            await step_context.context.send_activity(
+                MessageFactory.text("I will remind you to take " + str(dosage11) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()
+
+
+
+
+        
 
 
 
