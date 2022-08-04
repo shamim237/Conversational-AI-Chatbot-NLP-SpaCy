@@ -196,7 +196,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?")),)
 
         #remind me to take napa daily at 4pm for three weeks.
-        if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
+        if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             wks.update_acell("G1", "dhukse2")
             not_med = "just name,time,period and duration is here-med_not needs to be added"
             reply = MessageFactory.text("Please help me recognize the type of medicine-")
@@ -226,7 +226,7 @@ class AdvPillReminderDialog(ComponentDialog):
 
         
         #remind me to take napa daily at morning for two weeks.
-        if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
+        if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" in classes and "DURATION" in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             time_med = "just name,u_time,period and duration is here-med_time needs to be added"
             return await step_context.prompt(
                 TextPrompt.__name__,
