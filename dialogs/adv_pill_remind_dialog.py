@@ -235,8 +235,8 @@ class AdvPillReminderDialog(ComponentDialog):
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        global dosage
-        dosage = "sivnisvi"
+        global dosage_q
+        dosage_q = "sivnisvi"
 
         if type_med == "just name is here-med_type needs to be added" or type_med == "just name nand time is here-med_type needs to be added" or\
             type_med == "just name nand time and u_time is here-med_type needs to be added":
@@ -304,7 +304,7 @@ class AdvPillReminderDialog(ComponentDialog):
             med_type = step_context.result
 
             if med_type == "Tablet":
-                dosage = "koto dosage"
+                dosage_q = "koto dosage"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?")),)
@@ -328,7 +328,7 @@ class AdvPillReminderDialog(ComponentDialog):
         sh = ac.open("logs_checker")
         wks = sh.worksheet("Sheet1")
 
-        if dosage == "koto dosage":
+        if dosage_q == "koto dosage":
             dosage = step_context.result
             try:
                 dosage = w2n.word_to_num(dosage)
