@@ -134,6 +134,9 @@ class AdvPillReminderDialog(ComponentDialog):
                 multi_dose = pred[x]
                 multi_doses.append(multi_dose)
                 classes.append(x)
+
+        wks.update_acell("F1", "dhukse")
+        wks.update_acell("F2", ' '.join(map(str, classes)))
         
         #remind me to take napa.
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes\
