@@ -254,6 +254,10 @@ class AdvPillReminderDialog(ComponentDialog):
         dosage_inj_1 = "sivdvdnisvi"
         dosage_syrup_1 = "vdvdvdv"
 
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
+
         if type_med == "just name is here-med_type needs to be added" or type_med == "just name nand time is here-med_type needs to be added" or\
             type_med == "just name nand time and u_time is here-med_type needs to be added":
 
@@ -305,6 +309,8 @@ class AdvPillReminderDialog(ComponentDialog):
                     tim = j['value']  
                     times1.append(tim)   
             timess = times1[0]
+
+            wks.update_acell("A3", str(timess))
 
             reply = MessageFactory.text("Please help me recognize the type of medicine-")
             reply.suggested_actions = SuggestedActions(
@@ -543,10 +549,12 @@ class AdvPillReminderDialog(ComponentDialog):
         dosage_cap_11 = "SONSOVNONV"
         dosage_inj_11 = "QIDIOQDNOI"
         dosage_syrup_11 = "IQ2H3BB89BC"
+        wks.update_acell("A5", time_med)
 
         if types_med == "type nite hobe" and time_med == "just name,u_time,period and duration is here-med_time needs to be added":
             med_type1 = step_context.result
-            if med_type == "Tablet":
+            wks.update_acell("A4", str(med_type1))
+            if med_type1 == "Tablet":
                 dosage_tab_11 = "koto dosage11"
                 return await step_context.prompt(
                     TextPrompt.__name__,
@@ -562,7 +570,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 dosage_cap_11 = "koto dosage13"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many caposules you have to take at a time?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many capsules you have to take at a time?")),)
 
             if med_type1 == "Syringe":
                 dosage_inj_11 = "koto dosage14"
@@ -697,7 +705,6 @@ class AdvPillReminderDialog(ComponentDialog):
 
             dates = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
-
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
@@ -726,7 +733,6 @@ class AdvPillReminderDialog(ComponentDialog):
 
             dates = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
-
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
@@ -782,8 +788,6 @@ class AdvPillReminderDialog(ComponentDialog):
 
             dates = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage22, color_code, shape_type, place22, dosage_ml)
-
-            #remind me to take napa daily at 4pm for three weeks.
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
