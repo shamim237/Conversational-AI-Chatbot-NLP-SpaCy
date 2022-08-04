@@ -1,6 +1,6 @@
 import requests
 
-def save_reminder_spec_days(patientId, pharmacyId, token, pillName, med_type, pill_time, dates, dosage):
+def save_reminder_spec_days(patientId, pharmacyId, token, pillName, med_type, pill_time, dates, dosage, color_code, shape_type, place):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
 
     send = []
@@ -19,13 +19,14 @@ def save_reminder_spec_days(patientId, pharmacyId, token, pillName, med_type, pi
                     "pharmacyId": pharmacyId,
                     "pillName": pillName,
                     "pillType": med_type,
-                    "shapeType": "0",
-                    "colorCode": "#DB4F64",
+                    "shapeType": shape_type,
+                    "colorCode": color_code,
                     "dosage": dosage,
                     "doseTimes": "1",
                     "isRecurring": "false",
                     "recurringValue": "0",
                     "inTakeTimings": pill_time,
+                    "dropFor": place,
                     "pillReminderSlots": sent,
                 }
 

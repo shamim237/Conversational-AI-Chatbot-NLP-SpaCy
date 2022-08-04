@@ -523,5 +523,8 @@
 # main = df['sentence'][0]
 
 # print(main)
+from word2number import w2n
 
+dosage = w2n.word_to_num("two")
+print(dosage)
 

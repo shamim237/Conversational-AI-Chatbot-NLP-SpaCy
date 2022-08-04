@@ -8,6 +8,8 @@ from prompt.email_prompt import EmailPrompt
 from adv_pill_reminder import save_reminder_spec_days
 from nlp_model.pill_predict import reminder_class
 import gspread
+import recognizers_suite as Recognizers
+from recognizers_suite import Culture 
 from word2number import w2n
 from date_regex import cal_date_adv
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
@@ -236,7 +238,19 @@ class AdvPillReminderDialog(ComponentDialog):
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global dosage_q
+        global dosage_drop_1
+        global dosage_cap_1
+        global dosage_inj_1
+        global dosage_syrup_1
+        global types_med
+        global timess
+        timess = "suvnvusvsn"
+        types_med = "cbsbvjsv"
         dosage_q = "sivnisvi"
+        dosage_drop_1 = "sivdfcfnisvi"
+        dosage_cap_1 = "sivcvxxnisvi"
+        dosage_inj_1 = "sivdvdnisvi"
+        dosage_syrup_1 = "vdvdvdv"
 
         if type_med == "just name is here-med_type needs to be added" or type_med == "just name nand time is here-med_type needs to be added" or\
             type_med == "just name nand time and u_time is here-med_type needs to be added":
@@ -273,7 +287,20 @@ class AdvPillReminderDialog(ComponentDialog):
                 PromptOptions(prompt=MessageFactory.text("How many days you need to take the medicines? Hint- 2 weeks/three months.")),)
 
         if time_med == "just name,u_time and period is here-med_time needs to be added" or time_med == "just name,u_time,period and duration is here-med_time needs to be added":
-                
+            types_med = "type nite hobe"   
+
+            times1 = []
+            time1 = step_context.result
+            culture = Culture.English
+            ss = Recognizers.recognize_datetime(time1, culture)  
+            for i in ss:
+                ss = i.resolution
+                dd = ss['values']
+                for j in dd:
+                    tim = j['value']  
+                    times1.append(tim)   
+            timess = times1[0]
+
             reply = MessageFactory.text("Please help me recognize the type of medicine-")
             reply.suggested_actions = SuggestedActions(
                 actions=[
@@ -302,28 +329,44 @@ class AdvPillReminderDialog(ComponentDialog):
         #remind me to take napa daily at 4pm for three weeks.
         if not_med == "just name,time,period and duration is here-med_not needs to be added": 
             med_type = step_context.result
-
             if med_type == "Tablet":
                 dosage_q = "koto dosage"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?")),)
 
-            if med_type in "Drop":
-                med_type = "1"
+            if med_type == "Drop":
+                dosage_drop_1 = "koto drop1"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?")),)
 
-            if med_type in "Capsule":
-                med_type = "2"
+            if med_type == "Capsule":
+                dosage_cap_1 = "koto dosage2"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("How many caposules you have to take at a time?")),)
 
-            if med_type in "Syringe":
-                med_type = "3"
+            if med_type == "Syringe":
+                dosage_inj_1 = "koto dosage3"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
 
-            if med_type in "Syrup":
-                med_type = "4"
+            if med_type == "Syrup":
+                dosage_syrup_1 = "koto dosage4"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+
 
 
     async def thrd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
+        
+        global dosage11
+        global dropfor
+        dropfor = "smvinmvnsin"
+        dosage11 = "sjvisdnin"
         ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
         sh = ac.open("logs_checker")
         wks = sh.worksheet("Sheet1")
@@ -339,7 +382,10 @@ class AdvPillReminderDialog(ComponentDialog):
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
+            color_code = "#DB4F64"
             pill_time = times[0] 
+            shape_type = "0"
+            place = ""
 
             wks.update_acell("H1", dosage)
             wks.update_acell("I1", pill_name)
@@ -352,7 +398,7 @@ class AdvPillReminderDialog(ComponentDialog):
 
             wks.update_acell("N1", dates[0])
 
-            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage)
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place)
 
             wks.update_acell("O1", "dhukseee")   
             #remind me to take napa daily at 4pm for three weeks.
@@ -362,6 +408,95 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ "."))
             return await step_context.end_dialog()
 
+
+        if dosage_drop_1 == "koto drop1":
+            dropfor = "drop kothay"
+            dosage = step_context.result
+            dosage = str(dosage)
+            dosage = dosage.lower()
+            dosage = dosage.replace("drops", "").replace("drop ", "")
+
+            try:
+                dosage11 = w2n.word_to_num(dosage)
+            except:
+                dosage11 = 1
+
+            reply = MessageFactory.text("Where to use the drop?")
+            reply.suggested_actions = SuggestedActions(
+                actions=[
+                    CardAction(
+                        title= "Eye",
+                        type=ActionTypes.im_back,
+                        value= "Eye"),
+                    CardAction(
+                        title= "Nose",
+                        type=ActionTypes.im_back,
+                        value= "Nose"),
+                    CardAction(
+                        title= "Ear",
+                        type=ActionTypes.im_back,
+                        value= "Ear"),
+                ])
+            return await step_context.context.send_activity(reply)   
+
+
+        if types_med == "type nite hobe" and time_med == "just name,u_time,period and duration is here-med_time needs to be added":
+            med_type1 = step_context.result
+            if med_type == "Tablet":
+                dosage_qq_11 = "koto dosage11"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?")),)
+
+            if med_type1 == "Drop":
+                dosage_drop_12 = "koto drop12"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?")),)
+
+            if med_type1 == "Capsule":
+                dosage_cap_13 = "koto dosage13"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("How many caposules you have to take at a time?")),)
+
+            if med_type1 == "Syringe":
+                dosage_inj_14 = "koto dosage14"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+
+            if med_type1 == "Syrup":
+                dosage_syrup_15 = "koto dosage15"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+
+
+    async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        if dropfor == "drop kothay":
+
+            place = step_context.result
+            med_type = "1"
+            pill_name = med_names[0]
+            patientid = userId
+            pharmacyid = pharmacyId
+            tokens = token
+            pill_time = times[0] 
+            color_code = ""
+            shape_type = "-1"
+
+
+            dates = cal_date_adv(durations[0])
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage11, color_code, shape_type, place)
+
+            #remind me to take napa daily at 4pm for three weeks.
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your pill reminder has been set."))
+            await step_context.context.send_activity(
+                MessageFactory.text("I will remind you to take " + str(dosage11) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()
             
 
 
