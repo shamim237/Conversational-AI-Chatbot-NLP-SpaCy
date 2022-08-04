@@ -7,7 +7,7 @@ from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
 from adv_pill_reminder import save_reminder_spec_days
 from nlp_model.pill_predict import reminder_class
-import pandas as pd
+import gspread
 from word2number import w2n
 from date_regex import cal_date_adv
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
@@ -66,9 +66,10 @@ class AdvPillReminderDialog(ComponentDialog):
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
 
-        sheet_id = "1n2ol4JaDokXMctufEIxrmRLNZbhriKKSihwKYlO7h6s"
-        df = pd.read_csv(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv")
-        main = df['sentence'][0]
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
+        main = wks.acell("A2").value
 
         pred = reminder_class(main)   
 
