@@ -33,6 +33,7 @@ class AdvPillReminderDialog(ComponentDialog):
                     self.initial_step,
                     self.scnd_step,
                     self.thrd_step,
+                    self.fourth_step,
                 ],
             )
         )
