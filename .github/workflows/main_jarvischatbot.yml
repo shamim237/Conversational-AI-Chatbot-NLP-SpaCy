@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'JarvisChatbot'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_61A19F1074B04012A78B299F68554EBE }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CBEC48EEB8D441DC87EF49DF8CCE46F4 }}
