@@ -324,6 +324,10 @@ class AdvPillReminderDialog(ComponentDialog):
 
     async def thrd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
+
         if dosage == "koto dosage":
             dosage = step_context.result
             try:
@@ -337,10 +341,20 @@ class AdvPillReminderDialog(ComponentDialog):
             tokens = token
             pill_time = times[0] 
 
+            wks.update_acell("H1", dosage)
+            wks.update_acell("I1", pill_name)
+            wks.update_acell("J1", patientid)
+            wks.update_acell("K1", pharmacyid)
+            wks.update_acell("L1", tokens)
+            wks.update_acell("M1", pill_time)
 
             dates = cal_date_adv(durations[0])
 
-            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage)   
+            wks.update_acell("N1", dates[0])
+
+            save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage)
+
+            wks.update_acell("O1", "dhukseee")   
             #remind me to take napa daily at 4pm for three weeks.
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
