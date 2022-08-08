@@ -75,6 +75,7 @@ class UserProfileDialog(ComponentDialog):
             if status == "Success":
                 now = datetime.datetime.now()
                 hour = now.hour
+                wks.update_acell("B4", hour)
                 if hour < 12:
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Good Morning!"))
