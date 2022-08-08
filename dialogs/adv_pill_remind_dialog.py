@@ -173,7 +173,7 @@ class AdvPillReminderDialog(ComponentDialog):
 
         
         #remind me to take napa everyday at night.
-        if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
+        if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             time_med = "just name,u_time and period is here-med_time needs to be added"
             return await step_context.prompt(
                 TextPrompt.__name__,
