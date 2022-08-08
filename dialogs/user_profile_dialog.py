@@ -73,24 +73,49 @@ class UserProfileDialog(ComponentDialog):
             return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
         else:
             if status == "Success":
-                now = datetime.datetime.now()
-                hour = now.hour
-                wks.update_acell("B4", hour)
-                if hour < 12:
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Good Morning!"))
-                elif hour < 18:
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Good Afternoon!"))
+                msg = predict_class(step_context.context.activity.text)
+                if msg == "morning":
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Good Morning! How are you doing today?")),)
+                if msg == "afternoon":
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Good Afternoon! How can I help you today?")),)
+                if msg == "evening":
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Good Evening! How may I assist you today?")),)
+
+                if msg ==  "whatsup":
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("I'm good. How about you?")),)
+
+                if msg == "meet":
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Good to see you too. How may I help you today?")),)
+
+                if msg == "hey":
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Hey there, how are you feeling today?")),)
+
                 else:
+
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Good Evening!"))
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"I am Jarvis, your personalized health assistant."))
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("How are you feeling today?")),)
+                        MessageFactory.text(f"Hello there! I am Jarvis, your personalized health assistant."))
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("How are you feeling today?")),)
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         

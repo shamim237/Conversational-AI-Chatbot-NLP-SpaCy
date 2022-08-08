@@ -61,12 +61,49 @@ class ToBeLoggedInDialog(ComponentDialog):
 
     async def initial_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
        
-        await step_context.context.send_activity(
-            MessageFactory.text(f"Hello! I am Jarvis, your personalized health assistant."))
-        return await step_context.prompt(
-            TextPrompt.__name__,
-            PromptOptions(
-                prompt=MessageFactory.text("How are you feeling today?")),)
+        msg = predict_class(step_context.context.activity.text)
+        if msg == "morning":
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Good Morning! How are you doing today?")),)
+        if msg == "afternoon":
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Good Afternoon! How can I help you today?")),)
+        if msg == "evening":
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Good Evening! How may I assist you today?")),)
+
+        if msg ==  "whatsup":
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("I'm good. How about you?")),)
+
+        if msg == "meet":
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Good to see you too. How may I help you today?")),)
+
+        if msg == "hey":
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Hey there, how are you feeling today?")),)
+
+        else:
+
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Hello there! I am Jarvis, your personalized health assistant."))
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("How are you feeling today?")),)
 
 
     async def scnd2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -82,7 +119,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today? Do you want me to do any of these?"))
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Book Appointment\n\nPill Reminder\n\nUpload Health Records")),)               
+                PromptOptions(prompt=MessageFactory.text("1. Book Appointment\n 2. Pill Reminder\n 3. Upload Health Records")),)               
   
         if health == "bad":
             prompts = "Have you consulted with a Doctor/Pharmacist?"
