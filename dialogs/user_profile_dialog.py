@@ -1,4 +1,5 @@
 import gspread
+import datetime
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
@@ -62,6 +63,7 @@ class UserProfileDialog(ComponentDialog):
             wks.update_acell("B1", str(userId))
             wks.update_acell("C1", str(token))
             wks.update_acell("D1", str(pharmacyId))
+            wks.update_acell("B3", step_context.context.activity.text)
         except:
             pass
 
@@ -71,8 +73,19 @@ class UserProfileDialog(ComponentDialog):
             return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
         else:
             if status == "Success":
+                now = datetime.datetime.now()
+                hour = now.hour
+                if hour < 12:
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Good Morning!"))
+                elif hour < 18:
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Good Afternoon!"))
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Good Evening!"))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Hello! I am Jarvis, your personalized health assistant."))
+                    MessageFactory.text(f"I am Jarvis, your personalized health assistant."))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
