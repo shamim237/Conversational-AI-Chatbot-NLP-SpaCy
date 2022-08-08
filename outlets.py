@@ -149,8 +149,9 @@ def get_timeslots(id, date, time, token):
     else:
         return "No slots available" 
 
-# ss = get_timeslots(106, "2022-08-10", "3 PM", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
+# ss = get_timeslots(1, "2022-08-10", "14:15:00", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
 # print(ss)
+
 import random
 from datetime import datetime
 
@@ -172,9 +173,19 @@ def get_timeslots2(id, date, token):
         timeslots = timeslots.replace("startTime: ", "").replace(", endTime: ", " - ")
         timeslots = timeslots.split("\n")
         timeslots = random.sample(timeslots, 4)
-        
+        timeslots = sorted(timeslots)
+        timeslots = "\n".join(timeslots)
+        timeslots = re.findall(r"\d{2}\:\d{2}\:\d{2}", timeslots)
+        timest = []
+        for i in timeslots:
+            #print(i)
+            timeslots = datetime.strptime(i, "%H:%M:%S").strftime("%I:%M %p")
+            timest.append(timeslots)
 
-        return timeslots
+        timest = timest[0] + " - " + timest[1] + "\n" + timest[2] + " - " + timest[3] + "\n" + timest[4] + " - " + timest[5] + "\n" + timest[6] + " - " + timest[7]
+        timest = timest.split("\n")
+
+        return timest
 
     else:
         

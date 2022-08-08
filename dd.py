@@ -1,20 +1,24 @@
-# import datetime
-# now = datetime.datetime.now()
-# hour = now.hour
+# from datetime import datetime
+# # now = datetime.datetime.now()
+# # hour = now.hour
 
-# if hour < 12:
-#     greeting = "Good morning"
-# elif hour < 18:
-#     greeting = "Good afternoon"
-# else:
-#     greeting = "Good evening"
+# # if hour < 12:
+# #     greeting = "Good morning"
+# # elif hour < 18:
+# #     greeting = "Good afternoon"
+# # else:
+# #     greeting = "Good evening"
 
-# print("{}!".format(greeting))
+# # print("{}!".format(greeting))
 
+# timeslots = datetime.strptime("22:30:00", "%H:%M:%S")
+# print(timeslots.strftime("%I:%M %p"))
+# import parsedatetime
 
-
-
-
+# p = parsedatetime.Calendar()
+# time_struct, parse_status = p.parse("3 pm")
+# dates = datetime(*time_struct[:6]).strftime("%H:%M:%S")
+# print(dates)
 
 
 

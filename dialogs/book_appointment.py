@@ -13,6 +13,7 @@ from user_info import check_email
 from appointment import save_appoint
 from datetime import datetime, timedelta
 from botbuilder.dialogs.choices import Choice
+from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 
 class AppointmentDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -143,11 +144,26 @@ class AppointmentDialog(ComponentDialog):
         if slot == "NOPE":
             timeslot = "again"
             aslots = get_timeslots2(id, date, token)
-            await step_context.context.send_activity(MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot"))
-            return await step_context.prompt(
-                "time_prompt",
-                PromptOptions(
-                    prompt=MessageFactory.text(aslots)),)                
+            reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot")
+            reply.suggested_actions = SuggestedActions(
+                actions=[
+                    CardAction(
+                        title= aslots[0],
+                        type=ActionTypes.im_back,
+                        value= aslots[0]),
+                    CardAction(
+                        title= aslots[1],
+                        type=ActionTypes.im_back,
+                        value= aslots[1]),
+                    CardAction(
+                        title= aslots[2],
+                        type=ActionTypes.im_back,
+                        value= aslots[2]),
+                    CardAction(
+                        title= aslots[3],
+                        type=ActionTypes.im_back,
+                        value= aslots[3]),])
+            return await step_context.context.send_activity(reply)                
         
         else:
             confirmation = "confirm or not"
