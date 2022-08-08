@@ -12,6 +12,8 @@ def check_outlet(email, pharmacyId, token):
     outlet = dictFromServer['response']['patientData']['outletId']
     return outlet
 
+# cc = check_outlet("sha237mim@gmail.com", "1", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
+# print("Outlet: ", cc)
 
 def outlet_name(outlet_id, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -19,6 +21,9 @@ def outlet_name(outlet_id, token):
     dictFromServer = res.json()
     outlet_name = dictFromServer['response']['outletDetails']['outletName']
     return outlet_name
+
+# cc = outlet_name("7", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
+# print("Outlet_name: ", cc)
 
 def get_pharma_id(outlet_id, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -55,16 +60,21 @@ def match(pharmas, outlet_id, pharmacyId):
     for i in range(len(pharma)):
         list = {pharma[i]:ids[i]}
         ss.append(list)
+    #print(ss)
     all = str(ss).replace("[", "").replace("]", "").replace("'",'"')
     all = re.sub(r"\"(\d{1,6})\"", r"\1", all)
     all = re.sub(r"(\d{1,6})\}(\,)", r"\1\2", all)
     all = re.sub(r"(\d{1,6}\,\s)\{", r"\1", all)
+    #print(type(all))
     all = re.sub(r"\,\s\d\:\s\d{1,9}", r"", all)
+    #all = re.sub(r"('\w+\s\w+)\s('\:)", r"\1\2", all)
+    all = all.replace("dr mohaimin ", "dr mohaimin")
     all = json.loads(all)
 
-
+    # print(all)
     if str(pharmas) in all:
         ss = all[pharmas]
+        #print(ss)
         return ss
     else:
         ss = "The name you entered is not in the list of pharmacist. Please check the spelling and try again."
@@ -139,7 +149,10 @@ def get_timeslots(id, date, time, token):
     else:
         return "No slots available" 
 
-
+# ss = get_timeslots(106, "2022-08-10", "3 PM", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
+# print(ss)
+import random
+from datetime import datetime
 
 def get_timeslots2(id, date, token):
 
@@ -151,17 +164,24 @@ def get_timeslots2(id, date, token):
     if 'availabilitySlots' in dictFromServer['response']:
     
         timeslots = dictFromServer['response']['availabilitySlots']
+
         timeslots = str(timeslots).replace("[", "").replace("]", "").replace("'", "").replace(", {", "\n").replace("}", "").replace("{", "")
         timeslots = re.sub(r"startTime:\s\d{2}\:\d{2}\:\d{2}\,\sendTime\:\s\d{2}\:\d{2}\:\d{2}\,\sisChecked: False\n", r"", timeslots)
         timeslots = re.sub(r"startTime:\s\d{2}\:\d{2}\:\d{2}\,\sendTime\:\s\d{2}\:\d{2}\:\d{2}\,\sisChecked: False", r"", timeslots)
         timeslots = timeslots.replace(", isChecked: True", "")
-        timeslots = timeslots.replace("startTime: ", "").replace(", endTime: ", " - ")   
+        timeslots = timeslots.replace("startTime: ", "").replace(", endTime: ", " - ")
+        timeslots = timeslots.split("\n")
+        timeslots = random.sample(timeslots, 4)
+        
 
         return timeslots
 
     else:
         
         return "No slots available" 
+
+# sd = get_timeslots2("23", "2022-08-09", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
+# print(sd)
 
 def get_avail_slot(outletid, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -176,3 +196,5 @@ def get_avail_slot(outletid, pharmacyId, token):
         else:
             pharma.append(i['name'])  
     return pharma        
+# sd = get_avail_slot(7, 1, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
+# print(sd)
