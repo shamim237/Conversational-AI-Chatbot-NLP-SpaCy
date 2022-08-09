@@ -1,8 +1,9 @@
 from datetime import datetime
 import requests
+import numpy as np
 import re
 import json
-import random
+
 
 def check_outlet(email, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -12,13 +13,13 @@ def check_outlet(email, pharmacyId, token):
     outlet = dictFromServer['response']['patientData']['outletId']
     return outlet
 
+
 def outlet_name(outlet_id, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
     res = requests.get('https://jarvin-dev.azurewebsites.net/api/GetOutletDetails/{}'.format(outlet_id), headers= headers,)
     dictFromServer = res.json()
     outlet_name = dictFromServer['response']['outletDetails']['outletName']
     return outlet_name
-
 
 def get_pharma_id(outlet_id, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -55,25 +56,23 @@ def match(pharmas, outlet_id, pharmacyId):
     for i in range(len(pharma)):
         list = {pharma[i]:ids[i]}
         ss.append(list)
-    #print(ss)
     all = str(ss).replace("[", "").replace("]", "").replace("'",'"')
     all = re.sub(r"\"(\d{1,6})\"", r"\1", all)
     all = re.sub(r"(\d{1,6})\}(\,)", r"\1\2", all)
     all = re.sub(r"(\d{1,6}\,\s)\{", r"\1", all)
-    #print(type(all))
     all = re.sub(r"\,\s\d\:\s\d{1,9}", r"", all)
-    #all = re.sub(r"('\w+\s\w+)\s('\:)", r"\1\2", all)
-    all = all.replace("dr mohaimin ", "dr mohaimin")
     all = json.loads(all)
 
-    # print(all)
+
     if str(pharmas) in all:
         ss = all[pharmas]
-        #print(ss)
         return ss
     else:
         ss = "The name you entered is not in the list of pharmacist. Please check the spelling and try again."
         return ss
+
+# ss = match('josh buttler roy', 7, 1)
+# print(ss)
 
 
 def autos(outlet_id, pharmacyId, token):
@@ -84,6 +83,9 @@ def autos(outlet_id, pharmacyId, token):
     pharmacist = dictFromServer['response']["pharmacists"][0]['name']
     pharmacist = pharmacist.lower()
     return pharmacist
+
+
+
 
 
 def get_timeslots(id, date, time, token):
@@ -138,6 +140,8 @@ def get_timeslots(id, date, time, token):
     else:
         return "No slots available" 
 
+
+
 def get_timeslots2(id, date, token):
 
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -148,32 +152,17 @@ def get_timeslots2(id, date, token):
     if 'availabilitySlots' in dictFromServer['response']:
     
         timeslots = dictFromServer['response']['availabilitySlots']
-
         timeslots = str(timeslots).replace("[", "").replace("]", "").replace("'", "").replace(", {", "\n").replace("}", "").replace("{", "")
         timeslots = re.sub(r"startTime:\s\d{2}\:\d{2}\:\d{2}\,\sendTime\:\s\d{2}\:\d{2}\:\d{2}\,\sisChecked: False\n", r"", timeslots)
         timeslots = re.sub(r"startTime:\s\d{2}\:\d{2}\:\d{2}\,\sendTime\:\s\d{2}\:\d{2}\:\d{2}\,\sisChecked: False", r"", timeslots)
         timeslots = timeslots.replace(", isChecked: True", "")
-        timeslots = timeslots.replace("startTime: ", "").replace(", endTime: ", " - ")
-        timeslots = timeslots.split("\n")
-        timeslots = random.sample(timeslots, 4)
-        timeslots = sorted(timeslots)
-        timeslots = "\n".join(timeslots)
-        timeslots = re.findall(r"\d{2}\:\d{2}\:\d{2}", timeslots)
-        timest = []
-        for i in timeslots:
-            #print(i)
-            timeslots = datetime.strptime(i, "%H:%M:%S").strftime("%I:%M %p")
-            timest.append(timeslots)
+        timeslots = timeslots.replace("startTime: ", "").replace(", endTime: ", " - ")   
 
-        timest = timest[0] + " - " + timest[1] + "\n" + timest[2] + " - " + timest[3] + "\n" + timest[4] + " - " + timest[5] + "\n" + timest[6] + " - " + timest[7]
-        timest = timest.split("\n")
-
-        return timest
+        return timeslots
 
     else:
         
         return "No slots available" 
-
 
 def get_avail_slot(outletid, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}

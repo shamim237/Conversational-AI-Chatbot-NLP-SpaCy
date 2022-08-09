@@ -7,14 +7,12 @@ from nlp_model.predict import predict_class
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
-# from pill_reminder import get_patient_id
+from pill_reminder import get_patient_id
 from outlets import check_outlet, outlet_name, get_avail_slot, get_timeslots, match, get_timeslots2
 from user_info import check_email
 from appointment import save_appoint
 from datetime import datetime, timedelta
 from botbuilder.dialogs.choices import Choice
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
-import gspread
 
 class AppointmentDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -131,20 +129,10 @@ class AppointmentDialog(ComponentDialog):
         confirmation  = "aaa1"
         timeslot = "aaa2"
 
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
-        wks = sh.worksheet("Sheet1")
-        wks.update_acell("A4", str(step_context.result))
-
         pharmas = pharmacist.lower()
         id = match(pharmas, outletid, pharmacyId)
-        wks.update_acell("A8", pharmas)
-        wks.update_acell("A9", outletid)
-        wks.update_acell("A5", id)
         time = step_context.result
         slot = get_timeslots(id, date, time, token)
-        wks.update_acell("A6", slot)
-        wks.update_acell("A7", date)
         
         if slot == "No slots available":
             return await step_context.prompt(
@@ -155,26 +143,11 @@ class AppointmentDialog(ComponentDialog):
         if slot == "NOPE":
             timeslot = "again"
             aslots = get_timeslots2(id, date, token)
-            reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot")
-            reply.suggested_actions = SuggestedActions(
-                actions=[
-                    CardAction(
-                        title= aslots[0],
-                        type=ActionTypes.im_back,
-                        value= aslots[0]),
-                    CardAction(
-                        title= aslots[1],
-                        type=ActionTypes.im_back,
-                        value= aslots[1]),
-                    CardAction(
-                        title= aslots[2],
-                        type=ActionTypes.im_back,
-                        value= aslots[2]),
-                    CardAction(
-                        title= aslots[3],
-                        type=ActionTypes.im_back,
-                        value= aslots[3]),])
-            return await step_context.context.send_activity(reply)                
+            await step_context.context.send_activity(MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot"))
+            return await step_context.prompt(
+                "time_prompt",
+                PromptOptions(
+                    prompt=MessageFactory.text(aslots)),)                
         
         else:
             confirmation = "confirm or not"
@@ -225,8 +198,7 @@ class AppointmentDialog(ComponentDialog):
             endTime = times
             startTime = datetime.strptime(endTime, "%H:%M:%S") - timedelta(hours = 0, minutes = 15)
             startTime = startTime.strftime("%H:%M:%S")
-            # patientId = get_patient_id(email, pharmacyId)
-            patientId = userId
+            patientId = get_patient_id(email, pharmacyId)
             pharmacistId = id
             save_appoint(date, startTime, endTime, patientId, pharmacistId, pharmacist, pharmacyId, token)
             await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
