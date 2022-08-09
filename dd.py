@@ -20,14 +20,44 @@
 # dates = datetime(*time_struct[:6]).strftime("%H:%M:%S")
 # print(dates)
 
+# import datetime
+
+
+# def time_in_range(start, end, x):
+#     """Return true if x is in the range [start, end]"""
+#     if start <= end:
+#         return start <= x <= end
+#     else:
+#         return start <= x or x <= end
+
+# # st = datetime.datetime.strptime("22:30:00", "%H:%M:%S")
+# # et = datetime.datetime.strptime("23:30:00", "%H:%M:%S")
+
+# # print(st)
+# start = datetime.time(22, 30, 0)
+# end = datetime.time(11, 0, 0)
+# ss= time_in_range(start, end, datetime.time(22,45,00))
+# print(ss)
 
 
 
+# def is_between(time, time_range):
+#     if time_range[1] < time_range[0]:
+#         return time >= time_range[0] or time <= time_range[1]
+#     return time_range[0] <= time <= time_range[1]
+
+# print(is_between(":00", ("09:00", "16:00")))  # True
+# print(is_between("17:00", ("09:00", "16:00")))  # False
+# print(is_between("01:15", ("21:30", "04:30")))  # True
 
 
+        # for i in dictFromServer['response']['availabilitySlots']:
+        #     if i['isChecked'] == True:
+        #         start = i['startTime']
 
-
-
+        #         ss.append(start)
+        #         end = i['endTime']
+        # return ss
 
 # import parsedatetime
 # import datetime

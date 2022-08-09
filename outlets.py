@@ -138,7 +138,6 @@ def get_timeslots(id, date, time, token):
     else:
         return "No slots available" 
 
-
 def get_timeslots2(id, date, token):
 
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
