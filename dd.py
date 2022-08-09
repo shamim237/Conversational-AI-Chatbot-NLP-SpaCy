@@ -1,4 +1,41 @@
 # from datetime import datetime
+# format = "%H:%M:%S"
+# ss = ['22:30:00','22:45:00', '23:00:00']
+# print(type(ss))
+# for i in ss:
+#     if i > '22:45:00':
+#         times = datetime.strptime(i, format) - datetime.strptime("22:45:00", format)
+#         print(times)
+#     else:
+#         times = datetime.strptime("22:45:00", format) - datetime.strptime(i, format)
+#         print(times)
+
+# a=''
+# def timeConversion(s):
+#    if s[-2:] == "AM" :
+#       if s[:2] == '12':
+#           a = str('00' + s[2:8])
+#           a = a.replace(" AM", "")
+#           a = str(a) + ":00"
+#       else:
+#           a = s[:-2]
+#           a = a.replace(" AM", "")
+#           a = str(a) + ":00"
+#    else:
+#       if s[:2] == '12':
+#           a = s[:-2]
+#           a = a.replace(" PM", "")
+#           a = str(a) + ":00"
+#       else:
+#           a = str(int(s[:2]) + 12) + s[2:8]
+#           a = a.replace(" PM", "")
+#           a = str(a) + ":00"
+#    return a
+
+
+# s = '09:05 PM'
+# result = timeConversion(s)
+# print(result)
 # # now = datetime.datetime.now()
 # # hour = now.hour
 

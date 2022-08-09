@@ -8,11 +8,12 @@ from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
 from pill_reminder import get_patient_id
-from outlets import check_outlet, outlet_name, get_avail_slot, get_timeslots, match, get_timeslots2
+from outlets import check_outlet, outlet_name, get_avail_slot, get_timeslots, match, get_timeslots2, timeConversion
 from user_info import check_email
 from appointment import save_appoint
 from datetime import datetime, timedelta
 from botbuilder.dialogs.choices import Choice
+from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 
 class AppointmentDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -143,11 +144,27 @@ class AppointmentDialog(ComponentDialog):
         if slot == "NOPE":
             timeslot = "again"
             aslots = get_timeslots2(id, date, token)
-            await step_context.context.send_activity(MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot"))
-            return await step_context.prompt(
-                "time_prompt",
-                PromptOptions(
-                    prompt=MessageFactory.text(aslots)),)                
+
+            reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot")
+            reply.suggested_actions = SuggestedActions(
+                actions=[
+                    CardAction(
+                        title= aslots[0],
+                        type=ActionTypes.im_back,
+                        value= aslots[0]),
+                    CardAction(
+                        title= aslots[1],
+                        type=ActionTypes.im_back,
+                        value= aslots[1]),
+                    CardAction(
+                        title= aslots[2],
+                        type=ActionTypes.im_back,
+                        value= aslots[2]),
+                    CardAction(
+                        title= aslots[3],
+                        type=ActionTypes.im_back,
+                        value= aslots[3]),])
+            return await step_context.context.send_activity(reply)                
         
         else:
             confirmation = "confirm or not"
@@ -175,9 +192,11 @@ class AppointmentDialog(ComponentDialog):
 
             if confirm == "positive":
                 time = slot.split(" - ")
+                time1 = timeConversion(time[0])
+                time2 = timeConversion(time[1])
                 patientId = step_context.context.activity.from_property.id
                 pharmacistId = id
-                save_appoint(date, time[0], time[1], patientId, pharmacistId, pharmacist, pharmacyId, token)
+                save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
@@ -195,12 +214,13 @@ class AppointmentDialog(ComponentDialog):
         yesno = predict_class(step_context.result)
 
         if yesno == "positive":
-            endTime = times
-            startTime = datetime.strptime(endTime, "%H:%M:%S") - timedelta(hours = 0, minutes = 15)
-            startTime = startTime.strftime("%H:%M:%S")
+            # endTime = times
+            timet = times.split(" - ")
+            time1 = timeConversion(timet[0])
+            time2 = timeConversion(timet[1])
             patientId = get_patient_id(email, pharmacyId)
             pharmacistId = id
-            save_appoint(date, startTime, endTime, patientId, pharmacistId, pharmacist, pharmacyId, token)
+            save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
             await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
 
         if yesno == "negative":

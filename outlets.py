@@ -1,9 +1,8 @@
 from datetime import datetime
 import requests
-import numpy as np
 import re
 import json
-
+import random
 
 def check_outlet(email, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -71,10 +70,6 @@ def match(pharmas, outlet_id, pharmacyId):
         ss = "The name you entered is not in the list of pharmacist. Please check the spelling and try again."
         return ss
 
-# ss = match('josh buttler roy', 7, 1)
-# print(ss)
-
-
 def autos(outlet_id, pharmacyId, token):
     # headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + "token".format(token)}
     dictToSend = {"pageIndex": 40, "pageSize": 2, "pharmacyId": pharmacyId, "outletId": outlet_id}
@@ -83,9 +78,6 @@ def autos(outlet_id, pharmacyId, token):
     pharmacist = dictFromServer['response']["pharmacists"][0]['name']
     pharmacist = pharmacist.lower()
     return pharmacist
-
-
-
 
 
 def get_timeslots(id, date, time, token):
@@ -97,30 +89,31 @@ def get_timeslots(id, date, time, token):
     dictFromServer = res.json()
 
     if 'availabilitySlots' in dictFromServer['response']:
-    
-        timeslots = dictFromServer['response']['availabilitySlots']
-        timeslots = str(timeslots).replace("[", "").replace("]", "").replace("'", "").replace(", {", "\n").replace("}", "").replace("{", "")
-        timeslots = re.sub(r"startTime:\s\d{2}\:\d{2}\:\d{2}\,\sendTime\:\s\d{2}\:\d{2}\:\d{2}\,\sisChecked: False\n", r"", timeslots)
-        timeslots = re.sub(r"startTime:\s\d{2}\:\d{2}\:\d{2}\,\sendTime\:\s\d{2}\:\d{2}\:\d{2}\,\sisChecked: False", r"", timeslots)
-        timeslots = timeslots.replace(", isChecked: True", "")
-        timeslots = timeslots.replace("startTime: ", "").replace(", endTime: ", " - ")
-        timesk = timeslots.split("\n")
-        stime = re.sub("(\d{2}\:\d{2}\:\d{2})\s\-\s\d{2}\:\d{2}\:\d{2}", r"\1", timeslots)
-        stime = stime.split("\n")
-        timess = []
-        for i in stime:
-            #print(i)
-            format = '%H:%M:%S'
-            if i > time:
-                times = datetime.strptime(i, format) - datetime.strptime(time, format)
-                timess.append(times)
-            else:
-                times = datetime.strptime(time, format) - datetime.strptime(i, format)
-                timess.append(times)
-        
-        timess = str(timess).replace("[", "").replace("]", "").replace("datetime.timedelta(seconds=", "").replace(")", "").replace("(", "").replace(", ", ",")
 
-        timess = timess.split(",")
+        starts = []
+        ends = []
+    
+        for i in dictFromServer['response']['availabilitySlots']:
+            if i['isChecked'] == True:
+                start = i['startTime']
+                end = i['endTime']
+                starts.append(start)
+                ends.append(end)
+
+        timesk = []
+
+        for i in range(len(starts)):
+            timesk.append(starts[i] + " - " + ends[i])
+
+        timess = []
+        for i in starts:
+            if i > time:
+                ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(time, "%H:%M:%S")
+                timess.append(ss.total_seconds())
+            else:
+                ss = datetime.strptime(time, "%H:%M:%S") - datetime.strptime(i, "%H:%M:%S")
+                timess.append(ss.total_seconds())
+            
         timess = [int(i) for i in timess]
 
         count = 0
@@ -135,10 +128,14 @@ def get_timeslots(id, date, time, token):
         for i in timesk:
             cou += 1
             if cou == count:
-                return i
+                ss = i.split(" - ")
+                ss = datetime.strptime(ss[0], "%H:%M:%S").strftime("%I:%M %p") + " - " + datetime.strptime(ss[1], "%H:%M:%S").strftime("%I:%M %p")
+                return ss
 
     else:
         return "No slots available" 
+
+
 
 
 
@@ -150,19 +147,34 @@ def get_timeslots2(id, date, token):
     dictFromServer = res.json()
 
     if 'availabilitySlots' in dictFromServer['response']:
-    
         timeslots = dictFromServer['response']['availabilitySlots']
         timeslots = str(timeslots).replace("[", "").replace("]", "").replace("'", "").replace(", {", "\n").replace("}", "").replace("{", "")
         timeslots = re.sub(r"startTime:\s\d{2}\:\d{2}\:\d{2}\,\sendTime\:\s\d{2}\:\d{2}\:\d{2}\,\sisChecked: False\n", r"", timeslots)
         timeslots = re.sub(r"startTime:\s\d{2}\:\d{2}\:\d{2}\,\sendTime\:\s\d{2}\:\d{2}\:\d{2}\,\sisChecked: False", r"", timeslots)
         timeslots = timeslots.replace(", isChecked: True", "")
-        timeslots = timeslots.replace("startTime: ", "").replace(", endTime: ", " - ")   
+        timeslots = timeslots.replace("startTime: ", "").replace(", endTime: ", " - ")
+        timeslots = timeslots.split("\n")
+        timeslots = random.sample(timeslots, 4)
+        timeslots = sorted(timeslots)
+        timeslots = "\n".join(timeslots)
+        timeslots = re.findall(r"\d{2}\:\d{2}\:\d{2}", timeslots)
+        timest = []
+        for i in timeslots:
+            timeslots = datetime.strptime(i, "%H:%M:%S").strftime("%I:%M %p")
+            timest.append(timeslots)
 
-        return timeslots
+        timest = timest[0] + " - " + timest[1] + "\n" + timest[2] + " - " + timest[3] + "\n" + timest[4] + " - " + timest[5] + "\n" + timest[6] + " - " + timest[7]
+        timest = timest.split("\n")
+
+        return timest
 
     else:
         
         return "No slots available" 
+
+# ss = get_timeslots2(23, "2022-08-10", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjAwMTYwMDMsImV4cCI6MTY2MDYyMDgwMywiaWF0IjoxNjYwMDE2MDAzfQ.iAWMXS8a3xa7o9qRSIz59LxbW_uPdtdRsEmMN3OPxEk")
+# print(ss)
+
 
 def get_avail_slot(outletid, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -177,3 +189,41 @@ def get_avail_slot(outletid, pharmacyId, token):
         else:
             pharma.append(i['name'])  
     return pharma        
+
+
+def timeConversion(s):
+   if s[-2:] == "AM" :
+      if s[:2] == '12':
+          a = str('00' + s[2:8])
+          a = a.replace(" AM", "")
+          a = str(a) + ":00"
+          a = a.replace(" ", "")
+
+      else:
+          a = s[:-2]
+          a = a.replace(" AM", "")
+          a = str(a) + ":00"
+          a = a.replace(" ", "")
+   else:
+      if s[:2] == '12':
+          a = s[:-2]
+          a = a.replace(" PM", "")
+          a = str(a) + ":00"
+          a = a.replace(" ", "")
+      else:
+          a = str(int(s[:2]) + 12) + s[2:8]
+          a = a.replace(" PM", "")
+          a = str(a) + ":00"
+          a = a.replace(" ", "")
+   return a
+
+
+# ss = get_timeslots(23, "2022-08-10", "13:00:00", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjAwMTYwMDMsImV4cCI6MTY2MDYyMDgwMywiaWF0IjoxNjYwMDE2MDAzfQ.iAWMXS8a3xa7o9qRSIz59LxbW_uPdtdRsEmMN3OPxEk")
+# print(ss)
+# time = ss.split(" - ")
+# print(time)
+# time1 = timeConversion(time[0])
+# time2 = timeConversion(time[1])
+
+# print(time1)
+# print(time2)
