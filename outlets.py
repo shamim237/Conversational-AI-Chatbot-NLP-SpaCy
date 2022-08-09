@@ -2,7 +2,7 @@ from datetime import datetime
 import requests
 import re
 import json
-
+import random
 
 def check_outlet(email, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -12,9 +12,6 @@ def check_outlet(email, pharmacyId, token):
     outlet = dictFromServer['response']['patientData']['outletId']
     return outlet
 
-# cc = check_outlet("sha237mim@gmail.com", "1", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
-# print("Outlet: ", cc)
-
 def outlet_name(outlet_id, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
     res = requests.get('https://jarvin-dev.azurewebsites.net/api/GetOutletDetails/{}'.format(outlet_id), headers= headers,)
@@ -22,8 +19,6 @@ def outlet_name(outlet_id, token):
     outlet_name = dictFromServer['response']['outletDetails']['outletName']
     return outlet_name
 
-# cc = outlet_name("7", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
-# print("Outlet_name: ", cc)
 
 def get_pharma_id(outlet_id, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -80,9 +75,6 @@ def match(pharmas, outlet_id, pharmacyId):
         ss = "The name you entered is not in the list of pharmacist. Please check the spelling and try again."
         return ss
 
-# ss = match('josh buttler roy', 7, 1)
-# print(ss)
-
 
 def autos(outlet_id, pharmacyId, token):
     # headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + "token".format(token)}
@@ -92,9 +84,6 @@ def autos(outlet_id, pharmacyId, token):
     pharmacist = dictFromServer['response']["pharmacists"][0]['name']
     pharmacist = pharmacist.lower()
     return pharmacist
-
-
-
 
 
 def get_timeslots(id, date, time, token):
@@ -149,11 +138,6 @@ def get_timeslots(id, date, time, token):
     else:
         return "No slots available" 
 
-# ss = get_timeslots(1, "2022-08-10", "14:15:00", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
-# print(ss)
-
-import random
-from datetime import datetime
 
 def get_timeslots2(id, date, token):
 
@@ -191,8 +175,6 @@ def get_timeslots2(id, date, token):
         
         return "No slots available" 
 
-# sd = get_timeslots2("23", "2022-08-09", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
-# print(sd)
 
 def get_avail_slot(outletid, pharmacyId, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
@@ -207,5 +189,3 @@ def get_avail_slot(outletid, pharmacyId, token):
         else:
             pharma.append(i['name'])  
     return pharma        
-# sd = get_avail_slot(7, 1, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NTk5NjYxMTgsImV4cCI6MTY2MDU3MDkxOCwiaWF0IjoxNjU5OTY2MTE4fQ.BWkDTTlNxhSvhBofMe1YCRfqzf6K88wMmJoC-YcTulE")
-# print(sd)

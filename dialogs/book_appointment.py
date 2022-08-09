@@ -14,6 +14,7 @@ from appointment import save_appoint
 from datetime import datetime, timedelta
 from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+import gspread
 
 class AppointmentDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -130,10 +131,20 @@ class AppointmentDialog(ComponentDialog):
         confirmation  = "aaa1"
         timeslot = "aaa2"
 
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("A4", str(step_context.result))
+
         pharmas = pharmacist.lower()
         id = match(pharmas, outletid, pharmacyId)
+        wks.update_acell("A8", pharmas)
+        wks.update_acell("A9", outletid)
+        wks.update_acell("A5", id)
         time = step_context.result
         slot = get_timeslots(id, date, time, token)
+        wks.update_acell("A6", slot)
+        wks.update_acell("A7", date)
         
         if slot == "No slots available":
             return await step_context.prompt(
