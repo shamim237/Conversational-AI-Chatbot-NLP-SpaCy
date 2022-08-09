@@ -7,13 +7,16 @@ from nlp_model.predict import predict_class
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
+from dialogs.health_record_dialog import HealthRecordDialog
+from dialogs.pill_reminder_dialog import PillReminderDialog
+from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from pill_reminder import get_patient_id
 from outlets import check_outlet, outlet_name, get_avail_slot, get_timeslots, match, get_timeslots2, timeConversion
 from user_info import check_email
 from appointment import save_appoint
-from datetime import datetime, timedelta
 from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+import gspread
 
 class AppointmentDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -23,6 +26,9 @@ class AppointmentDialog(ComponentDialog):
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
         self.add_dialog(DatePrompt("date_prompt"))
         self.add_dialog(EmailPrompt("email_prompt"))
+        self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
+        self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
+        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))                
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
@@ -36,6 +42,7 @@ class AppointmentDialog(ComponentDialog):
                     self.slot_step,
                     self.save1_step,
                     self.save2_step,
+                    self.extra_step,
                 ],
             )
         )
@@ -67,6 +74,21 @@ class AppointmentDialog(ComponentDialog):
         global date
         global email
 
+        global permi
+        global msgs
+        permi = "sivdddnisvi"
+
+        msgs = predict_class(step_context.result)
+
+        if msgs == "reminder" or msgs == "health_records" or msgs == "adv_pill_reminder":
+            permi = "permission nite hbe"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(prompt=MessageFactory.text("Would you like to end the book appointment workflow?")),) 
+
+
+################################################################################# real appointment #########################################################################################################################################
+
         date = step_context.result
 
         email = check_email(userId, token)
@@ -76,7 +98,7 @@ class AppointmentDialog(ComponentDialog):
         
         if len(pharmacists) == 0:
             await step_context.context.send_activity(
-                MessageFactory.text(f"Sorry! No available slots for the outlet that you have chosen. Please try another outlet"))
+                MessageFactory.text(f"Sorry! No slots are available for the selected outlet. Please try again after changing an outlet."))
             return await step_context.end_dialog()
         
         if len(pharmacists) == 1:
@@ -111,16 +133,92 @@ class AppointmentDialog(ComponentDialog):
 
     async def time_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+
+        if permi == "permission nite hbe":
+            yesno = predict_class(step_context.result)
+            if yesno == "positive":
+                if msgs == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+
+                if msgs == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+                
+                if msgs == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.result))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+
+
+        global permi1
+        global msgs1
+        permi1 = "sivdddnisvi"
+
+        msgs1 = predict_class(step_context.result)
+
+        if msgs1 == "adv_pill_reminder" or msgs1 == "reminder" or msgs1 == "health_records":
+            permi1 = "permission nite hbe"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(prompt=MessageFactory.text("Would you like to end the pill reminder workflow?")),) 
+
+###################################################################### real appointment ##############################################################################################################################################        
+
         global pharmacist
 
         pharmacist = step_context.result.value
         return await step_context.prompt(
             "time_prompt",
             PromptOptions(
-                prompt=MessageFactory.text("At what time of a day would you like to consult? Hint: 2 PM.")),)
+                prompt=MessageFactory.text("At what time of a day would you like to consult?")),)
 
 
     async def slot_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        if permi1 == "permission nite hbe":
+            yesno = predict_class(step_context.result)
+            if yesno == "positive":
+                if msgs1 == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+
+                if msgs1 == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if msgs1 == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.result))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+
+
+        global permi2
+        global msgs2
+        permi2 = "sivdddnisvi"
+
+        msgs2 = predict_class(step_context.result)
+
+        if msgs2 == "adv_pill_reminder" or msgs2 == "reminder" or msgs2 == "health_records":
+            permi2 = "permission nite hbe"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(prompt=MessageFactory.text("Would you like to end the pill reminder workflow?")),) 
+
+
+####################################################################### real appointment ##############################################################################################################################################
 
         global confirmation
         global timeslot
@@ -176,6 +274,45 @@ class AppointmentDialog(ComponentDialog):
 
     async def save1_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        if permi2 == "permission nite hbe":
+            yesno = predict_class(step_context.result)
+            if yesno == "positive":
+                if msgs2 == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+
+                if msgs2 == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if msgs2 == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.result))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+
+
+        global permi3
+        global msgs3
+        permi3 = "sivdddnisvi"
+
+        msgs3 = predict_class(step_context.result)
+
+        if msgs3 == "adv_pill_reminder" or msgs3 == "reminder" or msgs3 == "health_records":
+            permi3 = "permission nite hbe"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(prompt=MessageFactory.text("Would you like to end the pill reminder workflow?")),) 
+
+
+
+############################################################################# real appointment ##############################################################################################################################################
+
         global times
         times = "vmsovo"
 
@@ -197,23 +334,58 @@ class AppointmentDialog(ComponentDialog):
                 patientId = step_context.context.activity.from_property.id
                 pharmacistId = id
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Thank You! Your appointment has been confirmed.")),)
+                await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
+                return await step_context.end_dialog()
 
             if confirm == "negative":
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Okay! I will not save your appointment.")),)
+                await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
+                return await step_context.end_dialog()
 
 
     async def save2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        if permi3 == "permission nite hbe":
+            yesno = predict_class(step_context.result)
+            if yesno == "positive":
+                if msgs3 == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+
+                if msgs3 == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if msgs3 == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.result))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+
+
+        global permi4
+        global msgs4
+        permi4 = "sivdddnisvi"
+
+        msgs4 = predict_class(step_context.result)
+
+        if msgs4 == "adv_pill_reminder" or msgs4 == "reminder" or msgs4 == "health_records":
+            permi4 = "permission nite hbe"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(prompt=MessageFactory.text("Would you like to end the pill reminder workflow?")),) 
+
+
+#################################################################### real appointment ##############################################################################################################################################
+
         yesno = predict_class(step_context.result)
 
         if yesno == "positive":
+            # endTime = times
             timet = times.split(" - ")
             time1 = timeConversion(timet[0])
             time2 = timeConversion(timet[1])
@@ -221,9 +393,34 @@ class AppointmentDialog(ComponentDialog):
             pharmacistId = id
             save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
             await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
+            return await step_context.end_dialog()
 
         if yesno == "negative":
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Okay! I will not save your appointment.")),)
+            await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
+            return await step_context.end_dialog()
+
+
+    async def extra_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+    
+        if permi4 == "permission nite hbe":
+            yesno = predict_class(step_context.result)
+            if yesno == "positive":
+                if msgs4 == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+
+                if msgs4 == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if msgs4 == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.result))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
