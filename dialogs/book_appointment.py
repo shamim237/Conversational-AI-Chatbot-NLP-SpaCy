@@ -54,7 +54,7 @@ class AppointmentDialog(ComponentDialog):
         token = step_context.context.activity.from_property.role  
 
         return await step_context.prompt("date_prompt", PromptOptions(
-            prompt=MessageFactory.text("When would do you want me to book an appointment? Please enter a date-"),
+            prompt=MessageFactory.text("On which date you would like to book an appointment? Hint: YYYY-MM-DD."),
                 retry_prompt= MessageFactory.text(
                 "Please enter a valid day or date. P.S. It can't be past date."),))
 
@@ -117,7 +117,7 @@ class AppointmentDialog(ComponentDialog):
         return await step_context.prompt(
             "time_prompt",
             PromptOptions(
-                prompt=MessageFactory.text("At what time of a day would you like to consult?")),)
+                prompt=MessageFactory.text("At what time of a day would you like to consult? Hint: 2 PM.")),)
 
 
     async def slot_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -214,7 +214,6 @@ class AppointmentDialog(ComponentDialog):
         yesno = predict_class(step_context.result)
 
         if yesno == "positive":
-            # endTime = times
             timet = times.split(" - ")
             time1 = timeConversion(timet[0])
             time2 = timeConversion(timet[1])
