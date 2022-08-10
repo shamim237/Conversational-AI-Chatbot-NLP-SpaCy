@@ -209,8 +209,8 @@ class AppointmentDialog(ComponentDialog):
                 return await step_context.end_dialog()
 
             if confirm == "negative":
-                await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
-                return await step_context.end_dialog()
+                # await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
+                return await step_context.end_dialog("Okay! I will not save your appointment.")
 
 
     async def save2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -229,6 +229,5 @@ class AppointmentDialog(ComponentDialog):
             return await step_context.end_dialog()
 
         if yesno == "negative":
-            await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
-            return await step_context.end_dialog()
+            return await step_context.end_dialog("Okay! I will not save your appointment.")
 
