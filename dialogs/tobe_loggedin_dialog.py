@@ -239,7 +239,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
                         sh = ac.open("logs_checker")
                         wks = sh.worksheet("Sheet1")
-                        wks.update_acell("A2", str(step_context.result))
+                        wks.update_acell("A2", str(step_context.values["command"]))
                         await step_context.context.send_activity(
                             MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
                         return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
@@ -249,11 +249,30 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if prompts == "What would you like to start with?":
                     job = predict_class(step_context.values["command"])
                     if job == "appointment":
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                         return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                     if job == "health_records":
-                        return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                        return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                     if job == "reminder":
-                        pass
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                        return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                    if job == "adv_pill_reminder":
+                        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                        sh = ac.open("logs_checker")
+                        wks = sh.worksheet("Sheet1")
+                        wks.update_acell("A2", str(step_context.values["command"]))
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                        return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                    else:
+                        return await step_context.begin_dialog(NonAnyDialog.__name__)
 
                 if prompts == "Have you consulted with a Doctor/Pharmacist?":
                     jobs = predict_class(step_context.values["command"])
@@ -261,6 +280,30 @@ class ToBeLoggedInDialog(ComponentDialog):
                         return await step_context.begin_dialog(UploadNonInDialog.__name__)
                     if jobs == "negative":
                         return await step_context.begin_dialog(BookNonInDialog.__name__)
+                    if jobs == "appointment":
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                        return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                    if jobs == "health_records":
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                        return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                    if jobs == "reminder":
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                        return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                    if jobs == "adv_pill_reminder":
+                        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                        sh = ac.open("logs_checker")
+                        wks = sh.worksheet("Sheet1")
+                        wks.update_acell("A2", str(step_context.values["command"]))
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                        return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+
                     else:
                         return await step_context.begin_dialog(NonAnyDialog.__name__)
             else:
@@ -290,25 +333,84 @@ class ToBeLoggedInDialog(ComponentDialog):
 
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
                     return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
             if prompts == "What would you like to start with?":
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
-                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 if job == "positive":               
                     return await step_context.begin_dialog(UploadNonInDialog.__name__)
+
                 if job == "negative": 
                     return await step_context.begin_dialog(BookNonInDialog.__name__)
+
+                if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                if job == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
  
@@ -354,25 +456,87 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                     if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                         if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                             return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                         if job == "health_records":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
                             return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                         if job == "reminder":
-                            pass
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                        else:
+                            return await step_context.begin_dialog(NonAnyDialog.__name__)
 
                     if prompts == "What would you like to start with?":
                         if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                             return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                         if job == "health_records":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
                             return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                         if job == "reminder":
-                            pass
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
                         if job == "positive":
-                            return await step_context.begin_dialog(UploadNonInDialog.__name__)       
+                            return await step_context.begin_dialog(UploadNonInDialog.__name__)  
+
                         if job == "negative":
                             return await step_context.begin_dialog(BookNonInDialog.__name__)
+
+                        if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                        if job == "health_records":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                        if job == "reminder":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
 
@@ -402,11 +566,30 @@ class ToBeLoggedInDialog(ComponentDialog):
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks " + str(name) + "."))
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
                     return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__)
             
             if prompts == "What would you like to start with?":
                 name = step_context.result
@@ -414,28 +597,67 @@ class ToBeLoggedInDialog(ComponentDialog):
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks " + str(name) + "."))
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
                     return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__)
             
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 job = predict_class(step_context.values["command"])
                 name = step_context.result
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thanks " + str(name) + "."))
                 if job == "positive":
-                    await step_context.context.send_activity(
-                        MessageFactory.text("Thanks " + str(name) + "."))
                     return await step_context.begin_dialog(UploadNonInDialog.__name__)
                 
                 if job == "negative":
-                    await step_context.context.send_activity(
-                        MessageFactory.text("Thanks " + str(name) + "."))
                     return await step_context.begin_dialog(BookNonInDialog.__name__)
+
+                if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                if job == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 
                 else:
-                    await step_context.context.send_activity(
-                        MessageFactory.text("Thanks " + str(name) + "."))
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
 
 
@@ -444,26 +666,93 @@ class ToBeLoggedInDialog(ComponentDialog):
             job = predict_class(step_context.values["command"])
             await step_context.context.send_activity(MessageFactory.text("Thanks"+ str(name) + "."))
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
+
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
-                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__)
 
             if prompts == "What would you like to start with?":
+
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
-                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__)
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
+
                 if job == "positive":
                     return await step_context.begin_dialog(UploadNonInDialog.__name__)
+
                 if job == "negative":
                     return await step_context.begin_dialog(BookNonInDialog.__name__)
+
+                if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                if job == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
         
@@ -509,25 +798,84 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                     if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                         if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                             return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                         if job == "health_records":
-                            return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                         if job == "reminder":
-                            pass 
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
                     if prompts == "What would you like to start with?":
                         if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                             return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                         if job == "health_records":
-                            return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                         if job == "reminder":
-                            pass 
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
                         if job == "positive":
                             return await step_context.begin_dialog(UploadNonInDialog.__name__)
+
                         if job == "negative":
                             return await step_context.begin_dialog(BookNonInDialog.__name__)
+
+                        if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                        if job == "health_records":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                        if job == "reminder":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
         
@@ -556,25 +904,88 @@ class ToBeLoggedInDialog(ComponentDialog):
 
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
                     return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__)
 
             if prompts == "What would you like to start with?":
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
-                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__)
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 if job == "positive":
                     return await step_context.begin_dialog(UploadNonInDialog.__name__)
+
                 if job == "negative":
                     return await step_context.begin_dialog(BookNonInDialog.__name__)
+
+                if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                if job == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
 
@@ -681,25 +1092,88 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                     if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                         if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                             return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                         if job == "health_records":
-                            return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                         if job == "reminder":
-                            pass
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                        else:
+                            return await step_context.begin_dialog(NonAnyDialog.__name__)
 
                     if prompts == "What would you like to start with?":
                         if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                             return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                         if job == "health_records":
-                            return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                         if job == "reminder":
-                            pass
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                        else:
+                            return await step_context.begin_dialog(NonAnyDialog.__name__)
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
                         if job == "positive":
                             return await step_context.begin_dialog(UploadNonInDialog.__name__)
+
                         if job == "negative":
                             return await step_context.begin_dialog(BookNonInDialog.__name__)
+
+                        if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                        if job == "health_records":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                        if job == "reminder":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
             else:
@@ -740,25 +1214,88 @@ class ToBeLoggedInDialog(ComponentDialog):
             await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!"))
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
-                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass 
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__) 
 
             if prompts == "What would you like to start with?":
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
-                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__)
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 if job == "positive":
                     return await step_context.begin_dialog(UploadNonInDialog.__name__)
+
                 if job == "negative":
                     return await step_context.begin_dialog(BookNonInDialog.__name__)
+
+                if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                if job == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
 
@@ -804,25 +1341,88 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                     if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                         if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                             return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                         if job == "health_records":
-                            return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                         if job == "reminder":
-                            pass 
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                        else:
+                            return await step_context.begin_dialog(NonAnyDialog.__name__)
 
                     if prompts == "What would you like to start with?":
                         if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                             return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                         if job == "health_records":
-                            return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                         if job == "reminder":
-                            pass
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                        else:
+                            return await step_context.begin_dialog(NonAnyDialog.__name__)
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
                         if job == "positive":
                             return await step_context.begin_dialog(UploadNonInDialog.__name__)
+
                         if job == "negative":
                             return await step_context.begin_dialog(BookNonInDialog.__name__)
+
+                        if job == "appointment":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                        if job == "health_records":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                            return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                        if job == "reminder":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                        if job == "adv_pill_reminder":
+                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                            sh = ac.open("logs_checker")
+                            wks = sh.worksheet("Sheet1")
+                            wks.update_acell("A2", str(step_context.values["command"]))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
 
@@ -837,25 +1437,88 @@ class ToBeLoggedInDialog(ComponentDialog):
 
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
-                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass 
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__)
 
             if prompts == "What would you like to start with?":
                 if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
+
                 if job == "health_records":
-                    return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
                 if job == "reminder":
-                    pass 
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                else:
+                    return await step_context.begin_dialog(NonAnyDialog.__name__)
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
                 if job == "positive":
                     return await step_context.begin_dialog(UploadNonInDialog.__name__)
+
                 if job == "negative":
                     return await step_context.begin_dialog(BookNonInDialog.__name__)
+                    
+                if job == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                if job == "health_records":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    return await step_context.begin_dialog(HealthRecordDialog.__name__) 
+
+                if job == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+                if job == "adv_pill_reminder":
+                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                    sh = ac.open("logs_checker")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.values["command"]))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
    
