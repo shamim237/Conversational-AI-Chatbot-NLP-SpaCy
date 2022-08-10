@@ -12,7 +12,7 @@ from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.book_non_dialog import BookNonInDialog
 from dialogs.non_upload_dialog import UploadNonInDialog
 from dialogs.any_non_dialog import NonAnyDialog
-# from dialogs.pill_reminder_dialog import PillReminderDialog
+from dialogs.pill_reminder_dialog import PillReminderDialog
 from validate_email import email_or_gmail, validateuser, user_id, user_id_email, gmail_token, email_token
 from username import check_name_email, check_name_gmail, check_passwrd_email
 from reset_pass import sendcode, resetpass
@@ -34,7 +34,7 @@ class ToBeLoggedInDialog(ComponentDialog):
         self.add_dialog(UploadNonInDialog(UploadNonInDialog.__name__))
         self.add_dialog(NonAnyDialog(NonAnyDialog.__name__))
         self.add_dialog(BookNonInDialog(BookNonInDialog.__name__))
-        # self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
+        self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
@@ -292,23 +292,11 @@ class ToBeLoggedInDialog(ComponentDialog):
  
 
         if passwrd == "paswrd nibo":
-            # ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            # sh = ac.open("logs_checker")
-            # wks = sh.worksheet("Sheet1")
             password = step_context.result
-            # wks.update_acell("A1", password)
-            # try:
-            # #     wks.update_acell("H1", email)
-            # #     wks.update_acell("I1", pharmacyId)
-            # # except:
-            #     pass
             verify = check_passwrd_email(email, pharmacyId, password)
-            # wks.update_acell("B1", verify)
-
 
             if verify == "Success":
                 name = check_name_email(email, pharmacyId, password) 
-                # wks.update_acell("C1", name)  
                 if name is None:
                     items = "name nibo re"
                     await step_context.context.send_activity(

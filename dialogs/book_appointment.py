@@ -74,107 +74,58 @@ class AppointmentDialog(ComponentDialog):
         global date
         global email
 
+        date = step_context.result
 
-        msgs = predict_class(step_context.result)
-
-        if msgs == "health_records":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
-            return await step_context.begin_dialog(HealthRecordDialog.__name__)
-
-        if msgs == "reminder":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(PillReminderDialog.__name__)
+        email = check_email(userId, token)
+        outletid = check_outlet(email, pharmacyId, token)
+        outletName = outlet_name(outletid, token)
+        pharmacists = get_avail_slot(outletid, pharmacyId, token)
         
-        if msgs == "adv_pill_reminder":
-            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            sh = ac.open("logs_checker")
-            wks = sh.worksheet("Sheet1")
-            wks.update_acell("A2", str(step_context.result))
+        if len(pharmacists) == 0:
             await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+                MessageFactory.text(f"Sorry! No slots are available for the selected outlet. Please try again after changing an outlet."))
+            return await step_context.end_dialog()
+        
+        if len(pharmacists) == 1:
+            listofchoice = [Choice(pharmacists[0])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-        else:
-################################################################################# real appointment #########################################################################################################################################
-            date = step_context.result
+        if len(pharmacists) == 2:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-            email = check_email(userId, token)
-            outletid = check_outlet(email, pharmacyId, token)
-            outletName = outlet_name(outletid, token)
-            pharmacists = get_avail_slot(outletid, pharmacyId, token)
-            
-            if len(pharmacists) == 0:
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Sorry! No slots are available for the selected outlet. Please try again after changing an outlet."))
-                return await step_context.end_dialog()
-            
-            if len(pharmacists) == 1:
-                listofchoice = [Choice(pharmacists[0])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 3:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-            if len(pharmacists) == 2:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 4:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-            if len(pharmacists) == 3:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 5:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3]), Choice(pharmacists[4])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-            if len(pharmacists) == 4:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
-
-            if len(pharmacists) == 5:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3]), Choice(pharmacists[4])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
-
-            if len(pharmacists) == 6:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3]), Choice(pharmacists[4]), Choice(pharmacists[5])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 6:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3]), Choice(pharmacists[4]), Choice(pharmacists[5])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
 
     async def time_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global pharmacist
-        pharmacist = "skvskmvk"
 
-        msgs = predict_class(step_context.result)
-
-        if msgs == "health_records":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
-            return await step_context.begin_dialog(HealthRecordDialog.__name__)
-
-        if msgs == "reminder":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(PillReminderDialog.__name__)
-        
-        if msgs == "adv_pill_reminder":
-            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            sh = ac.open("logs_checker")
-            wks = sh.worksheet("Sheet1")
-            wks.update_acell("A2", str(step_context.result))
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
-            
-        else:   
-###################################################################### real appointment ##############################################################################################################################################        
-
-            pharmacist = step_context.result.value
-            return await step_context.prompt(
-                "time_prompt",
-                PromptOptions(
-                    prompt=MessageFactory.text("At what time of a day would you like to consult?")),)
+        pharmacist = step_context.result.value
+        return await step_context.prompt(
+            "time_prompt",
+            PromptOptions(
+                prompt=MessageFactory.text("At what time of a day would you like to consult?")),)
 
 
     async def slot_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -186,76 +137,49 @@ class AppointmentDialog(ComponentDialog):
 
         confirmation  = "aaa1"
         timeslot = "aaa2"
-        slot = "aaa3"
-        id = "aaa4"
 
-        msgs = predict_class(step_context.result)
-
-        if msgs == "health_records":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
-            return await step_context.begin_dialog(HealthRecordDialog.__name__)
-
-        if msgs == "reminder":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(PillReminderDialog.__name__)
+        pharmas = pharmacist.lower()
+        id = match(pharmas, outletid, pharmacyId)
+        time = step_context.result
+        slot = get_timeslots(id, date, time, token)
         
-        if msgs == "adv_pill_reminder":
-            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            sh = ac.open("logs_checker")
-            wks = sh.worksheet("Sheet1")
-            wks.update_acell("A2", str(step_context.result))
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
-            
-        else:   
+        if slot == "No slots available":
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("No slots are available for " + str(pharmacist) + " on " + str(date) + ". Please try another date or pharmacist!")),)
 
-####################################################################### real appointment ##############################################################################################################################################
+        if slot == "NOPE":
+            timeslot = "again"
+            aslots = get_timeslots2(id, date, token)
 
-            pharmas = pharmacist.lower()
-            id = match(pharmas, outletid, pharmacyId)
-            time = step_context.result
-            slot = get_timeslots(id, date, time, token)
-            
-            if slot == "No slots available":
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("No slots are available for " + str(pharmacist) + " on " + str(date) + ". Please try another date or pharmacist!")),)
-
-            if slot == "NOPE":
-                timeslot = "again"
-                aslots = get_timeslots2(id, date, token)
-
-                reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot")
-                reply.suggested_actions = SuggestedActions(
-                    actions=[
-                        CardAction(
-                            title= aslots[0],
-                            type=ActionTypes.im_back,
-                            value= aslots[0]),
-                        CardAction(
-                            title= aslots[1],
-                            type=ActionTypes.im_back,
-                            value= aslots[1]),
-                        CardAction(
-                            title= aslots[2],
-                            type=ActionTypes.im_back,
-                            value= aslots[2]),
-                        CardAction(
-                            title= aslots[3],
-                            type=ActionTypes.im_back,
-                            value= aslots[3]),])
-                return await step_context.context.send_activity(reply)                
-            
-            else:
-                confirmation = "confirm or not"
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text(str(pharmacist) + " is available at " + str(slot) + " on " + str(date) + ". Shall I confirm the appointment?")),)
+            reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot")
+            reply.suggested_actions = SuggestedActions(
+                actions=[
+                    CardAction(
+                        title= aslots[0],
+                        type=ActionTypes.im_back,
+                        value= aslots[0]),
+                    CardAction(
+                        title= aslots[1],
+                        type=ActionTypes.im_back,
+                        value= aslots[1]),
+                    CardAction(
+                        title= aslots[2],
+                        type=ActionTypes.im_back,
+                        value= aslots[2]),
+                    CardAction(
+                        title= aslots[3],
+                        type=ActionTypes.im_back,
+                        value= aslots[3]),])
+            return await step_context.context.send_activity(reply)                
+        
+        else:
+            confirmation = "confirm or not"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text(str(pharmacist) + " is available at " + str(slot) + " on " + str(date) + ". Shall I confirm the appointment?")),)
 
 
     async def save1_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -263,97 +187,48 @@ class AppointmentDialog(ComponentDialog):
         global times
         times = "vmsovo"
 
-        msgs = predict_class(step_context.result)
+        if timeslot == "again":
+            times = step_context.result
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text(str(pharmacist) + " is available at " + str(times) + " on " + str(date) + ". Shall I confirm the appointment?")),)
 
-        if msgs == "health_records":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
-            return await step_context.begin_dialog(HealthRecordDialog.__name__)
+        if confirmation == "confirm or not":
+            msg = step_context.result
+            confirm = predict_class(msg)
 
-        if msgs == "reminder":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(PillReminderDialog.__name__)
-        
-        if msgs == "adv_pill_reminder":
-            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            sh = ac.open("logs_checker")
-            wks = sh.worksheet("Sheet1")
-            wks.update_acell("A2", str(step_context.result))
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
-
-        else:
-############################################################################# real appointment ##############################################################################################################################################
-
-            if timeslot == "again":
-                times = step_context.result
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text(str(pharmacist) + " is available at " + str(times) + " on " + str(date) + ". Shall I confirm the appointment?")),)
-
-            if confirmation == "confirm or not":
-                msg = step_context.result
-                confirm = predict_class(msg)
-
-                if confirm == "positive":
-                    time = slot.split(" - ")
-                    time1 = timeConversion(time[0])
-                    time2 = timeConversion(time[1])
-                    patientId = step_context.context.activity.from_property.id
-                    pharmacistId = id
-                    save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
-                    await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
-                    return await step_context.end_dialog()
-
-                if confirm == "negative":
-                    await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
-                    return await step_context.end_dialog()
-
-
-    async def save2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
-        msgs = predict_class(step_context.result)
-
-        if msgs == "health_records":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
-            return await step_context.begin_dialog(HealthRecordDialog.__name__)
-
-        if msgs == "reminder":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(PillReminderDialog.__name__)
-        
-        if msgs == "adv_pill_reminder":
-            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            sh = ac.open("logs_checker")
-            wks = sh.worksheet("Sheet1")
-            wks.update_acell("A2", str(step_context.result))
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
-            return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
-
-        else:
-
-#################################################################### real appointment ##############################################################################################################################################
-
-            yesno = predict_class(step_context.result)
-
-            if yesno == "positive":
-                # endTime = times
-                timet = times.split(" - ")
-                time1 = timeConversion(timet[0])
-                time2 = timeConversion(timet[1])
-                patientId = get_patient_id(email, pharmacyId)
+            if confirm == "positive":
+                time = slot.split(" - ")
+                time1 = timeConversion(time[0])
+                time2 = timeConversion(time[1])
+                patientId = step_context.context.activity.from_property.id
                 pharmacistId = id
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
                 return await step_context.end_dialog()
 
-            if yesno == "negative":
+            if confirm == "negative":
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
                 return await step_context.end_dialog()
+
+
+    async def save2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+
+        yesno = predict_class(step_context.result)
+
+        if yesno == "positive":
+            timet = times.split(" - ")
+            time1 = timeConversion(timet[0])
+            time2 = timeConversion(timet[1])
+            patientId = get_patient_id(email, pharmacyId)
+            pharmacistId = id
+            save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+            await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
+            return await step_context.end_dialog()
+
+        if yesno == "negative":
+            await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
+            return await step_context.end_dialog()
 
