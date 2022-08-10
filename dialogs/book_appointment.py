@@ -16,7 +16,6 @@ from user_info import check_email
 from appointment import save_appoint
 from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
-import gspread
 
 class AppointmentDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -205,8 +204,8 @@ class AppointmentDialog(ComponentDialog):
                 patientId = step_context.context.activity.from_property.id
                 pharmacistId = id
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
-                await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
-                return await step_context.end_dialog()
+                #await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
+                return await step_context.end_dialog("Thank You! Your appointment has been confirmed.")
 
             if confirm == "negative":
                 # await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
@@ -225,8 +224,8 @@ class AppointmentDialog(ComponentDialog):
             patientId = get_patient_id(email, pharmacyId)
             pharmacistId = id
             save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
-            await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
-            return await step_context.end_dialog()
+            #await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
+            return await step_context.end_dialog("Thank You! Your appointment has been confirmed.")
 
         if yesno == "negative":
             return await step_context.end_dialog("Okay! I will not save your appointment.")

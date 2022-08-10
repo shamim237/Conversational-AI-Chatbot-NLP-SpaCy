@@ -13,6 +13,7 @@ from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 from dialogs.tobe_loggedin_dialog import ToBeLoggedInDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from user_info import check_user
+from dialogs.profile_update_dialog import HealthProfileDialog
 
 
 
@@ -42,6 +43,7 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))
+        self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.initial_dialog_id = "WFDialog"
