@@ -161,18 +161,23 @@ class UserProfileDialog(ComponentDialog):
                 
         if health == "appointment":
             await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                MessageFactory.text(f"Okay. I am initializing the book appointment process!"))
             return await step_context.begin_dialog(AppointmentDialog.__name__)
 
         if health == "health_records":
             await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                MessageFactory.text(f"Okay. I am initializing the upload health records process!"))
             return await step_context.begin_dialog(HealthRecordDialog.__name__)
 
         if health == "reminder":
             await step_context.context.send_activity(
-                MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                MessageFactory.text(f"Okay. I am initializing the pill reminder process!"))
             return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+        if health == "health_profile":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the health update process!"))
+            return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
         if health == "adv_pill_reminder":
             ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
@@ -249,6 +254,11 @@ class UserProfileDialog(ComponentDialog):
                     MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
+            if msg == "health_profile":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the health update process!"))
+                return await step_context.begin_dialog(HealthProfileDialog.__name__)
+
             if msg == "adv_pill_reminder":
                 ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
                 sh = ac.open("logs_checker")
@@ -267,11 +277,23 @@ class UserProfileDialog(ComponentDialog):
         if prompts == "What would you like to start with?":
 
             if msg == "appointment":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the book appointment process!"))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
             if msg == "health_records":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the upload health records process!"))
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
             if msg == "reminder":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the pill reminder process!"))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+            if msg == "health_profile":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the health update process!"))
+                return await step_context.begin_dialog(HealthProfileDialog.__name__)
+
             if msg == "adv_pill_reminder":
                 ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
                 sh = ac.open("logs_checker")
@@ -320,18 +342,23 @@ class UserProfileDialog(ComponentDialog):
                 return await step_context.context.send_activity(reply) 
             if msg == "appointment":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
+                    MessageFactory.text(f"Okay. I am initializing the book appointment process!"))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
 
             if msg == "health_records":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
+                    MessageFactory.text(f"Okay. I am initializing the upload health records process!"))
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
 
             if msg == "reminder":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
+                    MessageFactory.text(f"Okay. I am initializing the pill reminder process!"))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+            if msg == "health_profile":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the health update process!"))
+                return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if msg == "adv_pill_reminder":
                 ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
@@ -375,6 +402,11 @@ class UserProfileDialog(ComponentDialog):
                     MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
+            if msg == "health_profile":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the health update process!"))
+                return await step_context.begin_dialog(HealthProfileDialog.__name__)
+
             if msg == "adv_pill_reminder":
                 ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
                 sh = ac.open("logs_checker")
@@ -400,6 +432,11 @@ class UserProfileDialog(ComponentDialog):
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+            if msg == "health_profile":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the health update process!"))
+                return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if msgs == "adv_pill_reminder":
                 ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
