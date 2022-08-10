@@ -16,6 +16,7 @@ from user_info import check_email
 from appointment import save_appoint
 from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from dialogs.any_non_dialog import NonAnyDialog
 
 class AppointmentDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -27,7 +28,8 @@ class AppointmentDialog(ComponentDialog):
         self.add_dialog(EmailPrompt("email_prompt"))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
-        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))                
+        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))
+        self.add_dialog(NonAnyDialog(NonAnyDialog.__name__))                
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
@@ -205,11 +207,11 @@ class AppointmentDialog(ComponentDialog):
                 pharmacistId = id
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
-                return await step_context.end_dialog()
+                return await step_context.begin_dialog(NonAnyDialog.__name__)
 
             if confirm == "negative":
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
-                return await step_context.end_dialog()
+                return await step_context.begin_dialog(NonAnyDialog.__name__)
 
 
     async def save2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -225,9 +227,9 @@ class AppointmentDialog(ComponentDialog):
             pharmacistId = id
             save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
             await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
-            return await step_context.end_dialog()
+            return await step_context.begin_dialog(NonAnyDialog.__name__)
 
         if yesno == "negative":
             await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
-            return await step_context.end_dialog()
+            return await step_context.begin_dialog(NonAnyDialog.__name__)
 

@@ -229,7 +229,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         await step_context.context.send_activity(
                             MessageFactory.text(f"Okay! I am initializing the upload health records process!"))
                         return await step_context.begin_dialog(HealthRecordDialog.__name__) 
-
+                        
                     if job == "reminder":
                         await step_context.context.send_activity(
                             MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
@@ -1495,7 +1495,7 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "negative":
                     return await step_context.begin_dialog(BookNonInDialog.__name__)
-                    
+
                 if job == "appointment":
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Okay! I am initializing the book appointment process!"))
