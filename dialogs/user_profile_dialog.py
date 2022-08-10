@@ -133,7 +133,7 @@ class UserProfileDialog(ComponentDialog):
             prompts = "Would you like to subscribe to a daily health tip from an expert?"
             await step_context.context.send_activity(
                 MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today?"))
-            reply = MessageFactory.text("Do you want me to do any of these?")
+            reply = MessageFactory.text("Would you like my help with any of these?")
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
