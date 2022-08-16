@@ -126,11 +126,15 @@ class UserProfileDialog(ComponentDialog):
         
         global prompts
 
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
+
         prompts = "nothing"
         step_context.values["goodbad"] = step_context.result
         health = predict_class(step_context.values["goodbad"])
     
-        wks.update_acell("B5", str(step_context.context.activity))
+        wks.update_acell("B6", str(step_context.context.activity))
 
         if health == "good":
             prompts = "Would you like to subscribe to a daily health tip from an expert?"
@@ -183,9 +187,9 @@ class UserProfileDialog(ComponentDialog):
             return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
         if health == "adv_pill_reminder":
-            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            sh = ac.open("logs_checker")
-            wks = sh.worksheet("Sheet1")
+            # ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+            # sh = ac.open("logs_checker")
+            # wks = sh.worksheet("Sheet1")
             wks.update_acell("A2", str(step_context.result))
             await step_context.context.send_activity(
                 MessageFactory.text(f"Okay! I am initializing the pill reminder process!"))
