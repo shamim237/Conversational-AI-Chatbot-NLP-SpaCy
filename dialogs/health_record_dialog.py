@@ -2,14 +2,16 @@ from botbuilder.core import MessageFactory
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.choices import Choice
-from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, AttachmentPrompt, PromptOptions
+from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt,PromptOptions
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
+from dialogs.attachment_prompt import AttachmentPrompt
 from user_info import check_email
 from nlp_model.predict import predict_class
 from health_record import save_health_record_1, save_health_record_2, save_health_record_3, save_health_record_4, save_health_record_5
 import gspread
+
 
 class HealthRecordDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -88,7 +90,7 @@ class HealthRecordDialog(ComponentDialog):
         wks = sh.worksheet("Sheet1")
 
         try:
-            wks.update_acell("B5", str(step_context.context.activity))
+            wks.update_acell("B6", str(step_context.context.activity))
         except:
             pass     
 
