@@ -68,7 +68,8 @@ class UserProfileDialog(ComponentDialog):
             wks.update_acell("B1", str(userId))
             wks.update_acell("C1", str(token))
             wks.update_acell("D1", str(pharmacyId))
-            wks.update_acell("B3", step_context.context.activity.text)
+            # wks.update_acell("B3", str(step_context.context.activity.text))
+            wks.update_acell("B5", str(step_context.context.activity))
         except:
             pass
 
@@ -128,6 +129,8 @@ class UserProfileDialog(ComponentDialog):
         prompts = "nothing"
         step_context.values["goodbad"] = step_context.result
         health = predict_class(step_context.values["goodbad"])
+    
+        wks.update_acell("B5", str(step_context.context.activity))
 
         if health == "good":
             prompts = "Would you like to subscribe to a daily health tip from an expert?"
