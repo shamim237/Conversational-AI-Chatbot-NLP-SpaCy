@@ -9,6 +9,7 @@ from prompt.email_prompt import EmailPrompt
 from user_info import check_email
 from nlp_model.predict import predict_class
 from health_record import save_health_record_1, save_health_record_2, save_health_record_3, save_health_record_4, save_health_record_5
+import gspread
 
 class HealthRecordDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -51,7 +52,16 @@ class HealthRecordDialog(ComponentDialog):
 
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
-        token = step_context.context.activity.from_property.role         
+        token = step_context.context.activity.from_property.role 
+
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
+
+        try:
+            wks.update_acell("B5", str(step_context.context.activity))
+        except:
+            pass               
                 
         prompt_options = PromptOptions(
             prompt=MessageFactory.text(
@@ -73,7 +83,14 @@ class HealthRecordDialog(ComponentDialog):
         ids1 = "id1 of image"
         upload2 = "smnvosn"
 
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
 
+        try:
+            wks.update_acell("B5", str(step_context.context.activity))
+        except:
+            pass     
 
         userId = step_context.context.activity.from_property.id
         email = check_email(userId, token)
