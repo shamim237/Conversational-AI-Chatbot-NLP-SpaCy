@@ -53,6 +53,8 @@ class UpcomingAppointmentDialog(ComponentDialog):
         sh = ac.open("logs_checker")
         wks = sh.worksheet("Sheet1")
 
+        
+
 
         prompts = "appapapap"
 
@@ -82,6 +84,7 @@ class UpcomingAppointmentDialog(ComponentDialog):
             endtimes = []
 
             appoints = appoint['response']['appointment']
+            wks.update_acell("C2", str(appoints))
             count = 0
             for i in appoints:
                 count += 1
@@ -99,6 +102,9 @@ class UpcomingAppointmentDialog(ComponentDialog):
             for i in range(len(apps)):
                 dd = "Appointment " + str(apps[i]) + ": \n" + "Pharmacist: " + pharmacist[i] + "\n" + "Date: " + dates[i] + "\n" + "Time: " + starttimes[i] + " - " + endtimes[i] + "\n"
                 sss.append(dd)
+
+            wks.update_acell("C3", "\n".join(sss))
+            
             await step_context.context.send_activity(
                 MessageFactory.text(f"You have " + len(apps) + " upcoming appointments."))
             await step_context.context.send_activity(

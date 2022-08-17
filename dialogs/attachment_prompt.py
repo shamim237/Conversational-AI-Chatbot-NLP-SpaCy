@@ -43,8 +43,7 @@ class AttachmentPrompt(Prompt):
 
         if not isinstance(options, PromptOptions):
             raise TypeError(
-                "AttachmentPrompt.on_prompt(): PromptOptions are required for Attachment Prompt dialogs."
-            )
+                "AttachmentPrompt.on_prompt(): PromptOptions are required for Attachment Prompt dialogs.")
 
         if is_retry and options.retry_prompt:
             await turn_context.send_activity(options.retry_prompt)
@@ -63,8 +62,7 @@ class AttachmentPrompt(Prompt):
         wks = sh.worksheet("Sheet1")
 
         try:
-            wks.update_acell("D8", str(turn_context.activity))
-            wks.update_acell("D9", str(turn_context.activity.attachments[0]))
+            wks.update_acell("D12", str(turn_context.activity))
         except:
             pass 
 
@@ -76,8 +74,8 @@ class AttachmentPrompt(Prompt):
 
         if turn_context.activity.type == ActivityTypes.message:
             message = turn_context.activity
-            if isinstance(message.attachments, list) and message.attachments:
+            if message.topic_name is not None and message.summary is not None:
                 result.succeeded = True
-                result.value = message.attachments 
+                result.value = message.summary
 
         return result

@@ -90,7 +90,8 @@ class HealthRecordDialog(ComponentDialog):
         wks = sh.worksheet("Sheet1")
 
         try:
-            wks.update_acell("B6", str(step_context.context.activity))
+            wks.update_acell("B6", str(step_context.context.activity.topic_name))
+            wks.update_acell("B7", str(step_context.context.activity.summary))
         except:
             pass     
 
@@ -98,13 +99,14 @@ class HealthRecordDialog(ComponentDialog):
         email = check_email(userId, token)
 
         image = step_context.result
-        urls1 = []
-        ids1 = []
-        for i in image:
-            furl= i.content_url
-            fid = i.name
-            urls1.append(furl)
-            ids1.append(fid)
+        urls1 = step_context.context.activity.topic_name
+        ids1 = step_context.context.activity.summary
+        
+        # for i in image:
+        #     furl= i.content_url
+        #     fid = i.name
+        #     urls1.append(furl)
+        #     ids1.append(fid)
 
         if image is not None:
             upload2 = "want to add more or not"
