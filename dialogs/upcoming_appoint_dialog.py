@@ -34,6 +34,7 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 [
                     self.init_step,
                     self.init2_step,
+                    self.init3_step,
 
                 ],
             )
@@ -121,6 +122,9 @@ class UpcomingAppointmentDialog(ComponentDialog):
 
     async def init2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        global promp
+        promp = "askmdfmk"
+
         if prompts == "no upcoming appointment":
             response = predict_class(step_context.result)
 
@@ -174,11 +178,13 @@ class UpcomingAppointmentDialog(ComponentDialog):
             response = predict_class(step_context.result)
 
             if response == "positive":
+                promp = "what to do"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("Okay. Please tell me what would you like to do?")),)
 
             if response == "negative":
+                promp = "what not to do"
                 await step_context.context.send_activity(
                     MessageFactory.text("Okay. But I can help you connect with a pharmacist, set a pill reminder, and upload health records."))
                 return await step_context.prompt(
@@ -222,6 +228,83 @@ class UpcomingAppointmentDialog(ComponentDialog):
                     PromptOptions(prompt=MessageFactory.text("What would you like to start with?")),)   
 
 
+    async def init3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        if promp == "what to do":
+            response = predict_class(step_context.result)
 
+            if response == "appointment":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+            if response == "health_records":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                return await step_context.begin_dialog(HealthRecordDialog.__name__)
+
+            if response == "reminder":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+            if response == "health_profile":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
+                return await step_context.begin_dialog(HealthProfileDialog.__name__)
+
+            if response == "adv_pill_reminder":
+                ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                sh = ac.open("logs_checker")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("A2", str(step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?")),)  
+
+        if promp == "what not to do":
+            response = predict_class(step_context.result)
+
+            if response == "appointment":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+            if response == "health_records":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                return await step_context.begin_dialog(HealthRecordDialog.__name__)
+
+            if response == "reminder":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                return await step_context.begin_dialog(PillReminderDialog.__name__)
+
+            if response == "health_profile":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
+                return await step_context.begin_dialog(HealthProfileDialog.__name__)
+
+            if response == "adv_pill_reminder":
+                ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+                sh = ac.open("logs_checker")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("A2", str(step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?")),)  
 

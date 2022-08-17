@@ -95,6 +95,7 @@ class HealthRecordDialog(ComponentDialog):
         image = step_context.context.activity.additional_properties
 
         try:
+            wks.update_acell("A6", str(type(image)))
             wks.update_acell("B6", str(image))
         except:
             pass
@@ -141,7 +142,7 @@ class HealthRecordDialog(ComponentDialog):
                 upload3 = "add more/choose options"
                 prompt_options = PromptOptions(
                     prompt=MessageFactory.text(
-                        "Please attach more files you would like tp uplaod"),
+                        "Please attach more files you would like to uplaod"),
                     retry_prompt=MessageFactory.text(
                         "The attachment must be a jpeg/png/pdf files."),)
 
