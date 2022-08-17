@@ -37,6 +37,9 @@ class HealthRecordDialog(ComponentDialog):
                     self.upload6_step,
                     self.upload7_step,
                     self.upload8_step,
+                    self.upload9_step,
+                    self.upload10_step,
+                    self.upload11_step,
 
 
                 ],
@@ -580,7 +583,7 @@ class HealthRecordDialog(ComponentDialog):
 
 
 
-    async def uploa10_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    async def upload10_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global upload10
         global reportName22
