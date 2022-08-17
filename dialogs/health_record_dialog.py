@@ -95,8 +95,7 @@ class HealthRecordDialog(ComponentDialog):
         image = step_context.context.activity.additional_properties
 
         try:
-            wks.update_acell("B6", str(image.attachmentUrl))
-            wks.update_acell("B7", str(image.attachmentId))
+            wks.update_acell("B6", str(image))
         except:
             pass
 
@@ -109,6 +108,12 @@ class HealthRecordDialog(ComponentDialog):
             fid = i.attachmentId
             urls1.append(furl)
             ids1.append(fid)
+
+        try:
+            wks.update_acell("B7", " ".join(urls1))
+            wks.update_acell("B8", " ".join(ids1))
+        except:
+            pass
 
         if image is not None:
             upload2 = "want to add more or not"
