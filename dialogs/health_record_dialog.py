@@ -89,19 +89,19 @@ class HealthRecordDialog(ComponentDialog):
         sh = ac.open("logs_checker")
         wks = sh.worksheet("Sheet1")
 
-        try:
-            wks.update_acell("B6", str(step_context.context.activity.topic_name))
-            wks.update_acell("B7", str(step_context.context.activity.summary))
-        except:
-            pass     
+        # try:
+        #     wks.update_acell("B6", str(step_context.context.activity.topic_name))
+        #     wks.update_acell("B7", str(step_context.context.activity.summary))
+        # except:
+        #     pass     
 
         userId = step_context.context.activity.from_property.id
         email = check_email(userId, token)
 
-        image = step_context.result
-        urls1 = step_context.context.activity.topic_name
-        ids1 = step_context.context.activity.summary
-        
+        image = step_context.context.activity.additional_properties
+        # urls1 = step_context.context.activity.topic_name
+        # ids1 = step_context.context.activity.summary
+
         # for i in image:
         #     furl= i.content_url
         #     fid = i.name

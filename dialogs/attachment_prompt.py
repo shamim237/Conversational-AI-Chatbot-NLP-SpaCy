@@ -74,8 +74,8 @@ class AttachmentPrompt(Prompt):
 
         if turn_context.activity.type == ActivityTypes.message:
             message = turn_context.activity
-            if message.topic_name is not None and message.summary is not None:
+            if message.additional_properties is not None:
                 result.succeeded = True
-                result.value = message.summary
+                result.value = message.additional_properties
 
         return result
