@@ -439,10 +439,14 @@ class HealthRecordDialog(ComponentDialog):
 
         if upload8 == "reportsummary2":
 
+            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+            sh = ac.open("logs_checker")
+            wks = sh.worksheet("Sheet1")
+            wks.update_acell("A13", "dhukse tou")  
+            wks.update_acell("A14", str(upload8))
+
             patientId = userId
             reportSummary12 = step_context.result
-            # if len(urls1) == 1:
-            print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1, urls1)
             save_health_record_1(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)
             # if len(urls1) == 2:
             #     print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1])
