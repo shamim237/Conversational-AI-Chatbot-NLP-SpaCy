@@ -420,10 +420,12 @@ class HealthRecordDialog(ComponentDialog):
         global upload9
         global reportName21
         global reportName212
+        global reportName131
 
         upload9 = "sninovnnvb"
         reportName21 = "smnv  k ovn"
         reportName212 = "smgdgdfg"
+        reportName131 = "smnv  k gddovn"
 
 
         if upload8 == "reportname again--":
@@ -563,6 +565,17 @@ class HealthRecordDialog(ComponentDialog):
                     PromptOptions(
                         prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
 
+
+        if upload8 == "reportname again":
+            upload9 = "reportsummary132"
+            reportName131 = step_context.result
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+
+
+
     async def uploa10_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global upload10
@@ -645,6 +658,13 @@ class HealthRecordDialog(ComponentDialog):
             if add_more == "add more":
                 print(patientId, reportName212, reportSummary212, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2)
                 save_health_record_2(patientId, reportName212, reportSummary212, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2, pharmacyId, token)
+
+        if upload9 == "reportsummary132":
+            patientId = userId
+            reportSummary131 = step_context.result
+            print(patientId, reportName131, reportSummary131, reportType1, reportDoctor13, reportPatient13, ids1, urls1)
+            save_health_record_1(patientId, reportName131, reportSummary131, reportType1, reportDoctor13, reportPatient13, ids1, urls1, pharmacyId, token)
+
 
 
 
