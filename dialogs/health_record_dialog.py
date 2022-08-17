@@ -359,21 +359,21 @@ class HealthRecordDialog(ComponentDialog):
         if upload7 == "reportsummary":
             patientId = userId
             reportSummary1 = step_context.result
-            if len(urls1) == 1:
-                print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0])
-                save_health_record_1(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], pharmacyId, token)
-            if len(urls1) == 2:
-                print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1])
-                save_health_record_2(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], pharmacyId, token)
-            if len(urls1) == 3:
-                print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2])
-                save_health_record_3(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], pharmacyId, token)
-            if len(urls1) == 4:
-                print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3])
-                save_health_record_4(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], pharmacyId, token)
-            if len(urls1) == 5:
-                print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4])
-                save_health_record_5(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4], pharmacyId, token)               
+            # if len(urls1) == 1:
+            print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1, urls1)
+            save_health_record_1(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)
+            # if len(urls1) == 2:
+            #     print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1])
+            #     save_health_record_2(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], pharmacyId, token)
+            # if len(urls1) == 3:
+            #     print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2])
+            #     save_health_record_3(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], pharmacyId, token)
+            # if len(urls1) == 4:
+            #     print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3])
+            #     save_health_record_4(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], pharmacyId, token)
+            # if len(urls1) == 5:
+            #     print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4])
+            #     save_health_record_5(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4], pharmacyId, token)               
             
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
@@ -419,94 +419,107 @@ class HealthRecordDialog(ComponentDialog):
 
             patientId = userId
             reportSummary12 = step_context.result
-            if len(urls1) == 1:
-                print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0])
-                save_health_record_1(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], pharmacyId, token)
-            if len(urls1) == 2:
-                print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1])
-                save_health_record_2(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], pharmacyId, token)
-            if len(urls1) == 3:
-                print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2])
-                save_health_record_3(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], pharmacyId, token)
-            if len(urls1) == 4:
-                print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3])
-                save_health_record_4(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], pharmacyId, token)
-            if len(urls1) == 5:
-                print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4])
-                save_health_record_5(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4], pharmacyId, token)  
+            # if len(urls1) == 1:
+            print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1, urls1)
+            save_health_record_1(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)
+            # if len(urls1) == 2:
+            #     print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1])
+            #     save_health_record_2(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], pharmacyId, token)
+            # if len(urls1) == 3:
+            #     print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2])
+            #     save_health_record_3(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], pharmacyId, token)
+            # if len(urls1) == 4:
+            #     print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3])
+            #     save_health_record_4(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], pharmacyId, token)
+            # if len(urls1) == 5:
+            #     print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4])
+            #     save_health_record_5(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4], pharmacyId, token)  
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)
+
 
         if upload8 == "reportsummary13":
 
             patientId = userId
             reportSummary13 = step_context.result
-            if len(urls1) == 1:
-                print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0])
-                save_health_record_1(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], pharmacyId, token)
-            if len(urls1) == 2:
-                print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1])
-                save_health_record_2(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], pharmacyId, token)
-            if len(urls1) == 3:
-                print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2])
-                save_health_record_3(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], pharmacyId, token)
-            if len(urls1) == 4:
-                print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3])
-                save_health_record_4(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], pharmacyId, token)
-            if len(urls1) == 5:
-                print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4])
-                save_health_record_5(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4], pharmacyId, token)  
+            # if len(urls1) == 1:
+            print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1, urls1)
+            save_health_record_1(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1, urls1, pharmacyId, token)
+            # if len(urls1) == 2:
+            #     print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1])
+            #     save_health_record_2(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], pharmacyId, token)
+            # if len(urls1) == 3:
+            #     print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2])
+            #     save_health_record_3(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], pharmacyId, token)
+            # if len(urls1) == 4:
+            #     print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3])
+            #     save_health_record_4(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], pharmacyId, token)
+            # if len(urls1) == 5:
+            #     print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4])
+            #     save_health_record_5(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4], pharmacyId, token)  
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)
 
         if upload8 == "reportsummary--":
             patientId = userId
             reportSummary2 = step_context.result            
             if add_more == "add more":
-                if len(urls1) == 1 and len(urls2) == 1:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0])
-                    save_health_record_2(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 1 and len(urls2) == 2:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_3(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 1:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0])
-                    save_health_record_3(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 2:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_4(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 1:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0])
-                    save_health_record_4(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 2:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 3:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 1 and len(urls2) == 3:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                    save_health_record_4(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 3:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                if len(urls1) == 4 and len(urls2) == 1:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 4 and len(urls2) == 2:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)    
-                if len(urls1) == 4 and len(urls2) == 3:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 1 and len(urls2) == 4:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 4:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 4:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 4 and len(urls2) == 4:
-                    print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 1:
+                print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2)
+                save_health_record_2(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2, pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 2:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_3(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 1:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0])
+                #     save_health_record_3(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 2:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_4(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 1:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0])
+                #     save_health_record_4(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 2:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 3:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 3:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
+                #     save_health_record_4(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 3:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
+                # if len(urls1) == 4 and len(urls2) == 1:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 4 and len(urls2) == 2:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)    
+                # if len(urls1) == 4 and len(urls2) == 3:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 4:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 4:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 4:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 4 and len(urls2) == 4:
+                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
             return await step_context.prompt(
@@ -542,54 +555,54 @@ class HealthRecordDialog(ComponentDialog):
             patientId = userId
             reportSummary21 = step_context.result
             if add_more == "add more":
-                if len(urls1) == 1 and len(urls2) == 1:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0])
-                    save_health_record_2(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 1 and len(urls2) == 2:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_3(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 1:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0])
-                    save_health_record_3(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 2:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_4(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 1:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0])
-                    save_health_record_4(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 2:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 3:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 1 and len(urls2) == 3:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                    save_health_record_4(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 3:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                if len(urls1) == 4 and len(urls2) == 1:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 4 and len(urls2) == 2:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)    
-                if len(urls1) == 4 and len(urls2) == 3:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 1 and len(urls2) == 4:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 4:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 4:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 4 and len(urls2) == 4:
-                    print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 1:
+                print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2)
+                save_health_record_2(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2, pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 2:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_3(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 1:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0])
+                #     save_health_record_3(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 2:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_4(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 1:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0])
+                #     save_health_record_4(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 2:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 3:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 3:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
+                #     save_health_record_4(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 3:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
+                # if len(urls1) == 4 and len(urls2) == 1:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 4 and len(urls2) == 2:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)    
+                # if len(urls1) == 4 and len(urls2) == 3:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 4:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 4:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 4:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 4 and len(urls2) == 4:
+                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
             return await step_context.prompt(
@@ -611,54 +624,54 @@ class HealthRecordDialog(ComponentDialog):
             patientId = userId
             reportSummary22 = step_context.result
             if add_more == "add more":
-                if len(urls1) == 1 and len(urls2) == 1:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0])
-                    save_health_record_2(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 1 and len(urls2) == 2:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_3(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 1:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0])
-                    save_health_record_3(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 2:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_4(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 1:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0])
-                    save_health_record_4(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 2:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 3:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 1 and len(urls2) == 3:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                    save_health_record_4(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 3:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                if len(urls1) == 4 and len(urls2) == 1:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 4 and len(urls2) == 2:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)    
-                if len(urls1) == 4 and len(urls2) == 3:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                if len(urls1) == 1 and len(urls2) == 4:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3], pharmacyId, token)
-                if len(urls1) == 2 and len(urls2) == 4:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                if len(urls1) == 3 and len(urls2) == 4:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                if len(urls1) == 4 and len(urls2) == 4:
-                    print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                    save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 1:
+                print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2)
+                save_health_record_2(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2, pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 2:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_3(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 1:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0])
+                #     save_health_record_3(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 2:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_4(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 1:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0])
+                #     save_health_record_4(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 2:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 3:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 3:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
+                #     save_health_record_4(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 3:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
+                # if len(urls1) == 4 and len(urls2) == 1:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 4 and len(urls2) == 2:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)    
+                # if len(urls1) == 4 and len(urls2) == 3:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+                # if len(urls1) == 1 and len(urls2) == 4:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3], pharmacyId, token)
+                # if len(urls1) == 2 and len(urls2) == 4:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
+                # if len(urls1) == 3 and len(urls2) == 4:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
+                # if len(urls1) == 4 and len(urls2) == 4:
+                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
+                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
             return await step_context.prompt(
