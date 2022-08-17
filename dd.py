@@ -1,3 +1,18 @@
+# dd = {'attachmentId': '1303', 'attachmentUrl': 'https://jarvin-dev.azurewebsites.net/appimages/thumbs/0001303.jpeg'}
+
+# id = list(dd.values())[1]
+
+# print(id)
+
+
+
+
+
+
+
+
+
+
 # from datetime import datetime
 # format = "%H:%M:%S"
 # ss = ['22:30:00','22:45:00', '23:00:00']

@@ -100,15 +100,9 @@ class HealthRecordDialog(ComponentDialog):
         except:
             pass
 
+        ids1 = list(image.values())[0]
+        urls1 = list(image.values())[1]
 
-        urls1 = []
-        ids1 = []
-
-        for i in image:
-            furl= i.attachmentUrl
-            fid = i.attachmentId
-            urls1.append(furl)
-            ids1.append(fid)
 
         try:
             wks.update_acell("B7", " ".join(urls1))
@@ -178,13 +172,9 @@ class HealthRecordDialog(ComponentDialog):
         if upload3 == "add more/choose options":
             upload4 = "options choosing"
             image = step_context.context.activity.additional_properties
-            urls2 = []
-            ids2= []
-            for i in image:
-                furl= i.attachmentUrl
-                fid = i.attachmentId
-                urls2.append(furl)
-                ids2.append(fid)
+
+            ids2 = list(image.values())[0]
+            urls2 = list(image.values())[1]
 
             listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
             return await step_context.prompt((ChoicePrompt.__name__),
