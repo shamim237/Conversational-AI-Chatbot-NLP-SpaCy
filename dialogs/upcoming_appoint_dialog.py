@@ -49,13 +49,22 @@ class UpcomingAppointmentDialog(ComponentDialog):
         global pharmacyId
         global prompts 
 
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
+
+
         prompts = "appapapap"
 
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
+        wks.update_acell("A1", str(userId))
+        wks.update_acell("B1", str(token))
 
         appoint = upcoming_appointment(userId, token) 
+
+        wks.update_acell("C1", str(appoint))
 
         if appoint['response']['appointment'] == []:
             prompts = "no upcoming appointment"
@@ -72,9 +81,9 @@ class UpcomingAppointmentDialog(ComponentDialog):
             starttimes = []
             endtimes = []
 
-            appoint = appoint['response']['appointment']
+            appoints = appoint['response']['appointment']
             count = 0
-            for i in appoint:
+            for i in appoints:
                 count += 1
                 pharmacistName = i["pharmacistName"]
                 date = i["dateUtc"]
@@ -199,7 +208,6 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("What would you like to start with?")),)   
-
 
 
 
