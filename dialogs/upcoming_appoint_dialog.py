@@ -90,6 +90,7 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 count += 1
                 pharmacistName = i["pharmacistName"]
                 date = i["dateUtc"]
+                date = date[:10]
                 startTime = i["startTime"]
                 endTime = i["endTime"]
                 apps.append(count)
@@ -111,13 +112,12 @@ class UpcomingAppointmentDialog(ComponentDialog):
             wks.update_acell("C5", str(len(apps)))
             wks.update_acell("C6", str(send))
 
-            # await step_context.context.send_activity(
-            #     MessageFactory.text(f"You have " + len(apps) + " upcoming appointments."))
-            # await step_context.context.send_activity(
-            #     MessageFactory.text(send))
+            await step_context.context.send_activity(
+                MessageFactory.text("You have " + str(len(apps)) + " upcoming appointments." + "\n\n" + str(send)))
+
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("You have " + str(len(apps)) + " upcoming appointments." + "\n" + str(send))),) 
+                PromptOptions(prompt=MessageFactory.text("Do you want to know anything else from me?")),) 
 
     async def init2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 

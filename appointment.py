@@ -44,6 +44,7 @@ def upcoming_appointment(id, token):
 #         count += 1
 #         pharmacistName = i["pharmacistName"]
 #         date = i["dateUtc"]
+#         date = date[:10]
 #         startTime = i["startTime"]
 #         endTime = i["endTime"]
 #         apps.append(count)
@@ -54,10 +55,10 @@ def upcoming_appointment(id, token):
 
 #     sss = []
 #     for i in range(len(apps)):
-#         dd = "Appointment " + str(apps[i]) + ": \n" + "Pharmacist: " + pharmacist[i] + "\n" + "Date: " + dates[i] + "\n" + "Time: " + starttimes[i] + " - " + endtimes[i] + "\n"
+#         dd = "Appointment " + str(apps[i]) + ": \n" + "Pharmacist: " + pharmacist[i] + "\n" + "Date: " + dates[i] + "\n" + "Time: " + starttimes[i] + " - " + endtimes[i]
 #         sss.append(dd)
 
 #     print("\n".join(sss))
-#     print(len(apps))
+#     # print(len(apps))
 
 
