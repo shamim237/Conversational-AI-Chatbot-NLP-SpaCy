@@ -111,13 +111,13 @@ class UpcomingAppointmentDialog(ComponentDialog):
             wks.update_acell("C5", str(len(apps)))
             wks.update_acell("C6", str(send))
 
-            await step_context.context.send_activity(
-                MessageFactory.text(f"You have " + len(apps) + " upcoming appointments."))
-            await step_context.context.send_activity(
-                MessageFactory.text(send))
+            # await step_context.context.send_activity(
+            #     MessageFactory.text(f"You have " + len(apps) + " upcoming appointments."))
+            # await step_context.context.send_activity(
+            #     MessageFactory.text(send))
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Do you want to know anything else from me?")),) 
+                PromptOptions(prompt=MessageFactory.text("You have " + str(len(apps)) + " upcoming appointments." + "\n" + str(send))),) 
 
     async def init2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
