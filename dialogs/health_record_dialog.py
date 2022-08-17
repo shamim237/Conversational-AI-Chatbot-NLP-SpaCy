@@ -310,7 +310,7 @@ class HealthRecordDialog(ComponentDialog):
                     prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
 
         if upload6 == "doctor name":
-            upload7 == "reportname--"
+            upload7 = "reportname--"
             reportDoctor2 = step_context.result
             return await step_context.prompt(
                 TextPrompt.__name__,
