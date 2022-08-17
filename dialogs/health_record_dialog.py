@@ -324,8 +324,10 @@ class HealthRecordDialog(ComponentDialog):
         global reportName13
         global reportName2
         global reportDoctor21
-
-
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("A8", str(upload7))    
         upload8 = "csomvsv"
         reportName12 = "vfwkowf"
         reportName13 = "WFWKFM WPM FOPM"
@@ -382,8 +384,13 @@ class HealthRecordDialog(ComponentDialog):
                 PromptOptions(
                     prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
 
-        if upload7 == "reportname--":   
+        if upload7 == "reportname--":  
+            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+            sh = ac.open("logs_checker")
+            wks = sh.worksheet("Sheet1")
+            wks.update_acell("A9", str(upload7))    
             pred = predict_class(step_context.result)
+            wks.update_acell("A10", str(upload7))    
             if pred == "don't know":
                 upload8 = "reportname again--"
                 return await step_context.prompt(
@@ -392,6 +399,7 @@ class HealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text('You can find it on the top of your report. It can be "Typhoid report" or "CBP" etc.')),)
             else:
                 upload8 = "reportsummary--"
+                wks.update_acell("A11", "dhukse")   
                 reportName2 = step_context.result
                 return await step_context.prompt(
                     TextPrompt.__name__,
