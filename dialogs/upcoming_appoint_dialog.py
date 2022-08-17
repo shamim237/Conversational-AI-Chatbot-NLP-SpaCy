@@ -104,11 +104,17 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 sss.append(dd)
 
             wks.update_acell("C3", "\n".join(sss))
-            
+            wks.update_acell("C4", str(len(apps)))
+
+            send = "\n".join(sss) + "\n"
+
+            wks.update_acell("C5", str(len(apps)))
+            wks.update_acell("C6", str(send))
+
             await step_context.context.send_activity(
                 MessageFactory.text(f"You have " + len(apps) + " upcoming appointments."))
             await step_context.context.send_activity(
-                MessageFactory.text(f"\n".join(sss) + "\n"))
+                MessageFactory.text(send))
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(prompt=MessageFactory.text("Do you want to know anything else from me?")),) 
