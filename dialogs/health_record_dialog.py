@@ -87,26 +87,28 @@ class HealthRecordDialog(ComponentDialog):
 
         ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
         sh = ac.open("logs_checker")
-        wks = sh.worksheet("Sheet1")
-
-        # try:
-        #     wks.update_acell("B6", str(step_context.context.activity.topic_name))
-        #     wks.update_acell("B7", str(step_context.context.activity.summary))
-        # except:
-        #     pass     
+        wks = sh.worksheet("Sheet1")   
 
         userId = step_context.context.activity.from_property.id
         email = check_email(userId, token)
 
         image = step_context.context.activity.additional_properties
-        # urls1 = step_context.context.activity.topic_name
-        # ids1 = step_context.context.activity.summary
 
-        # for i in image:
-        #     furl= i.content_url
-        #     fid = i.name
-        #     urls1.append(furl)
-        #     ids1.append(fid)
+        try:
+            wks.update_acell("B6", str(image.attachmentUrl))
+            wks.update_acell("B7", str(image.attachmentId))
+        except:
+            pass
+
+
+        urls1 = []
+        ids1 = []
+
+        for i in image:
+            furl= i.attachmentUrl
+            fid = i.attachmentId
+            urls1.append(furl)
+            ids1.append(fid)
 
         if image is not None:
             upload2 = "want to add more or not"
@@ -169,17 +171,18 @@ class HealthRecordDialog(ComponentDialog):
 
         if upload3 == "add more/choose options":
             upload4 = "options choosing"
-            image = step_context.result
+            image = step_context.context.activity.additional_properties
             urls2 = []
             ids2= []
             for i in image:
-                furl= i.contentUrl
-                fid = i.name
+                furl= i.attachmentUrl
+                fid = i.attachmentId
                 urls2.append(furl)
                 ids2.append(fid)
-                listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                    PromptOptions(prompt=MessageFactory.text("Okay! What best describes the report?"),choices=listofchoice))
+
+            listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
+            return await step_context.prompt((ChoicePrompt.__name__),
+                PromptOptions(prompt=MessageFactory.text("Okay! What best describes the report?"),choices=listofchoice))
 
     async def upload5_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
