@@ -1051,14 +1051,14 @@ class ToBeLoggedInDialog(ComponentDialog):
         ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
         sh = ac.open("logs_checker")
         wks = sh.worksheet("Sheet1")
+        wks.update_acell("F1", code)
+        wks.update_acell("F2", email)
+        wks.update_acell("F3", pharmacyId)
 
         if dot == "passwrd update kore dibo":
             passwords = step_context.result
             try:
                 wks.update_acell("G1", str(passwords))
-                wks.update_acell("G2", code)
-                wks.update_acell("G3", str(email))
-                wks.update_acell("G4", str(pharmacyId))
             except:
                 pass
             send = resetpass(email, code, passwords, pharmacyId)
