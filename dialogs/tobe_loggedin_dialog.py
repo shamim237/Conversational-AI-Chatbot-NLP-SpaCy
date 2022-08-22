@@ -186,7 +186,6 @@ class ToBeLoggedInDialog(ComponentDialog):
             if status == "Fail" and status1 == "Success":
                 passwrd = "paswrd nibo"
                 await step_context.context.send_activity(MessageFactory.text("Thank you for sharing your email address."))
-                await step_context.context.send_activity(MessageFactory.text("You've already registered."))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text(f"Please enter your password to login or you can login manually.")))
@@ -212,7 +211,6 @@ class ToBeLoggedInDialog(ComponentDialog):
         if login == "logged in":
 
             userid = step_context.context.activity.from_property.id
-            pharmacyid = step_context.context.activity.from_property.name
             token  = step_context.context.activity.from_property.role
             name = check_name(userid, token)
 
@@ -1050,14 +1048,23 @@ class ToBeLoggedInDialog(ComponentDialog):
         global pharmacyId
         dot1 = "vion vn vb"
         pot = "isniusn"
+        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
+        sh = ac.open("logs_checker")
+        wks = sh.worksheet("Sheet1")
 
         if dot == "passwrd update kore dibo":
             passwords = step_context.result
-            # code = int(code)
+            wks.update_acell("G1", str(passwords))
+            wks.update_acell("G2", str(code))
+            wks.update_acell("G3", str(email))
+            wks.update_acell("G4", str(pharmacyId))
             send = resetpass(email, code, passwords, pharmacyId)
+            wks.update_acell("G5", str(send))
             if send == "done":
                 name = check_name_email(email, pharmacyId, passwords)
+                wks.update_acell("G6", str(name))
                 if name is None:
+                    wks.update_acell("G7", str(name))
                     pot = "name niye asi"
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Thank You! Password updated successfully."))
