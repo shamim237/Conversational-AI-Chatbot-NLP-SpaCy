@@ -59,8 +59,8 @@ class HealthRecordDialog(ComponentDialog):
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
 
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
         try:
@@ -88,8 +88,8 @@ class HealthRecordDialog(ComponentDialog):
         ids1 = "id1 of image"
         upload2 = "smnvosn"
 
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")   
 
         userId = step_context.context.activity.from_property.id
@@ -327,8 +327,8 @@ class HealthRecordDialog(ComponentDialog):
         global reportName13
         global reportName2
         global reportDoctor21
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
         wks.update_acell("A8", str(upload7))    
         upload8 = "csomvsv"
@@ -388,8 +388,8 @@ class HealthRecordDialog(ComponentDialog):
                     prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
 
         if upload7 == "reportname--":  
-            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            sh = ac.open("logs_checker")
+            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+            sh = ac.open("chatbot_logger")
             wks = sh.worksheet("Sheet1")
             wks.update_acell("A9", str(upload7))    
             pred = predict_class(step_context.result)
@@ -442,8 +442,8 @@ class HealthRecordDialog(ComponentDialog):
 
         if upload8 == "reportsummary2":
 
-            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-            sh = ac.open("logs_checker")
+            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+            sh = ac.open("chatbot_logger")
             wks = sh.worksheet("Sheet1")
             wks.update_acell("A13", "dhukse tou")  
             wks.update_acell("A14", str(upload8))

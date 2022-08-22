@@ -28,8 +28,8 @@ class AttachmentPrompt(Prompt):
         options: PromptOptions,
         is_retry: bool,
     ):
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
         try:
@@ -57,8 +57,8 @@ class AttachmentPrompt(Prompt):
         options: PromptOptions,
     ) -> PromptRecognizerResult:
 
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
         try:

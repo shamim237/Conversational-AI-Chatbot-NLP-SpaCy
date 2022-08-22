@@ -122,7 +122,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today? Do you want me to do any of these?"))
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("1. Book Appointment\n 2. Pill Reminder\n 3. Upload Health Records")),)               
+                PromptOptions(prompt=MessageFactory.text("1. Book Appointment\n2. Pill Reminder\n3. Upload Health Records")),)               
   
         if health == "bad":
             prompts = "Have you consulted with a Doctor/Pharmacist?"
@@ -234,8 +234,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                         return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                     if job == "adv_pill_reminder":
-                        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                        sh = ac.open("logs_checker")
+                        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                        sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
                         wks.update_acell("A2", str(step_context.values["command"]))
                         await step_context.context.send_activity(
@@ -262,8 +262,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                         return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                     if job == "adv_pill_reminder":
-                        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                        sh = ac.open("logs_checker")
+                        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                        sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
                         wks.update_acell("A2", str(step_context.values["command"]))
                         await step_context.context.send_activity(
@@ -294,8 +294,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                         return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                     if jobs == "adv_pill_reminder":
-                        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                        sh = ac.open("logs_checker")
+                        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                        sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
                         wks.update_acell("A2", str(step_context.values["command"]))
                         await step_context.context.send_activity(
@@ -346,8 +346,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -371,8 +371,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -402,8 +402,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -469,8 +469,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -496,8 +496,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -527,8 +527,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -579,8 +579,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -610,8 +610,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -647,8 +647,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -681,8 +681,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -710,8 +710,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -744,8 +744,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -811,8 +811,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -836,8 +836,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -867,8 +867,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -917,8 +917,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -944,8 +944,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -977,8 +977,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -1050,9 +1050,9 @@ class ToBeLoggedInDialog(ComponentDialog):
 
         dot1 = "vion vn vb"
         pot = "isniusn"
-        
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
         wks.update_acell("F1", code)
         wks.update_acell("F2", email)
@@ -1120,8 +1120,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -1147,8 +1147,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -1180,8 +1180,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -1242,8 +1242,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -1269,8 +1269,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -1302,8 +1302,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -1369,8 +1369,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -1396,8 +1396,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -1429,8 +1429,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
-                            ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                            sh = ac.open("logs_checker")
+                            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                            sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
@@ -1465,8 +1465,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -1492,8 +1492,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
@@ -1525,8 +1525,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
-                    ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                    sh = ac.open("logs_checker")
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(

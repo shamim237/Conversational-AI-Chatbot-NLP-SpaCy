@@ -50,8 +50,8 @@ class UpcomingAppointmentDialog(ComponentDialog):
         global pharmacyId
         global prompts 
 
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
         
@@ -159,8 +159,8 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if response == "adv_pill_reminder":
-                ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                sh = ac.open("logs_checker")
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
@@ -212,8 +212,8 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if response == "adv_pill_reminder":
-                ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                sh = ac.open("logs_checker")
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
@@ -254,8 +254,8 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if response == "adv_pill_reminder":
-                ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                sh = ac.open("logs_checker")
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
@@ -293,8 +293,8 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if response == "adv_pill_reminder":
-                ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-                sh = ac.open("logs_checker")
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(

@@ -71,8 +71,8 @@ class AdvPillReminderDialog(ComponentDialog):
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
 
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
         main = wks.acell("A2").value
         wks.update_acell("E1", main)
@@ -244,8 +244,8 @@ class AdvPillReminderDialog(ComponentDialog):
         dosage_inj_1 = "sivdvdnisvi"
         dosage_syrup_1 = "vdvdvdv"
 
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
 ################################################################################ CASE-5 ############################################################################################################################################
@@ -435,8 +435,8 @@ class AdvPillReminderDialog(ComponentDialog):
         dropfor = "smvinmvnsin"
         dosage11 = "sjvisdnin"
 
-        ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
-        sh = ac.open("logs_checker")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
 ################################################################################ CASE-1 ############################################################################################################################################
