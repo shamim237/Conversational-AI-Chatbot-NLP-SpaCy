@@ -188,8 +188,12 @@ def get_avail_slot(outletid, pharmacyId, token):
             pass
         else:
             pharma.append(i['name'])  
-    return pharma        
+    return pharma  
 
+# ss = get_avail_slot("48", "1", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIzOCIsIm5hbWUiOiJTaGFtaW0gTWFoYnViIiwibmJmIjoxNjYxMTQwNDk3LCJleHAiOjE2NjE3NDUyOTcsImlhdCI6MTY2MTE0MDQ5N30.iKgWCC-AP7tisQJ3T1d7q23sBgJIIrWEERNd9qiFegg")
+# print(len(ss))      
+# if len(ss) == 0:
+#     print("No slots available")
 
 def timeConversion(s):
    if s[-2:] == "AM" :

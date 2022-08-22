@@ -1054,10 +1054,13 @@ class ToBeLoggedInDialog(ComponentDialog):
 
         if dot == "passwrd update kore dibo":
             passwords = step_context.result
-            wks.update_acell("G1", str(passwords))
-            wks.update_acell("G2", str(code))
-            wks.update_acell("G3", str(email))
-            wks.update_acell("G4", str(pharmacyId))
+            try:
+                wks.update_acell("G1", str(passwords))
+                wks.update_acell("G2", code)
+                wks.update_acell("G3", str(email))
+                wks.update_acell("G4", str(pharmacyId))
+            except:
+                pass
             send = resetpass(email, code, passwords, pharmacyId)
             wks.update_acell("G5", str(send))
             if send == "done":
