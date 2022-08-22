@@ -11,10 +11,8 @@ def resetpass(email, code, password, pharmacyId):
     res = requests.post('https://jarvin-dev.azurewebsites.net/api/UpdatePatientPassword', json=dictToSend)
     dictFromServer = res.json()
     status = dictFromServer['response']['message']
-    if status == "Updadted Successfully":
-        stat = "done"
-        return stat
+    if status == "Updated Successfully":
+        return "done"
     else:
-        stat = "not done"
-        return stat
+        return "not done"
 

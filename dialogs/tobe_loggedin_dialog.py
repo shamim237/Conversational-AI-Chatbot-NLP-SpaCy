@@ -1218,6 +1218,7 @@ class ToBeLoggedInDialog(ComponentDialog):
     async def reset5_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global pot1
+        global code
         pot1 = "ios nvin vn "
 
 
