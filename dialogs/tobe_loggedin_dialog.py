@@ -1046,8 +1046,11 @@ class ToBeLoggedInDialog(ComponentDialog):
         global dot1
         global email
         global pharmacyId
+        global code 
+
         dot1 = "vion vn vb"
         pot = "isniusn"
+        
         ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
         sh = ac.open("logs_checker")
         wks = sh.worksheet("Sheet1")
