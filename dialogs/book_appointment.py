@@ -205,11 +205,11 @@ class AppointmentDialog(ComponentDialog):
                 pharmacistId = id
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
-                return await step_context.end_dialog()
+                return await step_context.cancel_all_dialogs()
 
             if confirm == "negative":
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
-                return await step_context.end_dialog()
+                return await step_context.cancel_all_dialogs()
 
 
     async def save2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -225,9 +225,9 @@ class AppointmentDialog(ComponentDialog):
             pharmacistId = id
             save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
             await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
-            return await step_context.end_dialog()
+            return await step_context.cancel_all_dialogs()
 
         if yesno == "negative":
             await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
-            return await step_context.end_dialog()
+            return await step_context.cancel_all_dialogs()
 
