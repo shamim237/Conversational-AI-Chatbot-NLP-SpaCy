@@ -11,7 +11,15 @@
 
 
 
+# import logging
 
+# logging.basicConfig(filename='output.txt', level=logging.DEBUG, format='')
+
+# def we_prints(data):
+#     logging.info(data)
+# #     print(data)
+
+# we_prints("some data we are logging")
 
 
 
