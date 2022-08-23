@@ -17,7 +17,6 @@ from appointment import save_appoint
 from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
-from dialogs.pill_reminder_dialog import PillReminderDialog
 
 class AppointmentDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -31,7 +30,6 @@ class AppointmentDialog(ComponentDialog):
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__)) 
         self.add_dialog(UploadNonInDialogApp(UploadNonInDialogApp.__name__)) 
-        self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))          
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
