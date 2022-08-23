@@ -4,7 +4,7 @@
 from botbuilder.core import ActivityHandler, ConversationState, TurnContext, UserState
 from botbuilder.dialogs import Dialog
 from helpers.dialog_helper import DialogHelper
-
+import time
 
 class DialogBot(ActivityHandler):
     """
@@ -17,6 +17,7 @@ class DialogBot(ActivityHandler):
 
     def __init__(
         self,
+        expire_after_seconds: int,
         conversation_state: ConversationState,
         user_state: UserState,
         dialog: Dialog,
@@ -32,13 +33,34 @@ class DialogBot(ActivityHandler):
         if dialog is None:
             raise Exception("[DialogBot]: Missing parameter. dialog is required")
 
+        self.expire_after_seconds = expire_after_seconds
         self.conversation_state = conversation_state
+        self.dialog_state_property = conversation_state.create_property("DialogState")
+        self.last_accessed_time_property = conversation_state.create_property("LastAccessedTime")
         self.user_state = user_state
         self.dialog = dialog
 
     async def on_turn(self, turn_context: TurnContext):
+        # Retrieve the property value, and compare it to the current time.
+        now_seconds = int(time.time())
+        last_access = int(
+            await self.last_accessed_time_property.get(turn_context, now_seconds)
+        )
+        if now_seconds != last_access and (
+            now_seconds - last_access >= self.expire_after_seconds
+        ):
+            # Notify the user that the conversation is being restarted.
+            await turn_context.send_activity(
+                "Welcome back!  Let's start over from the beginning."
+            )
+
+            # Clear state.
+            await self.conversation_state.clear_state(turn_context)
+            await self.conversation_state.save_changes(turn_context, True)
+
         await super().on_turn(turn_context)
 
+        await self.last_accessed_time_property.set(turn_context, now_seconds)
         # Save any state changes that might have ocurred during the turn.
         await self.conversation_state.save_changes(turn_context)
         await self.user_state.save_changes(turn_context)
@@ -48,4 +70,5 @@ class DialogBot(ActivityHandler):
             self.dialog,
             turn_context,
             self.conversation_state.create_property("DialogState"),
+            self.dialog_state_property,
         )

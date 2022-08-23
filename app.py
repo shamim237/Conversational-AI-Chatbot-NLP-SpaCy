@@ -22,7 +22,7 @@ USER_STATE = UserState(MEMORY)
 
 # create main dialog and bot
 DIALOG = UserProfileDialog(USER_STATE)
-bot = DialogBot(CONVERSATION_STATE, USER_STATE, DIALOG)
+bot = DialogBot("86400",CONVERSATION_STATE, USER_STATE, DIALOG)
 
 
 @app.route("/api/messages",methods=["POST"])
