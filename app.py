@@ -4,6 +4,7 @@ from botbuilder.schema import Activity
 from dialogs import UserProfileDialog
 from bots import DialogBot
 from flask import Flask,request,Response
+from config import DefaultConfig
 import asyncio
 
 
@@ -22,7 +23,7 @@ USER_STATE = UserState(MEMORY)
 
 # create main dialog and bot
 DIALOG = UserProfileDialog(USER_STATE)
-bot = DialogBot("86400",CONVERSATION_STATE, USER_STATE, DIALOG)
+bot = DialogBot(DefaultConfig.EXPIRE_AFTER_SECONDS,CONVERSATION_STATE, USER_STATE, DIALOG)
 
 
 @app.route("/api/messages",methods=["POST"])
