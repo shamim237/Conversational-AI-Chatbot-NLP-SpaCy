@@ -77,79 +77,59 @@ class AppointmentDialog(ComponentDialog):
         global endnot
         endnot = "snvsnvs"
 
-        msg = predict_class(step_context.result)
-
-        if msg == "reminder":
-            endnot = "yesno"
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions("Would you like to end the appointment workflow?"))
-        else:
-
-            date = step_context.result
-            email = check_email(userId, token)
-            outletid = check_outlet(email, pharmacyId, token)
-            outletName = outlet_name(outletid, token)
-            pharmacists = get_avail_slot(outletid, pharmacyId, token)
+        date = step_context.result
+        email = check_email(userId, token)
+        outletid = check_outlet(email, pharmacyId, token)
+        outletName = outlet_name(outletid, token)
+        pharmacists = get_avail_slot(outletid, pharmacyId, token)
+    
+        if len(pharmacists) == 0:
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Sorry! No slots are available for the selected outlet. Please try again after changing an outlet."))
+            await step_context.context.send_activity(
+                MessageFactory.text(f"In the meantime..."))
+            return await step_context.begin_dialog(UploadNonInDialogApp.__name__) 
         
-            if len(pharmacists) == 0:
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Sorry! No slots are available for the selected outlet. Please try again after changing an outlet."))
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"In the meantime..."))
-                return await step_context.begin_dialog(UploadNonInDialogApp.__name__) 
-            
-            if len(pharmacists) == 1:
-                listofchoice = [Choice(pharmacists[0])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 1:
+            listofchoice = [Choice(pharmacists[0])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-            if len(pharmacists) == 2:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 2:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-            if len(pharmacists) == 3:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 3:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-            if len(pharmacists) == 4:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 4:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-            if len(pharmacists) == 5:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3]), Choice(pharmacists[4])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 5:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3]), Choice(pharmacists[4])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
-            if len(pharmacists) == 6:
-                listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3]), Choice(pharmacists[4]), Choice(pharmacists[5])]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
+        if len(pharmacists) == 6:
+            listofchoice = [Choice(pharmacists[0]),Choice(pharmacists[1]), Choice(pharmacists[2]), Choice(pharmacists[3]), Choice(pharmacists[4]), Choice(pharmacists[5])]
+            return await step_context.prompt((ChoicePrompt.__name__),
+            PromptOptions(prompt=MessageFactory.text("Currently, the following pharmacists of " + str(outletName) + " are available for consultation"),choices=listofchoice))
 
 
     async def time_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global pharmacist
 
-        if endnot == "yesno":
-            msg = predict_class(step_context.result)
-            if msg == "positive":
-                await step_context.context.send_activity(MessageFactory.text("Okay. I am initializing the process of setting a pill reminder."))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
-            else:
-                await step_context.context.send_activity(MessageFactory.text("Alright. Please share me the missing information for booking the ongoing appointment"))
-                return DialogTurnResult(DialogTurnStatus.Waiting)
-
-        else:
-
-            pharmacist = step_context.result.value
-            return await step_context.prompt(
-                "time_prompt",
-                PromptOptions(
-                    prompt=MessageFactory.text("At what time would you like to consult?")),)
+        pharmacist = step_context.result.value
+        return await step_context.prompt(
+            "time_prompt",
+            PromptOptions(
+                prompt=MessageFactory.text("At what time would you like to consult?")),)
 
 
     async def slot_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
