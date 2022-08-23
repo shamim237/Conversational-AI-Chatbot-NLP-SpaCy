@@ -77,13 +77,6 @@ class AppointmentDialog(ComponentDialog):
         global endnot
         endnot = "snvsnvs"
 
-        date = step_context.result
-
-        email = check_email(userId, token)
-        outletid = check_outlet(email, pharmacyId, token)
-        outletName = outlet_name(outletid, token)
-        pharmacists = get_avail_slot(outletid, pharmacyId, token)
-
         msg = predict_class(step_context.result)
 
         if msg == "reminder":
@@ -92,6 +85,12 @@ class AppointmentDialog(ComponentDialog):
                 TextPrompt.__name__,
                 PromptOptions("Would you like to end the appointment workflow?"))
         else:
+
+            date = step_context.result
+            email = check_email(userId, token)
+            outletid = check_outlet(email, pharmacyId, token)
+            outletName = outlet_name(outletid, token)
+            pharmacists = get_avail_slot(outletid, pharmacyId, token)
         
             if len(pharmacists) == 0:
                 await step_context.context.send_activity(
