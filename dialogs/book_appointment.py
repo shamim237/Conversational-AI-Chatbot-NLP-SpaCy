@@ -16,6 +16,7 @@ from user_info import check_email
 from appointment import save_appoint
 from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from dialogs.non_upapp_dialog import UploadNonInDialogApp
 
 class AppointmentDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -27,7 +28,8 @@ class AppointmentDialog(ComponentDialog):
         self.add_dialog(EmailPrompt("email_prompt"))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
-        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))                
+        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__)) 
+        self.add_dialog(UploadNonInDialogApp(UploadNonInDialogApp.__name__))           
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
@@ -83,7 +85,9 @@ class AppointmentDialog(ComponentDialog):
         if len(pharmacists) == 0:
             await step_context.context.send_activity(
                 MessageFactory.text(f"Sorry! No slots are available for the selected outlet. Please try again after changing an outlet."))
-            return await step_context.end_dialog()
+            await step_context.context.send_activity(
+                MessageFactory.text(f"In the meantime..."))
+            return await step_context.begin_dialog(UploadNonInDialogApp.__name__) 
         
         if len(pharmacists) == 1:
             listofchoice = [Choice(pharmacists[0])]

@@ -2,6 +2,5 @@
 # Licensed under the MIT License.
 
 from .user_profile_dialog import UserProfileDialog
-from .book_appointment import AppointmentDialog
 
-__all__ = ["UserProfileDialog", "AppointmentDialog"]
+__all__ = ["UserProfileDialog"]
