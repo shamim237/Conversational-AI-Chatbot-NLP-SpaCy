@@ -438,9 +438,9 @@ class AdvPillReminderDialog(ComponentDialog):
         dropfor = "smvinmvnsin"
         dosage11 = "sjvisdnin"
 
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
+        # ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        # sh = ac.open("chatbot_logger")
+        # wks = sh.worksheet("Sheet1")
 
 ################################################################################ CASE-1 ############################################################################################################################################
 ############################################################## remind me to take napa daily at 4pm for three weeks. #############################################################################################################################################
@@ -604,11 +604,11 @@ class AdvPillReminderDialog(ComponentDialog):
         dosage_cap_11 = "SONSOVNONV"
         dosage_inj_11 = "QIDIOQDNOI"
         dosage_syrup_11 = "IQ2H3BB89BC"
-        wks.update_acell("A5", time_med)
+        # wks.update_acell("A5", time_med)
 
         if types_med == "type nite hobe" and time_med == "just name,u_time,period and duration is here-med_time needs to be added":
             med_type1 = step_context.result
-            wks.update_acell("A4", str(med_type1))
+            # wks.update_acell("A4", str(med_type1))
             if med_type1 == "Tablet":
                 dosage_tab_11 = "koto dosage11"
                 return await step_context.prompt(
@@ -770,9 +770,17 @@ class AdvPillReminderDialog(ComponentDialog):
                         value= "Syrup"),])
             return await step_context.context.send_activity(reply)
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("A12", specific)
+
+
         if specific == "specific days nite chaise":
+            wks.update_acell("A13", "dhukse")
             duras55 = "duration nite hbe"
             dayss = step_context.result
+            wks.update_acell("A13", "dhukse1")
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(prompt=MessageFactory.text("Do you want to recurr the reminder on the selected days?")),) 
