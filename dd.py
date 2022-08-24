@@ -323,17 +323,45 @@
 # from word2number import w2n
 # culture = Culture.English
 
-# # ss = Recognizers.recognize_datetime("2022-07-24, 2022-12-25, 2022-12-05", culture) 
-# # timess = []     
-# # for i in ss:
-# #     ss = i.resolution
-# #     dd = ss['values']
-# #     for j in dd:
-# #         tim = j['value']  
-# #         timess.append(tim) 
-# # print(timess)
+# ss = Recognizers.recognize_datetime("2 months", culture) 
+# timess = []     
+# for i in ss:
+#     ss = i.resolution
+#     dd = ss['values']
+#     for j in dd:
+#         tim = j['value']  
+#         timess.append(tim) 
 
+# print(timess)
 
+# dat= date.today()
+# print(dat)
+# dat = date.strftime(dat, "%Y-%m-%d")
+# dat = dat.split("-")
+# print(dat)
+
+# # dates = datetime.datetime(timess[0].strftime("%Y-%m-%d"))
+# dates = timess[0].split("-")
+# past = datetime.datetime.strptime(timess[1], "%Y-%m-%d")
+# print(dates)
+# present = datetime.datetime.now()
+# if past.date() < present.date():
+#         print("past date")
+# else:
+#         print("future date")
+
+# p = parsedatetime.Calendar()
+# time_struct, parse_status = p.parse("34 days")
+# dates = datetime.datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+# # dates = dates.split("-") 
+# print(dates)
+
+# dates = datetime.datetime.strptime(dates, "%Y-%m-%d")
+# present_date = datetime.datetime.now()
+
+# length = dates.date() - present_date.date()
+
+# print(length.days)
 # ac = gspread.service_account("sheetlogger-357104-9747ccb595f6.json")
 # sh = ac.open("logs_checker")
 # wks = sh.worksheet("Sheet1")
