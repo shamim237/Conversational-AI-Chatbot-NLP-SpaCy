@@ -235,4 +235,3 @@ class AppointmentDialog(ComponentDialog):
         if yesno == "negative":
             await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
             return await step_context.cancel_all_dialogs()
-

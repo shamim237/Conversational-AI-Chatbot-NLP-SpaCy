@@ -15,6 +15,7 @@ from dialogs.health_record_dialog import HealthRecordDialog
 from user_info import check_user
 from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
+from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
 
 
 class UserProfileDialog(ComponentDialog):
@@ -43,6 +44,7 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))
+        self.add_dialog(AdvHealthRecordDialog(AdvHealthRecordDialog.__name__))
         self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
         self.add_dialog(UpcomingAppointmentDialog(UpcomingAppointmentDialog.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
@@ -188,6 +190,15 @@ class UserProfileDialog(ComponentDialog):
                 MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
+        if health == "adv_health_record":
+            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+            sh = ac.open("chatbot_logger")
+            wks = sh.worksheet("Sheet1")
+            wks.update_acell("H22", str(step_context.result))
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+            return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
+
         if health == "upcoming_app":
             await step_context.context.send_activity(
                 MessageFactory.text(f"Okay. Let me check..."))
@@ -274,6 +285,15 @@ class UserProfileDialog(ComponentDialog):
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
+            if msg == "adv_health_record":
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("H22", str(step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
+
             if msg == "upcoming_app":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. Let me check..."))
@@ -313,6 +333,15 @@ class UserProfileDialog(ComponentDialog):
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+
+            if msg == "adv_health_record":
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("H22", str(step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
             if msg == "upcoming_app":
                 await step_context.context.send_activity(
@@ -386,6 +415,15 @@ class UserProfileDialog(ComponentDialog):
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
+            if msg == "adv_health_record":
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("H22", str(step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
+
             if msg == "upcoming_app":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. Let me check..."))
@@ -438,6 +476,15 @@ class UserProfileDialog(ComponentDialog):
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
+            if msg == "adv_health_record":
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("H22", str(step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
+
             if msg == "upcoming_app":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. Let me check..."))
@@ -473,6 +520,15 @@ class UserProfileDialog(ComponentDialog):
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)  
+
+            if msg == "adv_health_record":
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("H22", str(step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
             if msg == "upcoming_app":
                 await step_context.context.send_activity(
