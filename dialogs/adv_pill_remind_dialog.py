@@ -660,50 +660,53 @@ class AdvPillReminderDialog(ComponentDialog):
 ############################################################## remind me to take Fexo daily at 4pm. #############################################################################################################################################
 #############################################################################################################################################################################################################################
         wks.update_acell("B12", specific)
+
         global dosage_tab_33
         global dosage_drop_33
         global dosage_cap_33
         global dosage_inj_33
         global dosage_syrup_33
-
+        wks.update_acell("B13", specific)
         dosage_tab_33   = "skcvvbvb"
         dosage_drop_33  = "skcdscws"
         dosage_cap_33   = "saaqdkcs"
         dosage_inj_33   = "sk232cds"
         dosage_syrup_33 = "vczvzwss"
-
+        wks.update_acell("B14", specific)
         if type_case3 == "tell med type":
+            wks.update_acell("B15", specific)
             med_type3 = step_context.result
             if med_type3 == "Tablet":
                 dosage_tab_33 = "koto dosage11"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?")),)
-
+            wks.update_acell("B16", specific)
             if med_type3 == "Drop":
                 dosage_drop_33 = "koto drop12"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?")),)
-
+            wks.update_acell("B17", specific)
             if med_type3 == "Capsule":
                 dosage_cap_33 = "koto dosage13"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many capsules you have to take at a time?")),)
-
+            wks.update_acell("B18", specific)
             if med_type3 == "Syringe":
                 dosage_inj_33 = "koto dosage14"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
-
+            wks.update_acell("B19", specific)
             if med_type3 == "Syrup":
                 dosage_syrup_33 = "koto dosage15"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
-        wks.update_acell("B13", specific)
+
+        wks.update_acell("B20", specific)
 ################################################################################ CASE-4 ############################################################################################################################################
 ############################################################## remind me to take Fexo daily at morning. #############################################################################################################################################
 #############################################################################################################################################################################################################################
@@ -742,7 +745,7 @@ class AdvPillReminderDialog(ComponentDialog):
                         value= "Syrup"),])
             return await step_context.context.send_activity(reply)  
 
-        wks.update_acell("B14", specific)
+        wks.update_acell("B21", specific)
 ################################################################################ CASE-5 ############################################################################################################################################
 ############################################################## remind me to take Sapa at 4pm. #############################################################################################################################################
 #############################################################################################################################################################################################################################
