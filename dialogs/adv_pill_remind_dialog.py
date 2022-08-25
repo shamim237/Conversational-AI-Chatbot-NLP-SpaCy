@@ -446,6 +446,7 @@ class AdvPillReminderDialog(ComponentDialog):
 
         global daily 
         global specific
+        global type_case3
         
         global dosage11
         global dropfor
