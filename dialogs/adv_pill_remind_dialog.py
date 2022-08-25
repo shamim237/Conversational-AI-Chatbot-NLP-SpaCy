@@ -14,7 +14,7 @@ from recognizers_suite import Culture
 from word2number import w2n
 from date_regex import cal_date_adv, cal_date_by_day
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
-
+import logging
 
 class AdvPillReminderDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -432,15 +432,19 @@ class AdvPillReminderDialog(ComponentDialog):
 
 
     async def thrd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        global daily 
+        global specific
         
         global dosage11
         global dropfor
         dropfor = "smvinmvnsin"
         dosage11 = "sjvisdnin"
 
-        # ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        # sh = ac.open("chatbot_logger")
-        # wks = sh.worksheet("Sheet1")
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("A10", daily)
 
 ################################################################################ CASE-1 ############################################################################################################################################
 ############################################################## remind me to take napa daily at 4pm for three weeks. #############################################################################################################################################
