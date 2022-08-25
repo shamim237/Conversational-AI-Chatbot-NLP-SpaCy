@@ -14,7 +14,9 @@ from recognizers_suite import Culture
 from word2number import w2n
 from date_regex import cal_date_adv, cal_date_by_day
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
-import logging
+
+
+
 
 class AdvPillReminderDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -61,11 +63,12 @@ class AdvPillReminderDialog(ComponentDialog):
         global u_times
         global quants
         global multi_doses
+        global doses_times
 
-        type_med = "jjsdfujnfs"
-        time_med = "jadfaffgbd"
-        date_med = "jhsmsi9rki"
-        not_med = "dmmdmdofimg"
+        doses_times = "sisinsidfr"
+        time_med    = "jadfaffgbd"
+        date_med    = "jhsmsi9rki"
+        not_med     = "dmmdmdofim"
         
         global userId
         global token
@@ -228,6 +231,14 @@ class AdvPillReminderDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?")),)
+
+        #remind me to take 4 Napa tablets daily at 5 pm for 3 months
+        if "MED_NAME" in classes and "TIME" in classes and "MED_TYPE" in classes and "DURATION" in classes and "PERIOD" in classes and "QUANT" in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "MULTI_DOSE" not in classes:
+
+            doses_times = "how many times"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(prompt=MessageFactory.text("How many times in a day you would like to take the medicine?")),)
 
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -445,6 +456,7 @@ class AdvPillReminderDialog(ComponentDialog):
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
         wks.update_acell("A10", daily)
+        wks.update_acell("B10", specific)
 
 ################################################################################ CASE-1 ############################################################################################################################################
 ############################################################## remind me to take napa daily at 4pm for three weeks. #############################################################################################################################################
@@ -594,6 +606,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
             return await step_context.end_dialog()   
 
+        wks.update_acell("B11", specific)
 ################################################################################ CASE-2 ############################################################################################################################################
 ############################################################## remind me to take napa daily at morning for three weeks. #############################################################################################################################################
 #############################################################################################################################################################################################################################
@@ -646,7 +659,7 @@ class AdvPillReminderDialog(ComponentDialog):
 ################################################################################ CASE-3 ############################################################################################################################################
 ############################################################## remind me to take Fexo daily at 4pm. #############################################################################################################################################
 #############################################################################################################################################################################################################################
-
+        wks.update_acell("B12", specific)
         global dosage_tab_33
         global dosage_drop_33
         global dosage_cap_33
@@ -690,7 +703,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
-
+        wks.update_acell("B13", specific)
 ################################################################################ CASE-4 ############################################################################################################################################
 ############################################################## remind me to take Fexo daily at morning. #############################################################################################################################################
 #############################################################################################################################################################################################################################
@@ -729,7 +742,7 @@ class AdvPillReminderDialog(ComponentDialog):
                         value= "Syrup"),])
             return await step_context.context.send_activity(reply)  
 
-
+        wks.update_acell("B14", specific)
 ################################################################################ CASE-5 ############################################################################################################################################
 ############################################################## remind me to take Sapa at 4pm. #############################################################################################################################################
 #############################################################################################################################################################################################################################

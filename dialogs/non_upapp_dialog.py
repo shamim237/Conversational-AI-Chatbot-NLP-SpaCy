@@ -8,11 +8,9 @@ from nlp_model.predict import predict_class
 from prompt.email_prompt import EmailPrompt
 from dialogs.health_record_dialog import HealthRecordDialog
 import gspread
-# from dialogs.profile_update_dialog import HealthProfileDialog
-# from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
-# from dialogs.any_non_dialog import NonAnyDialog
+
 
 class UploadNonInDialogApp(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -25,10 +23,7 @@ class UploadNonInDialogApp(ComponentDialog):
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
-        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))   
-        # self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
-        # self.add_dialog(UpcomingAppointmentDialog(UpcomingAppointmentDialog.__name__))     
-        # self.add_dialog(NonAnyDialog(NonAnyDialog.__name__))        
+        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))        
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
 
@@ -85,11 +80,6 @@ class UploadNonInDialogApp(ComponentDialog):
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
-            # if msg == "health_profile":
-            #     await step_context.context.send_activity(
-            #         MessageFactory.text(f"Okay. I am initializing the health update process!"))
-            #     return await step_context.begin_dialog(HealthProfileDialog.__name__)
-
             if msg == "adv_pill_reminder":
                 ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                 sh = ac.open("chatbot_logger")
@@ -98,12 +88,5 @@ class UploadNonInDialogApp(ComponentDialog):
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
-
-            # if msg == "upcoming_app":
-            #     await step_context.context.send_activity(
-            #         MessageFactory.text(f"Okay. Let me check..."))
-            #     return await step_context.begin_dialog(UpcomingAppointmentDialog.__name__)
-            # else:
-            #     return await step_context.begin_dialog(NonAnyDialog.__name__)
 
     
