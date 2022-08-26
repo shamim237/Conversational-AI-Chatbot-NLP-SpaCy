@@ -314,7 +314,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     prompt=MessageFactory.text("Who is the doctor you've consulted with?")),) 
 
         if upload4 == "options choosing":
-            upload5 = "doctor name2"
+            upload5 = "doctor name22"
             reportType2 = step_context.result.value
             return await step_context.prompt(
                 TextPrompt.__name__,
@@ -361,7 +361,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 PromptOptions(
                     prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
 
-        if upload5 == "doctor name2":
+        if upload5 == "doctor name22":
             upload6 = "report summary"  
             doctor2 = step_context.result  
             return await step_context.prompt(
