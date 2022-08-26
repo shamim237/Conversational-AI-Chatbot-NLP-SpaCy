@@ -99,12 +99,12 @@ class AdvHealthRecordDialog(ComponentDialog):
                 report_type .append(types)
                 classes.append(x)
 
-        
+        wks.update_acell("F1", patient_name[0])
         # upload my mom's blood sugar report
 
         if "PATIENT_NAME" in classes and "REPORT_NAME" in classes and "REPORT_TYPE" not in classes:
             
-            my = [" my ", " My ", " MY ", " I ", " me ", " myself"]
+            my = ["my", "My", "MY", "I", "me", "myself"]
 
             if patient_name[0] in my:
                 user_name = check_name(userId, token)
@@ -117,7 +117,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                             prompt=MessageFactory.text("I haven't found your name in the server. Can you please enter your name?")),)
                 else:
                     patient_name1 = user_name
-                    wks.update_acell("1", patient_name[0])
+                    wks.update_acell("G1", patient_name[0])
                     wks.update_acell("G2", patient_name1)
                     upload1 = "upload attachments"
                     prompt_options = PromptOptions(

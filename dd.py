@@ -8,9 +8,12 @@
 
 # # dd = str(ss)
 # # print(dd)
-
-
-
+patient_name = ["my"]
+my = ["my", "My", "MY", "I", "me", "myself"]
+if patient_name[0] in my:
+    print("ache")
+else:
+    print("nai")
 # # import logging
 
 # # logging.basicConfig(filename='output.txt', level=logging.DEBUG, format='')
