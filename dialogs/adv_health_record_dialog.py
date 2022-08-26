@@ -569,16 +569,16 @@ class AdvHealthRecordDialog(ComponentDialog):
                 med = ["medical claimss", "medical claims", "medical claim"]
                 dia = ["diagnostic reports", "diagnostic report"]
 
+                wks.update_acell("K1", report_name[0])
+                wks.update_acell("K2", reportSummary)
+                wks.update_acell("K4", doctor1i)
+                wks.update_acell("K5", patient_name1)
+                wks.update_acell("K6", ids1i)
+                wks.update_acell("K7", urls1i)
+
                 if report_type[0] in pres:
                     report_types = "Prescriptions"
-                    wks.update_acell("K1", report_name[0])
-                    wks.update_acell("K2", reportSummary)
                     wks.update_acell("K3", report_types)
-                    wks.update_acell("K4", doctor1i)
-                    wks.update_acell("K5", patient_name1)
-                    wks.update_acell("K6", ids1i)
-                    wks.update_acell("K7", urls1i)
-                    
                     save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name1, ids1i, urls1i, pharmacyId, token) 
                 if report_type[0] in med:
                     report_types = "Medical Claims"
