@@ -571,13 +571,16 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                 if report_type[0] in pres:
                     report_types = "Prescriptions"
+                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name1, ids1, urls1, pharmacyId, token) 
                 if report_type[0] in med:
                     report_types = "Medical Claims"
+                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name1, ids1, urls1, pharmacyId, token) 
                 if report_type[0] in dia:
                     report_types = "Diagnostic Reports"
+                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name1, ids1, urls1, pharmacyId, token) 
                 
 
-                save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name1, ids1, urls1, pharmacyId, token)               
+                              
                 
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thank You! Your report has been saved successfully."))
@@ -588,7 +591,21 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             if case2 == "upload attachments1":
 
-                save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name[0], ids1, urls1, pharmacyId, token)               
+                pres = ["prescriptions", "prescription"]
+                med = ["medical claimss", "medical claims", "medical claim"]
+                dia = ["diagnostic reports", "diagnostic report"]
+                
+                if report_type[0] in pres:
+                    report_types = "Prescriptions"
+                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name[0], ids1, urls1, pharmacyId, token) 
+                if report_type[0] in med:
+                    report_types = "Medical Claims"
+                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name[0], ids1, urls1, pharmacyId, token) 
+                if report_type[0] in dia:
+                    report_types = "Diagnostic Reports"
+                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name[0], ids1, urls1, pharmacyId, token) 
+
+                              
                 
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thank You! Your report has been saved successfully."))
@@ -700,12 +717,15 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             if report_type[0] in pres:
                 report_types = "Prescriptions"
+                save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor21i, patient_name12i, ids11i, urls11i, pharmacyId, token) 
             if report_type[0] in med:
                 report_types = "Medical Claims"
+                save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor21i, patient_name12i, ids11i, urls11i, pharmacyId, token) 
             if report_type[0] in dia:
                 report_types = "Diagnostic Reports"
+                save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor21i, patient_name12i, ids11i, urls11i, pharmacyId, token) 
 
-            save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor21i, patient_name12i, ids11i, urls11i, pharmacyId, token)              
+                         
             
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
@@ -727,12 +747,15 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                 if report_type[0] in pres:
                     report_types = "Prescriptions"
+                    save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor2i, patient_name101, ids1i, urls1i, ids2i, urls2i, pharmacyId, token) 
                 if report_type[0] in med:
                     report_types = "Medical Claims"
+                    save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor2i, patient_name101, ids1i, urls1i, ids2i, urls2i, pharmacyId, token) 
                 if report_type[0] in dia:
                     report_types = "Diagnostic Reports"
+                    save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor2i, patient_name101, ids1i, urls1i, ids2i, urls2i, pharmacyId, token) 
 
-                save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor2i, patient_name101, ids1i, urls1i, ids2i, urls2i, pharmacyId, token)              
+                             
                 
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thank You! Your report has been saved successfully."))
@@ -749,12 +772,15 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                 if report_type[0] in pres:
                     report_types = "Prescriptions"
+                    save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor2i, patient_name[0], ids1i, urls1i, ids2i, urls2i, pharmacyId, token)  
                 if report_type[0] in med:
                     report_types = "Medical Claims"
+                    save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor2i, patient_name[0], ids1i, urls1i, ids2i, urls2i, pharmacyId, token)
                 if report_type[0] in dia:
                     report_types = "Diagnostic Reports"
+                    save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor2i, patient_name[0], ids1i, urls1i, ids2i, urls2i, pharmacyId, token)
 
-                save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor2i, patient_name[0], ids1i, urls1i, ids2i, urls2i, pharmacyId, token)              
+                            
                 
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thank You! Your report has been saved successfully."))
@@ -838,12 +864,15 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             if report_type[0] in pres:
                 report_types = "Prescriptions"
+                save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor22i, patient_name12i, ids11i, urls11i, ids22i, urls22i, pharmacyId, token)  
             if report_type[0] in med:
                 report_types = "Medical Claims"
+                save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor22i, patient_name12i, ids11i, urls11i, ids22i, urls22i, pharmacyId, token)  
             if report_type[0] in dia:
                 report_types = "Diagnostic Reports"
+                save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor22i, patient_name12i, ids11i, urls11i, ids22i, urls22i, pharmacyId, token)  
 
-            save_health_record_2(patientId, report_name[0], reportSummary, report_types, doctor22i, patient_name12i, ids11i, urls11i, ids22i, urls22i, pharmacyId, token)              
+                        
             
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
