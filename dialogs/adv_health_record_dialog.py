@@ -565,7 +565,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("G3", patient_name1)
 
-                save_health_record_1(patientId, report_name[0], reportSummary, reportType1, doctor1i, patient_name1, ids1, urls1, pharmacyId, token)               
+                save_health_record_1(patientId, report_name[0], reportSummary, report_type[0], doctor1i, patient_name1, ids1, urls1, pharmacyId, token)               
                 
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thank You! Your report has been saved successfully."))
@@ -576,7 +576,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             if case2 == "upload attachments1":
 
-                save_health_record_1(patientId, report_name[0], reportSummary, reportType1, doctor1i, patient_name[0], ids1, urls1, pharmacyId, token)               
+                save_health_record_1(patientId, report_name[0], reportSummary, report_type[0], doctor1i, patient_name[0], ids1, urls1, pharmacyId, token)               
                 
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thank You! Your report has been saved successfully."))
