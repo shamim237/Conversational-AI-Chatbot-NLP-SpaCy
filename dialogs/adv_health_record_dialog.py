@@ -133,13 +133,46 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
-        # upload my spouse diagnostic report for Aldosterone Test
+###########################################################################################################################################################################################################################
+######################################################## Case 2- upload my spouse diagnostic report for Aldosterone Test ##################################################################################################
+###########################################################################################################################################################################################################################
+
+        global case2
+        global patient_name101
+
+        patient_name101 = "uacacus"
+        case2           = "sjsnvjs"
+
+
         if "PATIENT_NAME" in classes and "REPORT_NAME" in classes and "REPORT_TYPE" in classes:
-            #case1i = "image upload"
-            prompt_options = PromptOptions(
-                prompt=MessageFactory.text(
-                    "You can take a snap or upload an image or PDF file. Please choose the document source."),)
-            return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+            
+            my = ["my", "My", "MY", "I", "me", "myself"]
+
+            if patient_name[0] in my:
+                user_name = check_name(userId, token)
+
+                if user_name == "not found":
+                    case2 = "take name from user"
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("I haven't found your name in the server. Can you please enter your name?")),)
+                else:
+                    patient_name101 = user_name
+                    wks.update_acell("G1", patient_name[0])
+                    wks.update_acell("G2", patient_name1)
+                    case2 = "upload attachments"
+                    prompt_options = PromptOptions(
+                        prompt=MessageFactory.text(
+                            "You can take a snap or upload an image or PDF file. Please choose the document source."),)
+                    return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+
+            else:
+                case2 = "upload attachments1"
+                prompt_options = PromptOptions(
+                    prompt=MessageFactory.text(
+                        "You can take a snap or upload an image or PDF file. Please choose the document source."),)
+                return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -177,6 +210,45 @@ class AdvHealthRecordDialog(ComponentDialog):
                     TextPrompt.__name__,
                     PromptOptions(
                         prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?")),)
+
+###########################################################################################################################################################################################################################
+######################################################## Case 2- upload my spouse diagnostic report for Aldosterone Test ##################################################################################################
+###########################################################################################################################################################################################################################
+
+        global case2i
+        global urls1i
+        global ids1i
+        global patient_name12i
+
+        patient_name12i  = "smsdidvnnvi"
+        urls1i          = "url of imag"
+        ids1i            = "id of image"
+        case2i = "ajfnsifv"
+
+        if case2 == "take name from user":
+            patient_name12i = step_context.result
+            case2i = "upload attachments2"
+            prompt_options = PromptOptions(
+                prompt=MessageFactory.text(
+                    "You can take a snap or upload an image or PDF file. Please choose the document source."),)
+            return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+        
+
+        if case2 == "upload attachments" or case2 == "upload attachments1":
+            image = step_context.context.activity.additional_properties
+
+            ids1i = list(image.values())[0]
+            urls1i = list(image.values())[1]
+
+            if image is not None: 
+                case2i = "want to add more or not"
+                await step_context.context.send_activity(
+                    MessageFactory.text("The files are uploaded successfully."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?")),)
+
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
@@ -223,6 +295,56 @@ class AdvHealthRecordDialog(ComponentDialog):
                 listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
                 return await step_context.prompt((ChoicePrompt.__name__),
                     PromptOptions(prompt=MessageFactory.text("Okay. What best describes the report?"),choices=listofchoice))                    
+
+
+###########################################################################################################################################################################################################################
+######################################################## Case 2- upload my spouse diagnostic report for Aldosterone Test ##################################################################################################
+###########################################################################################################################################################################################################################
+        global ids11i
+        global urls11i
+        global case2ia
+
+        ids11i  = "smikvw"
+        urls11i = "sviivn"
+        case2ia = "smvvms"
+
+        if case2i == "upload attachments2":
+            image = step_context.context.activity.additional_properties
+
+            ids11i = list(image.values())[0]
+            urls11i = list(image.values())[1]
+
+            if image is not None: 
+                case2ia = "want to add more or not2"
+                await step_context.context.send_activity(
+                    MessageFactory.text("The files are uploaded successfully."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?")),)
+
+
+        if case2i == "want to add more or not":
+            yesno = predict_class(step_context.result)
+            
+            if yesno == "positive":
+                case2ia = "add more/choose options"
+                prompt_options = PromptOptions(
+                    prompt=MessageFactory.text(
+                        "Please attach more files you would like to uplaod"),
+                    retry_prompt=MessageFactory.text(
+                        "The attachment must be a jpeg/png/pdf files."),)
+                return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+            
+            else:
+                case2ia = "choose options"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)          
+
+
+
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
@@ -273,6 +395,63 @@ class AdvHealthRecordDialog(ComponentDialog):
                 TextPrompt.__name__,
                 PromptOptions(
                     prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)          
+
+
+###########################################################################################################################################################################################################################
+######################################################## Case 2- upload my spouse diagnostic report for Aldosterone Test ##################################################################################################
+###########################################################################################################################################################################################################################
+
+        global case2ib
+        global ids2i
+        global urls2i
+        global dcotor1i
+
+        case2ib     = "snvsvnnv"
+        ids2i       = "svisvnis"
+        urls2i      = "kvikvmvm"
+        dcotor1i    = "kvkmmkas"
+
+
+        if case2ia == "want to add more or not2":
+            yesno = predict_class(step_context.result)
+            
+            if yesno == "positive":
+                case2ib = "add more/choose options2"
+                prompt_options = PromptOptions(
+                    prompt=MessageFactory.text(
+                        "Please attach more files you would like to uplaod"),
+                    retry_prompt=MessageFactory.text(
+                        "The attachment must be a jpeg/png/pdf files."),)
+                return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+            
+            else:
+                case2ib = "choose options2"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)  
+
+        if case2ia == "add more/choose options":
+            case2ib = "options choosing"
+            image = step_context.context.activity.additional_properties
+
+            ids2i = list(image.values())[0]
+            urls2i = list(image.values())[1]
+
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)  
+
+        if case2ia == "choose options":
+            case2ib = "doctor name"
+            dcotor1i = step_context.result.value
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)    
+
+
 
 
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -328,6 +507,85 @@ class AdvHealthRecordDialog(ComponentDialog):
                 TextPrompt.__name__,
                 PromptOptions(
                     prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+
+
+###########################################################################################################################################################################################################################
+######################################################## Case 2- upload my spouse diagnostic report for Aldosterone Test ##################################################################################################
+###########################################################################################################################################################################################################################
+
+        global case2ic
+        global ids22i
+        global urls22i
+        global doctor21i
+        global doctor2i
+
+        case2ic     = "aclacl"
+        ids22i      = "svmlsv"
+        urls22i     = "msvlos"
+        doctor21i   = "slvlls"
+        doctor2i    = "lmclcl"
+
+
+        if case2ib == "add more/choose options2":
+            case2ic = "options choosing2"
+            image = step_context.context.activity.additional_properties
+
+            ids22i  = list(image.values())[0]
+            urls22i = list(image.values())[1]
+
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)  
+
+
+        if case2ib == "choose options2":
+            case2ic = "doctor name2"
+            doctor21i = step_context.result.value
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+
+        if case2ib == "options choosing":
+            case2ic = "doctor name22"
+            doctor2i = step_context.result.value
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)          
+                    
+        if case2ib == "doctor name":
+
+            patientId = userId
+            reportSummary = step_context.result
+
+            if upload1 == "upload attachments":
+
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("G3", patient_name1)
+
+                save_health_record_1(patientId, report_name[0], reportSummary, reportType1, doctor1, patient_name1, ids1, urls1, pharmacyId, token)               
+                
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
+
+            if upload1 == "upload attachments1":
+
+                save_health_record_1(patientId, report_name[0], reportSummary, reportType1, doctor1, patient_name[0], ids1, urls1, pharmacyId, token)               
+                
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
 
 
 
@@ -401,6 +659,68 @@ class AdvHealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
 
 
+
+###########################################################################################################################################################################################################################
+######################################################## Case 2- upload my spouse diagnostic report for Aldosterone Test ##################################################################################################
+###########################################################################################################################################################################################################################
+
+        global case2id
+        global doctor22i
+
+        case2id     = "sknskvn"
+        doctor22i   = "skvksvd"
+
+        if case2ic == "options choosing2":
+            case2id = "summary2"
+            doctor22i = step_context.result.value
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)     
+
+        if case2ic == "doctor name2":
+            
+            patientId = userId
+            reportSummary = step_context.result
+
+            save_health_record_2(patientId, report_name[0], reportSummary, report_type[0], doctor21i, patient_name12i, ids11i, urls11i, pharmacyId, token)              
+            
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
+
+        if case2ic == "doctor name22":
+            
+            patientId = userId
+            reportSummary = step_context.result
+
+            if case2 == "upload attachments":
+
+                save_health_record_2(patientId, report_name[0], reportSummary, report_type[0], doctor2i, patient_name101, ids1i, urls1i, ids2i, urls2i, pharmacyId, token)              
+                
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)
+
+            if case2 == "upload attachments1":
+
+                save_health_record_2(patientId, report_name[0], reportSummary, report_type[0], doctor2i, patient_name[0], ids1i, urls1i, ids2i, urls2i, pharmacyId, token)              
+                
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)  
+
+
+
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global upload7 
@@ -456,6 +776,29 @@ class AdvHealthRecordDialog(ComponentDialog):
                     TextPrompt.__name__,
                     PromptOptions(
                         prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)  
+
+
+###########################################################################################################################################################################################################################
+######################################################## Case 2- upload my spouse diagnostic report for Aldosterone Test ##################################################################################################
+###########################################################################################################################################################################################################################
+
+
+        if case2id == "summary2":
+
+            patientId = userId
+            reportSummary = step_context.result
+
+            save_health_record_2(patientId, report_name[0], reportSummary, report_type[0], doctor22i, patient_name12i, ids11i, urls11i, ids22i, urls22i, pharmacyId, token)              
+            
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
+
+
+
 
 
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
