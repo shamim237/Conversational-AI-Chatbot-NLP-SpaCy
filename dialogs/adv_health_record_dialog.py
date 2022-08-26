@@ -159,8 +159,6 @@ class AdvHealthRecordDialog(ComponentDialog):
                             prompt=MessageFactory.text("I haven't found your name in the server. Can you please enter your name?")),)
                 else:
                     patient_name101 = user_name
-                    wks.update_acell("G1", patient_name[0])
-                    wks.update_acell("G2", patient_name1)
                     case2 = "upload attachments"
                     prompt_options = PromptOptions(
                         prompt=MessageFactory.text(
@@ -445,7 +443,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
         if case2ia == "choose options":
             case2ib = "doctor name"
-            dcotor1i = step_context.result.value
+            dcotor1i = step_context.result
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
@@ -541,7 +539,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
         if case2ib == "choose options2":
             case2ic = "doctor name2"
-            doctor21i = step_context.result.value
+            doctor21i = step_context.result
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
@@ -549,7 +547,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
         if case2ib == "options choosing":
             case2ic = "doctor name22"
-            doctor2i = step_context.result.value
+            doctor2i = step_context.result
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
@@ -672,7 +670,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
         if case2ic == "options choosing2":
             case2id = "summary2"
-            doctor22i = step_context.result.value
+            doctor22i = step_context.result
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
