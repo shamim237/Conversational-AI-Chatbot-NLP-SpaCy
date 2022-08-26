@@ -11,6 +11,7 @@ from nlp_model.record_predict import predict_record
 from nlp_model.predict import predict_class
 from health_record import save_health_record_1, save_health_record_2
 import gspread
+from user_info import check_name
 
 
 class AdvHealthRecordDialog(ComponentDialog):
@@ -105,6 +106,14 @@ class AdvHealthRecordDialog(ComponentDialog):
                     "You can take a snap or upload an image or PDF file. Please choose the document source."),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
+        # upload my spouse diagnostic report for Aldosterone Test
+        if "PATIENT_NAME" in classes and "REPORT_NAME" in classes and "REPORT_TYPE" in classes:
+            case1i = "image upload"
+            prompt_options = PromptOptions(
+                prompt=MessageFactory.text(
+                    "You can take a snap or upload an image or PDF file. Please choose the document source."),)
+            return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
@@ -115,24 +124,13 @@ class AdvHealthRecordDialog(ComponentDialog):
         urls1 = "url of image"
         ids1 = "id of image"
 
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-
         if case1i == "image upload":
-
             image = step_context.context.activity.additional_properties
-
-            try:
-                wks.update_acell("D6", str(type(image)))
-                wks.update_acell("E6", str(image))
-            except:
-                pass
 
             ids1 = list(image.values())[0]
             urls1 = list(image.values())[1]
 
-            if image is not None:
+            if image is not None: 
                 upload2 = "want to add more or not"
                 await step_context.context.send_activity(
                     MessageFactory.text("The files are uploaded successfully."))
@@ -143,8 +141,14 @@ class AdvHealthRecordDialog(ComponentDialog):
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
-        global upload3        
-        upload3 = "vnizviv"
+        global upload3
+        global patient_name1 
+        global name1
+        global upload3ii
+        patient_name1   = "sksksks"       
+        upload3         = "vnizviv"
+        name1           = "ahbabfa"
+        upload3ii       = "shsdhhd"
 
         yesno = predict_class(step_context.result)
 
@@ -160,10 +164,25 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
             
             else:
-                upload3 = "choose options"
-                listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                    PromptOptions(prompt=MessageFactory.text("Okay! What best describes the report?"),choices=listofchoice))
+                if " my " or " My " or " MY " or " I " or " me " or " myself" in patient_name:
+                    user_name = check_name(userId, token)
+                    if user_name == "not found":
+                        name1 = "take name from user"
+                        return await step_context.prompt(
+                            TextPrompt.__name__,
+                            PromptOptions(
+                                prompt=MessageFactory.text("I haven't found your name in the server. Can you please enter your name?")),)
+                    else:
+                        patient_name1 = user_name
+                        upload3ii = "choose options"
+                        listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
+                        return await step_context.prompt((ChoicePrompt.__name__),
+                            PromptOptions(prompt=MessageFactory.text("Okay. What best describes the report?"),choices=listofchoice))
+                else:
+                    upload3 = "choose options"
+                    listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
+                    return await step_context.prompt((ChoicePrompt.__name__),
+                        PromptOptions(prompt=MessageFactory.text("Okay. What best describes the report?"),choices=listofchoice))                    
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
@@ -171,11 +190,15 @@ class AdvHealthRecordDialog(ComponentDialog):
         global ids2
         global upload4
         global reportType
+        global reportType2i
+        global patient_name11
 
-        reportType = "shell"
-        upload4 = "nothing much"
-        urls2 = "url of image"
-        ids2 = "id of image"
+        patient_name11  = "ssnodna"
+        reportType2i    = "jncdcnc"
+        reportType      = "shellaa"
+        upload4         = "nothing much"
+        urls2           = "url of image"
+        ids2            = "id of image"
 
         if upload3 == "choose options":
             upload4 = "doctor name"
@@ -196,16 +219,36 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt((ChoicePrompt.__name__),
                 PromptOptions(prompt=MessageFactory.text("Okay! What best describes the report?"),choices=listofchoice))
 
+        if name1 == "take name from user":
+            patient_name11 = step_context.result
+            upload4 = "choose options"
+            listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
+            return await step_context.prompt((ChoicePrompt.__name__),
+                PromptOptions(prompt=MessageFactory.text("Okay. What best describes the report?"),choices=listofchoice))
+
+        if upload3ii == "choose options":
+            upload4 = "doctor name2"
+            reportType2i = step_context.result.value
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)  
+
+
 
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global upload5
         global reportType2
+        global reportType22
         global doctor
+        global doctor2
 
-        doctor = "sklvnsvn"
-        upload5 = "step5"
-        reportType2 = "type of report"
+        doctor          = "sklvnsvn"
+        doctor2         = 'smnsovs'
+        upload5         = "step5"
+        reportType2     = "type of report"
+        reportType22    = "knknskvn"
 
         if upload4 == "doctor name":
             upload5 = "report summary"  
@@ -221,14 +264,32 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)    
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),) 
+
+        if upload4 == "choose options":
+            upload5 = "doctorname222"
+            reportType22 = step_context.result.value
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),) 
+
+        if upload4 == "doctor name2":             
+            upload5 = "report summary222"  
+            doctor2 = step_context.result  
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
 
     async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global upload6
         global doctori
-        doctori = 'ksnsm'
-        upload6 = "snkln"
+        global doctorii
+        doctori     = 'ksnsm'
+        doctorii    = "siksn"
+        upload6     = "snkln"
 
         if upload5 == "report summary":
             patientId = userId
@@ -243,6 +304,19 @@ class AdvHealthRecordDialog(ComponentDialog):
                 PromptOptions(
                     prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
 
+        if upload5 == "report summary222":
+            patientId = userId
+            reportSummary = step_context.result
+
+            save_health_record_1(patientId, report_name[0], reportSummary, reportType2i, doctor2, patient_name1, ids1, urls1, pharmacyId, token)               
+            
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)              
+
         if upload5 == "doctor name2":
             upload6 = "report summary"  
             doctori = step_context.result  
@@ -250,6 +324,15 @@ class AdvHealthRecordDialog(ComponentDialog):
                 TextPrompt.__name__,
                 PromptOptions(
                     prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+
+        if upload5 == "doctorname222":
+            upload6 = "report summary33"  
+            doctorii = step_context.result  
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -265,3 +348,16 @@ class AdvHealthRecordDialog(ComponentDialog):
                 TextPrompt.__name__,
                 PromptOptions(
                     prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
+
+        if upload6 == "report summary33":
+            patientId = userId
+            reportSummary = step_context.result
+
+            save_health_record_2(patientId, report_name[0], reportSummary, reportType22, doctorii, patient_name11, ids1, urls1, ids2, urls2, pharmacyId, token)              
+            
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)

@@ -31,3 +31,6 @@ def check_name(userId, token):
         return name
     else:
         return "not found"
+
+# ss = check_name("97", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjE0ODQ5MTQsImV4cCI6MTY2MjA4OTcxNCwiaWF0IjoxNjYxNDg0OTE0fQ.dvhrGX9TwAs8W3ovHQviJXZ0KMg_LyXlC7jQzz03nfE")
+# print(ss)
