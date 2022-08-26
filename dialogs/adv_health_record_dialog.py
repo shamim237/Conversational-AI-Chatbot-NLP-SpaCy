@@ -402,12 +402,12 @@ class AdvHealthRecordDialog(ComponentDialog):
         global case2ib
         global ids2i
         global urls2i
-        global dcotor1i
+        global doctor1i
 
         case2ib     = "snvsvnnv"
         ids2i       = "svisvnis"
         urls2i      = "kvikvmvm"
-        dcotor1i    = "kvkmmkas"
+        doctor1i    = "kvkmmkas"
 
 
         if case2ia == "want to add more or not2":
@@ -443,7 +443,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
         if case2ia == "choose options":
             case2ib = "doctor name"
-            dcotor1i = step_context.result
+            doctor1i = step_context.result
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
@@ -558,14 +558,14 @@ class AdvHealthRecordDialog(ComponentDialog):
             patientId = userId
             reportSummary = step_context.result
 
-            if upload1 == "upload attachments":
+            if case2 == "upload attachments":
 
                 ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                 sh = ac.open("chatbot_logger")
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("G3", patient_name1)
 
-                save_health_record_1(patientId, report_name[0], reportSummary, reportType1, doctor1, patient_name1, ids1, urls1, pharmacyId, token)               
+                save_health_record_1(patientId, report_name[0], reportSummary, reportType1, doctor1i, patient_name1, ids1, urls1, pharmacyId, token)               
                 
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thank You! Your report has been saved successfully."))
@@ -574,9 +574,9 @@ class AdvHealthRecordDialog(ComponentDialog):
                     PromptOptions(
                         prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
 
-            if upload1 == "upload attachments1":
+            if case2 == "upload attachments1":
 
-                save_health_record_1(patientId, report_name[0], reportSummary, reportType1, doctor1, patient_name[0], ids1, urls1, pharmacyId, token)               
+                save_health_record_1(patientId, report_name[0], reportSummary, reportType1, doctor1i, patient_name[0], ids1, urls1, pharmacyId, token)               
                 
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thank You! Your report has been saved successfully."))
