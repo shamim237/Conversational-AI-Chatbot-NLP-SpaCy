@@ -572,24 +572,22 @@ class AdvHealthRecordDialog(ComponentDialog):
                 wks.update_acell("K1", report_name[0])
                 wks.update_acell("K2", reportSummary)
                 wks.update_acell("K4", doctor1i)
-                wks.update_acell("K5", patient_name1)
+                wks.update_acell("K5", patient_name101)
                 wks.update_acell("K6", ids1i)
                 wks.update_acell("K7", urls1i)
 
                 if report_type[0] in pres:
                     report_types = "Prescriptions"
                     wks.update_acell("K3", report_types)
-                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name1, ids1i, urls1i, pharmacyId, token) 
+                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name101, ids1i, urls1i, pharmacyId, token) 
                 if report_type[0] in med:
                     report_types = "Medical Claims"
-                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name1, ids1i, urls1i, pharmacyId, token) 
+                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name101, ids1i, urls1i, pharmacyId, token) 
                 if report_type[0] in dia:
                     report_types = "Diagnostic Reports"
-                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name1, ids1i, urls1i, pharmacyId, token) 
+                    save_health_record_1(patientId, report_name[0], reportSummary, report_types, doctor1i, patient_name101, ids1i, urls1i, pharmacyId, token) 
                 
 
-                              
-                
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thank You! Your report has been saved successfully."))
                 return await step_context.prompt(
