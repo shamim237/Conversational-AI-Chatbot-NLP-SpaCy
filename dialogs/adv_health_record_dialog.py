@@ -117,6 +117,8 @@ class AdvHealthRecordDialog(ComponentDialog):
                             prompt=MessageFactory.text("I haven't found your name in the server. Can you please enter your name?")),)
                 else:
                     patient_name1 = user_name
+                    wks.update_acell("1", patient_name[0])
+                    wks.update_acell("G2", patient_name1)
                     upload1 = "upload attachments"
                     prompt_options = PromptOptions(
                         prompt=MessageFactory.text(
@@ -372,6 +374,11 @@ class AdvHealthRecordDialog(ComponentDialog):
             reportSummary = step_context.result
 
             if upload1 == "upload attachments":
+
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("G3", patient_name1)
 
                 save_health_record_1(patientId, report_name[0], reportSummary, reportType1, doctor1, patient_name1, ids1, urls1, pharmacyId, token)               
                 
