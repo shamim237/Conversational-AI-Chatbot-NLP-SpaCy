@@ -1,4 +1,3 @@
-from email.utils import collapse_rfc2231_value
 from botbuilder.core import MessageFactory
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
@@ -483,7 +482,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text("Please share the reeport summary.")),)
 
             else:
-                reportSummary = ""
+                reportSummary = "v"
                 myself = ["my", "myself", "i", "me"]
                 
                 if patient_name[0].lower() in myself:
@@ -497,6 +496,24 @@ class AdvHealthRecordDialog(ComponentDialog):
                             PromptOptions(
                                 prompt=MessageFactory.text("Please enter your name-")),)
                     else:
+                        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                        sh = ac.open("chatbot_logger")
+                        wks = sh.worksheet("Sheet1")
+
+                        try:
+                            wks.update_acell("L1", userId)
+                            wks.update_acell("L2", report_name[0])
+                            wks.update_acell("L3", reportSummary)
+                            wks.update_acell("L4", report_types_case4)
+                            wks.update_acell("L5", reportDoctor4a)
+                            wks.update_acell("L6", user_name)
+                            wks.update_acell("L7", ids4a)
+                            wks.update_acell("L8", urls4a)
+                            wks.update_acell("L9", pharmacyId)
+                            wks.update_acell("L10", token)
+                        except:
+                            pass
+
                         save_health_record_1(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
                         await step_context.context.send_activity(
                             MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
