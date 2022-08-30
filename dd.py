@@ -8,13 +8,18 @@
 
 # # dd = str(ss)
 # # print(dd)
-patient_name = ["my"]
-my = ["my", "My", "MY", "I", "me", "myself"]
-if patient_name[0] in my:
-    print("ache")
-else:
-    print("nai")
-# # import logging
+# patient_name = ["my"]
+# my = ["my", "My", "MY", "I", "me", "myself"]
+# if patient_name[0] in my:
+#     print("ache")
+# else:
+#     print("nai")
+# print("Tap '\U0001F4CE' to upload")
+
+# ss = ["Fss", "dddd"]
+
+# print(ss[0].lower())
+# # # import logging
 
 # # logging.basicConfig(filename='output.txt', level=logging.DEBUG, format='')
 

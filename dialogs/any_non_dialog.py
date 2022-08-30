@@ -8,7 +8,8 @@ from nlp_model.predict import predict_class
 from prompt.email_prompt import EmailPrompt
 from dialogs.book_appointment import AppointmentDialog
 from dialogs.health_record_dialog import HealthRecordDialog
-
+import gspread
+from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
 
 class NonAnyDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -21,6 +22,7 @@ class NonAnyDialog(ComponentDialog):
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
+        self.add_dialog(AdvHealthRecordDialog(AdvHealthRecordDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
@@ -57,10 +59,18 @@ class NonAnyDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(prompt=MessageFactory.text("Okay, Tell me which one you want me to do?"),))
+        
         if msg == "appointment":
             return await step_context.begin_dialog(AppointmentDialog.__name__)
-        if msg == "health_records":
-            return await step_context.begin_dialog(HealthRecordDialog.__name__)
+        
+        if msg == "adv_health_record":
+            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+            sh = ac.open("chatbot_logger")
+            wks = sh.worksheet("Sheet1")
+            wks.update_acell("H22", str(step_context.result))
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+            return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
         else:
             want = "nothing"
             return await step_context.prompt(
@@ -73,14 +83,20 @@ class NonAnyDialog(ComponentDialog):
         msg = predict_class(msg)
 
         if want == "options" or want == "nothing":
+            
             if msg == "appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text("I am initializing the book appointment process."))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
-            if msg == "health_records":
+            
+            if msg == "adv_health_record":
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
+                wks = sh.worksheet("Sheet1")
+                wks.update_acell("H22", str(step_context.result))
                 await step_context.context.send_activity(
-                    MessageFactory.text("I am initializing the health record uploading process."))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)   
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
             else:
                 return await step_context.prompt(
                     TextPrompt.__name__,

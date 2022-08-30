@@ -166,11 +166,6 @@ class UserProfileDialog(ComponentDialog):
                 MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
             return await step_context.begin_dialog(AppointmentDialog.__name__)
 
-        if health == "health_records":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
-            return await step_context.begin_dialog(HealthRecordDialog.__name__)
-
         if health == "reminder":
             await step_context.context.send_activity(
                 MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
@@ -251,20 +246,17 @@ class UserProfileDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text(f"Would you like to save the prescription, or medical reports with me? I'll keep them all at one safe place.")))
+            
             if msg == "negative":
                 book = "asking 1st"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text(f"I think you should see a Doctor or pharmacist. Would you like to book an appointment with a pharmacist?")))
+            
             if msg == "appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
-
-            if msg == "health_records":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)
 
             if msg == "reminder":
                 await step_context.context.send_activity(
@@ -311,10 +303,7 @@ class UserProfileDialog(ComponentDialog):
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
-            if msg == "health_records":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)
+            
             if msg == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
@@ -391,11 +380,6 @@ class UserProfileDialog(ComponentDialog):
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
 
-            if msg == "health_records":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)
-
             if msg == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
@@ -452,11 +436,6 @@ class UserProfileDialog(ComponentDialog):
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
 
-            if msg == "health_records":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)
-
             if msg == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
@@ -496,11 +475,6 @@ class UserProfileDialog(ComponentDialog):
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
-
-            if msgs == "health_records":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)
 
             if msgs == "reminder":
                 await step_context.context.send_activity(
