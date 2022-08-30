@@ -1,7 +1,6 @@
 from botbuilder.core import MessageFactory
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
-from botbuilder.dialogs.choices import Choice
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt,PromptOptions
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
@@ -160,8 +159,8 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             image = step_context.context.activity.additional_properties
 
-            ids1a = list(image.values())[0]
-            urls1a = list(image.values())[1]
+            ids1a = list(image.values())[1]
+            urls1a = list(image.values())[0]
 
             if image is not None: 
                 case1b = "want to add more or not"
@@ -312,8 +311,8 @@ class AdvHealthRecordDialog(ComponentDialog):
             
             image = step_context.context.activity.additional_properties
 
-            ids1b = list(image.values())[0]
-            urls1b = list(image.values())[1]            
+            ids1b = list(image.values())[1]
+            urls1b = list(image.values())[0]            
 
             pres = ["prescriptions", "prescription"]
             med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
@@ -482,7 +481,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text("Please share the reeport summary.")),)
 
             else:
-                reportSummary = "v"
+                reportSummary = ""
                 myself = ["my", "myself", "i", "me"]
                 
                 if patient_name[0].lower() in myself:

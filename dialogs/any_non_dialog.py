@@ -68,8 +68,8 @@ class NonAnyDialog(ComponentDialog):
             sh = ac.open("chatbot_logger")
             wks = sh.worksheet("Sheet1")
             wks.update_acell("H22", str(step_context.result))
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+            # await step_context.context.send_activity(
+            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
         else:
             want = "nothing"
@@ -94,8 +94,8 @@ class NonAnyDialog(ComponentDialog):
                 sh = ac.open("chatbot_logger")
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("H22", str(step_context.result))
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                # await step_context.context.send_activity(
+                #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                 return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
             else:
                 return await step_context.prompt(

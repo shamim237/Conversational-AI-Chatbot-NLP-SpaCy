@@ -230,8 +230,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                         sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
                         wks.update_acell("H22", str(step_context.result))
-                        await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                        # await step_context.context.send_activity(
+                        #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                         return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
                         
                     if job == "reminder":
@@ -262,8 +262,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                         sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
                         wks.update_acell("H22", str(step_context.result))
-                        await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                        # await step_context.context.send_activity(
+                        #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                         return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                     if job == "reminder":
@@ -301,8 +301,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                         sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
                         wks.update_acell("H22", str(step_context.result))
-                        await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                        # await step_context.context.send_activity(
+                        #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                         return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                     if jobs == "reminder":
@@ -357,8 +357,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -387,8 +387,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -422,8 +422,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -494,8 +494,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -526,8 +526,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -562,8 +562,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -619,8 +619,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -655,8 +655,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -696,8 +696,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -734,8 +734,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -767,8 +767,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -805,8 +805,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -877,8 +877,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -907,8 +907,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -943,8 +943,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -998,8 +998,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
 
                 if job == "reminder":
@@ -1030,8 +1030,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -1067,8 +1067,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -1215,8 +1215,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -1247,8 +1247,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -1284,8 +1284,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -1352,8 +1352,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -1384,8 +1384,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -1421,8 +1421,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -1493,8 +1493,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -1525,8 +1525,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -1563,8 +1563,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("H22", str(step_context.result))
-                            await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                            # await step_context.context.send_activity(
+                            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "reminder":
@@ -1604,8 +1604,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -1636,8 +1636,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "reminder":
@@ -1674,8 +1674,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("H22", str(step_context.result))
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
 
                 if job == "reminder":
