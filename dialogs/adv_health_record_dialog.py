@@ -103,7 +103,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
 
 #########################################################################################################################################################################################################################
-##################################################################### Case 1: upload medical claims #####################################################################################################################
+##################################################################### Case : upload medical claims #####################################################################################################################
 #########################################################################################################################################################################################################################        
         
         global case1a 
@@ -138,6 +138,23 @@ class AdvHealthRecordDialog(ComponentDialog):
                     "Tap \U0001F4CE to upload"),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
+
+#########################################################################################################################################################################################################################
+##################################################################### Case 6: upload my malaria test report #####################################################################################################################
+######################################################################################################################################################################################################################### 
+
+        global case6a
+        case6a = "ksvnsvn"
+
+        if "PATIENT_NAME" in classes and "REPORT_NAME" not in classes and "REPORT_TYPE" not in classes and "DIAGNOSTIC" in classes:
+
+            case6a = "upload attachments_case6"
+            await step_context.context.send_activity(
+                MessageFactory.text("Sure. Please upload the document."))            
+            prompt_options = PromptOptions(
+                prompt=MessageFactory.text(
+                    "Tap \U0001F4CE to upload"),)
+            return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -182,7 +199,7 @@ class AdvHealthRecordDialog(ComponentDialog):
         urls4a = "ajnajnc"
         ids4a  = "smnkzxk"
 
-        if case4a == "upload attachments_case4":
+        if case4a == "upload attachments_case4" or case6a == "upload attachments_case6":
             
             image = step_context.context.activity.additional_properties
 
@@ -488,42 +505,52 @@ class AdvHealthRecordDialog(ComponentDialog):
                     user_name = check_name(userId, token)
                     if user_name == "not found":
                         case4e = "name nite hbe_case4"
-                        await step_context.context.send_activity(
-                            MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server."))
+                        if case4a == "upload attachments_case4":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server."))
+                        else:
+                            report_types = "Diagnostic Reports"
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server."))
                         return await step_context.prompt(
                             TextPrompt.__name__,
                             PromptOptions(
                                 prompt=MessageFactory.text("Please enter your name-")),)
                     else:
-                        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-                        sh = ac.open("chatbot_logger")
-                        wks = sh.worksheet("Sheet1")
+                        if case4a == "upload attachments_case4":
 
-                        try:
-                            wks.update_acell("L1", userId)
-                            wks.update_acell("L2", report_name[0])
-                            wks.update_acell("L3", reportSummary)
-                            wks.update_acell("L4", report_types_case4)
-                            wks.update_acell("L5", reportDoctor4a)
-                            wks.update_acell("L6", user_name)
-                            wks.update_acell("L7", ids4a)
-                            wks.update_acell("L8", urls4a)
-                            wks.update_acell("L9", pharmacyId)
-                            wks.update_acell("L10", token)
-                        except:
-                            pass
+                            save_health_record_1(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                            return await step_context.end_dialog()
 
-                        save_health_record_1(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
-                        await step_context.context.send_activity(
-                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-                        return await step_context.end_dialog()   
+                        if case6a == "upload attachments_case6": 
+
+                            report_names = diagnostic[0]
+                            report_types = "Diagnostic Reports"
+
+                            save_health_record_1(userId, report_names, reportSummary, report_types, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully."))
+                            return await step_context.end_dialog()
 
                 else:
-                    save_health_record_1(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-                    return await step_context.end_dialog()  
+                    if case4a == "upload attachments_case4":
 
+                        save_health_record_1(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                        return await step_context.end_dialog()  
+
+                    if case6a == "upload attachments_case6": 
+
+                        report_names = diagnostic[0]
+                        report_types = "Diagnostic Reports"
+
+                        save_health_record_1(userId, report_names, reportSummary, report_types, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully."))
+                        return await step_context.end_dialog()  
 
 
     async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -611,23 +638,54 @@ class AdvHealthRecordDialog(ComponentDialog):
                     user_name = check_name(userId, token)
                     if user_name == "not found":
                         case4f = "name nite hbe_case44"
-                        await step_context.context.send_activity(
-                            MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server."))
+
+                        if case4a == "upload attachments_case4":
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server."))
+                        else:
+                            report_types = "Diagnostic Reports"
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server."))  
+
                         return await step_context.prompt(
                             TextPrompt.__name__,
                             PromptOptions(
                                 prompt=MessageFactory.text("Please enter your name-")),)
                     else:
-                        save_health_record_2(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
-                        await step_context.context.send_activity(
-                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-                        return await step_context.end_dialog()   
+                        if case4a == "upload attachments_case4":
+
+                            save_health_record_2(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                            return await step_context.end_dialog()
+
+                        if case4a == "upload attachments_case6":
+
+                            report_names = diagnostic[0]
+                            report_typef = "Diagnostic Reports"
+
+                            save_health_record_2(userId, report_names, reportSummary, report_typef, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                            return await step_context.end_dialog()                               
 
                 else:
-                    save_health_record_2(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4b, patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-                    return await step_context.end_dialog()  
+                    if case4a == "upload attachments_case4":
+
+                        save_health_record_2(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4b, patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                        return await step_context.end_dialog()
+
+                    if case4a == "upload attachments_case6":
+
+                            report_names = diagnostic[0]
+                            report_typef = "Diagnostic Reports" 
+
+                            save_health_record_2(userId, report_names, reportSummary, report_typef, reportDoctor4b,  patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                            return await step_context.end_dialog()                             
 
         if case4e == "add summary_case4":
             
@@ -639,34 +697,70 @@ class AdvHealthRecordDialog(ComponentDialog):
                 user_name = check_name(userId, token)
                 if user_name == "not found":
                     case4f = "name nite hbe_case4a"
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server."))
+
+                    if case4a == "upload attachments_case4":
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server."))
+                    else:
+                        report_types = "Diagnostic Reports"
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server."))
+
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
                             prompt=MessageFactory.text("Please enter your name-")),)
                 else:
-                    save_health_record_1(userId, report_name[0], summary4a, report_types_case4, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-                    return await step_context.end_dialog()   
+                    
+                    if case4a == "upload attachments_case4":
+                        save_health_record_1(userId, report_name[0], summary4a, report_types_case4, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                        return await step_context.end_dialog() 
+                    
+                    if case4a == "upload attachments_case6":
+
+                        report_names = diagnostic[0]
+                        report_typef = "Diagnostic Reports"                    
+                        save_health_record_1(userId, report_names, summary4a, report_typef, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                        return await step_context.end_dialog() 
 
             else:
-                save_health_record_1(userId, report_name[0], summary4a, report_types_case4, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-                return await step_context.end_dialog() 
+                if case4a == "upload attachments_case4":
+
+                    save_health_record_1(userId, report_name[0], summary4a, report_types_case4, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                    return await step_context.end_dialog() 
+
+                if case4a == "upload attachments_case6":
+
+                    report_names = diagnostic[0]
+                    report_typef = "Diagnostic Reports" 
+                    save_health_record_1(userId, report_names, summary4a, report_typef, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                    return await step_context.end_dialog() 
 
         
         if case4e == "name nite hbe_case4":
+
             summary = ""
             patt_name = step_context.result
-            save_health_record_1(userId, report_name[0], summary, report_types_case4, reportDoctor4a, patt_name, ids4a, urls4a, pharmacyId, token)
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-            return await step_context.end_dialog()               
-
-        
+            if case4a == "upload attachments_case4":
+                save_health_record_1(userId, report_name[0], summary, report_types_case4, reportDoctor4a, patt_name, ids4a, urls4a, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                return await step_context.end_dialog()
+            if case4a == "upload attachments_case6":               
+                report_names = diagnostic[0]
+                report_typef = "Diagnostic Reports" 
+                save_health_record_1(userId, report_names, summary, report_typef, reportDoctor4a, patt_name, ids4a, urls4a, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                return await step_context.end_dialog()        
 
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -755,41 +849,82 @@ class AdvHealthRecordDialog(ComponentDialog):
                 user_name = check_name(userId, token)
                 if user_name == "not found":
                     case4g = "name nite hbe_case4s"
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server."))
+                    if case4a == "upload attachments_case4":
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server."))
+                    else:
+                        report_types = "Diagnostic Reports"
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server."))
+
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
                             prompt=MessageFactory.text("Please enter your name-")),)
                 else:
-                    save_health_record_2(userId, report_name[0], summary4b, report_types_case4, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-                    return await step_context.end_dialog()   
+                    if case4a == "upload attachments_case4":
+                        save_health_record_2(userId, report_name[0], summary4b, report_types_case4, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                        return await step_context.end_dialog()
+                    if case4a == "upload attachments_case6":               
+                        report_names = diagnostic[0]
+                        report_typef = "Diagnostic Reports" 
+                        save_health_record_2(userId, report_names, summary4b, report_typef, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                        return await step_context.end_dialog()
+                      
   
 
             else:
-                save_health_record_2(userId, report_name[0], summary4b, report_types_case4, reportDoctor4b, patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-                return await step_context.end_dialog()   
+                if case4a == "upload attachments_case4":
+                    save_health_record_2(userId, report_name[0], summary4b, report_types_case4, reportDoctor4b, patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                    return await step_context.end_dialog()   
+
+                if case4a == "upload attachments_case6":               
+                    report_names = diagnostic[0]
+                    report_typef = "Diagnostic Reports" 
+                    save_health_record_2(userId, report_names, summary4b, report_typef, reportDoctor4b, patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                    return await step_context.end_dialog() 
+
 
 
         if case4f == "name nite hbe_case44":
             summary = ""
             names = step_context.result
-            save_health_record_2(userId, report_name[0], summary, report_types_case4, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-            return await step_context.end_dialog()   
+            if case4a == "upload attachments_case4":
+                save_health_record_2(userId, report_name[0], summary, report_types_case4, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                return await step_context.end_dialog()
+            if case4a == "upload attachments_case6":               
+                report_names = diagnostic[0]
+                report_typef = "Diagnostic Reports" 
+                save_health_record_2(userId, report_names, summary, report_typef, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                return await step_context.end_dialog()               
 
         if case4f == "name nite hbe_case4a":
             names = step_context.result
-            save_health_record_1(userId, report_name[0], summary4a, report_types_case4, reportDoctor4a, names, ids4a, urls4a, pharmacyId, token)
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-            return await step_context.end_dialog()              
-
+            if case4a == "upload attachments_case4":
+                save_health_record_1(userId, report_name[0], summary4a, report_types_case4, reportDoctor4a, names, ids4a, urls4a, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                return await step_context.end_dialog()              
+            if case4a == "upload attachments_case6":               
+                report_names = diagnostic[0]
+                report_typef = "Diagnostic Reports"
+                save_health_record_1(userId, report_names, summary4a, report_typef, reportDoctor4a, names, ids4a, urls4a, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                return await step_context.end_dialog()    
+                
 
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -865,11 +1000,20 @@ class AdvHealthRecordDialog(ComponentDialog):
 
         if case4g == "name nite hbe_case4s":
             names = step_context.result
-            save_health_record_2(userId, report_name[0], summary4b, report_types_case4, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
-            return await step_context.end_dialog()  
 
+            if case4a == "upload attachments_case4":
+                save_health_record_2(userId, report_name[0], summary4b, report_types_case4, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully."))
+                return await step_context.end_dialog()  
+
+            if case4a == "upload attachments_case6":               
+                report_names = diagnostic[0]
+                report_typef = "Diagnostic Reports"
+                save_health_record_2(userId, report_names, summary4b, report_typef, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully."))
+                return await step_context.end_dialog()  
 
 
     async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
