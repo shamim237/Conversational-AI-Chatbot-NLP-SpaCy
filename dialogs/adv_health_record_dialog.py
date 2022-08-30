@@ -187,8 +187,8 @@ class AdvHealthRecordDialog(ComponentDialog):
             
             image = step_context.context.activity.additional_properties
 
-            ids4a = list(image.values())[0]
-            urls4a = list(image.values())[1]
+            ids4a = list(image.values())[1]
+            urls4a = list(image.values())[0]
 
             if image is not None: 
                 case4b = "want to add more or not_case4"
@@ -370,8 +370,8 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             image = step_context.context.activity.additional_properties
 
-            ids4b = list(image.values())[0]
-            urls4b = list(image.values())[1]            
+            ids4b = list(image.values())[1]
+            urls4b = list(image.values())[0]            
 
             case4d = "doctor_name should take2_case4"
             return await step_context.prompt(
