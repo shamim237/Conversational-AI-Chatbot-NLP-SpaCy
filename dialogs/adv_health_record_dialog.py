@@ -176,8 +176,8 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             image = step_context.context.activity.additional_properties
 
-            ids1a = list(image.values())[1]
-            urls1a = list(image.values())[0]
+            ids1a = list(image.values())[0]
+            urls1a = list(image.values())[1]
 
             if image is not None: 
                 case1b = "want to add more or not"
@@ -203,8 +203,8 @@ class AdvHealthRecordDialog(ComponentDialog):
             
             image = step_context.context.activity.additional_properties
 
-            ids4a = list(image.values())[1]
-            urls4a = list(image.values())[0]
+            ids4a = list(image.values())[0]
+            urls4a = list(image.values())[1]
 
             if image is not None: 
                 case4b = "want to add more or not_case4"
@@ -277,12 +277,16 @@ class AdvHealthRecordDialog(ComponentDialog):
             med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
             dia = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
 
-            if report_type[0].lower() in pres:
-                report_types_case4 = "Prescriptions"
-            if report_type[0].lower() in med:
-                report_types_case4 = "Medical Claims"
-            if report_type[0].lower() in dia:
-                report_types_case4 = "Diagnostic Reports" 
+            if case4a == "upload attachments_case4":
+
+                if report_type[0].lower() in pres:
+                    report_types_case4 = "Prescriptions"
+                if report_type[0].lower() in med:
+                    report_types_case4 = "Medical Claims"
+                if report_type[0].lower() in dia:
+                    report_types_case4 = "Diagnostic Reports"
+            else:
+                pass 
 
             respo = predict_class(step_context.result)
             
@@ -328,8 +332,8 @@ class AdvHealthRecordDialog(ComponentDialog):
             
             image = step_context.context.activity.additional_properties
 
-            ids1b = list(image.values())[1]
-            urls1b = list(image.values())[0]            
+            ids1b = list(image.values())[0]
+            urls1b = list(image.values())[1]           
 
             pres = ["prescriptions", "prescription"]
             med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
@@ -386,8 +390,8 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             image = step_context.context.activity.additional_properties
 
-            ids4b = list(image.values())[1]
-            urls4b = list(image.values())[0]            
+            ids4b = list(image.values())[0]
+            urls4b = list(image.values())[1]           
 
             case4d = "doctor_name should take2_case4"
             return await step_context.prompt(
