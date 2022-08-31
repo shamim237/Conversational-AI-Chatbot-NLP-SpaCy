@@ -321,6 +321,8 @@ class AdvHealthRecordDialog(ComponentDialog):
         
         if case3b == "want to add more or not_case3": 
 
+            respo = predict_class(step_context.result)
+            
             if respo == "positive":
                 case3c = "add more attachments_case3"
                 prompt_options = PromptOptions(
