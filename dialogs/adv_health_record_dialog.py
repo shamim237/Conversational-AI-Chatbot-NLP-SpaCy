@@ -103,7 +103,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
 
 #########################################################################################################################################################################################################################
-##################################################################### Case : upload medical claims #####################################################################################################################
+##################################################################### Case 1: upload medical claims #####################################################################################################################
 #########################################################################################################################################################################################################################        
         
         global case1a 
@@ -112,6 +112,24 @@ class AdvHealthRecordDialog(ComponentDialog):
         if "PATIENT_NAME" not in classes and "REPORT_NAME" not in classes and "REPORT_TYPE" in classes and "DIAGNOSTIC" not in classes:
 
             case1a = "upload attachments"
+            await step_context.context.send_activity(
+                MessageFactory.text("Sure. Please upload the document."))            
+            prompt_options = PromptOptions(
+                prompt=MessageFactory.text(
+                    "Tap \U0001F4CE to upload"),)
+            return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+
+
+#########################################################################################################################################################################################################################
+##################################################################### Case 3: upload diagnostic report for dengue fever test #####################################################################################################################
+#########################################################################################################################################################################################################################        
+
+        global case3a 
+        case3a = "ksvnsvn"
+
+        if "PATIENT_NAME" not in classes and "REPORT_NAME" in classes and "REPORT_TYPE" in classes and "DIAGNOSTIC" not in classes:
+
+            case3a = "upload attachments_case3"
             await step_context.context.send_activity(
                 MessageFactory.text("Sure. Please upload the document."))            
             prompt_options = PromptOptions(
@@ -157,6 +175,9 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
+
+
+
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
 #########################################################################################################################################################################################################################
@@ -186,7 +207,36 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?")),)            
+                        prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?")),)  
+
+
+#########################################################################################################################################################################################################################
+##################################################################### Case 3: upload diagnostic report for dengue fever test #####################################################################################################################
+#########################################################################################################################################################################################################################
+        
+        global case3b
+        global urls3a
+        global ids3a
+
+        case3b = "ksvskvn"
+        urls3a = "ajnajnc"
+        ids3a  = "smnkzxk"
+
+        if case3a == "upload attachments_case3":      
+
+            image = step_context.context.activity.additional_properties
+
+            ids1a = list(image.values())[0]
+            urls1a = list(image.values())[1]
+
+            if image is not None: 
+                case3b = "want to add more or not_case3"
+                await step_context.context.send_activity(
+                    MessageFactory.text("The files are uploaded successfully."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?")),)      
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
@@ -257,7 +307,46 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is this " + str(report_types) + " for?")),)          
+                        prompt=MessageFactory.text("Who is this " + str(report_types) + " for?")),)     
+
+#########################################################################################################################################################################################################################
+##################################################################### Case 3: upload diagnostic report for dengue fever test #####################################################################################################################
+#########################################################################################################################################################################################################################
+        
+        global case3c
+        global report_types_case3
+
+        report_types_case3  = "vklmvmls"
+        case1c              = "ksvkiw0s"
+        
+        if case3b == "want to add more or not_case3": 
+
+            if respo == "positive":
+                case3c = "add more attachments_case3"
+                prompt_options = PromptOptions(
+                    prompt=MessageFactory.text(
+                        "Please attach more files you would like to uplaod"),
+                    retry_prompt=MessageFactory.text(
+                        "The attachment must be a jpeg/png/pdf files."),)
+                return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+            
+            else:
+                pres = ["prescriptions", "prescription"]
+                med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
+                dia = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
+
+                if report_type[0].lower() in pres:
+                    report_types_case3 = "Prescriptions"
+                if report_type[0].lower() in med:
+                    report_types_case3 = "Medical Claims"
+                if report_type[0].lower() in dia:
+                    report_types_case3 = "Diagnostic Reports"  
+
+                case3c = "patient_name should take_case3"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Who is this " + str(report_types_case3) + " for?")),) 
 
 
 #########################################################################################################################################################################################################################
@@ -371,6 +460,65 @@ class AdvHealthRecordDialog(ComponentDialog):
                     PromptOptions(
                         prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
 
+#########################################################################################################################################################################################################################
+##################################################################### Case 3: upload diagnostic report for dengue fever test #####################################################################################################################
+#########################################################################################################################################################################################################################
+
+        global case3d 
+        global ids3b
+        global urls3b
+        global report_types_case3b
+        global reportPatient3a
+
+        case3d                  = "vk klv s" 
+        ids3b                   = "kafnnkad"
+        urls3b                  = "smvsvovs"
+        report_types_case3b     = "aninaini"
+        reportPatient3a         = "skkvioss"
+
+        if case3c == "add more attachments_case3":
+
+            image = step_context.context.activity.additional_properties
+
+            ids3b = list(image.values())[0]
+            urls3b = list(image.values())[1]           
+
+            pres = ["prescriptions", "prescription"]
+            med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
+            dia = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
+
+            if report_type[0].lower() in pres:
+                report_types_case3b  = "Prescriptions"
+            if report_type[0].lower() in med:
+                report_types_case3b  = "Medical Claims"
+            if report_type[0].lower() in dia:
+                report_types_case3b  = "Diagnostic Reports"  
+
+            case3d = "patient_name should take2_case3"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Who is this " + str(report_types_case3b) + " for?")),)
+
+        if case3c == "patient_name should take_case3": 
+
+            pred = predict_class(step_context.result)
+            if pred == "don't know":
+                case3d = "patient_name should again take_case3"    
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(report_types_case3))),)
+
+            else: 
+                case3d  = "doctor name should take_case3"
+                reportPatient3a = step_context.result
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?")),) 
+
+
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
@@ -469,6 +617,57 @@ class AdvHealthRecordDialog(ComponentDialog):
                 PromptOptions(
                     prompt=MessageFactory.text("Please enter the name of the report. You can find it on the " + str(report_types) + ".")),)
 
+
+#########################################################################################################################################################################################################################
+##################################################################### Case 3: upload diagnostic report for dengue fever test #####################################################################################################################
+#########################################################################################################################################################################################################################
+
+        global case3e 
+        global reportDoctor3a 
+        global reportPatient3b
+        global reportPatient3a1
+
+        case3e           = "mvbmlbls"
+        reportPatient3b  = "kbkbkbls"
+        reportPatient3a1 = "smvomvss"
+        reportDoctor3a   = "jkvnnvsn"
+
+        if case3d == "patient_name should take2_case3":
+
+            pred = predict_class(step_context.result)
+            if pred == "don't know":
+                case3e = "patient_name should again take2_case3"    
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(report_types_case3b))),)
+
+            else: 
+                case3e  = "doctor name should take2_case3"
+                reportPatient3b = step_context.result
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?")),) 
+
+
+        if case3d == "patient_name should again take_case3":
+
+            case3e  = "doctor name should take2a_case3"
+            reportPatient3a1 = step_context.result
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
+
+        if case3d == "doctor name should take_case3":
+
+            case3e  = "report summary should take_case3"
+            reportDoctor3a = step_context.result
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to add report summary?")),)
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
@@ -613,11 +812,71 @@ class AdvHealthRecordDialog(ComponentDialog):
                 PromptOptions(
                     prompt=MessageFactory.text("Would you like to add a report summary?")),)
 
+#########################################################################################################################################################################################################################
+##################################################################### Case 3: upload diagnostic report for dengue fever test #####################################################################################################################
+#########################################################################################################################################################################################################################
+
+        global case3f
+        global reportPatient3b1
+        global reportDoctor3b
+        global reportDoctor3a1
+
+        case3f              = "osvosvosops"
+        reportPatient3b1    = "acvj9avni9n"
+        reportDoctor3b      = "oasovcosass"
+        reportDoctor3a1     = "9ja9vcsa9vj"
+
+        if case3e == "patient_name should again take2_case3":    
+
+            case3f = "doctor name should take4_case3"
+            reportPatient3b1 = step_context.result
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
+
+        if case3e == "doctor name should take2_case3":
+
+            case3f = "report summary should take2_case3"
+            reportDoctor3b = step_context.result
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to add report summary?")),)
+
+        if case3e == "doctor name should take2a_case3":
+
+            case3f = "report name name should take3_case3"
+            reportDoctor3a1 = step_context.result
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to add report summary?")),)
+
+        
+        if case3e == "report summary should take_case3":
+
+            respo = predict_class(step_context.result)
+
+            if respo == "positive":
+                case3f = "summary add korbe_case3"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Please share the report summary.")),)
+
+            else:
+                summary = ""
+                save_health_record_1(userId, report_name[0], summary, report_types_case3, reportDoctor3a, reportPatient3a, ids3a, urls3a, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully."))
+                return await step_context.end_dialog() 
 
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
 ######################################################################################################################################################################################################################### 
+        
         global case4f
         global summary4a
         case4f      = "issivhi8"
@@ -632,7 +891,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the reeport summary.")),)
+                        prompt=MessageFactory.text("Please share the report summary.")),)
 
             else:
                 reportSummary = ""
@@ -830,7 +1089,73 @@ class AdvHealthRecordDialog(ComponentDialog):
                 save_health_record_1(userId, reportName1a, reportSummary, report_types, reportDoctor1a, reportPatient1a, ids1a, urls1a, pharmacyId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully."))
-                return await step_context.end_dialog()                
+                return await step_context.end_dialog()   
+
+
+#########################################################################################################################################################################################################################
+##################################################################### Case 3: upload diagnostic report for dengue fever test #####################################################################################################################
+#########################################################################################################################################################################################################################
+        
+        global case3g
+        global reportDoctor3b1
+
+        case3g              = "knsvkvs"
+        reportDoctor3b1     = "ksmskmo"
+
+        if case3f == "doctor name should take4_case3":
+
+            case3g = "report summary should take22_case3"
+            reportDoctor3b1 = step_context.result
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to add report summary?")),)
+
+        if case3f == "report summary should take2_case3":
+
+            respo = predict_class(step_context.result)
+
+            if respo == "positive":
+                case3g = "summary add korbe1_case3"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Please share the report summary.")),)
+
+            else:
+                summary = ""
+                save_health_record_2(userId, report_name[0], summary, report_types_case3b, reportDoctor3b, reportPatient3b, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully."))
+                return await step_context.end_dialog() 
+
+        if case3f == "report name name should take3_case3":
+
+            respo = predict_class(step_context.result)
+
+            if respo == "positive":
+                case3g = "summary add korbe2_case3"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Please share the report summary.")),)
+
+            else:
+                summary = ""
+                save_health_record_1(userId, report_name[0], summary, report_types_case3, reportDoctor3a1, reportPatient3a1, ids3a, urls3a, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully."))
+                return await step_context.end_dialog() 
+
+
+        if case3f == "summary add korbe_case3":  
+
+            summary = step_context.result
+            save_health_record_1(userId, report_name[0], summary, report_types_case3, reportDoctor3a, reportPatient3a, ids3a, urls3a, pharmacyId, token)
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully."))
+            return await step_context.end_dialog()                       
+
 
 
 #########################################################################################################################################################################################################################
@@ -961,7 +1286,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the reeport summary.")),)
+                        prompt=MessageFactory.text("Please share the report summary.")),)
 
             else:
                 reportSummary = ""
@@ -996,6 +1321,50 @@ class AdvHealthRecordDialog(ComponentDialog):
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully."))
             return await step_context.end_dialog()      
+
+
+#########################################################################################################################################################################################################################
+##################################################################### Case 3: upload diagnostic report for dengue fever test #####################################################################################################################
+#########################################################################################################################################################################################################################
+
+        global case3h 
+        case3h = "akaaso"
+
+        if case3g == "report summary should take22_case3":
+
+            respo = predict_class(step_context.result)
+
+            if respo == "positive":
+                case3h = "summary add korbe3_case3"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Please share the report summary.")),)
+
+            else:
+                summary = ""
+                save_health_record_2(userId, report_name[0], summary, report_types_case3b, reportDoctor3b1, reportPatient3b1, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully."))
+                return await step_context.end_dialog() 
+
+
+        if case3g == "summary add korbe1_case3":
+
+            summary = step_context.result
+            save_health_record_2(userId, report_name[0], summary, report_types_case3b, reportDoctor3b, reportPatient3b, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully."))
+            return await step_context.end_dialog()
+
+        
+        if case3g == "summary add korbe2_case3":
+
+            summary = step_context.result
+            save_health_record_1(userId, report_name[0], summary, report_types_case3, reportDoctor3a1, reportPatient3a1, ids3a, urls3a, pharmacyId, token)
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully."))
+            return await step_context.end_dialog() 
 
 
 #########################################################################################################################################################################################################################
@@ -1064,7 +1433,21 @@ class AdvHealthRecordDialog(ComponentDialog):
             save_health_record_1(userId, reportName1a1, reportSummary, report_types, reportDoctor1a1, reportPatient1a1, ids1a, urls1a, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully."))
-            return await step_context.end_dialog()  
+            return await step_context.end_dialog() 
+
+
+#########################################################################################################################################################################################################################
+##################################################################### Case 3: upload diagnostic report for dengue fever test #####################################################################################################################
+#########################################################################################################################################################################################################################
+
+        if case3h == "summary add korbe3_case3":        
+
+            summary = step_context.result
+            save_health_record_2(userId, report_name[0], summary, report_types_case3b, reportDoctor3b1, reportPatient3b1, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully."))
+            return await step_context.end_dialog() 
+
 
 
     async def tenth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
