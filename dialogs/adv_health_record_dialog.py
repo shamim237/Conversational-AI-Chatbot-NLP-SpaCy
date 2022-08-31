@@ -197,8 +197,13 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             image = step_context.context.activity.additional_properties
 
-            ids1a = list(image.values())[0]
-            urls1a = list(image.values())[1]
+            check = list(image.values())[0]
+            if len(check) <= 10:
+                ids1a = list(image.values())[0]
+                urls1a = list(image.values())[1]
+            else:
+                ids1a = list(image.values())[1]
+                urls1a = list(image.values())[0]                
 
             if image is not None: 
                 case1b = "want to add more or not"
@@ -226,8 +231,13 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             image = step_context.context.activity.additional_properties
 
-            ids1a = list(image.values())[0]
-            urls1a = list(image.values())[1]
+            check = list(image.values())[0]
+            if len(check) <= 10:
+                ids3a = list(image.values())[0]
+                urls3a = list(image.values())[1]
+            else:
+                ids3a = list(image.values())[1]
+                urls3a = list(image.values())[0]  
 
             if image is not None: 
                 case3b = "want to add more or not_case3"
@@ -253,8 +263,13 @@ class AdvHealthRecordDialog(ComponentDialog):
             
             image = step_context.context.activity.additional_properties
 
-            ids4a = list(image.values())[0]
-            urls4a = list(image.values())[1]
+            check = list(image.values())[0]
+            if len(check) <= 10:
+                ids4a = list(image.values())[0]
+                urls4a = list(image.values())[1]
+            else:
+                ids4a = list(image.values())[1]
+                urls4a = list(image.values())[0]  
 
             if image is not None: 
                 case4b = "want to add more or not_case4"
@@ -322,7 +337,7 @@ class AdvHealthRecordDialog(ComponentDialog):
         if case3b == "want to add more or not_case3": 
 
             respo = predict_class(step_context.result)
-            
+
             if respo == "positive":
                 case3c = "add more attachments_case3"
                 prompt_options = PromptOptions(
@@ -423,8 +438,13 @@ class AdvHealthRecordDialog(ComponentDialog):
             
             image = step_context.context.activity.additional_properties
 
-            ids1b = list(image.values())[0]
-            urls1b = list(image.values())[1]           
+            check = list(image.values())[0]
+            if len(check) <= 10:
+                ids1b = list(image.values())[0]
+                urls1b = list(image.values())[1]
+            else:
+                ids1b = list(image.values())[1]
+                urls1b = list(image.values())[0]           
 
             pres = ["prescriptions", "prescription"]
             med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
@@ -482,8 +502,13 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             image = step_context.context.activity.additional_properties
 
-            ids3b = list(image.values())[0]
-            urls3b = list(image.values())[1]           
+            check = list(image.values())[0]
+            if len(check) <= 10:
+                ids3b = list(image.values())[0]
+                urls3b = list(image.values())[1]
+            else:
+                ids3b = list(image.values())[1]
+                urls3b = list(image.values())[0]           
 
             pres = ["prescriptions", "prescription"]
             med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
@@ -540,8 +565,13 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             image = step_context.context.activity.additional_properties
 
-            ids4b = list(image.values())[0]
-            urls4b = list(image.values())[1]           
+            check = list(image.values())[0]
+            if len(check) <= 10:
+                ids4b = list(image.values())[0]
+                urls4b = list(image.values())[1]
+            else:
+                ids4b = list(image.values())[1]
+                urls4b = list(image.values())[0]          
 
             case4d = "doctor_name should take2_case4"
             return await step_context.prompt(
