@@ -392,7 +392,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("Who is this\033[1m diagnostic reports.\033[0m for?")),) 
+                            prompt=MessageFactory.text("Who is this diagnostic reports for?")),) 
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
@@ -565,7 +565,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is this\033[1m diagnostic reports.\033[0m for?")),)
+                        prompt=MessageFactory.text("Who is this diagnostic reports for?")),)
 
 
 
@@ -584,7 +584,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("It's the patient name. You can find it on the\033[1m diagnostic reports.\033[0m")),)
+                            prompt=MessageFactory.text("It's the patient name. You can find it on the diagnostic reports.")),)
 
             else: 
                 case3d  = "doctor name should take_case3"
@@ -730,7 +730,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("It's the patient name. You can find it on the\033[1m diagnostic reports.\033[0m")),)
+                            prompt=MessageFactory.text("It's the patient name. You can find it on the diagnostic reports.")),)
 
             else: 
                 case3e  = "doctor name should take2_case3"

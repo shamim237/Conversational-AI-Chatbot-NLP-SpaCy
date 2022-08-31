@@ -5,7 +5,7 @@
 # # print(id)
 
 # # ss = 123
-# print("It's the patient name. You can find it on the\033[1m diagnostic reports.\033[0m for")
+print("It's the patient name. You can find it on the\033 diagnostic reports.\033 for")
 # # dd = str(ss)
 # # print(dd)
 # patient_name = ["my"]
