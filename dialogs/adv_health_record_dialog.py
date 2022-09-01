@@ -543,13 +543,57 @@ class AdvHealthRecordDialog(ComponentDialog):
 
 
 #########################################################################################################################################################################################################################
-##################################################################### Case 1: upload medical claims #####################################################################################################################
+##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
 ######################################################################################################################################################################################################################### 
+        
+        global case4d 
+        global ids4b
+        global urls4b
+        global reportDoctor4a
+        
+        case4d          = "vkfklvfs" 
+        ids4b           = "kafnnkad"
+        urls4b          = "smvsvovs"
+        reportDoctor4a  = "skvsivis"
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-        wks.update_acell("L19", case4c)
+        wks.update_acell("L20", case4c)
+        
+        if case4c == "add more attachments_case4":        
+
+            image = step_context.context.activity.additional_properties
+
+            check = list(image.values())[0]
+            if len(check) <= 10:
+                ids4b = list(image.values())[0]
+                urls4b = list(image.values())[1]
+            else:
+                ids4b = list(image.values())[1]
+                urls4b = list(image.values())[0]          
+
+            case4d = "doctor_name should take2_case4"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Who's the doctor you've consulted with?")),) 
+
+        wks.update_acell("L21", case4c)
+        
+        if case4c == "doctor_name should take_case4":
+
+            reportDoctor4a = step_context.result
+            case4d = "report summarry should take_case4"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to add a report summary?")),)  
+
+
+#########################################################################################################################################################################################################################
+##################################################################### Case 1: upload medical claims #####################################################################################################################
+######################################################################################################################################################################################################################### 
 
 
         global case1d 
@@ -754,53 +798,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
 
 
-#########################################################################################################################################################################################################################
-##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
-######################################################################################################################################################################################################################### 
-        
-        global case4d 
-        global ids4b
-        global urls4b
-        global reportDoctor4a
-        
-        case4d          = "vkfklvfs" 
-        ids4b           = "kafnnkad"
-        urls4b          = "smvsvovs"
-        reportDoctor4a  = "skvsivis"
 
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-        wks.update_acell("L20", case4c)
-        
-        if case4c == "add more attachments_case4":        
-
-            image = step_context.context.activity.additional_properties
-
-            check = list(image.values())[0]
-            if len(check) <= 10:
-                ids4b = list(image.values())[0]
-                urls4b = list(image.values())[1]
-            else:
-                ids4b = list(image.values())[1]
-                urls4b = list(image.values())[0]          
-
-            case4d = "doctor_name should take2_case4"
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Who's the doctor you've consulted with?")),) 
-
-        wks.update_acell("L21", case4c)
-        
-        if case4c == "doctor_name should take_case4":
-
-            reportDoctor4a = step_context.result
-            case4d = "report summarry should take_case4"
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add a report summary?")),)  
 
 
 
