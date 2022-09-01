@@ -115,6 +115,42 @@ class UserProfileDialog(ComponentDialog):
                         PromptOptions(
                             prompt=MessageFactory.text("Hey there, how are you feeling today?")),)
 
+                if msg == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+                if msg == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    return await step_context.begin_dialog(PillReminderDialog.__name__) 
+
+                if msg == "health_profile":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
+                    return await step_context.begin_dialog(HealthProfileDialog.__name__)  
+
+                if msg == "adv_pill_reminder":
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("A2", str(step_context.result))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+
+                if msg == "adv_health_record":
+                    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                    sh = ac.open("chatbot_logger")
+                    wks = sh.worksheet("Sheet1")
+                    wks.update_acell("H22", str(step_context.result))
+                    return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)  
+
+                if msg == "upcoming_app":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay. Let me check..."))
+                    return await step_context.begin_dialog(UpcomingAppointmentDialog.__name__)                                  
+
                 else:
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Hello there! I am Jarvis, your personalized health assistant."))

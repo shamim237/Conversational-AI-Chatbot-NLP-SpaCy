@@ -761,6 +761,11 @@ class AdvHealthRecordDialog(ComponentDialog):
         ids4b           = "kafnnkad"
         urls4b          = "smvsvovs"
         reportDoctor4a  = "skvsivis"
+
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("L20", case4c)
         
         if case4c == "add more attachments_case4":        
 
@@ -778,8 +783,10 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who's the doctor you've consulted with?")),)  
+                    prompt=MessageFactory.text("Who's the doctor you've consulted with?")),) 
 
+        wks.update_acell("L21", case4c)
+        
         if case4c == "doctor_name should take_case4":
 
             reportDoctor4a = step_context.result
