@@ -320,6 +320,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
 ######################################################################################################################################################################################################################### 
+        
         global case4b
         global urls4a
         global ids4a
@@ -403,14 +404,14 @@ class AdvHealthRecordDialog(ComponentDialog):
         global report_types_case2a
 
         report_types_case2a  = "vklmvmls"
-        case2c              = "ksvkiw0s"
+        case2c               = "ksvkiw0s"
         
         
         if case2b == "want to add more or not_case2":
 
-            respo = predict_class(step_context.result)
+            respos = predict_class(step_context.result)
             
-            if respo == "positive":
+            if respos == "positive":
                 case2c = "add more attachments_case2"
                 prompt_options = PromptOptions(
                     prompt=MessageFactory.text(
@@ -420,9 +421,9 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
             
             else:
-                pres = ["prescriptions", "prescription"]
-                med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
-                dia = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
+                pres    = ["prescriptions", "prescription"]
+                med     = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
+                dia     = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
 
                 if report_type[0].lower() in pres:
                     report_types_case2a = "Prescriptions"
@@ -447,13 +448,13 @@ class AdvHealthRecordDialog(ComponentDialog):
         global report_types_case3
 
         report_types_case3  = "vklmvmls"
-        case1c              = "ksvkiw0s"
+        case3c              = "ksvkiw0s"
         
         if case3b == "want to add more or not_case3": 
 
-            respo = predict_class(step_context.result)
+            respoa = predict_class(step_context.result)
 
-            if respo == "positive":
+            if respoa == "positive":
                 case3c = "add more attachments_case3"
                 prompt_options = PromptOptions(
                     prompt=MessageFactory.text(
@@ -463,9 +464,9 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
             
             else:
-                pres = ["prescriptions", "prescription"]
-                med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
-                dia = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
+                pres    = ["prescriptions", "prescription"]
+                med     = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
+                dia     = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
 
                 if case3a == "upload attachments_case3":
                     if report_type[0].lower() in pres:
@@ -497,8 +498,8 @@ class AdvHealthRecordDialog(ComponentDialog):
         global case4c
         global report_types_case4
 
-        report_types_case4 = "vklmvmls"
-        case1c       = "ksvkiw0s"
+        report_types_case4  = "vklmvmls"
+        case4c              = "ksvkiw0s"
  
 
         if case4b == "want to add more or not_case4":
@@ -518,9 +519,9 @@ class AdvHealthRecordDialog(ComponentDialog):
             else:
                 pass 
 
-            respo = predict_class(step_context.result)
+            respox = predict_class(step_context.result)
             
-            if respo == "positive":
+            if respox == "positive":
                 case4c = "add more attachments_case4"
                 prompt_options = PromptOptions(
                     prompt=MessageFactory.text(
@@ -541,56 +542,6 @@ class AdvHealthRecordDialog(ComponentDialog):
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
-
-#########################################################################################################################################################################################################################
-##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
-######################################################################################################################################################################################################################### 
-        
-        global case4d 
-        global ids4b
-        global urls4b
-        global reportDoctor4a
-        
-        case4d          = "vkfklvfs" 
-        ids4b           = "kafnnkad"
-        urls4b          = "smvsvovs"
-        reportDoctor4a  = "skvsivis"
-
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-        wks.update_acell("L20", case4c)
-        
-        if case4c == "add more attachments_case4":        
-
-            image = step_context.context.activity.additional_properties
-
-            check = list(image.values())[0]
-            if len(check) <= 10:
-                ids4b = list(image.values())[0]
-                urls4b = list(image.values())[1]
-            else:
-                ids4b = list(image.values())[1]
-                urls4b = list(image.values())[0]          
-
-            case4d = "doctor_name should take2_case4"
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Who's the doctor you've consulted with?")),) 
-
-        wks.update_acell("L21", case4c)
-        
-        if case4c == "doctor_name should take_case4":
-
-            reportDoctor4a = step_context.result
-            case4d = "report summarry should take_case4"
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add a report summary?")),)  
-
-
 #########################################################################################################################################################################################################################
 ##################################################################### Case 1: upload medical claims #####################################################################################################################
 ######################################################################################################################################################################################################################### 
@@ -602,7 +553,7 @@ class AdvHealthRecordDialog(ComponentDialog):
         global report_types1
         global reportPatient1a
 
-        case1d          = "vk klv s" 
+        case1d          = "vshhshss" 
         ids1b           = "kafnnkad"
         urls1b          = "smvsvovs"
         report_types1   = "aninaini"
@@ -620,9 +571,9 @@ class AdvHealthRecordDialog(ComponentDialog):
                 ids1b = list(image.values())[1]
                 urls1b = list(image.values())[0]           
 
-            pres = ["prescriptions", "prescription"]
-            med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
-            dia = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
+            pres    = ["prescriptions", "prescription"]
+            med     = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
+            dia     = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
 
             if report_type[0].lower() in pres:
                 report_types1 = "Prescriptions"
@@ -740,9 +691,9 @@ class AdvHealthRecordDialog(ComponentDialog):
                 ids3b = list(image.values())[1]
                 urls3b = list(image.values())[0]           
 
-            pres = ["prescriptions", "prescription"]
-            med = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
-            dia = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
+            pres    = ["prescriptions", "prescription"]
+            med     = ["medical claims", "medical claim", "insurance claims", "insurance claim", "insurance"]
+            dia     = ["diagnostic reports", "diagnostic report", "lab reports", "lab report"]
 
             if case3a == "upload attachments_case3":
 
@@ -770,11 +721,11 @@ class AdvHealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text("Who is this diagnostic reports for?")),)
 
 
-
         if case3c == "patient_name should take_case3": 
 
-            pred = predict_class(step_context.result)
-            if pred == "don't know":
+            preds = predict_class(step_context.result)
+
+            if preds == "don't know":
                 if case3a == "upload attachments_case3":
                     case3d = "patient_name should again take_case3"    
                     return await step_context.prompt(
@@ -789,7 +740,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                             prompt=MessageFactory.text("It's the patient name. You can find it on the diagnostic reports.")),)
 
             else: 
-                case3d  = "doctor name should take_case3"
+                case3d = "doctor name should take_case3"
                 reportPatient3a = step_context.result
                 return await step_context.prompt(
                     TextPrompt.__name__,
@@ -797,7 +748,47 @@ class AdvHealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text("Who is the doctor you've consulted with?")),) 
 
 
+#########################################################################################################################################################################################################################
+##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
+######################################################################################################################################################################################################################### 
+        
+        global case4d 
+        global ids4b
+        global urls4b
+        global reportDoctor4a
+        
+        case4d          = "vkfklvfs" 
+        ids4b           = "kafnnkad"
+        urls4b          = "smvsvovs"
+        reportDoctor4a  = "skvsivis"
 
+        
+        if case4c == "add more attachments_case4":        
+
+            image = step_context.context.activity.additional_properties
+
+            check = list(image.values())[0]
+            if len(check) <= 10:
+                ids4b = list(image.values())[0]
+                urls4b = list(image.values())[1]
+            else:
+                ids4b = list(image.values())[1]
+                urls4b = list(image.values())[0]          
+
+            case4d = "doctor_name should take2_case4"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Who's the doctor you've consulted with?")),) 
+        
+        if case4c == "doctor_name should take_case4":
+
+            reportDoctor4a = step_context.result
+            case4d = "report summarry should take_case4"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to add a report summary?")),)  
 
 
 
@@ -808,10 +799,6 @@ class AdvHealthRecordDialog(ComponentDialog):
 ##################################################################### Case 1: upload medical claims #####################################################################################################################
 ######################################################################################################################################################################################################################### 
 
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-        wks.update_acell("E9", case1d)
 
         global case1e 
         global reportDoctor1a 
