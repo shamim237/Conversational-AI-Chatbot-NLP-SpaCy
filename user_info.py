@@ -32,5 +32,16 @@ def check_name(userId, token):
     else:
         return "not found"
 
-# ss = check_name("97", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjE0ODQ5MTQsImV4cCI6MTY2MjA4OTcxNCwiaWF0IjoxNjYxNDg0OTE0fQ.dvhrGX9TwAs8W3ovHQviJXZ0KMg_LyXlC7jQzz03nfE")
+def outlet_ids(userId, token):
+    headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
+    params = {"patientId": userId}
+    res = requests.get('https://jarvin-dev.azurewebsites.net/api/GetPatientById', params=params, headers= headers)
+    dictFromServer = res.json()
+    stat = dictFromServer['status']
+    if stat == "Success":
+        st = dictFromServer['response']['patientData']['outletId']
+        return st
+
+
+# ss = outlet_ids("106", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjIwMjQwNDgsImV4cCI6MTY2MjYyODg0OCwiaWF0IjoxNjYyMDI0MDQ4fQ.Lk0Rze4IyWvYgTLWGOgzuFCOqVMvwSXYxnapHxNq6Uo")
 # print(ss)

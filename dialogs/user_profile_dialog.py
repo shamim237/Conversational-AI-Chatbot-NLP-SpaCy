@@ -16,6 +16,7 @@ from user_info import check_user
 from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
 from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
+from dialogs.adv_book_app_dialog import AdvBookAppDialog
 
 
 class UserProfileDialog(ComponentDialog):
@@ -40,6 +41,7 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(DateTimePrompt(DateTimePrompt.__name__))
         self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
+        self.add_dialog(AdvBookAppDialog(AdvBookAppDialog.__name__))
         self.add_dialog(ToBeLoggedInDialog(ToBeLoggedInDialog.__name__))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
@@ -118,7 +120,7 @@ class UserProfileDialog(ComponentDialog):
                 if msg == "appointment":
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if msg == "reminder":
                     await step_context.context.send_activity(
@@ -200,7 +202,7 @@ class UserProfileDialog(ComponentDialog):
         if health == "appointment":
             await step_context.context.send_activity(
                 MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-            return await step_context.begin_dialog(AppointmentDialog.__name__)
+            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
         if health == "reminder":
             await step_context.context.send_activity(
@@ -264,7 +266,7 @@ class UserProfileDialog(ComponentDialog):
             if msg ==  "Book an Appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                return await step_context.begin_dialog(AdvBookAppDialog.__name__)
             if msg == "Upload Health Records":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
