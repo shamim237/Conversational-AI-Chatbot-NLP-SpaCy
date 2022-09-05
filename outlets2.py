@@ -45,8 +45,7 @@ def get_slots(id, date, timey, token):
                     starts.append(start)
 
 
-    # now = time
-    # current_time = re.sub(r"\d{1,4}\-\d{1,2}\-\d{1,2}\W+(\d{1,2}\:\d{1,2}\:\d{1,2})\+\d{1,2}\:\d{1,2}", r"\1", now) #localTimestamp:"2022-09-05T12:06:39+06:00"
+
     now = timey
     current_time = datetime.strptime(now, "%I:%M %p")
     current_time = datetime.strftime(current_time, "%H:%M:%S")
@@ -55,7 +54,10 @@ def get_slots(id, date, timey, token):
     upcoming = []
     for i in starts:
         if i > current_time:
-            upcoming.append(i)
+            ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(current_time, "%H:%M:%S")
+            ss = ss.total_seconds()
+            if ss > 300:
+                upcoming.append(i)
     ss = sorted(upcoming)
 
     for i in ssts:
