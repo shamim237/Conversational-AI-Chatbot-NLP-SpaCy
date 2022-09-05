@@ -57,35 +57,29 @@ class AdvBookAppDialog(ComponentDialog):
         global doc_name
         global times
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
 
         outletId        = outlet_ids(userId, token)
-        outletName      = outlet_name(outletId, token)   
-        pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId, token) 
-        dates           = datetime.today().strftime('%Y-%m-%d')
-        slots_id        = get_slots(pharmacistsIds, dates, token) 
-        doc_name        = pharmacist_name(slots_id[1])
-        userName        = check_name(userId, token) 
-
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-
         wks.update_acell("J1", str(outletId))
-        wks.update_acell("J2", str(outletName))
+        outletName      = outlet_name(outletId, token)
+        wks.update_acell("J2", str(outletName))   
+        pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId, token) 
         wks.update_acell("J3", str(pharmacistsIds))
+        dates           = datetime.today().strftime('%Y-%m-%d')
         wks.update_acell("J4", str(dates))
+        slots_id        = get_slots(pharmacistsIds, dates, token) 
         wks.update_acell("J5", str(slots_id))
+        doc_name        = pharmacist_name(slots_id[1])
         wks.update_acell("J6", str(doc_name))
+        userName        = check_name(userId, token) 
         wks.update_acell("J7", str(userName))
-
-
-
-
         times           = slots_id[0]
-
         wks.update_acell("J8", str(times))
 
         if userName != "not found":
