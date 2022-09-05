@@ -68,6 +68,9 @@ class UserProfileDialog(ComponentDialog):
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role
+        timey = step_context.context.activity.local_timestamp
+
+        wks.update_acell("I10", str(timey))
 
         try:
             wks.update_acell("B1", str(userId))
