@@ -1,7 +1,8 @@
 import requests
 import regex as re
-from datetime import datetime, date
+from datetime import datetime
 import gspread
+
 
 def get_pharmacist_id(pharmacyId, outletId):
 
@@ -18,22 +19,17 @@ def get_pharmacist_id(pharmacyId, outletId):
 
     return ds
 
-# ds = get_pharmacist_id("1", "7")
-# print(ds)
 
-def get_slots(id, date, token):
+def get_slots(id, date, time, token):
 
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
     
     ids         = []
     ssts        = []
     starts      = []
-
     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
     sh = ac.open("chatbot_logger")
     wks = sh.worksheet("Sheet1")
-    wks.update_acell("I3", "dhukse api te")
-
     for j in id:
         dictToSend = {"pharmacistId":j, "date": date}
         res = requests.post('https://jarvin-dev.azurewebsites.net/api/GetPharmacistAvailabilityByDate', headers= headers, json=dictToSend)
@@ -48,9 +44,11 @@ def get_slots(id, date, token):
                     ssts.append(sst)
                     starts.append(start)
 
-        now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
-    
+
+    now = time
+    current_time = re.sub(r"\d{1,4}\-\d{1,2}\-\d{1,2}\W+(\d{1,2}\:\d{1,2}\:\d{1,2})\+\d{1,2}\:\d{1,2}", r"\1", now) #localTimestamp:"2022-09-05T12:06:39+06:00"
+
+    wks.update_acell("I3", str(current_time))
     
     upcoming = []
     for i in starts:
@@ -66,12 +64,6 @@ def get_slots(id, date, token):
 
     return ss[0], idt          
 
-# dates = datetime.today().strftime('%Y-%m-%d')
-
-# id = [ 8, 13, 23, 1, 25, 32, 34, 35, 36, 39, 40, 48, 52, 55]
-# ss = get_slots(id, dates, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjIzMDYxMDUsImV4cCI6MTY2MjkxMDkwNSwiaWF0IjoxNjYyMzA2MTA1fQ.xrgPsUNYtZ27IMDcZNFdoxSPShsnPPlu7OK-yorkTOs")
-# print(ss)
-
 
 def pharmacist_name(id):
     
@@ -82,6 +74,3 @@ def pharmacist_name(id):
     dictFromServer = res.json()
     ss = dictFromServer['response']['pharmacistDetails']['name']    
     return ss
-
-# ss = pharmacist_name(1)
-# print(ss)

@@ -17,13 +17,9 @@
 # print("Tap '\U0001F4CE' to upload")
 
 # ss = ["Fss", "dddd"]
-from datetime import datetime, timedelta
-ss = datetime.strptime("10:12:00", "%H:%M:%S")
-print(ss)
-
-dd = ss + timedelta(minutes= 10)
-dd = datetime.strftime(dd, "%H:%M:%S")
-print(dd)
+import geocoder
+g = geocoder.ip('me')
+print(g.country)
 # print(ss[0].lower())
 # # # import logging
 
