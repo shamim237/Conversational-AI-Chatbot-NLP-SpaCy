@@ -17,9 +17,9 @@
 # print("Tap '\U0001F4CE' to upload")
 
 # ss = ["Fss", "dddd"]
-import geocoder
-g = geocoder.ip('me')
-print(g.country)
+# import geocoder
+# g = geocoder.ip('me')
+# print(g.country)
 # print(ss[0].lower())
 # # # import logging
 
