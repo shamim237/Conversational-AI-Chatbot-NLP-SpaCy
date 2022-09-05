@@ -1,9 +1,7 @@
-from time import time
 from botbuilder.core import MessageFactory
-from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog, DialogTurnStatus
+from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
-from botbuilder.dialogs.choices import Choice
 from nlp_model.predict import predict_class
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
@@ -17,9 +15,10 @@ from outlets2 import get_pharmacist_id, get_slots, pharmacist_name
 from appointment import save_appoint
 from user_info import check_name
 from datetime import datetime
-from botbuilder.dialogs.choices import Choice
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
+import gspread
+
+
 
 class AdvBookAppDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -70,7 +69,24 @@ class AdvBookAppDialog(ComponentDialog):
         doc_name        = pharmacist_name(slots_id[1])
         userName        = check_name(userId, token) 
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
+        wks.update_acell("J1", str(outletId))
+        wks.update_acell("J2", str(outletName))
+        wks.update_acell("J3", str(pharmacistsIds))
+        wks.update_acell("J4", str(dates))
+        wks.update_acell("J5", str(slots_id))
+        wks.update_acell("J6", str(doc_name))
+        wks.update_acell("J7", str(userName))
+
+
+
+
         times           = slots_id[0]
+
+        wks.update_acell("J8", str(times))
 
         if userName != "not found":
             await step_context.context.send_activity(
@@ -83,6 +99,8 @@ class AdvBookAppDialog(ComponentDialog):
             PromptOptions(
                 prompt=MessageFactory.text("Would you like to confirm the appointment?")),)
 
+    
+    
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         msg = predict_class(step_context.result)
