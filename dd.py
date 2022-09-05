@@ -345,21 +345,18 @@
 # from word2number import w2n
 # culture = Culture.English
 
-# logging.basicConfig(filename='myapp.log', level=logging.ERROR, 
-#                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
-# logger=logging.getLogger(__name__)
 
-# try:
-#         ss = Recognizers.recognize_datetime("2 months", culture) 
-#         timess = []     
-#         for i in ss:
-#                 ss = i.resolution
-#                 dd = ss['values']
-#                 for j in dd:
-#                         tim = j['value']  
-#                         timess.append(tim) 
 
-#         print(timess)
+# ss = Recognizers.recognize_datetime("Friday at 9 pm", culture) 
+# timess = []     
+# for i in ss:
+#         ss = i.resolution
+#         dd = ss['values']
+#         for j in dd:
+#                 tim = j['value']  
+#                 timess.append(tim) 
+
+# print(timess)
 
 #         dat= date.today()
 #         print(dat)

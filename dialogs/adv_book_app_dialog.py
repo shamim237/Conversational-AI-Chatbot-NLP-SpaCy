@@ -17,6 +17,9 @@ from user_info import check_name
 from datetime import datetime, timedelta
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
 import gspread
+from dialogs.profile_update_dialog import HealthProfileDialog
+from dialogs.book_appointment import AppointmentDialog
+
 
 
 
@@ -31,8 +34,10 @@ class AdvBookAppDialog(ComponentDialog):
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__)) 
+        self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
         self.add_dialog(UploadNonInDialogApp(UploadNonInDialogApp.__name__)) 
         self.add_dialog(TimePrompt("time_prompt"))
+        self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
@@ -41,6 +46,8 @@ class AdvBookAppDialog(ComponentDialog):
                 [
                     self.first_step,
                     self.scnd_step,
+                    self.third_step,
+                    self.fourth_step,
 
                 ],
             )
@@ -68,11 +75,8 @@ class AdvBookAppDialog(ComponentDialog):
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
-        timet = step_context.context.activity.timestamp
-        act = step_context.context.activity
 
-        wks.update_acell("J13", str(act))
-        wks.update_acell("J12", str(timet))
+
         
 
         outletId        = outlet_ids(userId, token)
@@ -83,7 +87,7 @@ class AdvBookAppDialog(ComponentDialog):
         wks.update_acell("J3", str(pharmacistsIds))
         dates           = datetime.today().strftime('%Y-%m-%d')
         wks.update_acell("J4", str(dates))
-        slots_id        = get_slots(pharmacistsIds, dates, timet,  token) 
+        slots_id        = get_slots(pharmacistsIds, dates, token) 
         wks.update_acell("J5", str(slots_id))
         doc_name        = pharmacist_name(slots_id[1])
         pharmacistId    = slots_id[1]
@@ -114,9 +118,13 @@ class AdvBookAppDialog(ComponentDialog):
     
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        global step1
+        step1 = "nvsjknvsk"
+
         msg = predict_class(step_context.result)
 
         if msg == "positive":
+            step1 = "question ask"
             save_appoint(dates, times, endTime, userId, pharmacistId, doc_name, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".")) 
@@ -128,7 +136,42 @@ class AdvBookAppDialog(ComponentDialog):
                     prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?")),)     
 
         else:
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("When would you like to book the appointment?")),)                       
+            await step_context.context.send_activity(
+                MessageFactory.text("Alright!"))
+            return await step_context.begin_dialog(AppointmentDialog.__name__)                    
+
+
+    async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+
+        if step1 == "question ask":
+            msg = predict_class(step_context.result)
+
+            if msg == "positive":       
+                await step_context.context.send_activity(
+                    MessageFactory.text("Need to configured for questionnaire page."))
+                return await step_context.end_dialog()
+            
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition."))    
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would you like to update health profile now?")),)
+
+
+    async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        msg = predict_class(step_context.result) 
+
+        if msg == "positive":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Need to configured for update health profile."))
+            return await step_context.end_dialog()
+        else:
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Thanks for connecting with Jarvis Care."))
+            return await step_context.end_dialog()             
+
+

@@ -43,6 +43,8 @@ class AppointmentDialog(ComponentDialog):
                     self.slot_step,
                     self.save1_step,
                     self.save2_step,
+                    self.save3_step,
+                    self.save4_step,
 
                 ],
             )
@@ -189,10 +191,16 @@ class AppointmentDialog(ComponentDialog):
     async def save1_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global times
-        times = "vmsovo"
+        global question
+        global scnd_time
+
+        question    = "ssiojgv"
+        times       = "vmsovo"
+        scnd_time   = "sinnsivn"
 
         if timeslot == "again":
             times = step_context.result
+            scnd_time = "ask to save 2nd time"
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
@@ -203,35 +211,116 @@ class AppointmentDialog(ComponentDialog):
             confirm = predict_class(msg)
 
             if confirm == "positive":
+                question = "ask question"
                 time = slot.split(" - ")
                 time1 = timeConversion(time[0])
                 time2 = timeConversion(time[1])
                 patientId = step_context.context.activity.from_property.id
                 pharmacistId = id
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
-                await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
-                return await step_context.cancel_all_dialogs()
+                await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
+                await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would  you like to answer it now?")),)
 
             if confirm == "negative":
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
-                return await step_context.cancel_all_dialogs()
+                await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!"))
+                return await step_context.end_dialog()
 
 
     async def save2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        
+        global question2
+        question2 = "ksnvinsin"
+
+        if question == "ask question":
+            yesno = predict_class(step_context.result)
+
+            if yesno == "positive":
+                await step_context.context.send_activity(MessageFactory.text("Need to configured for questionnare"))
+                return await step_context.end_dialog()
+
+            else:
+                question2 = "health_profile update"
+                await step_context.context.send_activity(MessageFactory.text("Keep your health profile updated. This will help pharmacist to better assess your health condition."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would you like to update health profile now?")),)
+
+        if scnd_time == "ask to save 2nd time":
+            yesno = predict_class(step_context.result)
+
+            if yesno == "positive":
+                timet = times.split(" - ")
+                time1 = timeConversion(timet[0])
+                time2 = timeConversion(timet[1])
+                patientId = get_patient_id(email, pharmacyId)
+                pharmacistId = id
+                question2 = "questionnare ask2"
+                save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
+                await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would  you like to answer it now?")),)
+
+            else:
+                await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
+                await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!"))
+                return await step_context.end_dialog()
 
 
-        yesno = predict_class(step_context.result)
 
-        if yesno == "positive":
-            timet = times.split(" - ")
-            time1 = timeConversion(timet[0])
-            time2 = timeConversion(timet[1])
-            patientId = get_patient_id(email, pharmacyId)
-            pharmacistId = id
-            save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
-            await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment has been confirmed."))
-            return await step_context.cancel_all_dialogs()
+    async def save3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        if yesno == "negative":
-            await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
-            return await step_context.cancel_all_dialogs()
+        global question3
+        question3 = "sknskl"
+        
+        if question2 == "health_profile update":
+
+            msg = predict_class(step_context.result)
+
+            if msg == "positive":
+                await step_context.context.send_activity(
+                    MessageFactory.text("Need to configured for update health profile."))
+                return await step_context.end_dialog()
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thanks for connecting with Jarvis Care."))
+                return await step_context.end_dialog()    
+
+        if question2 == "questionnare ask2":
+            
+            msg = predict_class(step_context.result)
+
+            if msg == "positive":
+                await step_context.context.send_activity(MessageFactory.text("Need to configured for questionnare"))
+                return await step_context.end_dialog()
+
+            else:
+                question3 = "health_profile update2"
+                await step_context.context.send_activity(MessageFactory.text("Keep your health profile updated. This will help pharmacist to better assess your health condition."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would you like to update health profile now?")),)
+
+        
+    async def save4_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        if question3 == "health_profile update2":
+            msg = predict_class(step_context.result)
+
+            if msg == "positive":
+                await step_context.context.send_activity(
+                    MessageFactory.text("Need to configured for update health profile."))
+                return await step_context.end_dialog()
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thanks for connecting with Jarvis Care."))
+                return await step_context.end_dialog()  
