@@ -78,6 +78,8 @@ class AdvBookAppDialog(ComponentDialog):
         timey = step_context.context.activity.additional_properties
 
         wks.update_acell("I10", str(timey))
+        timey = list(timey.values())[0]
+        wks.update_acell("I11", str(timey))
 
         outletId        = outlet_ids(userId, token)
         wks.update_acell("J1", str(outletId))
