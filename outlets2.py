@@ -20,7 +20,7 @@ def get_pharmacist_id(pharmacyId, outletId):
     return ds
 
 
-def get_slots(id, date, token):
+def get_slots(id, date, timey, token):
 
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
     
@@ -47,8 +47,9 @@ def get_slots(id, date, token):
 
     # now = time
     # current_time = re.sub(r"\d{1,4}\-\d{1,2}\-\d{1,2}\W+(\d{1,2}\:\d{1,2}\:\d{1,2})\+\d{1,2}\:\d{1,2}", r"\1", now) #localTimestamp:"2022-09-05T12:06:39+06:00"
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
+    now = timey
+    current_time = datetime.strptime(now, "%I:%M %p")
+    current_time = datetime.strftime(current_time, "%H:%M:%S")
     wks.update_acell("I3", str(current_time))
     
     upcoming = []
