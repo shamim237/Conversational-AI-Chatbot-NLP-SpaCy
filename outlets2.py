@@ -1,7 +1,7 @@
 import requests
 import regex as re
 from datetime import datetime, date
-
+import gspread
 
 def get_pharmacist_id(pharmacyId, outletId):
 
@@ -28,6 +28,11 @@ def get_slots(id, date, token):
     ids         = []
     ssts        = []
     starts      = []
+
+    ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+    sh = ac.open("chatbot_logger")
+    wks = sh.worksheet("Sheet1")
+    wks.update_acell("I3", "dhukse api te")
 
     for j in id:
         dictToSend = {"pharmacistId":j, "date": date}
@@ -61,11 +66,13 @@ def get_slots(id, date, token):
 
     return ss[0], idt          
 
-dates = datetime.today().strftime('%Y-%m-%d')
+# dates = datetime.today().strftime('%Y-%m-%d')
 
-id = [ 8, 13, 23, 1, 25, 32, 34, 35, 36, 39, 40, 48, 52, 55]
-ss = get_slots(id, dates, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjIzMDYxMDUsImV4cCI6MTY2MjkxMDkwNSwiaWF0IjoxNjYyMzA2MTA1fQ.xrgPsUNYtZ27IMDcZNFdoxSPShsnPPlu7OK-yorkTOs")
-print(ss)
+# id = [ 8, 13, 23, 1, 25, 32, 34, 35, 36, 39, 40, 48, 52, 55]
+# ss = get_slots(id, dates, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjIzMDYxMDUsImV4cCI6MTY2MjkxMDkwNSwiaWF0IjoxNjYyMzA2MTA1fQ.xrgPsUNYtZ27IMDcZNFdoxSPShsnPPlu7OK-yorkTOs")
+# print(ss)
+
+
 def pharmacist_name(id):
     
     headers = {"Content-Type": "application/json; charset=utf-8"}
