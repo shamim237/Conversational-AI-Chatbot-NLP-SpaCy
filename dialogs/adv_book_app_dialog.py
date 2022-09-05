@@ -68,11 +68,12 @@ class AdvBookAppDialog(ComponentDialog):
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
-        timet = step_context.context.activity.local_timestamp
+        timet = step_context.context.activity.timestamp
         act = step_context.context.activity
 
-        wks.update_acell("J12", str(timet))
         wks.update_acell("J13", str(act))
+        wks.update_acell("J12", str(timet))
+        
 
         outletId        = outlet_ids(userId, token)
         wks.update_acell("J1", str(outletId))
