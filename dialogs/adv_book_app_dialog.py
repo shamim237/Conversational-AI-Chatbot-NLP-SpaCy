@@ -75,10 +75,9 @@ class AdvBookAppDialog(ComponentDialog):
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
-        timey = step_context.context.activity.local_timestamp
+        timey = step_context.context.activity.additional_properties
 
-        wks.update_acell("I9", str(timey))
-        
+        wks.update_acell("I10", str(timey))
 
         outletId        = outlet_ids(userId, token)
         wks.update_acell("J1", str(outletId))
@@ -88,7 +87,7 @@ class AdvBookAppDialog(ComponentDialog):
         wks.update_acell("J3", str(pharmacistsIds))
         dates           = datetime.today().strftime('%Y-%m-%d')
         wks.update_acell("J4", str(dates))
-        slots_id        = get_slots(pharmacistsIds, dates, token) 
+        slots_id        = get_slots(pharmacistsIds, dates, timey, token) 
         wks.update_acell("J5", str(slots_id))
         doc_name        = pharmacist_name(slots_id[1])
         pharmacistId    = slots_id[1]
