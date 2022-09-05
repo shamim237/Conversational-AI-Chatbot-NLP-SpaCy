@@ -69,7 +69,7 @@ class AdvBookAppDialog(ComponentDialog):
         wks.update_acell("J1", str(outletId))
         outletName      = outlet_name(outletId, token)
         wks.update_acell("J2", str(outletName))   
-        pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId, token) 
+        pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId) 
         wks.update_acell("J3", str(pharmacistsIds))
         dates           = datetime.today().strftime('%Y-%m-%d')
         wks.update_acell("J4", str(dates))
