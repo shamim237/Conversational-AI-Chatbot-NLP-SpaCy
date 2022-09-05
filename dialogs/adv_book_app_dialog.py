@@ -14,7 +14,7 @@ from user_info import check_email, outlet_ids
 from outlets2 import get_pharmacist_id, get_slots, pharmacist_name
 from appointment import save_appoint
 from user_info import check_name
-from datetime import datetime
+from datetime import datetime, timedelta
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
 import gspread
 
@@ -56,6 +56,10 @@ class AdvBookAppDialog(ComponentDialog):
         global pharmacyId
         global doc_name
         global times
+        global use_time
+        global endTime
+        global dates
+        global pharmacistId
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
@@ -76,18 +80,25 @@ class AdvBookAppDialog(ComponentDialog):
         slots_id        = get_slots(pharmacistsIds, dates, token) 
         wks.update_acell("J5", str(slots_id))
         doc_name        = pharmacist_name(slots_id[1])
+        pharmacistId    = slots_id[1]
         wks.update_acell("J6", str(doc_name))
         userName        = check_name(userId, token) 
         wks.update_acell("J7", str(userName))
+
         times           = slots_id[0]
+        ss = datetime.strptime(times, "%H:%M:%S")
+        dd = ss + timedelta(minutes= 15)
+        endTime = datetime.strftime(dd, "%H:%M:%S")
+
         wks.update_acell("J8", str(times))
+        use_time        = datetime.strptime(times, "%H:%M:%S").strftime("%I:%M %p")
 
         if userName != "not found":
             await step_context.context.send_activity(
-                MessageFactory.text("Hey " + str(userName) + ", Today at " + str(times) + ", " + str(doc_name) + " of " + str(outletName) + " is available."))
+                MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available."))
         else:
             await step_context.context.send_activity(
-                MessageFactory.text("Today at " + str(times) + ", " + str(doc_name) + " of " + str(outletName) + " is available."))            
+                MessageFactory.text("Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available."))            
         return await step_context.prompt(
             TextPrompt.__name__,
             PromptOptions(
@@ -100,8 +111,9 @@ class AdvBookAppDialog(ComponentDialog):
         msg = predict_class(step_context.result)
 
         if msg == "positive":
+            save_appoint(dates, times, endTime, userId, pharmacistId, doc_name, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(times) + ".")) 
+                MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".")) 
             await step_context.context.send_activity(
                 MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
             return await step_context.prompt(

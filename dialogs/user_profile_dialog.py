@@ -119,7 +119,9 @@ class UserProfileDialog(ComponentDialog):
 
                 if msg == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if msg == "reminder":
@@ -201,7 +203,9 @@ class UserProfileDialog(ComponentDialog):
                 
         if health == "appointment":
             await step_context.context.send_activity(
-                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                MessageFactory.text(f"Wait a sec..."))
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
         if health == "reminder":
@@ -265,7 +269,9 @@ class UserProfileDialog(ComponentDialog):
             msg = step_context.result
             if msg ==  "Book an Appointment":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                    MessageFactory.text(f"Wait a sec..."))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Let me check the earliest appointment slots for you."))
                 return await step_context.begin_dialog(AdvBookAppDialog.__name__)
             if msg == "Upload Health Records":
                 await step_context.context.send_activity(
@@ -291,8 +297,10 @@ class UserProfileDialog(ComponentDialog):
             
             if msg == "appointment":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                    MessageFactory.text(f"Wait a sec..."))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
             if msg == "reminder":
                 await step_context.context.send_activity(
@@ -318,8 +326,6 @@ class UserProfileDialog(ComponentDialog):
                 sh = ac.open("chatbot_logger")
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("H22", str(step_context.result))
-                # await step_context.context.send_activity(
-                #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                 return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
             if msg == "upcoming_app":
