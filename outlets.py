@@ -110,9 +110,6 @@ def get_timeslots(id, date, time, token):
             if i > time:
                 ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(time, "%H:%M:%S")
                 timess.append(ss.total_seconds())
-            else:
-                ss = datetime.strptime(time, "%H:%M:%S") - datetime.strptime(i, "%H:%M:%S")
-                timess.append(ss.total_seconds())
             
         timess = [int(i) for i in timess]
 

@@ -51,7 +51,7 @@ class PillReminderDialog(ComponentDialog):
 
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("Please provide medicine name, dosage, time and duration for setting up the pill reminder.\n\nExample: remind me to take Aspirin 100mg taablets daily at 10 am for 3 weeks.")),)  
+            PromptOptions(prompt=MessageFactory.text("Please provide medicine name, dosage, time and duration for setting up the pill reminder.\n\nExample: remind me to take Aspirin 100mg tablets daily at 10 am for 3 weeks.")),)  
 
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
