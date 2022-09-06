@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 import re
 import json
@@ -101,10 +101,10 @@ def get_timeslots(id, date, time, time_now, token):
                 ends.append(end)
 
         timesk = []
-
         for i in range(len(starts)):
             timesk.append(starts[i] + " - " + ends[i])
 
+        # print(timesk)
         today = datetime.now()
         today = datetime.strftime(today, "%Y-%m-%d")
         
@@ -116,48 +116,69 @@ def get_timeslots(id, date, time, time_now, token):
         current_time = datetime.strptime(timen, "%I:%M %p")
         current_time = datetime.strftime(current_time, "%H:%M:%S")
 
+
         timess = []
+        tim = []
+
+        global slots1
+        slots1 = "ahahah"
+
         for i in starts:
             if datet > today:
-                if i > time:
+                slots1 = "not present date"
+                if i >= time:
                     ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(time, "%H:%M:%S")
-                    timess.append(ss.total_seconds())
+                    timess.append(ss.total_seconds())           
                 if i < time:
                     ss = datetime.strptime(time, "%H:%M:%S") - datetime.strptime(i, "%H:%M:%S")
-                    timess.append(ss.total_seconds())                    
-                if i == time:
-                    pass
+                    timess.append(ss.total_seconds())
+                  
+            
             if datet < today:
                 pass
             if datet == today:
+                slots1 = "future date"
                 if time > current_time and i > time:
                     ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(time, "%H:%M:%S")
-                    timess.append(ss.total_seconds())
+                    ss = ss.total_seconds()
+                    if ss > 300:
+                        tim.append(i)
                 else:
-                    pass
-            
-        timess = [int(i) for i in timess]
+                    return None
+        
+        if slots1 == "not present date":
+            # print("dhukse1")
+            timess = [int(i) for i in timess]
+            count = 0
+            for i in timess:
+                count += 1 
+                ss = min(timess)
+                if ss > 10800:
+                    return "NOPE"
+                if ss == i:
+                    break
+            cou = 0
+            for i in timesk:
+                cou += 1
+                if cou == count:
+                    ss = i.split(" - ")
+                    ss = datetime.strptime(ss[0], "%H:%M:%S").strftime("%I:%M %p") + " - " + datetime.strptime(ss[1], "%H:%M:%S").strftime("%I:%M %p")
+                    return ss
+        
+        if slots1 == "future date":
+            # print("dhukse")
+            timt    = tim[0]
+            start   = datetime.strptime(timt, "%H:%M:%S")
+            dd      = start + timedelta(minutes= 15)
+            end     = datetime.strftime(dd, "%H:%M:%S")
+            slota   = datetime.strptime(timt, "%H:%M:%S").strftime("%I:%M %p") + " - " + datetime.strptime(end, "%H:%M:%S").strftime("%I:%M %p")
 
-        count = 0
-        for i in timess:
-            count += 1 
-            ss = min(timess)
-            if ss > 10800:
-                return "NOPE"
-            if ss == i:
-                break
-        cou = 0
-        for i in timesk:
-            cou += 1
-            if cou == count:
-                ss = i.split(" - ")
-                ss = datetime.strptime(ss[0], "%H:%M:%S").strftime("%I:%M %p") + " - " + datetime.strptime(ss[1], "%H:%M:%S").strftime("%I:%M %p")
-                return ss
-
+            return slota
     else:
         return "No slots available" 
 
-
+# ss = get_timeslots("1", "2022-09-07", "13:30:00", "5:45 pm", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjI0NjQ3NDUsImV4cCI6MTY2MzA2OTU0NSwiaWF0IjoxNjYyNDY0NzQ1fQ.VQ3FD9Fs7WEEKVR6L9fWawyFv-lUKZJ-waEFX9cCNE8")
+# print(ss)
 
 
 
