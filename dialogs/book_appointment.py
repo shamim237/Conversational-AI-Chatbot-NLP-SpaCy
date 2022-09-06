@@ -365,9 +365,9 @@ class AppointmentDialog(ComponentDialog):
                         prompt=MessageFactory.text("Would you like to update health profile now?")),)
 
         if scnd_time == "ask to save 2nd time":
-            yesno = predict_class(step_context.result)
+            msgs = predict_class(step_context.result)
 
-            if yesno == "positive":
+            if msgs == "positive":
                 timet = times.split(" - ")
                 time1 = timeConversion(timet[0])
                 time2 = timeConversion(timet[1])
