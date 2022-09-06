@@ -140,7 +140,7 @@ class AppointExtraPlusDialog(ComponentDialog):
         global confirmation
         global timeslot
         global slot
-        global id
+        global ids
         global take_time
 
         take_time       = "sksmism"
@@ -152,9 +152,9 @@ class AppointExtraPlusDialog(ComponentDialog):
 
 
         pharmas = pharmacist.lower()
-        id = match(pharmas, outletid, pharmacyId)
+        ids = match(pharmas, outletid, pharmacyId)
         time = step_context.result
-        slot = get_timeslots(id, date, time, time_now, token)
+        slot = get_timeslots(ids, date, time, time_now, token)
         
         if slot == "No slots available":
             return await step_context.prompt(
@@ -164,7 +164,7 @@ class AppointExtraPlusDialog(ComponentDialog):
 
         if slot == "NOPE":
             timeslot = "again"
-            aslots = get_timeslots2(id, date, token)
+            aslots = get_timeslots2(ids, date, token)
 
             reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot")
             reply.suggested_actions = SuggestedActions(
@@ -210,6 +210,7 @@ class AppointExtraPlusDialog(ComponentDialog):
         global times
         global question
         global scnd_time
+    
 
         question    = "ssiojgv"
         times       = "vmsovo"
@@ -233,7 +234,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                 time1 = timeConversion(time[0])
                 time2 = timeConversion(time[1])
                 patientId = step_context.context.activity.from_property.id
-                pharmacistId = id
+                pharmacistId = ids
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
@@ -249,8 +250,10 @@ class AppointExtraPlusDialog(ComponentDialog):
 
         global timeslot2
         global slott
+        global idt
         global confirmation2
         
+        idt             = "akakakaa"
         slott           = "skskksss"
         timeslot2       = "kskvmkss"
         confirmation2   = "kjasnfsj"
@@ -261,8 +264,8 @@ class AppointExtraPlusDialog(ComponentDialog):
             time_now = timey.get('local_timestamp')
             time_scnd = step_context.result
             pharmas = pharmacist.lower()
-            id = match(pharmas, outletid, pharmacyId)
-            slott = get_timeslots(id, date, time_scnd, time_now, token)
+            idt = match(pharmas, outletid, pharmacyId)
+            slott = get_timeslots(idt, date, time_scnd, time_now, token)
 
             if slott == "No slots available":
                 return await step_context.prompt(
@@ -272,7 +275,7 @@ class AppointExtraPlusDialog(ComponentDialog):
 
             if slott == "NOPE":
                 timeslot2 = "again2"
-                aslots = get_timeslots2(id, date, token)
+                aslots = get_timeslots2(idt, date, token)
                 reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot")
                 reply.suggested_actions = SuggestedActions(
                     actions=[
@@ -384,7 +387,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                 time1 = timeConversion(time[0])
                 time2 = timeConversion(time[1])
                 patientId = step_context.context.activity.from_property.id
-                pharmacistId = id
+                pharmacistId = idt
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))

@@ -125,12 +125,12 @@ def get_timeslots(id, date, time, time_now, token):
                 if i < time:
                     ss = datetime.strptime(time, "%H:%M:%S") - datetime.strptime(i, "%H:%M:%S")
                     timess.append(ss.total_seconds())                    
-                if i ==time:
+                if i == time:
                     pass
             if datet < today:
                 pass
             if datet == today:
-                if i > current_time:
+                if time > current_time and i > time:
                     ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(time, "%H:%M:%S")
                     timess.append(ss.total_seconds())
                 else:
