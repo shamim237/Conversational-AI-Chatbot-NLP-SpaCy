@@ -283,10 +283,13 @@ class AppointmentDialog(ComponentDialog):
 
             timey = step_context.context.activity.additional_properties
             time_now = timey.get('local_timestamp')
-            time_scnd = step_context.result
+            wks.update_acell("B29", str(time_now))
+            time_scnds = step_context.result
+            wks.update_acell("B30", str(time_scnds))
             pharmas = pharmacist.lower()
             idt = match(pharmas, outletid, pharmacyId)
-            slott = get_timeslots(idt, date, time_scnd, time_now, token)
+            slott = get_timeslots(idt, date, time_scnds, time_now, token)
+            wks.update_acell("B31", str(slott))
 
             if slott == "No slots available":
                 return await step_context.prompt(
@@ -297,7 +300,7 @@ class AppointmentDialog(ComponentDialog):
             if slott == "NOPE":
                 timeslot2 = "again2"
                 aslots = get_timeslots2(idt, date, token)
-                reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time) + ". Please choose a different time slot")
+                reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time_scnds) + ". Please choose a different time slot")
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
