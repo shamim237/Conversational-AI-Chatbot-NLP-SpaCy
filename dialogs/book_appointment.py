@@ -18,6 +18,7 @@ from appointment import save_appoint
 from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
+import gspread
 
 
 
@@ -215,9 +216,22 @@ class AppointmentDialog(ComponentDialog):
         global question
         global scnd_time
 
+        global timeslot2
+        global slott
+        global confirmation2
+        
+        slott           = "skskksss"
+        timeslot2       = "kskvmkss"
+        confirmation2   = "kjasnfsj"
+
         question    = "ssiojgv"
         times       = "vmsovo"
         scnd_time   = "sinnsivn"
+
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("A22", str(confirmation))
 
         if timeslot == "again":
             times = step_context.result
@@ -226,6 +240,9 @@ class AppointmentDialog(ComponentDialog):
                 TextPrompt.__name__,
                 PromptOptions(
                     prompt=MessageFactory.text(str(pharmacist) + " is available at " + str(times) + " on " + str(date) + ". Shall I confirm the appointment?")),)
+
+
+        wks.update_acell("A22", str(confirmation))
 
         if confirmation == "confirm or not":
             msg = step_context.result
@@ -246,18 +263,11 @@ class AppointmentDialog(ComponentDialog):
                     PromptOptions(
                         prompt=MessageFactory.text("Would  you like to answer it now?")),)
 
-            if confirm == "negative":
+            else:
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment."))
                 await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!"))
                 return await step_context.end_dialog()
 
-        global timeslot2
-        global slott
-        global confirmation2
-        
-        slott           = "skskksss"
-        timeslot2       = "kskvmkss"
-        confirmation2   = "kjasnfsj"
 
         if take_time == "valid future time":
 
