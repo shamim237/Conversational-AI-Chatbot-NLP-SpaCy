@@ -15,6 +15,7 @@ from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from outlets2 import get_pharmacist_id, get_slots, pharmacist_name
+from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
@@ -148,8 +149,16 @@ class AdvBookAppDialog(ComponentDialog):
 
             if msg == "positive":       
                 await step_context.context.send_activity(
-                    MessageFactory.text("Need to configured for questionnaire page."))
-                return await step_context.end_dialog()
+                    MessageFactory.text("Thank You! I am opening the questionnare page."))
+                reply = MessageFactory.text("go to question page")
+                reply.suggested_actions = SuggestedActions(
+                    actions=[
+                        CardAction(
+                            title= "go to question page",
+                            type=ActionTypes.im_back,
+                            value= "go to question page",)])
+                await step_context.context.send_activity(reply)
+                return await step_context.end_dialog()    
             
             else:
                 await step_context.context.send_activity(

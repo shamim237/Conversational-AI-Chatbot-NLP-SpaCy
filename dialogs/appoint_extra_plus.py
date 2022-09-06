@@ -316,8 +316,17 @@ class AppointExtraPlusDialog(ComponentDialog):
             yesno = predict_class(step_context.result)
 
             if yesno == "positive":
-                await step_context.context.send_activity(MessageFactory.text("Need to configured for questionnare"))
-                return await step_context.end_dialog()
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thank You! I am opening the questionnare page."))
+                reply = MessageFactory.text("go to question page")
+                reply.suggested_actions = SuggestedActions(
+                    actions=[
+                        CardAction(
+                            title= "go to question page",
+                            type=ActionTypes.im_back,
+                            value= "go to question page",)])
+                await step_context.context.send_activity(reply)
+                return await step_context.end_dialog()   
 
             else:
                 await step_context.context.send_activity(
@@ -398,8 +407,17 @@ class AppointExtraPlusDialog(ComponentDialog):
             msg = predict_class(step_context.result)
 
             if msg == "positive":
-                await step_context.context.send_activity(MessageFactory.text("Need to configured for questionnare"))
-                return await step_context.end_dialog()
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thank You! I am opening the questionnare page."))
+                reply = MessageFactory.text("go to question page")
+                reply.suggested_actions = SuggestedActions(
+                    actions=[
+                        CardAction(
+                            title= "go to question page",
+                            type=ActionTypes.im_back,
+                            value= "go to question page",)])
+                await step_context.context.send_activity(reply)
+                return await step_context.end_dialog()   
 
             else:
                 await step_context.context.send_activity(
@@ -437,8 +455,17 @@ class AppointExtraPlusDialog(ComponentDialog):
         if question21 == "ask question2":
             yesno = predict_class(step_context.result)
             if yesno == "positive":
-                await step_context.context.send_activity(MessageFactory.text("Need to configured for questionnare"))
-                return await step_context.end_dialog()
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thank You! I am opening the questionnare page."))
+                reply = MessageFactory.text("go to question page")
+                reply.suggested_actions = SuggestedActions(
+                    actions=[
+                        CardAction(
+                            title= "go to question page",
+                            type=ActionTypes.im_back,
+                            value= "go to question page",)])
+                await step_context.context.send_activity(reply)
+                return await step_context.end_dialog()   
 
             else:
                 await step_context.context.send_activity(
@@ -450,8 +477,17 @@ class AppointExtraPlusDialog(ComponentDialog):
         if question22 == "questionnare ask22":
             msg = predict_class(step_context.result)
             if msg == "positive":
-                await step_context.context.send_activity(MessageFactory.text("Need to configured for questionnare"))
-                return await step_context.end_dialog()
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thank You! I am opening the questionnare page."))
+                reply = MessageFactory.text("go to question page")
+                reply.suggested_actions = SuggestedActions(
+                    actions=[
+                        CardAction(
+                            title= "go to question page",
+                            type=ActionTypes.im_back,
+                            value= "go to question page",)])
+                await step_context.context.send_activity(reply)
+                return await step_context.end_dialog()   
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care."))
