@@ -242,7 +242,7 @@ class AppointmentDialog(ComponentDialog):
                     prompt=MessageFactory.text(str(pharmacist) + " is available at " + str(times) + " on " + str(date) + ". Shall I confirm the appointment?")),)
 
 
-        wks.update_acell("A22", str(confirmation))
+        wks.update_acell("A23", str(confirmation))
 
         if confirmation == "confirm or not":
             msg = step_context.result
@@ -250,12 +250,20 @@ class AppointmentDialog(ComponentDialog):
 
             if confirm == "positive":
                 question = "ask question"
+                wks.update_acell("A24", str(confirm))
+                wks.update_acell("A25", str(slot))
                 time = slot.split(" - ")
                 time1 = timeConversion(time[0])
                 time2 = timeConversion(time[1])
+                wks.update_acell("A26", str(time1))
+                wks.update_acell("A27", str(time2))
                 patientId = step_context.context.activity.from_property.id
+                wks.update_acell("A28", str(patientId))
                 pharmacistId = id
+                wks.update_acell("A29", str(pharmacistId))
+                wks.update_acell("A30", str(date))
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                wks.update_acell("A34", str(pharmacyId))
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
