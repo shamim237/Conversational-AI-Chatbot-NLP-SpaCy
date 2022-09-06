@@ -9,21 +9,20 @@ from prompt.time_prompt import TimePrompt
 from botbuilder.core import MessageFactory
 from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
-from dialogs.book_appointment import AppointmentDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
-from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from outlets2 import get_pharmacist_id, get_slots, pharmacist_name
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
+from dialogs.appoint_extra_plus import AppointExtraPlusDialog
 
 
 
-class AdvBookAppDialog(ComponentDialog):
+class AppointExtraDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
-        super(AdvBookAppDialog, self).__init__(dialog_id or AdvBookAppDialog.__name__)
+        super(AppointExtraDialog, self).__init__(dialog_id or AppointExtraDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
@@ -32,9 +31,8 @@ class AdvBookAppDialog(ComponentDialog):
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__)) 
-        self.add_dialog(AppointmentDialog(AppointmentDialog.__name__)) 
+        self.add_dialog(AppointExtraPlusDialog(AppointExtraPlusDialog.__name__))
         self.add_dialog(TimePrompt("time_prompt"))
-        self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
@@ -44,7 +42,6 @@ class AdvBookAppDialog(ComponentDialog):
                     self.first_step,
                     self.scnd_step,
                     self.third_step,
-                    self.fourth_step,
 
                 ],
             )
@@ -74,32 +71,32 @@ class AdvBookAppDialog(ComponentDialog):
         token = step_context.context.activity.from_property.role 
         timey = step_context.context.activity.additional_properties
 
-        wks.update_acell("I10", str(timey))
+        wks.update_acell("P10", str(timey))
         timey = timey.get('local_timestamp')
-        wks.update_acell("I11", str(timey))
+        wks.update_acell("P11", str(timey))
 
         outletId        = outlet_ids(userId, token)
-        wks.update_acell("J1", str(outletId))
+        wks.update_acell("P1", str(outletId))
         outletName      = outlet_name(outletId, token)
-        wks.update_acell("J2", str(outletName))   
+        wks.update_acell("P2", str(outletName))   
         pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId) 
-        wks.update_acell("J3", str(pharmacistsIds))
+        wks.update_acell("P3", str(pharmacistsIds))
         dates           = datetime.today().strftime('%Y-%m-%d')
-        wks.update_acell("J4", str(dates))
+        wks.update_acell("P4", str(dates))
         slots_id        = get_slots(pharmacistsIds, dates, timey, token) 
-        wks.update_acell("J5", str(slots_id))
+        wks.update_acell("P5", str(slots_id))
         doc_name        = pharmacist_name(slots_id[1])
         pharmacistId    = slots_id[1]
-        wks.update_acell("J6", str(doc_name))
+        wks.update_acell("P6", str(doc_name))
         userName        = check_name(userId, token) 
-        wks.update_acell("J7", str(userName))
+        wks.update_acell("P7", str(userName))
 
         times           = slots_id[0]
         ss = datetime.strptime(times, "%H:%M:%S")
         dd = ss + timedelta(minutes= 15)
         endTime = datetime.strftime(dd, "%H:%M:%S")
 
-        wks.update_acell("J8", str(times))
+        wks.update_acell("P8", str(times))
         use_time        = datetime.strptime(times, "%H:%M:%S").strftime("%I:%M %p")
 
         if userName != "not found":
@@ -137,7 +134,7 @@ class AdvBookAppDialog(ComponentDialog):
         else:
             await step_context.context.send_activity(
                 MessageFactory.text("Alright!"))
-            return await step_context.begin_dialog(AppointmentDialog.__name__)                    
+            return await step_context.begin_dialog(AppointExtraPlusDialog.__name__)                    
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -153,25 +150,10 @@ class AdvBookAppDialog(ComponentDialog):
             
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition."))    
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would you like to update health profile now?")),)
+                    MessageFactory.text(f"Okay. Thanks for connecting with Jarvis Care."))
+                return await step_context.end_dialog()
 
 
-    async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
-        msg = predict_class(step_context.result) 
-
-        if msg == "positive":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
-
-            return await step_context.begin_dialog(HealthProfileDialog.__name__) 
-        else:
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Thanks for connecting with Jarvis Care."))
-            return await step_context.end_dialog()             
+           
 
 

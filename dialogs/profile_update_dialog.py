@@ -6,7 +6,7 @@ from nlp_model.predict import predict_class
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
-from dialogs.book_appointment import AppointmentDialog
+from dialogs.appoint_extra import AppointExtraDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
 
@@ -19,7 +19,7 @@ class HealthProfileDialog(ComponentDialog):
         self.add_dialog(DatePrompt("date_prompt"))
         self.add_dialog(EmailPrompt("email_prompt"))             
         self.add_dialog(TimePrompt("time_prompt"))
-        self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
+        self.add_dialog(AppointExtraDialog(AppointExtraDialog.__name__))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
@@ -129,7 +129,7 @@ class HealthProfileDialog(ComponentDialog):
                     MessageFactory.text("Okay! Let me search a emergency appointment slot for you!"))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"I am initializing the appointment process!"))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                return await step_context.begin_dialog(AppointExtraDialog.__name__)
 
             if yesno == "negative":
                 return await step_context.end_dialog("Okay! No problem, Please take care of yourself.")
@@ -173,7 +173,7 @@ class HealthProfileDialog(ComponentDialog):
                     MessageFactory.text(f"Okay! I'll help you with that."))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"I am initializing the appointment process..."))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                return await step_context.begin_dialog(AppointExtraDialog.__name__)
 
             if yesno == "negative":              
                 return await step_context.end_dialog("Okay. Thanks for connecting with jarvis!")

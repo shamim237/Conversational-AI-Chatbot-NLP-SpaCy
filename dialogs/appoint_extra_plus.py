@@ -8,7 +8,6 @@ from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
 from dialogs.health_record_dialog import HealthRecordDialog
-from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from pill_reminder import get_patient_id
@@ -21,9 +20,9 @@ from dialogs.non_upapp_dialog import UploadNonInDialogApp
 
 
 
-class AppointmentDialog(ComponentDialog):
+class AppointExtraPlusDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
-        super(AppointmentDialog, self).__init__(dialog_id or AppointmentDialog.__name__)
+        super(AppointExtraPlusDialog, self).__init__(dialog_id or AppointExtraPlusDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
@@ -33,7 +32,6 @@ class AppointmentDialog(ComponentDialog):
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__)) 
         self.add_dialog(UploadNonInDialogApp(UploadNonInDialogApp.__name__)) 
-        self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
@@ -48,7 +46,6 @@ class AppointmentDialog(ComponentDialog):
                     self.save1_step,
                     self.save2_step,
                     self.save3_step,
-                    self.save4_step,
 
                 ],
             )
@@ -248,12 +245,9 @@ class AppointmentDialog(ComponentDialog):
                 return await step_context.end_dialog()
 
             else:
-                question2 = "health_profile update"
-                await step_context.context.send_activity(MessageFactory.text("Keep your health profile updated. This will help pharmacist to better assess your health condition."))
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would you like to update health profile now?")),)
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thanks for connecting with Jarvis Care."))
+                return await step_context.end_dialog()  
 
         if scnd_time == "ask to save 2nd time":
             yesno = predict_class(step_context.result)
@@ -282,22 +276,6 @@ class AppointmentDialog(ComponentDialog):
 
     async def save3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        global question3
-        question3 = "sknskl"
-        
-        if question2 == "health_profile update":
-
-            msg = predict_class(step_context.result)
-
-            if msg == "positive":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
-                return await step_context.begin_dialog(HealthProfileDialog.__name__) 
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thanks for connecting with Jarvis Care."))
-                return await step_context.end_dialog()    
-
         if question2 == "questionnare ask2":
             
             msg = predict_class(step_context.result)
@@ -307,24 +285,8 @@ class AppointmentDialog(ComponentDialog):
                 return await step_context.end_dialog()
 
             else:
-                question3 = "health_profile update2"
-                await step_context.context.send_activity(MessageFactory.text("Keep your health profile updated. This will help pharmacist to better assess your health condition."))
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would you like to update health profile now?")),)
-
-        
-    async def save4_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
-        if question3 == "health_profile update2":
-            msg = predict_class(step_context.result)
-
-            if msg == "positive":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
-                return await step_context.begin_dialog(HealthProfileDialog.__name__) 
-            else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care."))
                 return await step_context.end_dialog()  
+
+        
