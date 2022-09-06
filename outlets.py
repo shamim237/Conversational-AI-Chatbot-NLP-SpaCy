@@ -80,7 +80,7 @@ def autos(outlet_id, pharmacyId, token):
     return pharmacist
 
 
-def get_timeslots(id, date, time, token):
+def get_timeslots(id, date, time, time_now, token):
 
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
 
@@ -112,6 +112,10 @@ def get_timeslots(id, date, time, token):
         datet = datetime.strptime(datet, "%Y-%m-%d").date()
         today = datetime.strptime(today, "%Y-%m-%d").date()
 
+        timen = time_now
+        current_time = datetime.strptime(timen, "%I:%M %p")
+        current_time = datetime.strftime(current_time, "%H:%M:%S")
+
         timess = []
         for i in starts:
             if datet > today:
@@ -126,7 +130,7 @@ def get_timeslots(id, date, time, token):
             if datet < today:
                 pass
             if datet == today:
-                if i > time:
+                if i > current_time:
                     ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(time, "%H:%M:%S")
                     timess.append(ss.total_seconds())
                 else:
