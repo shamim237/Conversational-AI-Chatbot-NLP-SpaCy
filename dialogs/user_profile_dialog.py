@@ -17,7 +17,7 @@ from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
 from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
 from dialogs.adv_book_app_dialog import AdvBookAppDialog
-from bypass_appoint import ByPassAppointmentDialog
+from dialogs.bypass_appoint import ByPassAppointmentDialog
 
 class UserProfileDialog(ComponentDialog):
 
