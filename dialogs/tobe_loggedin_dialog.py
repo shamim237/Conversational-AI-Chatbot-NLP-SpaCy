@@ -7,7 +7,6 @@ from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
 from registration import new_user_id, register, new_token
 from nlp_model.predict import predict_class
-from dialogs.book_appointment import AppointmentDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.book_non_dialog import BookNonInDialog
 from dialogs.non_upload_dialog import UploadNonInDialog
@@ -15,11 +14,12 @@ from dialogs.any_non_dialog import NonAnyDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
-from validate_email import email_or_gmail, validateuser, user_id, user_id_email, gmail_token, email_token
-from username import check_name_email, check_name_gmail, check_passwrd_email
+from validate_email import email_or_gmail, validateuser, user_id_email,  email_token
+from username import check_name_email, check_passwrd_email
 from reset_pass import sendcode, resetpass
 from user_info import check_name
 from validateotp import validatecode
+from dialogs.adv_book_app_dialog import AdvBookAppDialog
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 import gspread
 
@@ -32,8 +32,8 @@ class ToBeLoggedInDialog(ComponentDialog):
         self.add_dialog(DatePrompt("date_prompt"))
         self.add_dialog(EmailPrompt("email_prompt"))
         self.add_dialog(TimePrompt("time_prompt"))
-        self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
+        self.add_dialog(AdvBookAppDialog(AdvBookAppDialog.__name__))
         self.add_dialog(UploadNonInDialog(UploadNonInDialog.__name__))
         self.add_dialog(NonAnyDialog(NonAnyDialog.__name__))
         self.add_dialog(BookNonInDialog(BookNonInDialog.__name__))
@@ -222,8 +222,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                     job = predict_class(step_context.values["command"])
                     if job == "appointment":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                        return await step_context.begin_dialog(AppointmentDialog.__name__)
+                            MessageFactory.text(f"Wait a sec..."))
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                        return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                     if job == "adv_health_record":
                         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -254,8 +256,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                     job = predict_class(step_context.values["command"])
                     if job == "appointment":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                        return await step_context.begin_dialog(AppointmentDialog.__name__)
+                            MessageFactory.text(f"Wait a sec..."))
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                        return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                     if job == "adv_health_record":
                         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -293,8 +297,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                     
                     if jobs == "appointment":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                        return await step_context.begin_dialog(AppointmentDialog.__name__)
+                            MessageFactory.text(f"Wait a sec..."))
+                        await step_context.context.send_activity(
+                            MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                        return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                     if jobs == "adv_health_record":
                         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -349,8 +355,10 @@ class ToBeLoggedInDialog(ComponentDialog):
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -379,8 +387,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -414,8 +424,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -486,8 +498,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -518,8 +532,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -554,8 +570,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -611,8 +629,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -647,8 +667,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -688,8 +710,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -726,8 +750,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -759,8 +785,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -797,8 +825,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -869,8 +899,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -899,8 +931,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -935,8 +969,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -990,8 +1026,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1022,8 +1060,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1059,8 +1099,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1207,8 +1249,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1239,8 +1283,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1276,8 +1322,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1344,8 +1392,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1376,8 +1426,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1413,8 +1465,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1485,8 +1539,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1517,8 +1573,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1555,8 +1613,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                            return await step_context.begin_dialog(AppointmentDialog.__name__)
+                                MessageFactory.text(f"Wait a sec..."))
+                            await step_context.context.send_activity(
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1596,8 +1656,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1628,8 +1690,10 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -1666,8 +1730,10 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
-                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                        MessageFactory.text(f"Wait a sec..."))
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                    return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
