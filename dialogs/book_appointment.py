@@ -182,7 +182,11 @@ class AppointmentDialog(ComponentDialog):
                         title= aslots[3],
                         type=ActionTypes.im_back,
                         value= aslots[3]),])
-            return await step_context.context.send_activity(reply)                
+            return await step_context.context.send_activity(reply) 
+
+        if slot is None:
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Sorry! No slots are available for the given date-time. Please enter a valid date and time."))                           
         
         else:
             confirmation = "confirm or not"

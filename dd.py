@@ -35,9 +35,19 @@
 # # #     print(data)
 
 # # we_prints("some data we are logging")
+# from datetime import datetime
 
+# today = datetime.now()
+# today = datetime.strftime(today, "%Y-%m-%d")
 
+# datet = "2022-09-06"
 
+# datet = datetime.strptime(datet, "%Y-%m-%d").date()
+# today = datetime.strptime(today, "%Y-%m-%d").date()
+# if datet> today:
+#     print("future date")
+# else:
+#     print("past date")
 
 # # from datetime import datetime
 # # format = "%H:%M:%S"

@@ -105,11 +105,32 @@ def get_timeslots(id, date, time, token):
         for i in range(len(starts)):
             timesk.append(starts[i] + " - " + ends[i])
 
+        today = datetime.now()
+        today = datetime.strftime(today, "%Y-%m-%d")
+        
+        datet = date
+        datet = datetime.strptime(datet, "%Y-%m-%d").date()
+        today = datetime.strptime(today, "%Y-%m-%d").date()
+
         timess = []
         for i in starts:
-            if i > time:
-                ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(time, "%H:%M:%S")
-                timess.append(ss.total_seconds())
+            if datet > today:
+                if i > time:
+                    ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(time, "%H:%M:%S")
+                    timess.append(ss.total_seconds())
+                if i < time:
+                    ss = datetime.strptime(time, "%H:%M:%S") - datetime.strptime(i, "%H:%M:%S")
+                    timess.append(ss.total_seconds())                    
+                if i ==time:
+                    pass
+            if datet < today:
+                pass
+            if datet == today:
+                if i > time:
+                    ss = datetime.strptime(i, "%H:%M:%S") - datetime.strptime(time, "%H:%M:%S")
+                    timess.append(ss.total_seconds())
+                else:
+                    pass
             
         timess = [int(i) for i in timess]
 
@@ -169,8 +190,6 @@ def get_timeslots2(id, date, token):
         
         return "No slots available" 
 
-# ss = get_timeslots2(23, "2022-08-10", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjAwMTYwMDMsImV4cCI6MTY2MDYyMDgwMywiaWF0IjoxNjYwMDE2MDAzfQ.iAWMXS8a3xa7o9qRSIz59LxbW_uPdtdRsEmMN3OPxEk")
-# print(ss)
 
 
 def get_avail_slot(outletid, pharmacyId, token):
@@ -186,11 +205,6 @@ def get_avail_slot(outletid, pharmacyId, token):
         else:
             pharma.append(i['name'])  
     return pharma  
-
-# ss = get_avail_slot("48", "1", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIzOCIsIm5hbWUiOiJTaGFtaW0gTWFoYnViIiwibmJmIjoxNjYxMTQwNDk3LCJleHAiOjE2NjE3NDUyOTcsImlhdCI6MTY2MTE0MDQ5N30.iKgWCC-AP7tisQJ3T1d7q23sBgJIIrWEERNd9qiFegg")
-# print(len(ss))      
-# if len(ss) == 0:
-#     print("No slots available")
 
 def timeConversion(s):
    if s[-2:] == "AM" :
