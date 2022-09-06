@@ -1,0 +1,138 @@
+from botbuilder.core import MessageFactory
+from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
+from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
+from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
+from nlp_model.predict import predict_class
+from prompt.date_prompt import DatePrompt
+from prompt.time_prompt import TimePrompt
+from prompt.email_prompt import EmailPrompt
+from dialogs.health_record_dialog import HealthRecordDialog
+from dialogs.pill_reminder_dialog import PillReminderDialog
+from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
+from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from dialogs.non_upapp_dialog import UploadNonInDialogApp
+from dialogs.adv_book_app_dialog import AdvBookAppDialog
+from dialogs.profile_update_dialog import HealthProfileDialog
+
+
+
+
+class ByPassAppointmentDialog(ComponentDialog):
+    def __init__(self, dialog_id: str = None):
+        super(ByPassAppointmentDialog, self).__init__(dialog_id or ByPassAppointmentDialog.__name__)
+
+        self.add_dialog(TextPrompt(TextPrompt.__name__))
+        self.add_dialog(NumberPrompt(NumberPrompt.__name__))
+        self.add_dialog(DatePrompt("date_prompt"))
+        self.add_dialog(EmailPrompt("email_prompt"))
+        self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
+        self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
+        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__)) 
+        self.add_dialog(UploadNonInDialogApp(UploadNonInDialogApp.__name__)) 
+        self.add_dialog(AdvBookAppDialog(AdvBookAppDialog.__name__))
+        self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
+        self.add_dialog(TimePrompt("time_prompt"))
+        self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
+        self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
+        self.add_dialog(
+            WaterfallDialog(
+                "WFDialog",
+                [
+                    self.first_step,
+                    self.scnd_step,
+                    self.third_step,
+
+                ],
+            )
+        )
+
+        self.initial_dialog_id = "WFDialog"
+
+
+    async def first_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        global userId
+        global token
+        global pharmacyId
+
+        userId = step_context.context.activity.from_property.id
+        pharmacyId = step_context.context.activity.from_property.name
+        token = step_context.context.activity.from_property.role  
+
+
+        await step_context.context.send_activity(
+            MessageFactory.text("Our team of expert pharmacists can help you with that.")) 
+        return await step_context.prompt(
+            TextPrompt.__name__,
+            PromptOptions(
+                prompt=MessageFactory.text("Do you want me to schedule an appointment with one of our pharmacists?")),)                   
+
+
+    async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        
+        global choose
+
+        choose = "sisvkaskl"
+
+
+        msg = predict_class(step_context.result)
+
+        if msg == "positive":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Wait a sec..."))
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+            return await step_context.begin_dialog(AdvBookAppDialog.__name__)
+
+        else:
+            choose = "choose options"
+            reply = MessageFactory.text("How can I help you?\nI can- ")
+            reply.suggested_actions = SuggestedActions(
+                actions=[
+                    CardAction(
+                        title= "Book an Appointment",
+                        type=ActionTypes.im_back,
+                        value= "Book an Appointment",),
+                    CardAction(
+                        title = "Set a Pill Reminder",
+                        type = ActionTypes.im_back,
+                        value = "Set a Pill Reminder",),
+                    CardAction(
+                        title = "Save Health Records",
+                        type = ActionTypes.im_back,
+                        value = "Save Health Records",),
+                    CardAction(
+                        title = "Update your health profile",
+                        type = ActionTypes.im_back,
+                        value = "Update your health profile",),
+                        ])
+            return await step_context.context.send_activity(reply)    
+
+
+    async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        if choose == "choose options":
+            
+            msg = step_context.result
+
+            if msg == "Book an Appointment":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Wait a sec..."))
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Let me check the earliest appointment slots for you."))
+                return await step_context.begin_dialog(AdvBookAppDialog.__name__)
+            
+            if msg == "Save Health Records":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                return await step_context.begin_dialog(HealthRecordDialog.__name__)
+            
+            if msg == "Set a Pill Reminder":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                return await step_context.begin_dialog(PillReminderDialog.__name__) 
+
+            if msg == "Update your health profile": 
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the health update process!"))
+                return await step_context.begin_dialog(HealthProfileDialog.__name__)

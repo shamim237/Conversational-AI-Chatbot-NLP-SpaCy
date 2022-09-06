@@ -15,12 +15,12 @@
 # else:
 #     print("nai")
 # print("Tap '\U0001F4CE' to upload")
-from datetime import datetime
-timey = "07:12 pm"
-now = timey
-current_time = datetime.strptime(now, "%I:%M %p")
-current_time = datetime.strftime(current_time, "%H:%M:%S")
-print(current_time)
+# from datetime import datetime
+# timey = "07:12 pm"
+# now = timey
+# current_time = datetime.strptime(now, "%I:%M %p")
+# current_time = datetime.strftime(current_time, "%H:%M:%S")
+# print(current_time)
 # ss = ["Fss", "dddd"]
 # import geocoder
 # g = geocoder.ip('me')
