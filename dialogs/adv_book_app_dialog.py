@@ -1,25 +1,23 @@
-from botbuilder.core import MessageFactory
-from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
-from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
-from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
-from nlp_model.predict import predict_class
+import gspread
+from outlets import outlet_name
+from user_info import check_name
+from user_info import outlet_ids
+from appointment import save_appoint
+from datetime import datetime, timedelta
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
+from botbuilder.core import MessageFactory
 from prompt.email_prompt import EmailPrompt
+from nlp_model.predict import predict_class
+from dialogs.book_appointment import AppointmentDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
-from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
-from outlets import check_outlet, outlet_name, get_avail_slot, get_timeslots, match, get_timeslots2, timeConversion
-from user_info import check_email, outlet_ids
-from outlets2 import get_pharmacist_id, get_slots, pharmacist_name
-from appointment import save_appoint
-from user_info import check_name
-from datetime import datetime, timedelta
-from dialogs.non_upapp_dialog import UploadNonInDialogApp
-import gspread
 from dialogs.profile_update_dialog import HealthProfileDialog
-from dialogs.book_appointment import AppointmentDialog
-
+from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
+from outlets2 import get_pharmacist_id, get_slots, pharmacist_name
+from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
+from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
+from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
 
 
 
@@ -34,8 +32,7 @@ class AdvBookAppDialog(ComponentDialog):
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__)) 
-        self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
-        self.add_dialog(UploadNonInDialogApp(UploadNonInDialogApp.__name__)) 
+        self.add_dialog(AppointmentDialog(AppointmentDialog.__name__)) 
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))

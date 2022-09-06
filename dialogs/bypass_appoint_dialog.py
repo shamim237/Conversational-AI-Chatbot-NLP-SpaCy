@@ -30,7 +30,7 @@ class ByPassAppointmentDialog(ComponentDialog):
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__)) 
         self.add_dialog(UploadNonInDialogApp(UploadNonInDialogApp.__name__)) 
         self.add_dialog(AdvBookAppDialog(AdvBookAppDialog.__name__))
-        self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
+        self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
