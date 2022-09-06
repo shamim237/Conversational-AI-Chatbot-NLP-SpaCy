@@ -143,11 +143,13 @@ class AdvBookAppDialog(ComponentDialog):
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        global update
+        update = "jksjsjs"
 
         if step1 == "question ask":
-            msg = predict_class(step_context.result)
+            msgs = predict_class(step_context.result)
 
-            if msg == "positive":       
+            if msgs == "positive":       
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! I am opening the questionnare page."))
                 reply = MessageFactory.text("go to question page")
@@ -161,6 +163,7 @@ class AdvBookAppDialog(ComponentDialog):
                 return await step_context.end_dialog()    
             
             else:
+                update = "update or not"
                 await step_context.context.send_activity(
                     MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition."))    
                 return await step_context.prompt(
@@ -171,16 +174,17 @@ class AdvBookAppDialog(ComponentDialog):
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        msg = predict_class(step_context.result) 
+        if update == "update or not":
+            msg = predict_class(step_context.result) 
 
-        if msg == "positive":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
+            if msg == "positive":
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
 
-            return await step_context.begin_dialog(HealthProfileDialog.__name__) 
-        else:
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Thanks for connecting with Jarvis Care."))
-            return await step_context.end_dialog()             
+                return await step_context.begin_dialog(HealthProfileDialog.__name__) 
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Thanks for connecting with Jarvis Care."))
+                return await step_context.end_dialog()             
 
 
