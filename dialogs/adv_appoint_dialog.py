@@ -440,24 +440,31 @@ class SupAdvBookAppDialog(ComponentDialog):
         endTimex = "wwiwia"
         use_timex = "usususu"
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
 
         if cas2a == "time kokhon":
             
             timex           = step_context.result
+            
             outletId        = outlet_ids(userId, token)
-            outletName      = outlet_name(outletId, token)
-            pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId)             
+            
+            pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId)
+                         
             slotsx          = get_slots_sup(pharmacistsIds, datex, timex, token)
+            
             doc_namex       = pharmacist_name(slotsx[1])
+            
             pharmacistIdx   = slotsx[1]
             userName        = check_name(userId, token) 
-            outletId        = outlet_ids(userId, token)
             outletNamex     = outlet_name(outletId, token)
             timesxx         = slotsx[0]
             ss              = datetime.strptime(timesxx, "%H:%M:%S")
             dd              = ss + timedelta(minutes= 15)
             endTimex        = datetime.strftime(dd, "%H:%M:%S")
             use_timex       = datetime.strptime(timesxx, "%H:%M:%S").strftime("%I:%M %p")
+
 
             if userName != "not found":
                 case2b = "confirm or notx"
@@ -483,32 +490,38 @@ class SupAdvBookAppDialog(ComponentDialog):
         global endTime3x
         global use_time3x
 
-        case3b = "aahahyy"
-        date3x = "oaoaoao"
-        times3xx = "hahahah"
-        doc_name3x = "auiauua"
-        outletName3x = "uuauai"
-        pharmacistId3x = "uususus"
-        endTime3x = "wwiwia"
-        use_time3x = "usususu"                
+        case3b          = "aahahyy"
+        date3x          = "oaoaoao"
+        times3xx        = "hahahah"
+        doc_name3x      = "auiauua"
+        outletName3x    = "uuauais"
+        pharmacistId3x  = "uususus"
+        endTime3x       = "wwiwias"
+        use_time3x      = "usususu"                
 
         if case3a == "date kokhon":
 
             date3x           = step_context.result
+            wks.update_acell("O1", str(date3x))
             outletId         = outlet_ids(userId, token)
+            wks.update_acell("O2", str(outletId))
             outletName       = outlet_name(outletId, token)
-            pharmacistsIds   = get_pharmacist_id(pharmacyId, outletId)             
+            pharmacistsIds   = get_pharmacist_id(pharmacyId, outletId)  
+            wks.update_acell("O3", str(pharmacistsIds))           
             slots3x          = get_slots_sup(pharmacistsIds, date3x, time3x[0], token)
-            doc_name3x        = pharmacist_name(slots3x[1])
+            wks.update_acell("O4", str(slots3x)) 
+            doc_name3x       = pharmacist_name(slots3x[1])
+            wks.update_acell("O5", str(doc_name3x)) 
             pharmacistId3x   = slots3x[1]
             userName         = check_name(userId, token) 
-            outletId         = outlet_ids(userId, token)
-            outletName3x     = outlet_name(outletId, token)
             times3xx         = slots3x[0]
+            wks.update_acell("O5", str(times3xx)) 
             ss               = datetime.strptime(times3xx, "%H:%M:%S")
             dd               = ss + timedelta(minutes= 15)
             endTime3x        = datetime.strftime(dd, "%H:%M:%S")
             use_time3x       = datetime.strptime(times3xx, "%H:%M:%S").strftime("%I:%M %p")
+
+            wks.update_acell("O6", str(time3x[0]))
 
             if userName != "not found":
                 case3b = "confirm or not3x"
