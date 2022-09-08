@@ -191,7 +191,9 @@ class SupAdvBookAppDialog(ComponentDialog):
                     return await step_context.prompt(
                         "time_prompt",
                         PromptOptions(
-                            prompt=MessageFactory.text("Please enter an upcoming time.")),)                     
+                            prompt=MessageFactory.text("Please enter an upcoming time.")),) 
+                else:
+                    pass                    
 
             else:
                 
@@ -249,6 +251,10 @@ class SupAdvBookAppDialog(ComponentDialog):
         case1b = "kiskskks"
         dat = "skskksk"
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1") 
+
         if case1a == "abar date nibo":
 
             dat = step_context.result
@@ -296,9 +302,6 @@ class SupAdvBookAppDialog(ComponentDialog):
             if msg == "positive":
                 case1b = "question ask"
 
-                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-                sh = ac.open("chatbot_logger")
-                wks = sh.worksheet("Sheet1") 
                 wks.update_acell("N1", str(datet))
                 wks.update_acell("N2", str(times))
                 wks.update_acell("N3", str(endTime1))
@@ -335,23 +338,30 @@ class SupAdvBookAppDialog(ComponentDialog):
 
         if case1a == "time a problem": 
             corr_time = step_context.result
+            wks.update_acell("O3", str(corr_time))
             now = timey
             current_time = datetime.strptime(now, "%I:%M %p")
-            current_time = datetime.strftime(current_time, "%H:%M:%S")   
+            current_time = datetime.strftime(current_time, "%H:%M:%S")  
+            wks.update_acell("O4", str(current_time)) 
             if current_time < corr_time:
                 case1b          = "confirm or not3"          
                 slots3          = get_slots_sup(pharmacistsIds, datet, corr_time, token)
+                wks.update_acell("O5", str(slots3)) 
                 doc_name3       = pharmacist_name(slots3[1])
+                wks.update_acell("O6", str(doc_name3)) 
                 pharmacistId3   = slots3[1]
-                userName        = check_name(userId, token) 
+                wks.update_acell("O7", str(pharmacistId3)) 
+                userName        = check_name(userId, token)
+                wks.update_acell("O8", str(userName)) 
 
                 times3          = slots3[0]
+                wks.update_acell("O9", str(times3)) 
                 ss              = datetime.strptime(times3, "%H:%M:%S")
                 dd              = ss + timedelta(minutes= 15)
                 endTime3        = datetime.strftime(dd, "%H:%M:%S")
-
+                wks.update_acell("O10", str(endTime3)) 
                 use_time3       = datetime.strptime(times3, "%H:%M:%S").strftime("%I:%M %p")
-
+                wks.update_acell("O11", str(use_time3))
                 if userName != "not found":
                     await step_context.context.send_activity(
                         MessageFactory.text("Hey " + str(userName) + ", on " + str(datet) + " at " + str(use_time3) + ", " + str(doc_name3) + " of " + str(outletName) + " outlet is available."))
