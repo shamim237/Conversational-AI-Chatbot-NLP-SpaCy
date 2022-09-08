@@ -344,8 +344,11 @@ class SupAdvBookAppDialog(ComponentDialog):
             current_time = datetime.strftime(current_time, "%H:%M:%S")  
             wks.update_acell("O4", str(current_time)) 
             if current_time < corr_time:
-                case1b          = "confirm or not3"          
-                slots3          = get_slots_sup(pharmacistsIds, datet, corr_time, token)
+                today = datetime.now()
+                today = datetime.strftime(today, "%Y-%m-%d") 
+                case1b          = "confirm or not3" 
+                wks.update_acell("O12", str(datet))         
+                slots3          = get_slots_sup(pharmacistsIds, today, corr_time, token)
                 wks.update_acell("O5", str(slots3)) 
                 doc_name3       = pharmacist_name(slots3[1])
                 wks.update_acell("O6", str(doc_name3)) 
