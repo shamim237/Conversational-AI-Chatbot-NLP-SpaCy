@@ -102,7 +102,7 @@ def get_slots_sup(id, date, timen, token):
                     ids.append(j)
                     ssts.append(sst)
                     starts.append(start)
-
+    print(starts)
     for i in starts:
         
         if i == timen:
@@ -117,6 +117,6 @@ def get_slots_sup(id, date, timen, token):
         
 
 
-# ids = [1,2,7,16, 23, 24, 25, 26, 27]       
-# ss = get_slots_sup(ids, "2022-09-08", "17:00:00", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjI1NzA5NzIsImV4cCI6MTY2MzE3NTc3MiwiaWF0IjoxNjYyNTcwOTcyfQ.KL8M4PZVlv0pVNkE0ROb_zipz7uC110kDU_CECgWJfs")
-# print(ss)
+ids = [1, 8, 13, 23, 25, 32, 34, 35, 36, 39, 40, 48, 52, 55]       
+ss = get_slots_sup(ids, "2022-09-09", "21:00:00", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjI1NzA5NzIsImV4cCI6MTY2MzE3NTc3MiwiaWF0IjoxNjYyNTcwOTcyfQ.KL8M4PZVlv0pVNkE0ROb_zipz7uC110kDU_CECgWJfs")
+print(ss)

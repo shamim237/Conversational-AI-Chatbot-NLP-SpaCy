@@ -453,30 +453,39 @@ class SupAdvBookAppDialog(ComponentDialog):
             pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId)
                          
             slotsx          = get_slots_sup(pharmacistsIds, datex, timex, token)
-            
-            doc_namex       = pharmacist_name(slotsx[1])
-            
-            pharmacistIdx   = slotsx[1]
-            userName        = check_name(userId, token) 
-            outletNamex     = outlet_name(outletId, token)
-            timesxx         = slotsx[0]
-            ss              = datetime.strptime(timesxx, "%H:%M:%S")
-            dd              = ss + timedelta(minutes= 15)
-            endTimex        = datetime.strftime(dd, "%H:%M:%S")
-            use_timex       = datetime.strptime(timesxx, "%H:%M:%S").strftime("%I:%M %p")
+
+            if slotsx is None:
+                case2b = "different time2x"
+                await step_context.context.send_activity(
+                    MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would you like to book the appointment at a different time?")),)
+            else:             
+                doc_namex       = pharmacist_name(slotsx[1])
+                
+                pharmacistIdx   = slotsx[1]
+                userName        = check_name(userId, token) 
+                outletNamex     = outlet_name(outletId, token)
+                timesxx         = slotsx[0]
+                ss              = datetime.strptime(timesxx, "%H:%M:%S")
+                dd              = ss + timedelta(minutes= 15)
+                endTimex        = datetime.strftime(dd, "%H:%M:%S")
+                use_timex       = datetime.strptime(timesxx, "%H:%M:%S").strftime("%I:%M %p")
 
 
-            if userName != "not found":
-                case2b = "confirm or notx"
-                await step_context.context.send_activity(
-                    MessageFactory.text("Hey " + str(userName) + ", on " + str(datex) + " at " + str(use_timex) + ", " + str(doc_namex) + " of " + str(outletNamex) + " outlet is available."))
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("On " + str(datex) + " at " + str(use_timex) + ", " + str(doc_namex) + " of " + str(outletNamex) + " outlet is available."))            
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would you like to confirm the appointment?")),)
+                if userName != "not found":
+                    case2b = "confirm or notx"
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Hey " + str(userName) + ", on " + str(datex) + " at " + str(use_timex) + ", " + str(doc_namex) + " of " + str(outletNamex) + " outlet is available."))
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("On " + str(datex) + " at " + str(use_timex) + ", " + str(doc_namex) + " of " + str(outletNamex) + " outlet is available."))            
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would you like to confirm the appointment?")),)
 
 ##########################################################################################################################################################################################################
 ############################################################## case-3: book an appointment at 8 pm ######################################################################################################
@@ -509,34 +518,44 @@ class SupAdvBookAppDialog(ComponentDialog):
             pharmacistsIds   = get_pharmacist_id(pharmacyId, outletId)  
             wks.update_acell("O3", str(pharmacistsIds))           
             slots3x          = get_slots_sup(pharmacistsIds, date3x, time3x[0], token)
-            wks.update_acell("O4", str(slots3x)) 
-            doc_name3x       = pharmacist_name(slots3x[1])
-            wks.update_acell("O5", str(doc_name3x)) 
-            pharmacistId3x   = slots3x[1]
-            userName         = check_name(userId, token) 
-            times3xx         = slots3x[0]
-            wks.update_acell("O5", str(times3xx)) 
-            ss               = datetime.strptime(times3xx, "%H:%M:%S")
-            dd               = ss + timedelta(minutes= 15)
-            endTime3x        = datetime.strftime(dd, "%H:%M:%S")
-            use_time3x       = datetime.strptime(times3xx, "%H:%M:%S").strftime("%I:%M %p")
 
-            wks.update_acell("O6", str(time3x[0]))
 
-            if userName != "not found":
-                case3b = "confirm or not3x"
+            if slots3x is None:
+                case3b = "different time3x"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Hey " + str(userName) + ", on " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available."))
+                    MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would you like to book the appointment at a different time?")),) 
             else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("On " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available."))            
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would you like to confirm the appointment?")),)
 
+                wks.update_acell("O4", str(slots3x)) 
+                doc_name3x       = pharmacist_name(slots3x[1])
+                wks.update_acell("O5", str(doc_name3x)) 
+                pharmacistId3x   = slots3x[1]
+                userName         = check_name(userId, token) 
+                times3xx         = slots3x[0]
+                wks.update_acell("O5", str(times3xx)) 
+                ss               = datetime.strptime(times3xx, "%H:%M:%S")
+                dd               = ss + timedelta(minutes= 15)
+                endTime3x        = datetime.strftime(dd, "%H:%M:%S")
+                use_time3x       = datetime.strptime(times3xx, "%H:%M:%S").strftime("%I:%M %p")
 
-            
+                wks.update_acell("O6", str(time3x[0]))
+
+                if userName != "not found":
+                    case3b = "confirm or not3x"
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Hey " + str(userName) + ", on " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available."))
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("On " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available."))            
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would you like to confirm the appointment?")),)
+
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -633,6 +652,16 @@ class SupAdvBookAppDialog(ComponentDialog):
                     MessageFactory.text("Alright!"))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)  
 
+        if case2b == "different time2x":
+            msg2x = predict_class(step_context.result)
+            if msg2x == "positive":
+                await step_context.context.send_activity(
+                    MessageFactory.text("Alright!"))
+                return await step_context.begin_dialog(AppointmentDialog.__name__)
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thanks for connecting with Jarvis Care."))
+                return await step_context.end_dialog()  
 
 ##########################################################################################################################################################################################################
 ############################################################## case-3: book an appointment at 8 pm ######################################################################################################
@@ -659,6 +688,16 @@ class SupAdvBookAppDialog(ComponentDialog):
                     MessageFactory.text("Alright!"))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)  
 
+        if case3b == "different time3x":
+            msgx = predict_class(step_context.result)
+            if msgx == "positive":
+                await step_context.context.send_activity(
+                    MessageFactory.text("Alright!"))
+                return await step_context.begin_dialog(AppointmentDialog.__name__)
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thanks for connecting with Jarvis Care."))
+                return await step_context.end_dialog()    
 
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
