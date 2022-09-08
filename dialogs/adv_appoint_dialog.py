@@ -74,7 +74,6 @@ class SupAdvBookAppDialog(ComponentDialog):
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
-        timey = step_context.context.activity.additional_properties
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
@@ -125,7 +124,6 @@ class SupAdvBookAppDialog(ComponentDialog):
                 classes.append(x)  
 
 
-        timey = timey.get('local_timestamp')
 
         outletId        = outlet_ids(userId, token)
         outletName      = outlet_name(outletId, token)
@@ -201,10 +199,10 @@ class SupAdvBookAppDialog(ComponentDialog):
 
                     if userName != "not found":
                         await step_context.context.send_activity(
-                            MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time1) + ", " + str(doc_name1) + " of " + str(outletName) + " outlet is available."))
+                            MessageFactory.text("Hey " + str(userName) + ", on " + str(datet) + " at " + str(use_time1) + ", " + str(doc_name1) + " of " + str(outletName) + " outlet is available."))
                     else:
                         await step_context.context.send_activity(
-                            MessageFactory.text("Today at " + str(use_time1) + ", " + str(doc_name1) + " of " + str(outletName) + " outlet is available."))            
+                            MessageFactory.text("On " + str(datet) + " at " + str(use_time1) + ", " + str(doc_name1) + " of " + str(outletName) + " outlet is available."))            
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
@@ -249,10 +247,10 @@ class SupAdvBookAppDialog(ComponentDialog):
             if userName != "not found":
                 case1b = "confirm or not2"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time2) + ", " + str(doc_name2) + " of " + str(outletName) + " outlet is available."))
+                    MessageFactory.text("Hey " + str(userName) + ", on " + str(dat) + " at " + str(use_time2) + ", " + str(doc_name2) + " of " + str(outletName) + " outlet is available."))
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("Today at " + str(use_time2) + ", " + str(doc_name2) + " of " + str(outletName) + " outlet is available."))            
+                    MessageFactory.text("On " + str(dat) + " at " + str(use_time2) + ", " + str(doc_name2) + " of " + str(outletName) + " outlet is available."))            
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
@@ -269,9 +267,19 @@ class SupAdvBookAppDialog(ComponentDialog):
             msg = predict_class(step_context.result)
             if msg == "positive":
                 case1b = "question ask"
+                
+                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+                sh = ac.open("chatbot_logger")
+                wks = sh.worksheet("Sheet1") 
+                wks.update_acell("N1", str(date[0]))
+                wks.update_acell("N2", str(times))
+                wks.update_acell("N3", str(endTime1))
+                wks.update_acell("N4", str(pharmacistId1))
+                wks.update_acell("N5", str(doc_name1))
+
                 save_appoint(date[0], times, endTime1, userId, pharmacistId1, doc_name1, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name1) + " has been booked on" + str(date[0]) + " at " + str(use_time1) + ".")) 
+                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name1) + " has been booked on " + str(date[0]) + " at " + str(use_time1) + ".")) 
                 await step_context.context.send_activity(
                     MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
