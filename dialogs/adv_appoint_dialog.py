@@ -99,6 +99,7 @@ class SupAdvBookAppDialog(ComponentDialog):
         global use_time1
         global endTime1
         global doc_name1
+        
         global pharmacistsIds
         global pharmacistId1
 
@@ -359,6 +360,9 @@ class SupAdvBookAppDialog(ComponentDialog):
                 wks.update_acell("O7", str(pharmacistId3)) 
                 userName        = check_name(userId, token)
                 wks.update_acell("O8", str(userName)) 
+                
+                outletId        = outlet_ids(userId, token)
+                outletName      = outlet_name(outletId, token)
 
                 times3          = slots3[0]
                 wks.update_acell("O9", str(times3)) 
@@ -370,10 +374,10 @@ class SupAdvBookAppDialog(ComponentDialog):
                 wks.update_acell("O11", str(use_time3))
                 if userName != "not found":
                     await step_context.context.send_activity(
-                        MessageFactory.text("Hey " + str(userName) + ", on " + str(datet) + " at " + str(use_time3) + ", " + str(doc_name3) + " of " + str(outletName) + " outlet is available."))
+                        MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time3) + ", " + str(doc_name3) + " of " + str(outletName) + " outlet is available."))
                 else:
                     await step_context.context.send_activity(
-                        MessageFactory.text("On " + str(datet) + " at " + str(use_time3) + ", " + str(doc_name3) + " of " + str(outletName) + " outlet is available."))            
+                        MessageFactory.text("Today at " + str(use_time3) + ", " + str(doc_name3) + " of " + str(outletName) + " outlet is available."))            
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
