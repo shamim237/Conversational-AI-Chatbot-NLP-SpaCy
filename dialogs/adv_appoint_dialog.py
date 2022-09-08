@@ -99,6 +99,7 @@ class SupAdvBookAppDialog(ComponentDialog):
         global use_time1
         global endTime1
         global doc_name1
+        global pharmacistsIds
         global pharmacistId1
 
         times = "aklala"
@@ -107,6 +108,7 @@ class SupAdvBookAppDialog(ComponentDialog):
         endTime1 = "asjsjjs"
         use_time1 = "jsjsuiww"
         doc_name1 = "asysusu"
+        pharmacistsIds = "kksksks"
         pharmacistId1 = "jsjsjs"
 
         classes         = []
@@ -260,8 +262,8 @@ class SupAdvBookAppDialog(ComponentDialog):
             dat = step_context.result
             outletId        = outlet_ids(userId, token)
             outletName      = outlet_name(outletId, token)
-            pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId) 
-            slots           = get_slots_sup(pharmacistsIds, dat, timet[0], token)
+            pharmacistsIds1  = get_pharmacist_id(pharmacyId, outletId) 
+            slots           = get_slots_sup(pharmacistsIds1, dat, timet[0], token)
             doc_name2        = pharmacist_name(slots[1])
             pharmacistId2    = slots[1]
             userName        = check_name(userId, token) 
@@ -347,7 +349,8 @@ class SupAdvBookAppDialog(ComponentDialog):
                 today = datetime.now()
                 today = datetime.strftime(today, "%Y-%m-%d") 
                 case1b          = "confirm or not3" 
-                wks.update_acell("O12", str(datet))         
+                wks.update_acell("O12", str(datet))  
+                wks.update_acell("O13", str(pharmacistsIds))       
                 slots3          = get_slots_sup(pharmacistsIds, today, corr_time, token)
                 wks.update_acell("O5", str(slots3)) 
                 doc_name3       = pharmacist_name(slots3[1])
