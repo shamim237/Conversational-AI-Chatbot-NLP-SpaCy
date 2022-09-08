@@ -114,11 +114,11 @@
 # culture = Culture.English
 
 # p = parsedatetime.Calendar()
-# time_struct, parse_status = p.parse("nothing")
+# time_struct, parse_status = p.parse("Monday")
 # dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
 # print(dates)
 
-# datess = dateparser.parse("nothing")
+# datess = dateparser.parse("Monday")
 # datess = datetime.strftime(datess, '%Y-%m-%d')
 # print(datess)
 

@@ -514,7 +514,7 @@ class SupAdvBookAppDialog(ComponentDialog):
             wks.update_acell("O1", str(date3x))
             outletId         = outlet_ids(userId, token)
             wks.update_acell("O2", str(outletId))
-            outletName       = outlet_name(outletId, token)
+            outletName3x       = outlet_name(outletId, token)
             pharmacistsIds   = get_pharmacist_id(pharmacyId, outletId)  
             wks.update_acell("O3", str(pharmacistsIds))           
             slots3x          = get_slots_sup(pharmacistsIds, date3x, time3x[0], token)
