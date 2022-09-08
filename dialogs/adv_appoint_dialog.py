@@ -93,6 +93,7 @@ class SupAdvBookAppDialog(ComponentDialog):
         global time
         global timet
         global times
+        global datet
         global use_time1
         global endTime1
         global doc_name1
@@ -100,6 +101,7 @@ class SupAdvBookAppDialog(ComponentDialog):
 
         times = "aklala"
         timet = "akakka"
+        datet = "sjsjsjjs"
         endTime1 = "asjsjjs"
         use_time1 = "jsjsuiww"
         doc_name1 = "asysusu"
@@ -267,17 +269,17 @@ class SupAdvBookAppDialog(ComponentDialog):
             msg = predict_class(step_context.result)
             if msg == "positive":
                 case1b = "question ask"
-                
+
                 ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                 sh = ac.open("chatbot_logger")
                 wks = sh.worksheet("Sheet1") 
-                wks.update_acell("N1", str(date[0]))
+                wks.update_acell("N1", str(datet))
                 wks.update_acell("N2", str(times))
                 wks.update_acell("N3", str(endTime1))
                 wks.update_acell("N4", str(pharmacistId1))
                 wks.update_acell("N5", str(doc_name1))
 
-                save_appoint(date[0], times, endTime1, userId, pharmacistId1, doc_name1, pharmacyId, token)
+                save_appoint(datet, times, endTime1, userId, pharmacistId1, doc_name1, pharmacyId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! Your appointment with " + str(doc_name1) + " has been booked on " + str(date[0]) + " at " + str(use_time1) + ".")) 
                 await step_context.context.send_activity(
