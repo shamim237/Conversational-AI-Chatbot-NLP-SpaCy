@@ -101,13 +101,40 @@
 
 # # timeslots = datetime.strptime("22:30:00", "%H:%M:%S")
 # # print(timeslots.strftime("%I:%M %p"))
-# # import parsedatetime
+# import parsedatetime
+# import dateparser
+# import recognizers_suite as Recognizers
+# from recognizers_suite import Culture
+# import warnings
+# from datetime import datetime
+# warnings.filterwarnings(
+#     "ignore",
+#     message="The localize method is no longer necessary, as this time zone supports the fold attribute",
+# )
+# culture = Culture.English
 
-# # p = parsedatetime.Calendar()
-# # time_struct, parse_status = p.parse("3 pm")
-# # dates = datetime(*time_struct[:6]).strftime("%H:%M:%S")
-# # print(dates)
+# p = parsedatetime.Calendar()
+# time_struct, parse_status = p.parse("nothing")
+# dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+# print(dates)
 
+# datess = dateparser.parse("nothing")
+# datess = datetime.strftime(datess, '%Y-%m-%d')
+# print(datess)
+
+
+
+
+# ss = Recognizers.recognize_datetime("Thursday", culture) 
+# timess = []     
+# for i in ss:
+#         ss = i.resolution
+#         dd = ss['values']
+#         for j in dd:
+#                 tim = j['value']  
+#                 timess.append(tim) 
+
+# print(timess)
 # # import datetime
 
 
@@ -354,24 +381,7 @@
 # import datetime
 # import gspread
 # from datetime import date, timedelta
-# import json
-# import recognizers_suite as Recognizers
-# from recognizers_suite import Culture, ModelResult
-# from word2number import w2n
-# culture = Culture.English
 
-
-
-# ss = Recognizers.recognize_datetime("Friday at 9 pm", culture) 
-# timess = []     
-# for i in ss:
-#         ss = i.resolution
-#         dd = ss['values']
-#         for j in dd:
-#                 tim = j['value']  
-#                 timess.append(tim) 
-
-# print(timess)
 
 #         dat= date.today()
 #         print(dat)
