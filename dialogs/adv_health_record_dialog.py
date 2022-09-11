@@ -70,6 +70,8 @@ class AdvHealthRecordDialog(ComponentDialog):
         except:
             pass
 
+        last = step_context.context.activity.text
+        wks.update_acell("A7", str(last))
 
         global patient_name
         global report_name

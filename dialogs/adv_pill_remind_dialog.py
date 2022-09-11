@@ -85,7 +85,7 @@ class AdvPillReminderDialog(ComponentDialog):
         main = wks.acell("A2").value
         wks.update_acell("E1", main)
 
-        last = step_context.context.activity
+        last = step_context.context.activity.text
         wks.update_acell("A5", str(last))
 
         pred = reminder_class(main)
