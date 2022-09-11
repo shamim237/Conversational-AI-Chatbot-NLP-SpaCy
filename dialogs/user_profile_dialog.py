@@ -146,7 +146,7 @@ class UserProfileDialog(ComponentDialog):
                     wks.update_acell("A2", str(step_context.result))
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
-                    return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+                    return await step_context.replace_dialog(AdvPillReminderDialog.__name__, step_context.result) 
 
                 if msg == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
