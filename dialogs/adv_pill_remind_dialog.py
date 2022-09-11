@@ -82,16 +82,14 @@ class AdvPillReminderDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-        main = wks.acell("A2").value
-        wks.update_acell("E1", main)
 
-        last = step_context.context.activity.text
-        wks.update_acell("A5", str(last))
+
+        main = step_context.context.activity.text
+        wks.update_acell("A5", str(main))
 
         pred = reminder_class(main)
 
         try:
-            wks.update_acell("F1", main)
             wks.update_acell("E2", str(pred))
         except:
             pass
@@ -151,8 +149,6 @@ class AdvPillReminderDialog(ComponentDialog):
                 multi_doses.append(multi_dose)
                 classes.append(x)
 
-        wks.update_acell("F1", "dhukse")
-        wks.update_acell("F2", ' '.join(map(str, classes)))
         
         #remind me to take napa.
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:

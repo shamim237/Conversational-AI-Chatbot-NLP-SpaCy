@@ -80,13 +80,13 @@ class SupAdvBookAppDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-        main = wks.acell("L20").value
-        wks.update_acell("L4", main)
+
+        main = step_context.context.activity.text
+        wks.update_acell("A6", str(main))     
 
         pred = predict_appoint(main)
 
         try:
-            wks.update_acell("L2", main)
             wks.update_acell("L3", str(pred))
         except:
             pass
