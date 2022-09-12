@@ -275,8 +275,11 @@ class caseOneDialog(ComponentDialog):
         wks = sh.worksheet("Sheet1")
 
         if dosage_tab == "koto dosage11":
+
+            wks.update_acell("Q2", "entered")
             
             dosage = step_context.result
+            wks.update_acell("Q3", str(dosage))
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
@@ -285,7 +288,7 @@ class caseOneDialog(ComponentDialog):
                 dosage = w2n.word_to_num(dosage)
             except:
                 dosage = 1
-
+            wks.update_acell("Q4", str(dosage))
             med_type = "0"
             pill_name = med_names[0]
             patientid = userId
@@ -296,14 +299,15 @@ class caseOneDialog(ComponentDialog):
             shape_type = "0"
             place = ""
             dosage_ml = ""
+            wks.update_acell("Q5", str(pill_name))
             duration = duration.lower()
             duration = duration.replace("for", "about", "almost")
-            wks.update_acell("Q2", "entered1")
+            wks.update_acell("Q6", "entered1")
 
             dates = cal_date_adv(duration)
-            wks.update_acell("Q3", "entered2")
+            wks.update_acell("Q7", "entered2")
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
-            wks.update_acell("Q4", "entered3")
+            wks.update_acell("Q8", "entered3")
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
