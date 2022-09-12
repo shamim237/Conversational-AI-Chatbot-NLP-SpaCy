@@ -278,10 +278,13 @@ class caseOneDialog(ComponentDialog):
 
 
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        global duration
         
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
+        wks.update_acell("P3", str(duration))
 
         if dosage_tab == "koto dosage11":
 

@@ -16,6 +16,7 @@ from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
 from dialogs.reminder_case.case_1 import caseOneDialog
+from dialogs.reminder_case.case_2 import caseTwoDialog
 
 
 
@@ -31,6 +32,7 @@ class AdvPillReminderDialog(ComponentDialog):
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(caseOneDialog(caseOneDialog.__name__))
+        self.add_dialog(caseTwoDialog(caseTwoDialog.__name__))
         self.add_dialog(SimplePillReminderDialog(SimplePillReminderDialog.__name__))
         self.add_dialog(
             WaterfallDialog(
@@ -166,10 +168,10 @@ class AdvPillReminderDialog(ComponentDialog):
         
         #remind me to take Maxpro 50mg at morning.
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
-            type_med = "just name nand time and u_time is here-med_type needs to be added"
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?")),)
+            await step_context.context.send_activity(
+                MessageFactory.text("Wait a second..."))           
+            return await step_context.begin_dialog(caseTwoDialog.__name__, main)
+
 
         #remind me to take Fexo daily at 4pm.
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
