@@ -15,7 +15,7 @@ from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
-from dialogs.case_1 import caseOneDialog
+from dialogs.reminder_case.case_1 import caseOneDialog
 
 
 
@@ -161,7 +161,7 @@ class AdvPillReminderDialog(ComponentDialog):
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             await step_context.context.send_activity(
                 MessageFactory.text("Wait a second..."))           
-            return step_context.begin_dialog(caseOneDialog.__name__, main)
+            return await step_context.begin_dialog(caseOneDialog.__name__, main)
 
         
         #remind me to take Maxpro 50mg at morning.
