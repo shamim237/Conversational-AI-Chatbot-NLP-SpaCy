@@ -14,10 +14,10 @@
 #     print("ache")
 # else:
 
-duration = 'for 7 days'
-duration = duration.lower()
-duration = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
-print(duration)
+# duration = 'for 7 days'
+# duration = duration.lower()
+# duration = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
+# print(duration)
 #     print
 # ("nai")
 # print("Tap '\U0001F4CE' to upload")

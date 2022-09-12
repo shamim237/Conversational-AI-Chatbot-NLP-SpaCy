@@ -127,12 +127,12 @@ class caseOneDialog(ComponentDialog):
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        global durationx
+        global duration
         global med_type
         global duras
         global dayss
 
-        durationx = "iwe8hj0s"
+        duration = "iwe8hj0s"
         med_type = "weuibwfw"
         duras    = "7fsabuus"
         dayss    = "ksnvsvns"
@@ -143,8 +143,8 @@ class caseOneDialog(ComponentDialog):
 
         if daily == "daily nite chaise":
 
-            durationx = step_context.result
-            wks.update_acell("P1", str(durationx))
+            duration = step_context.result
+            wks.update_acell("P1", str(duration))
             med_type = "type nite hobe"
 
             reply = MessageFactory.text("Please help me to recognize the type of medicine-")
@@ -186,7 +186,7 @@ class caseOneDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-        wks.update_acell("P2", str(durationx))
+        wks.update_acell("P2", str(duration))
 
         global dosage_tab
         global dosage_cap
@@ -309,21 +309,21 @@ class caseOneDialog(ComponentDialog):
             place = ""
             dosage_ml = ""
             wks.update_acell("Q5", str(pill_name))
-            wks.update_acell("Q6", str(durationx))
-            durationx = str(durationx)
-            durationx = durationx.lower()
-            wks.update_acell("Q7", str(durationx))
-            durationx = durationx.replace("for ", "").replace("about ", "").replace("almost ", "")
+            wks.update_acell("Q6", str(duration))
+            duration = str(duration)
+            duration = duration.lower()
+            wks.update_acell("Q7", str(duration))
+            duration = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
             wks.update_acell("Q8", "entered1")
 
-            dates = cal_date_adv(durationx)
+            dates = cal_date_adv(duration)
             wks.update_acell("Q9", "entered2")
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             wks.update_acell("Q10", "entered3")
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(durationx) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + "."))
             return await step_context.end_dialog() 
 
         global dropfor1
@@ -381,6 +381,7 @@ class caseOneDialog(ComponentDialog):
             shape_type = "-1"
             place = ""
             dosage_ml = ""
+            duration = str(duration)
             duration = duration.lower()
             duration = duration.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_adv(duration)
@@ -410,6 +411,7 @@ class caseOneDialog(ComponentDialog):
             shape_type = "-1"
             place = ""
             dose = "1"
+            duration = str(duration)
             duration = duration.lower()
             duration = duration.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_adv(duration)
@@ -439,6 +441,7 @@ class caseOneDialog(ComponentDialog):
             shape_type = "-1"
             place = ""
             dose = "1"
+            duration = str(duration)
             duration = duration.lower()
             duration = duration.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_adv(duration)
@@ -547,6 +550,7 @@ class caseOneDialog(ComponentDialog):
             color_code = ""
             shape_type = "-1"
             dosage_ml = ""
+            duration = str(duration)
             duration = duration.lower()
             duration = duration.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_adv(duration)
@@ -797,6 +801,7 @@ class caseOneDialog(ComponentDialog):
             shape_type = "0"
             place = ""
             dosage_ml = ""
+            duration2 = str(duration2)
             duration2 = duration2.lower()
             duration2 = duration2.replace("for", "about", "almost")
             dates = cal_date_by_day(dayss, duration2)
@@ -864,6 +869,7 @@ class caseOneDialog(ComponentDialog):
             shape_type = "-1"
             place = ""
             dosage_ml = ""
+            duration2 = str(duration2)
             duration2 = duration2.lower()
             duration2 = duration2.replace("for", "about", "almost")
             dates = cal_date_by_day(dayss, duration2)
@@ -894,6 +900,7 @@ class caseOneDialog(ComponentDialog):
             shape_type = "-1"
             place = ""
             dose = "1"
+            duration2 = str(duration2)
             duration2 = duration2.lower()
             duration2 = duration2.replace("for", "about", "almost")
             dates = cal_date_by_day(dayss, duration2)
@@ -924,6 +931,7 @@ class caseOneDialog(ComponentDialog):
             shape_type = "-1"
             place = ""
             dose = "1"
+            duration2 = str(duration2)
             duration2 = duration2.lower()
             duration2 = duration2.replace("for", "about", "almost")
             dates = cal_date_by_day(dayss, duration2)
@@ -948,6 +956,7 @@ class caseOneDialog(ComponentDialog):
             color_code = ""
             shape_type = "-1"
             dosage_ml = ""
+            duration2 = str(duration2)
             duration2 = duration2.lower()
             duration2 = duration2.replace("for", "about", "almost")
             dates = cal_date_by_day(dayss, duration2)
