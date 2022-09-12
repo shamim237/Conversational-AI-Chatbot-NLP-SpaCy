@@ -540,7 +540,14 @@ class caseOneDialog(ComponentDialog):
 
 
     async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        
+        global duration
+        global duration2
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("P4", str(duration))
         
         if dropfor1 == "drop kothay":
             place55 = step_context.result
@@ -761,7 +768,8 @@ class caseOneDialog(ComponentDialog):
 
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
+        
+        global duration2
 
         if dropfor2 == "drop kothay2":
 
@@ -947,6 +955,8 @@ class caseOneDialog(ComponentDialog):
 
 
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        global duration2
 
         if dropfor3 == "drop kothay3":        
             place = step_context.result

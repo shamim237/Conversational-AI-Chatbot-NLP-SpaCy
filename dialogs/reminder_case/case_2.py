@@ -32,7 +32,7 @@ class caseTwoDialog(ComponentDialog):
                 "WFDialog",
                 [
                     self.initial_step,
-                    # self.scnd_step,
+                    self.scnd_step,
                     # self.third_step,
                     # self.fourth_step,
                     # self.fifth_step,
@@ -84,5 +84,25 @@ class caseTwoDialog(ComponentDialog):
 
 
         return await step_context.prompt(
-            TextPrompt.__name__,
+            "time_prompt",
             PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?")),)
+
+
+    async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        global time
+        
+        time = step_context.result
+
+        reply = MessageFactory.text("How often you would like to take the medicine? Will it be for daily or only for some specific days?")
+        reply.suggested_actions = SuggestedActions(
+            actions=[
+                CardAction(
+                    title= "Daily",
+                    type=ActionTypes.im_back,
+                    value= "Daily"),
+                CardAction(
+                    title= "Specific Days",
+                    type=ActionTypes.im_back,
+                    value= "Specific Days"),])
+        return await step_context.context.send_activity(reply) 
