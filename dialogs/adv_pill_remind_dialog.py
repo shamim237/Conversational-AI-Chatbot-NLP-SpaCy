@@ -249,7 +249,7 @@ class AdvPillReminderDialog(ComponentDialog):
             syrup = ["syrup", "syrups"]
             syringe = ["syringe", "syringes", "injections", "injection"]
             caps = ["capsules", "capsule", "caps", "cap."]
-            types = med_type.lower()
+            types = med_types[0].lower()
 
             if types in tablet:
                 med_types = "0"
