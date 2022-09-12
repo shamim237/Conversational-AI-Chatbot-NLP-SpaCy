@@ -547,7 +547,7 @@ class caseOneDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-        wks.update_acell("P4", str(duration))
+        wks.update_acell("P7", str(duration2))
         
         if dropfor1 == "drop kothay":
             place55 = step_context.result
@@ -771,6 +771,11 @@ class caseOneDialog(ComponentDialog):
         
         global duration2
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("P8", str(duration2))
+
         if dropfor2 == "drop kothay2":
 
             place = step_context.result
@@ -812,9 +817,10 @@ class caseOneDialog(ComponentDialog):
             shape_type = "0"
             place = ""
             dosage_ml = ""
+            wks.update_acell("Q8", str(duration2))
             duration2 = str(duration2)
             duration2 = duration2.lower()
-            duration2 = duration2.replace("for", "about", "almost")
+            duration2 = duration2.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_by_day(dayss, duration2)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
@@ -882,7 +888,7 @@ class caseOneDialog(ComponentDialog):
             dosage_ml = ""
             duration2 = str(duration2)
             duration2 = duration2.lower()
-            duration2 = duration2.replace("for", "about", "almost")
+            duration2 = duration2.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_by_day(dayss, duration2)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
@@ -913,7 +919,7 @@ class caseOneDialog(ComponentDialog):
             dose = "1"
             duration2 = str(duration2)
             duration2 = duration2.lower()
-            duration2 = duration2.replace("for", "about", "almost")
+            duration2 = duration2.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_by_day(dayss, duration2)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
@@ -944,7 +950,7 @@ class caseOneDialog(ComponentDialog):
             dose = "1"
             duration2 = str(duration2)
             duration2 = duration2.lower()
-            duration2 = duration2.replace("for", "about", "almost")
+            duration2 = duration2.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_by_day(dayss, duration2)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
@@ -957,6 +963,11 @@ class caseOneDialog(ComponentDialog):
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global duration2
+
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("P9", str(duration2))
 
         if dropfor3 == "drop kothay3":        
             place = step_context.result
@@ -971,7 +982,7 @@ class caseOneDialog(ComponentDialog):
             dosage_ml = ""
             duration2 = str(duration2)
             duration2 = duration2.lower()
-            duration2 = duration2.replace("for", "about", "almost")
+            duration2 = duration2.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_by_day(dayss, duration2)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage3, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
