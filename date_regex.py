@@ -66,6 +66,8 @@ def cal_date_adv(date_str):
 
     return list1
 
+# ss = cal_date_adv("friday, saturday")
+# print(ss)
 
 def cal_date_by_day(days, timeline):
 
@@ -184,8 +186,35 @@ def cal_date_by_day(days, timeline):
         return final_days
 
 
+def cal_day(days):
 
-# ss = cal_date_by_day("wednesday, tuesday, friday", "1 month")
+    raw = Recognizers.recognize_datetime(days, culture) 
+    times = []     
+    for i in raw:
+        raw = i.resolution
+        dd = raw['values']
+        for j in dd:
+            tim = j['value']  
+            times.append(tim) 
+
+
+    filtered_days = []
+
+    for i in times:
+        check = datetime.datetime.strptime(i, "%Y-%m-%d")
+        present = datetime.datetime.now()
+        if check.date() < present.date():
+            pass
+        else:
+            filtered_days.append(i)
+
+    filtered_days = sorted(filtered_days)
+
+    return filtered_days
+
+
+
+# ss = cal_day("saturday, monday, tuesday")
 # print(ss)
 
     
