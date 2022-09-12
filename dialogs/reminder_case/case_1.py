@@ -127,19 +127,24 @@ class caseOneDialog(ComponentDialog):
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        global duration
+        global durationx
         global med_type
         global duras
         global dayss
 
-        duration = "iwe8hj0s"
+        durationx = "iwe8hj0s"
         med_type = "weuibwfw"
         duras    = "7fsabuus"
         dayss    = "ksnvsvns"
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
         if daily == "daily nite chaise":
 
-            duration = step_context.result
+            durationx = step_context.result
+            wks.update_acell("P1", str(durationx))
             med_type = "type nite hobe"
 
             reply = MessageFactory.text("Please help me to recognize the type of medicine-")
@@ -178,6 +183,10 @@ class caseOneDialog(ComponentDialog):
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+        wks.update_acell("P2", str(durationx))
 
         global dosage_tab
         global dosage_cap
@@ -300,20 +309,20 @@ class caseOneDialog(ComponentDialog):
             place = ""
             dosage_ml = ""
             wks.update_acell("Q5", str(pill_name))
-            wks.update_acell("Q6", str(duration))
-            duration = duration.lower()
-            wks.update_acell("Q7", str(duration))
-            duration = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
+            wks.update_acell("Q6", str(durationx))
+            durationx = durationx.lower()
+            wks.update_acell("Q7", str(durationx))
+            durationx = durationx.replace("for ", "").replace("about ", "").replace("almost ", "")
             wks.update_acell("Q8", "entered1")
 
-            dates = cal_date_adv(duration)
+            dates = cal_date_adv(durationx)
             wks.update_acell("Q9", "entered2")
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             wks.update_acell("Q10", "entered3")
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(durationx) + "."))
             return await step_context.end_dialog() 
 
         global dropfor1
