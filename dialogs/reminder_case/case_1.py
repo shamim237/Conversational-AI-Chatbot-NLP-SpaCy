@@ -269,7 +269,10 @@ class caseOneDialog(ComponentDialog):
 
 
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
+        
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
 
         if dosage_tab == "koto dosage11":
             
@@ -295,8 +298,12 @@ class caseOneDialog(ComponentDialog):
             dosage_ml = ""
             duration = duration.lower()
             duration = duration.replace("for", "about", "almost")
+            wks.update_acell("Q2", "entered1")
+
             dates = cal_date_adv(duration)
+            wks.update_acell("Q3", "entered2")
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
+            wks.update_acell("Q4", "entered3")
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(

@@ -66,7 +66,7 @@ def cal_date_adv(date_str):
 
     return list1
 
-# ss = cal_date_adv("friday, saturday")
+# ss = cal_date_adv("7 days")
 # print(ss)
 
 def cal_date_by_day(days, timeline):
