@@ -84,17 +84,13 @@ class PillReminderDialog(ComponentDialog):
         if excepts == "didn't do it":
             response = predict_class(step_context.result)
             if response == "adv_pill_reminder":
-                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-                sh = ac.open("chatbot_logger")
-                wks = sh.worksheet("Sheet1")
-                wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Thank You!"))
+                    MessageFactory.text("Thank You!"))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
             else:
                 excepts = "didn't do it"
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Look like you don't get it!")) 
+                    MessageFactory.text(f"Looks like you havn't got the point!")) 
                 await step_context.context.send_activity(
-                    MessageFactory.text("I am initializing other process for setting up a pill reminder!")) 
+                    MessageFactory.text("Alright! I am initializing other process for setting up a pill reminder!")) 
                 return await step_context.begin_dialog(SimplePillReminderDialog.__name__)

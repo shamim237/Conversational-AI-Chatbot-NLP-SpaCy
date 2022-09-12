@@ -139,10 +139,15 @@ class caseThreeDialog(ComponentDialog):
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
+        global duration
+
         typeo = step_context.result
 
         if typeo == "Tablet":
-
             dosage = quants[0]
             dosage = str(dosage)
             dosage = dosage.lower()
@@ -241,9 +246,12 @@ class caseThreeDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + "."))
             return await step_context.end_dialog() 
 
+        wks.update_acell("G1", str(duration))
 
         if typeo == "Syringe":
+            wks.update_acell("G2", "entered")
             dosage       = quants[0]
+            wks.update_acell("G3", str(dosage))
             dosage       = str(dosage)
             dosage       = dosage.lower()
             dosage       = dosage.replace("mL", "").replace("ml", "")
@@ -251,6 +259,7 @@ class caseThreeDialog(ComponentDialog):
                 dosage_ml= w2n.word_to_num(dosage)
             except:
                 dosage_ml= 1
+            wks.update_acell("G4", str(dosage))
             med_type    = "3"
             pill_name   = med_names[0]
             patientid   = userId
@@ -261,10 +270,15 @@ class caseThreeDialog(ComponentDialog):
             shape_type  = "-1"
             place       = ""
             dose        = "1"
+            wks.update_acell("G5", str(pill_name))
+            wks.update_acell("G6", str(duration))
+            wks.update_acell("G7", str(start_dates[0]))
             duration    = str(duration)
             duration    = duration.lower()
             duration    = duration.replace("for", "").replace("about", "").replace("almost", "")
+            wks.update_acell("G8", str(duration))
             dates       = cal_date_stend(start_dates[0], duration)
+            wks.update_acell("G9", str(dates))
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
