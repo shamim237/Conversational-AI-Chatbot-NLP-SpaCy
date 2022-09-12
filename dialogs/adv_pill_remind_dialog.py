@@ -15,7 +15,7 @@ from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
-from dialogs.reminder_case.case_1 import caseOneDialog
+from dialogs.case_1 import caseOneDialog
 
 
 
