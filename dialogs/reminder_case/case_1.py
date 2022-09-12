@@ -300,14 +300,16 @@ class caseOneDialog(ComponentDialog):
             place = ""
             dosage_ml = ""
             wks.update_acell("Q5", str(pill_name))
+            wks.update_acell("Q6", str(duration))
             duration = duration.lower()
-            duration = duration.replace("for", "").replace("about", "").replace("almost", "")
-            wks.update_acell("Q6", "entered1")
+            wks.update_acell("Q7", str(duration))
+            duration = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
+            wks.update_acell("Q8", "entered1")
 
             dates = cal_date_adv(duration)
-            wks.update_acell("Q7", "entered2")
+            wks.update_acell("Q9", "entered2")
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
-            wks.update_acell("Q8", "entered3")
+            wks.update_acell("Q10", "entered3")
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
