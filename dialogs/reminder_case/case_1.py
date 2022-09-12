@@ -310,6 +310,7 @@ class caseOneDialog(ComponentDialog):
             dosage_ml = ""
             wks.update_acell("Q5", str(pill_name))
             wks.update_acell("Q6", str(durationx))
+            durationx = str(durationx)
             durationx = durationx.lower()
             wks.update_acell("Q7", str(durationx))
             durationx = durationx.replace("for ", "").replace("about ", "").replace("almost ", "")
