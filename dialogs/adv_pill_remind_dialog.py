@@ -159,7 +159,9 @@ class AdvPillReminderDialog(ComponentDialog):
         
         #remind me to take Sapa at 4pm.
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
-            return step_context.begin_dialog(caseOneDialog.__name__)
+            await step_context.context.send_activity(
+                MessageFactory.text("Wait a second..."))           
+            return step_context.begin_dialog(caseOneDialog.__name__, main)
 
         
         #remind me to take Maxpro 50mg at morning.

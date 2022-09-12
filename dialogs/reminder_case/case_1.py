@@ -58,6 +58,9 @@ class caseOneDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
+
+        wks.update_acell("Q1", "ENTERED")
+
         main = step_context.context.activity.text
         wks.update_acell("R1", str(main))    
         pred = reminder_class(main)
