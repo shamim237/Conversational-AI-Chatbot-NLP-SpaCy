@@ -301,7 +301,7 @@ class caseOneDialog(ComponentDialog):
             dosage_ml = ""
             wks.update_acell("Q5", str(pill_name))
             duration = duration.lower()
-            duration = duration.replace("for", "about", "almost")
+            duration = duration.replace("for", "").replace("about", "").replace("almost", "")
             wks.update_acell("Q6", "entered1")
 
             dates = cal_date_adv(duration)
@@ -370,7 +370,7 @@ class caseOneDialog(ComponentDialog):
             place = ""
             dosage_ml = ""
             duration = duration.lower()
-            duration = duration.replace("for", "about", "almost")
+            duration = duration.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_adv(duration)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
@@ -399,7 +399,7 @@ class caseOneDialog(ComponentDialog):
             place = ""
             dose = "1"
             duration = duration.lower()
-            duration = duration.replace("for", "about", "almost")
+            duration = duration.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_adv(duration)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
@@ -428,7 +428,7 @@ class caseOneDialog(ComponentDialog):
             place = ""
             dose = "1"
             duration = duration.lower()
-            duration = duration.replace("for", "about", "almost")
+            duration = duration.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_adv(duration)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
@@ -536,7 +536,7 @@ class caseOneDialog(ComponentDialog):
             shape_type = "-1"
             dosage_ml = ""
             duration = duration.lower()
-            duration = duration.replace("for", "about", "almost")
+            duration = duration.replace("for", "").replace("about", "").replace("almost", "")
             dates = cal_date_adv(duration)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage1, color_code, shape_type, place55, dosage_ml)
             await step_context.context.send_activity(

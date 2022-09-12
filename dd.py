@@ -13,7 +13,12 @@
 # if patient_name[0] in my:
 #     print("ache")
 # else:
-#     print("nai")
+
+dd= '7 days'
+dd = dd.lower()
+print(dd)
+#     print
+# ("nai")
 # print("Tap '\U0001F4CE' to upload")
 # from datetime import datetime
 # timey = "07:12 pm"
