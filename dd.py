@@ -33,7 +33,31 @@
 # print(g.country)
 # print(ss[0].lower())
 # # # import logging
+# import recognizers_suite as Recognizers
+# from recognizers_suite import Culture
+# culture = Culture.English
 
+
+# raw = Recognizers.recognize_datetime("from sept 25 to 7 days", culture) 
+# times = []     
+# for i in raw:
+#     raw = i.resolution
+#     print(raw)
+#     dd = raw['values']
+#     for j in dd:
+#         tim = j['value']  
+#         times.append(tim) 
+
+# print(times)
+# from datetime import datetime, timedelta
+# filtered_days = ['2022-09-15']
+
+# dat = filtered_days[0]
+# dat = datetime.strptime(dat, "%Y-%m-%d")
+# dat = datetime.strftime(dat, "%Y-%m-%d")
+# dat = dat.split("-")
+
+# print(dat)
 # # logging.basicConfig(filename='output.txt', level=logging.DEBUG, format='')
 
 # # def we_prints(data):
@@ -107,26 +131,26 @@
 
 # # timeslots = datetime.strptime("22:30:00", "%H:%M:%S")
 # # print(timeslots.strftime("%I:%M %p"))
-# import parsedatetime
-# import dateparser
-# import recognizers_suite as Recognizers
-# from recognizers_suite import Culture
-# import warnings
-# from datetime import datetime
-# warnings.filterwarnings(
-#     "ignore",
-#     message="The localize method is no longer necessary, as this time zone supports the fold attribute",
-# )
-# culture = Culture.English
+import parsedatetime
+import dateparser
+import recognizers_suite as Recognizers
+from recognizers_suite import Culture
+import warnings
+from datetime import datetime
+warnings.filterwarnings(
+    "ignore",
+    message="The localize method is no longer necessary, as this time zone supports the fold attribute",
+)
+culture = Culture.English
 
-# p = parsedatetime.Calendar()
-# time_struct, parse_status = p.parse("Monday")
-# dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
-# print(dates)
+p = parsedatetime.Calendar()
+time_struct, parse_status = p.parse("from sept 25 to 7 days")
+dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+print(dates)
 
-# datess = dateparser.parse("Monday")
-# datess = datetime.strftime(datess, '%Y-%m-%d')
-# print(datess)
+datess = dateparser.parse("today from 7 days")
+#datess = datetime.strftime(datess, '%Y-%m-%d')
+print(datess)
 
 
 

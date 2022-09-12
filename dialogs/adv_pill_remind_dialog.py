@@ -17,6 +17,7 @@ from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepC
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
 from dialogs.reminder_case.case_1 import caseOneDialog
 from dialogs.reminder_case.case_2 import caseTwoDialog
+from dialogs.reminder_case.case_3 import caseThreeDialog
 
 
 
@@ -33,6 +34,7 @@ class AdvPillReminderDialog(ComponentDialog):
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(caseOneDialog(caseOneDialog.__name__))
         self.add_dialog(caseTwoDialog(caseTwoDialog.__name__))
+        self.add_dialog(caseThreeDialog(caseThreeDialog.__name__))
         self.add_dialog(SimplePillReminderDialog(SimplePillReminderDialog.__name__))
         self.add_dialog(
             WaterfallDialog(
@@ -154,26 +156,33 @@ class AdvPillReminderDialog(ComponentDialog):
                 classes.append(x)
 
         
-        #remind me to take napa.
+        #remind me to take napa. (done)
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             type_med = "just name is here-med_type needs to be added"
             return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
         
-        #remind me to take Sapa at 4pm.
+        #remind me to take Sapa at 4pm. (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             await step_context.context.send_activity(
                 MessageFactory.text("Wait a second..."))           
             return await step_context.begin_dialog(caseOneDialog.__name__, main)
 
         
-        #remind me to take Maxpro 50mg at morning.
+        #remind me to take Maxpro 50mg at morning. (done)
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             await step_context.context.send_activity(
                 MessageFactory.text("Wait a second..."))           
             return await step_context.begin_dialog(caseTwoDialog.__name__, main)
 
+        
+        #remind me to take 10ml Benadryl from tomorrow
+        if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
+            await step_context.context.send_activity(
+                MessageFactory.text("Wait a second..."))           
+            return await step_context.begin_dialog(caseThreeDialog.__name__, main)
+        
 
-        #remind me to take Fexo daily at 4pm.
+        #remind me to take Fexo daily at 4pm. (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             date_med = "just name,time and period is here-med_date needs to be added"
             return await step_context.prompt(
@@ -181,14 +190,14 @@ class AdvPillReminderDialog(ComponentDialog):
                 PromptOptions(prompt=MessageFactory.text("For how long do you want to take this medicine? Hint- 7 days/2 weeks/2 months.")),)
 
         
-        #remind me to take napa everyday at night.
+        #remind me to take napa everyday at night. (done)
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             time_med = "just name,u_time and period is here-med_time needs to be added"
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?")),)
 
-        #remind me to take napa daily at 4pm for three weeks.
+        #remind me to take napa daily at 4pm for three weeks. (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:
             wks.update_acell("G1", "dhukse2")
             not_med = "just name,time,period and duration is here-med_not needs to be added"

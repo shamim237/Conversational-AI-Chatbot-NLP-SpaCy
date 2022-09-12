@@ -1,5 +1,5 @@
 import parsedatetime
-import datetime
+from datetime import datetime
 from datetime import date, timedelta
 import recognizers_suite as Recognizers
 from recognizers_suite import Culture
@@ -10,7 +10,7 @@ def cal_date(present, date_str):
 
     p = parsedatetime.Calendar()
     time_struct, parse_status = p.parse(date_str)
-    dates = datetime.datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+    dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
     dates = dates.split("-")
 
     present_date = present
@@ -41,7 +41,7 @@ def cal_date_adv(date_str):
 
     p = parsedatetime.Calendar()
     time_struct, parse_status = p.parse(date_str)
-    dates = datetime.datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+    dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
     dates = dates.split("-")
 
     dat= date.today()
@@ -66,8 +66,60 @@ def cal_date_adv(date_str):
 
     return list1
 
-# ss = cal_date_adv("7 days")
-# print(ss)
+def cal_date_stend(start, date_str):
+
+
+    raw = Recognizers.recognize_datetime(start, culture) 
+    times = []     
+    for i in raw:
+        raw = i.resolution
+        dd = raw['values']
+        for j in dd:
+            tim = j['value']  
+            times.append(tim) 
+
+
+    filtered_days = []
+
+    for i in times:
+        check = datetime.strptime(i, "%Y-%m-%d")
+        present = datetime.now()
+        if check.date() < present.date():
+            pass
+        else:
+            filtered_days.append(i)
+
+
+    p = parsedatetime.Calendar()
+    time_struct, parse_status = p.parse(date_str)
+    dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+    dates = dates.split("-")
+
+    dat = filtered_days[0]
+    dat = datetime.strptime(dat, "%Y-%m-%d")
+    dat = datetime.strftime(dat, "%Y-%m-%d")
+    dat = dat.split("-")
+
+    dates1 = date(int(dat[0]), int(dat[1]), int(dat[2]))
+
+    dd = date(int(dates[0]), int(dates[1]), int(dates[2])) - date(int(dat[0]), int(dat[1]), int(dat[2]))
+    datee = []
+
+    for i in range(dd.days):
+        day = dates1 + timedelta(days=i)
+        datee.append(day)
+
+
+    listToStr = ' '.join(map(str, datee))
+
+    listt = listToStr.replace(" ", "\n")
+
+    list1 = listt.split("\n")
+
+    return list1
+
+# ss = cal_date_stend("tomorrow","7 days")
+# print(ss) 
 
 def cal_date_by_day(days, timeline):
 
@@ -82,10 +134,10 @@ def cal_date_by_day(days, timeline):
 
     p = parsedatetime.Calendar()
     time_struct, parse_status = p.parse(timeline)
-    dates = datetime.datetime(*time_struct[:6]).strftime("%Y-%m-%d")
-    dates = datetime.datetime.strptime(dates, "%Y-%m-%d")    
+    dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+    dates = datetime.strptime(dates, "%Y-%m-%d")    
 
-    present_date = datetime.datetime.now()
+    present_date = datetime.now()
     length = dates.date() - present_date.date()
     act_length = length.days
 
@@ -93,8 +145,8 @@ def cal_date_by_day(days, timeline):
     filtered_days = []
 
     for i in times:
-        check = datetime.datetime.strptime(i, "%Y-%m-%d")
-        present = datetime.datetime.now()
+        check = datetime.strptime(i, "%Y-%m-%d")
+        present = datetime.now()
         if check.date() < present.date():
             pass
         else:
@@ -103,7 +155,7 @@ def cal_date_by_day(days, timeline):
     filtered_days = sorted(filtered_days)
 
 
-    init_date = datetime.datetime.strptime(filtered_days[0], "%Y-%m-%d")
+    init_date = datetime.strptime(filtered_days[0], "%Y-%m-%d")
     lengths = dates.date() - init_date.date()
     prob_length = lengths.days 
 
@@ -114,7 +166,7 @@ def cal_date_by_day(days, timeline):
 
         p = parsedatetime.Calendar()
         time_struct, parse_status = p.parse(timeline)
-        dates = datetime.datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+        dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
         dates = dates.split("-")
 
         present_date = filtered_days[0]
@@ -151,7 +203,7 @@ def cal_date_by_day(days, timeline):
         tims = act_length + lens
         p = parsedatetime.Calendar()
         time_struct, parse_status = p.parse(str(tims) + " days")
-        dates = datetime.datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+        dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
         dates = dates.split("-")
 
         present_date = filtered_days[0]
@@ -201,8 +253,8 @@ def cal_day(days):
     filtered_days = []
 
     for i in times:
-        check = datetime.datetime.strptime(i, "%Y-%m-%d")
-        present = datetime.datetime.now()
+        check = datetime.strptime(i, "%Y-%m-%d")
+        present = datetime.now()
         if check.date() < present.date():
             pass
         else:
