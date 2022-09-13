@@ -373,6 +373,11 @@ class AdvPillReminderDialog(ComponentDialog):
                 return await step_context.end_dialog() 
 
 
+        else:
+            return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
+
+
+
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global dosage_q

@@ -18,8 +18,8 @@ def check_name_email(email, pharmacyId, password):
     name = dictFromServer['response']['patientData']['name']
     return name
 
-ss = check_name_email("jiboneee237@gmail.com", "1", "Shamim237x#")
-print(ss)
+# ss = check_name_email("jiboneee237@gmail.com", "1", "Shamim237x#")
+# print(ss)
 
 def check_passwrd_email(email, pharmacyId, password):
     dictToSend = {"email": email, "password": password, "pharmacyId": pharmacyId, "loginType": "Email"}

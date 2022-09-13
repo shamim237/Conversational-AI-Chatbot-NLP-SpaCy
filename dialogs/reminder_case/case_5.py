@@ -34,7 +34,6 @@ class caseFiveDialog(ComponentDialog):
                     self.initial_step,
                     self.scnd_step,
                     self.third_step,
-                    self.fourth_step,
                 ],
             )
         )
