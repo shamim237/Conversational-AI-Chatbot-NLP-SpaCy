@@ -69,10 +69,7 @@ class caseSixDialog(ComponentDialog):
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
-        try:
-            wks.update_acell("F6", str("".join(quants[0])))
-        except:
-            pass
+
 
 ################################################################# remind me to take 5ml glucoplus twice a day ################################################################################
         
@@ -89,6 +86,14 @@ class caseSixDialog(ComponentDialog):
                 quant = pred[x]
                 quants.append(quant)
                 classes.append(x)
+
+
+        quants = "".join(quants)
+
+        try:
+            wks.update_acell("F6", str(quants))
+        except:
+            pass
 
             await step_context.context.send_activity(
                 MessageFactory.text("What times of the day do you want to take the medicine? Hint- 9AM, 2PM or 10PM."))
