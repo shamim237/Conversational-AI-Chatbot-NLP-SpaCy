@@ -201,7 +201,7 @@ class caseSixDialog(ComponentDialog):
             wks.update_acell("F4", "entered")
 
             if typeo == "Tablet":
-                dosage      = quants[0]
+                dosage      = "".join(quants[0])
                 wks.update_acell("G4", str(dosage))
                 dosage      = str(dosage)
                 dosage      = dosage.lower()

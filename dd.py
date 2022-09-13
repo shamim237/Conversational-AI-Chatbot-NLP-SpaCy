@@ -60,11 +60,11 @@
 # print(len(ss))
 # print(dat)
 # # logging.basicConfig(filename='output.txt', level=logging.DEBUG, format='')
-quants = ['4']
+quants = ['4ml']
 
-ss = str(quants[0])
+ss = "".join(quants[0])
 
-print(ss)
+print(type(ss))
 # # def we_prints(data):
 # #     logging.info(data)
 # # #     print(data)
