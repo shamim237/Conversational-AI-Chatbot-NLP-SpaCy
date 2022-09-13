@@ -62,10 +62,6 @@ class PillReminderDialog(ComponentDialog):
         response = predict_class(step_context.result)
 
         if response == "adv_pill_reminder":
-            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-            sh = ac.open("chatbot_logger")
-            wks = sh.worksheet("Sheet1")
-            wks.update_acell("A2", str(step_context.result))
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You!"))
             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)

@@ -11,6 +11,7 @@ from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepC
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
 import recognizers_suite as Recognizers
 from recognizers_suite import Culture 
+import gspread
 
 ####################################################  remind me to take 5ml glucoplus twice a day  #################################################################
 
@@ -182,6 +183,10 @@ class caseSixDialog(ComponentDialog):
         dropfor1 = "dksbnkjs"
         dosage1  = "kjsnkjsn"
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
         if med_type1 == "type nite hobe1":
 
             typeo = step_context.result
@@ -266,26 +271,37 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(multi_doses[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
         
+            wks.update_acell("G1", str(quants[0]))
+            wks.update_acell("G2", str(duration))
 
             if typeo == "Syringe":
+                wks.update_acell("G3", str(quants[0]))
                 dosage      = quants[0]
+                wks.update_acell("G4", str(dosage))
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage_ml   = dosage.replace("mL", "").replace("ml", "")
+                wks.update_acell("G5", str(dosage_ml))
                 med_type    = "3"
                 pill_name   = med_names[0]
+                wks.update_acell("G6", str(pill_name))
                 patientid   = userId
                 pharmacyid  = pharmacyId
                 tokens      = token
                 color_code  = ""
                 pill_time   = timess
+                wks.update_acell("G7", str(pill_time))
                 shape_type  = "-1"
                 place       = ""
                 dose        = "1"
+                wks.update_acell("G8", str(duration))
                 duration    = str(duration)
                 duration    = duration.lower()
                 duration    = duration.replace("for", "").replace("about", "").replace("almost", "")
+                wks.update_acell("G9", str(duration))
                 dates = cal_date_adv(duration)
+                wks.update_acell("G10", str(duration))
+                wks.update_acell("G11", str(dates))
                 save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Your pill reminder has been set."))
