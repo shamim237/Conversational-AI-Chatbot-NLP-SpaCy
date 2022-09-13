@@ -80,22 +80,22 @@ class SimplePillReminderDialog(ComponentDialog):
         if pred == "times":
             multi_time = "multiple time taking"
             dosage_time = times.replace(" times", "").replace("times", "").replace(" time", "").replace("time", "").replace("for", "").replace("for ", "")
-            try:
-                dosage_time = w2n.word_to_num(dosage_time)
-            except:
-                dosage_time = 2
+            # try:
+            #     dosage_time = w2n.word_to_num(dosage_time)
+            # except:
+            #     dosage_time = 2
 
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Okay! Please enter those times at when you want to take medicine. Hint- 9AM, 2PM and 10PM.")),)           
+                PromptOptions(prompt=MessageFactory.text("Okay! Please enter those times at when you want to take medicine. Hint- 9AM, 2PM or 10PM.")),)           
         
         else:
             single_time = "single time taking"
             dosage_time = times.replace("times", "").replace("time", "").replace("for", "").replace("only", "")
-            try:
-                dosage_time = w2n.word_to_num(dosage_time)
-            except:
-                dosage_time = 1
+            # try:
+            #     dosage_time = w2n.word_to_num(dosage_time)
+            # except:
+            #     dosage_time = 1
 
             return await step_context.prompt(
                 TextPrompt.__name__,

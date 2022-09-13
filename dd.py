@@ -56,7 +56,8 @@
 # dat = datetime.strptime(dat, "%Y-%m-%d")
 # dat = datetime.strftime(dat, "%Y-%m-%d")
 # dat = dat.split("-")
-
+# ss= ["0", "4"]
+# print(len(ss))
 # print(dat)
 # # logging.basicConfig(filename='output.txt', level=logging.DEBUG, format='')
 
