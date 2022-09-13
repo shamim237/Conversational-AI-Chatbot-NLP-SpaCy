@@ -9,6 +9,7 @@ from date_regex import cal_date_adv, cal_date_by_day
 from adv_pill_reminder import save_reminder_spec_days_multi_time
 import recognizers_suite as Recognizers
 from recognizers_suite import Culture 
+import gspread
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 
 
@@ -227,9 +228,20 @@ class SimplePillReminderDialog(ComponentDialog):
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
+        wks.update_acell("C1", str(dosages))
+        wks.update_acell("C2", str(duration))
+        wks.update_acell("C3", str(med_name))
+        wks.update_acell("C4", str("".join(times)))
+        wks.update_acell("C5", "entered")
 
         if dosages == "tablet dose":
+            wks.update_acell("C6", "entered")
             dosage      = step_context.result
+            wks.update_acell("C6", str(dosage))
             dosage      = str(dosage)
             dosage      = dosage.lower()
             dosage      = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
