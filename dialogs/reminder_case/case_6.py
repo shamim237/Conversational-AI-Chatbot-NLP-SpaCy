@@ -176,7 +176,6 @@ class caseSixDialog(ComponentDialog):
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
         global timess
-        global quants
         global duration
         global dropfor1
         global dosage1
@@ -190,6 +189,7 @@ class caseSixDialog(ComponentDialog):
 
         wks.update_acell("F1", str(med_type1))
         wks.update_acell("F2", str(step_context.result))
+        wks.update_acell("F6", str("".join(quants[0])))
 
         if med_type1 == "type nite hobe1":
 
