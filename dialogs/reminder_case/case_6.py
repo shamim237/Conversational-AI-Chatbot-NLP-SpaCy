@@ -194,8 +194,10 @@ class caseSixDialog(ComponentDialog):
 
             typeo = step_context.result
 
-            wks.update_acell("G1", str(quants[0]))
+            wks.update_acell("G1", str(typeo))
+            wks.update_acell("F3", "entered")
             wks.update_acell("G2", str(duration))
+            wks.update_acell("F4", "entered")
 
             if typeo == "Tablet":
                 wks.update_acell("G3", str(quants[0]))
