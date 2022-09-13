@@ -72,7 +72,7 @@ class caseSixDialog(ComponentDialog):
                 med_name = pred[x]
                 med_names.append(med_name)
                 classes.append(x)
-            if x == "MULTI_DOSE":
+            if x == "MULTI_REMIND":
                 multi_dose = pred[x]
                 multi_doses.append(multi_dose)
                 classes.append(x)
