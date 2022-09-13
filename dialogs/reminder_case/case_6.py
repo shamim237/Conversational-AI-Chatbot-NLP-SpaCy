@@ -60,10 +60,10 @@ class caseSixDialog(ComponentDialog):
         global multi_doses
         global quants
 
-        classes     = []
-        med_names   = []
-        multi_doses = []
-        quants      = []
+        classes      = []
+        med_names    = []
+        multi_doses  = []
+        quantsx      = []
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
@@ -84,11 +84,11 @@ class caseSixDialog(ComponentDialog):
                 classes.append(x)
             if x == "QUANT":
                 quant = pred[x]
-                quants.append(quant)
+                quantsx.append(quant)
                 classes.append(x)
 
 
-        quants = "".join(quants)
+        quants = "".join(quantsx)
 
         try:
             wks.update_acell("F6", str(quants))
@@ -202,7 +202,7 @@ class caseSixDialog(ComponentDialog):
 
         wks.update_acell("F1", str(med_type1))
         wks.update_acell("F2", str(step_context.result))
-        wks.update_acell("F6", str("".join(quants[0])))
+        wks.update_acell("F6", str(quants))
 
         if med_type1 == "type nite hobe1":
 
@@ -214,7 +214,7 @@ class caseSixDialog(ComponentDialog):
             wks.update_acell("F4", "entered")
 
             if typeo == "Tablet":
-                dosage      = "".join(quants[0])
+                dosage      = quants
                 wks.update_acell("G4", str(dosage))
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
@@ -251,7 +251,7 @@ class caseSixDialog(ComponentDialog):
             if typeo == "Drop": 
 
                 dropfor1    = "drop kothay"
-                dosage      = quants[0]
+                dosage      = quants
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage1     = dosage.replace("drops", "").replace("drop ", "")
@@ -276,7 +276,7 @@ class caseSixDialog(ComponentDialog):
 
 
             if typeo == "Capsule":
-                dosage      = quants[0]
+                dosage      = quants
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage      = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
@@ -303,8 +303,8 @@ class caseSixDialog(ComponentDialog):
         
 
             if typeo == "Syringe":
-                wks.update_acell("G3", str(quants[0]))
-                dosage      = quants[0]
+                wks.update_acell("G3", str(quants))
+                dosage      = quants
                 wks.update_acell("G4", str(dosage))
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
@@ -339,7 +339,7 @@ class caseSixDialog(ComponentDialog):
 
 
             if typeo == "Syrup":
-                dosage      = quants[0]
+                dosage      = quants
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage_ml   = dosage.replace("mL", "").replace("ml", "")
@@ -443,7 +443,7 @@ class caseSixDialog(ComponentDialog):
             typeos = step_context.result
 
             if typeos == "Tablet":                     
-                dosage      = quants[0]
+                dosage      = quants
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage      = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
@@ -470,7 +470,7 @@ class caseSixDialog(ComponentDialog):
 
             if typeos == "Drop": 
                 dropfor2    = "drop kothay2"
-                dosage      = quants[0]
+                dosage      = quants
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage2     = dosage.replace("drops", "").replace("drop ", "")
@@ -494,7 +494,7 @@ class caseSixDialog(ComponentDialog):
 
             
             if typeos == "Capsule":
-                dosage      = quants[0]
+                dosage      = quants
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage      = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
@@ -521,7 +521,7 @@ class caseSixDialog(ComponentDialog):
 
 
             if typeos == "Syringe":
-                dosage      = quants[0]
+                dosage      = quants
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage_ml   = dosage.replace("mL", "").replace("ml", "")
@@ -548,7 +548,7 @@ class caseSixDialog(ComponentDialog):
 
 
             if typeos == "Syrup":
-                dosage      = quants[0]
+                dosage      = quants
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage_ml   = dosage.replace("mL", "").replace("ml", "")
