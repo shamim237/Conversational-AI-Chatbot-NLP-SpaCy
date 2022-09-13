@@ -19,7 +19,7 @@ from dialogs.reminder_case.case_1 import caseOneDialog
 from dialogs.reminder_case.case_2 import caseTwoDialog
 from dialogs.reminder_case.case_3 import caseThreeDialog
 from dialogs.reminder_case.case_4 import caseFourDialog
-
+from dialogs.reminder_case.case_5 import caseFiveDialog
 
 class AdvPillReminderDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -36,6 +36,7 @@ class AdvPillReminderDialog(ComponentDialog):
         self.add_dialog(caseTwoDialog(caseTwoDialog.__name__))
         self.add_dialog(caseThreeDialog(caseThreeDialog.__name__))
         self.add_dialog(caseFourDialog(caseFourDialog.__name__))
+        self.add_dialog(caseFiveDialog(caseFiveDialog.__name__))
         self.add_dialog(SimplePillReminderDialog(SimplePillReminderDialog.__name__))
         self.add_dialog(
             WaterfallDialog(
@@ -187,7 +188,12 @@ class AdvPillReminderDialog(ComponentDialog):
             await step_context.context.send_activity(
                 MessageFactory.text("Wait a second..."))           
             return await step_context.begin_dialog(caseFourDialog.__name__, main)        
-        
+
+        #set a pill reminder for bendix tablet daily at 9 pm for 6 months
+        if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" in classes and "MULTI_DOSE" not in classes:
+            await step_context.context.send_activity(
+                MessageFactory.text("Wait a second..."))           
+            return await step_context.begin_dialog(caseFiveDialog.__name__, main)             
 
         #remind me to take Fexo daily at 4pm. (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_DOSE" not in classes:

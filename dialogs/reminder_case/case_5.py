@@ -14,11 +14,11 @@ from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepC
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
 
 
-####################################################   set a pill reminder for bendix tablet daily at 9 pm  #################################################################
+####################################################  set a pill reminder for bendix tablet daily at 9 pm for 6 months  #################################################################
 
-class caseFourDialog(ComponentDialog):
+class caseFiveDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
-        super(caseFourDialog, self).__init__(dialog_id or caseFourDialog.__name__)
+        super(caseFiveDialog, self).__init__(dialog_id or caseFiveDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
@@ -57,6 +57,7 @@ class caseFourDialog(ComponentDialog):
         global med_names
         global med_types
         global periods
+        global durations
         global times
 
         classes     = []
@@ -64,6 +65,7 @@ class caseFourDialog(ComponentDialog):
         times       = []
         med_types   = []
         periods     = []
+        durations   = []
 
 ################################################################# set a pill reminder for bendix tablet daily at 9 pm ################################################################################
         
@@ -84,17 +86,14 @@ class caseFourDialog(ComponentDialog):
                 period = pred[x]
                 periods.append(period)
                 classes.append(x)
+            if x == "DURATION":
+                duration = pred[x]
+                durations.append(duration)
+                classes.append(x)   
 
-        return await step_context.prompt(
-            TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("How long do you want to take the medicine? Hints- 7 days/ 2 weeks/ 3 months.")),)         
 
-    async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
-        global duration
         global dosages
         dosages     = "siaiai3"
-        duration    = step_context.result
 
         tablet  = ["tablet", "tablets", "tabs", "tab."] 
         drop    = ["drops", "drop"]
@@ -132,16 +131,14 @@ class caseFourDialog(ComponentDialog):
                 PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended by the doctor?")),)                     
 
 
-    async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        global duration
+    async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         if dosages == "tablet dose":
-
-            dosage = step_context.result
-            dosage = str(dosage)
-            dosage = dosage.lower()
-            dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
+            dosage      = step_context.result
+            dosage      = str(dosage)
+            dosage      = dosage.lower()
+            dosage      = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
             med_types   = "0"
             pill_name   = med_names[0]
             pill_time   = times[0]
@@ -152,15 +149,12 @@ class caseFourDialog(ComponentDialog):
             shape_type  = "0"
             place       = ""
             dosage_ml   = ""
-            duration    = str(duration)
-            duration    = duration.lower()
-            duration    = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
-            dates       = cal_date_adv(duration)
+            dates       = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_types, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
             return await step_context.end_dialog()
 
         global dropfor1
@@ -210,15 +204,12 @@ class caseFourDialog(ComponentDialog):
             shape_type  = "-1"
             place       = ""
             dosage_ml   = ""
-            duration    = str(duration)
-            duration    = duration.lower()
-            duration    = duration.replace("for", "").replace("about", "").replace("almost", "") 
-            dates       = cal_date_adv(duration)
+            dates       = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
             return await step_context.end_dialog()
 
 
@@ -237,15 +228,12 @@ class caseFourDialog(ComponentDialog):
             shape_type  = "-1"
             place       = ""
             dose        = "1"
-            duration    = str(duration)
-            duration    = duration.lower()
-            duration    = duration.replace("for", "").replace("about", "").replace("almost", "")
-            dates       = cal_date_adv(duration)
+            dates       = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
             return await step_context.end_dialog()
 
 
@@ -264,19 +252,16 @@ class caseFourDialog(ComponentDialog):
             shape_type  = "-1"
             place       = ""
             dose        = "1"
-            duration    = str(duration)
-            duration    = duration.lower()
-            duration    = duration.replace("for", "").replace("about", "").replace("almost", "")
-            dates       = cal_date_adv(duration)
+            dates       = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
             return await step_context.end_dialog()
 
 
-    async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         if dropfor1 == "drop kothay":
             place       = step_context.result
@@ -289,13 +274,10 @@ class caseFourDialog(ComponentDialog):
             color_code  = ""
             shape_type  = "-1"
             dosage_ml   = ""
-            duration    = str(duration)
-            duration    = duration.lower()
-            duration    = duration.replace("for", "").replace("about", "").replace("almost", "")
-            dates       = cal_date_adv(duration)
+            dates       = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage1, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + "."))
-            return await step_context.end_dialog()
+                MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+            return await step_context.end_dialog()        

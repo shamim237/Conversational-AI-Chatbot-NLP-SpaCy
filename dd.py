@@ -113,23 +113,23 @@
 # #           a = str(a) + ":00"
 # #    return a
 
-from word2number import w2n
+# from word2number import w2n
 
-dosage = "ten ml"
-dosage = str(dosage)
-dosage = dosage.lower()
-dosage = dosage.replace("ml", "").replace("mg", "")
-print(int(dosage))
-if dosage.isdigit():
-    print("integer")
-else:
-    print("string")
-try:
-    dosage_ml = w2n.word_to_num("ten ml")
-except:
-    dosage_ml = 1
+# dosage = "ten ml"
+# dosage = str(dosage)
+# dosage = dosage.lower()
+# dosage = dosage.replace("ml", "").replace("mg", "")
+# print(int(dosage))
+# if dosage.isdigit():
+#     print("integer")
+# else:
+#     print("string")
+# try:
+#     dosage_ml = w2n.word_to_num("ten ml")
+# except:
+#     dosage_ml = 1
 
-print(dosage_ml)
+# print(dosage_ml)
 # # s = '09:05 PM'
 # # result = timeConversion(s)
 # # print(result)
