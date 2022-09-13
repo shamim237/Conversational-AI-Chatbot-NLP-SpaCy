@@ -113,7 +113,23 @@
 # #           a = str(a) + ":00"
 # #    return a
 
+from word2number import w2n
 
+dosage = "ten ml"
+dosage = str(dosage)
+dosage = dosage.lower()
+dosage = dosage.replace("ml", "").replace("mg", "")
+print(int(dosage))
+if dosage.isdigit():
+    print("integer")
+else:
+    print("string")
+try:
+    dosage_ml = w2n.word_to_num("ten ml")
+except:
+    dosage_ml = 1
+
+print(dosage_ml)
 # # s = '09:05 PM'
 # # result = timeConversion(s)
 # # print(result)
@@ -131,26 +147,26 @@
 
 # # timeslots = datetime.strptime("22:30:00", "%H:%M:%S")
 # # print(timeslots.strftime("%I:%M %p"))
-import parsedatetime
-import dateparser
-import recognizers_suite as Recognizers
-from recognizers_suite import Culture
-import warnings
-from datetime import datetime
-warnings.filterwarnings(
-    "ignore",
-    message="The localize method is no longer necessary, as this time zone supports the fold attribute",
-)
-culture = Culture.English
+# import parsedatetime
+# import dateparser
+# import recognizers_suite as Recognizers
+# from recognizers_suite import Culture
+# import warnings
+# from datetime import datetime
+# warnings.filterwarnings(
+#     "ignore",
+#     message="The localize method is no longer necessary, as this time zone supports the fold attribute",
+# )
+# culture = Culture.English
 
-p = parsedatetime.Calendar()
-time_struct, parse_status = p.parse("from sept 25 to 7 days")
-dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
-print(dates)
+# p = parsedatetime.Calendar()
+# time_struct, parse_status = p.parse("from sept 25 to 7 days")
+# dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+# print(dates)
 
-datess = dateparser.parse("today from 7 days")
-#datess = datetime.strftime(datess, '%Y-%m-%d')
-print(datess)
+# datess = dateparser.parse("today from 7 days")
+# #datess = datetime.strftime(datess, '%Y-%m-%d')
+# print(datess)
 
 
 

@@ -286,43 +286,26 @@ class caseOneDialog(ComponentDialog):
         wks = sh.worksheet("Sheet1")
         wks.update_acell("P3", str(duration))
 
-        if dosage_tab == "koto dosage11":
-
-            wks.update_acell("Q2", "entered")
-            
-            dosage = step_context.result
-            wks.update_acell("Q3", str(dosage))
-            dosage = str(dosage)
-            dosage = dosage.lower()
-            dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
-            
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
-            wks.update_acell("Q4", str(dosage))
-            med_type = "0"
-            pill_name = med_names[0]
-            patientid = userId
-            pharmacyid = pharmacyId
-            tokens = token
-            color_code = "#DB4F64"
-            pill_time = times[0]
-            shape_type = "0"
-            place = ""
-            dosage_ml = ""
-            wks.update_acell("Q5", str(pill_name))
-            wks.update_acell("Q6", str(duration))
-            duration = str(duration)
-            duration = duration.lower()
-            wks.update_acell("Q7", str(duration))
-            duration = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
-            wks.update_acell("Q8", "entered1")
-
-            dates = cal_date_adv(duration)
-            wks.update_acell("Q9", "entered2")
+        if dosage_tab == "koto dosage11":            
+            dosage      = step_context.result
+            dosage      = str(dosage)
+            dosage      = dosage.lower()
+            dosage      = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
+            med_type    = "0"
+            pill_name   = med_names[0]
+            patientid   = userId
+            pharmacyid  = pharmacyId
+            tokens      = token
+            color_code  = "#DB4F64"
+            pill_time   = times[0]
+            shape_type  = "0"
+            place       = ""
+            dosage_ml   = ""
+            duration    = str(duration)
+            duration    = duration.lower()
+            duration    = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
+            dates       = cal_date_adv(duration)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
-            wks.update_acell("Q10", "entered3")
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
             await step_context.context.send_activity(
@@ -340,12 +323,7 @@ class caseOneDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("drops", "").replace("drop ", "")
-
-            try:
-                dosage1 = w2n.word_to_num(dosage)
-            except:
-                dosage1 = 1
+            dosage1 = dosage.replace("drops", "").replace("drop ", "")
 
             reply = MessageFactory.text("Where to use the drop?")
             reply.suggested_actions = SuggestedActions(
@@ -370,10 +348,6 @@ class caseOneDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
             med_type = "2"
             pill_name = med_names[0]
             patientid = userId
@@ -399,11 +373,8 @@ class caseOneDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+
             med_type = "3"
             pill_name = med_names[0]
             patientid = userId
@@ -429,11 +400,8 @@ class caseOneDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+
             med_type = "4"
             pill_name = med_names[0]
             patientid = userId
@@ -578,10 +546,10 @@ class caseOneDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
+            # try:
+            #     dosage = w2n.word_to_num(dosage)
+            # except:
+            #     dosage = 1
             med_type = "0"
             pill_name = med_names[0]
             patientid = userId
@@ -611,12 +579,12 @@ class caseOneDialog(ComponentDialog):
             dosage   = step_context.result
             dosage   = str(dosage)
             dosage   = dosage.lower()
-            dosage   = dosage.replace("drops", "").replace("drop ", "")
+            dosage2   = dosage.replace("drops", "").replace("drop ", "")
 
-            try:
-                dosage2 = w2n.word_to_num(dosage)
-            except:
-                dosage2 = 1
+            # try:
+            #     dosage2 = w2n.word_to_num(dosage)
+            # except:
+            #     dosage2 = 1
 
             reply = MessageFactory.text("Where to use the drop?")
             reply.suggested_actions = SuggestedActions(
@@ -641,10 +609,10 @@ class caseOneDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
+            # try:
+            #     dosage = w2n.word_to_num(dosage)
+            # except:
+            #     dosage = 1
             med_type = "2"
             pill_name = med_names[0]
             patientid = userId
@@ -668,11 +636,11 @@ class caseOneDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type = "3"
             pill_name = med_names[0]
             patientid = userId
@@ -696,11 +664,11 @@ class caseOneDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type = "4"
             pill_name = med_names[0]
             patientid = userId
@@ -771,11 +739,6 @@ class caseOneDialog(ComponentDialog):
         
         global duration2
 
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-        wks.update_acell("P8", str(duration2))
-
         if dropfor2 == "drop kothay2":
 
             place = step_context.result
@@ -803,10 +766,6 @@ class caseOneDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
             med_type = "0"
             pill_name = med_names[0]
             patientid = userId
@@ -817,7 +776,6 @@ class caseOneDialog(ComponentDialog):
             shape_type = "0"
             place = ""
             dosage_ml = ""
-            wks.update_acell("Q8", str(duration2))
             duration2 = str(duration2)
             duration2 = duration2.lower()
             duration2 = duration2.replace("for", "").replace("about", "").replace("almost", "")
@@ -841,12 +799,7 @@ class caseOneDialog(ComponentDialog):
             dosage   = step_context.result
             dosage   = str(dosage)
             dosage   = dosage.lower()
-            dosage   = dosage.replace("drops", "").replace("drop ", "")
-
-            try:
-                dosage3 = w2n.word_to_num(dosage)
-            except:
-                dosage3 = 1
+            dosage3   = dosage.replace("drops", "").replace("drop ", "")
 
             reply = MessageFactory.text("Where to use the drop?")
             reply.suggested_actions = SuggestedActions(
@@ -872,10 +825,6 @@ class caseOneDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
             med_type = "2"
             pill_name = med_names[0]
             patientid = userId
@@ -902,11 +851,8 @@ class caseOneDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+
             med_type = "3"
             pill_name = med_names[0]
             patientid = userId
@@ -933,11 +879,8 @@ class caseOneDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+
             med_type = "4"
             pill_name = med_names[0]
             patientid = userId

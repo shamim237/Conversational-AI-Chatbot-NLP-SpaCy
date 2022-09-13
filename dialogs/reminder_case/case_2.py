@@ -306,10 +306,10 @@ class caseTwoDialog(ComponentDialog):
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
             
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
+            # try:
+            #     dosage = w2n.word_to_num(dosage)
+            # except:
+            #     dosage = 1
             wks.update_acell("Q4", str(dosage))
             med_type = "0"
             pill_name = med_names[0]
@@ -350,12 +350,12 @@ class caseTwoDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("drops", "").replace("drop ", "")
+            dosage1 = dosage.replace("drops", "").replace("drop ", "")
 
-            try:
-                dosage1 = w2n.word_to_num(dosage)
-            except:
-                dosage1 = 1
+            # try:
+            #     dosage1 = w2n.word_to_num(dosage)
+            # except:
+            #     dosage1 = 1
 
             reply = MessageFactory.text("Where to use the drop?")
             reply.suggested_actions = SuggestedActions(
@@ -380,10 +380,10 @@ class caseTwoDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
+            # try:
+            #     dosage = w2n.word_to_num(dosage)
+            # except:
+            #     dosage = 1
             med_type = "2"
             pill_name = med_names[0]
             patientid = userId
@@ -409,11 +409,11 @@ class caseTwoDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type = "3"
             pill_name = med_names[0]
             patientid = userId
@@ -439,11 +439,11 @@ class caseTwoDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type = "4"
             pill_name = med_names[0]
             patientid = userId
@@ -588,10 +588,10 @@ class caseTwoDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
+            # try:
+            #     dosage = w2n.word_to_num(dosage)
+            # except:
+            #     dosage = 1
             med_type = "0"
             pill_name = med_names[0]
             patientid = userId
@@ -621,12 +621,12 @@ class caseTwoDialog(ComponentDialog):
             dosage   = step_context.result
             dosage   = str(dosage)
             dosage   = dosage.lower()
-            dosage   = dosage.replace("drops", "").replace("drop ", "")
+            dosage2   = dosage.replace("drops", "").replace("drop ", "")
 
-            try:
-                dosage2 = w2n.word_to_num(dosage)
-            except:
-                dosage2 = 1
+            # try:
+            #     dosage2 = w2n.word_to_num(dosage)
+            # except:
+            #     dosage2 = 1
 
             reply = MessageFactory.text("Where to use the drop?")
             reply.suggested_actions = SuggestedActions(
@@ -651,10 +651,10 @@ class caseTwoDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
+            # try:
+            #     dosage = w2n.word_to_num(dosage)
+            # except:
+            #     dosage = 1
             med_type = "2"
             pill_name = med_names[0]
             patientid = userId
@@ -678,11 +678,11 @@ class caseTwoDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type = "3"
             pill_name = med_names[0]
             patientid = userId
@@ -706,11 +706,11 @@ class caseTwoDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type = "4"
             pill_name = med_names[0]
             patientid = userId
@@ -813,10 +813,10 @@ class caseTwoDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
+            # try:
+            #     dosage = w2n.word_to_num(dosage)
+            # except:
+            #     dosage = 1
             med_type = "0"
             pill_name = med_names[0]
             patientid = userId
@@ -851,12 +851,12 @@ class caseTwoDialog(ComponentDialog):
             dosage   = step_context.result
             dosage   = str(dosage)
             dosage   = dosage.lower()
-            dosage   = dosage.replace("drops", "").replace("drop ", "")
+            dosage3   = dosage.replace("drops", "").replace("drop ", "")
 
-            try:
-                dosage3 = w2n.word_to_num(dosage)
-            except:
-                dosage3 = 1
+            # try:
+            #     dosage3 = w2n.word_to_num(dosage)
+            # except:
+            #     dosage3 = 1
 
             reply = MessageFactory.text("Where to use the drop?")
             reply.suggested_actions = SuggestedActions(
@@ -882,10 +882,10 @@ class caseTwoDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
+            # try:
+            #     dosage = w2n.word_to_num(dosage)
+            # except:
+            #     dosage = 1
             med_type = "2"
             pill_name = med_names[0]
             patientid = userId
@@ -912,11 +912,11 @@ class caseTwoDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type = "3"
             pill_name = med_names[0]
             patientid = userId
@@ -943,11 +943,11 @@ class caseTwoDialog(ComponentDialog):
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage_ml = dosage.replace("mL", "").replace("ml", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type = "4"
             pill_name = med_names[0]
             patientid = userId

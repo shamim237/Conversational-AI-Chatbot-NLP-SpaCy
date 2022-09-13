@@ -142,11 +142,10 @@ class caseFourDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
-            try:
-                dosage  = w2n.word_to_num(dosage)
-            except:
-                dosage  = 1
-
+            # try:
+            #     dosage  = w2n.word_to_num(dosage)
+            # except:
+            #     dosage  = 1
             med_types   = "0"
             pill_name   = med_names[0]
             pill_time   = times[0]
@@ -176,15 +175,15 @@ class caseFourDialog(ComponentDialog):
 
         if dosages == "drops dose":
             dropfor1 = "drop kothay"
-            dosage = step_context.result
-            dosage = str(dosage)
-            dosage = dosage.lower()
-            dosage = dosage.replace("drops", "").replace("drop ", "")
+            dosage   = step_context.result
+            dosage   = str(dosage)
+            dosage   = dosage.lower()
+            dosage1  = dosage.replace("drops", "").replace("drop ", "")
 
-            try:
-                dosage1 = w2n.word_to_num(dosage)
-            except:
-                dosage1 = 1
+            # try:
+            #     dosage1 = w2n.word_to_num(dosage)
+            # except:
+            #     dosage1 = 1
 
             reply = MessageFactory.text("Where to use the drop?")
             reply.suggested_actions = SuggestedActions(
@@ -206,14 +205,14 @@ class caseFourDialog(ComponentDialog):
 
 
         if dosages == "capsule dose":
-            dosage = step_context.result
-            dosage = str(dosage)
-            dosage = dosage.lower()
-            dosage = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
-            try:
-                dosage = w2n.word_to_num(dosage)
-            except:
-                dosage = 1
+            dosage      = step_context.result
+            dosage      = str(dosage)
+            dosage      = dosage.lower()
+            dosage      = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
+            # try:
+            #     dosage = w2n.word_to_num(dosage)
+            # except:
+            #     dosage = 1
 
             med_type    = "2"
             pill_name   = med_names[0]
@@ -238,14 +237,14 @@ class caseFourDialog(ComponentDialog):
 
 
         if dosages == "syringe dose":
-            dosage = step_context.result
-            dosage = str(dosage)
-            dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage      = step_context.result
+            dosage      = str(dosage)
+            dosage      = dosage.lower()
+            dosage_ml   = dosage.replace("ml", "").replace("mg", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type    = "3"
             pill_name   = med_names[0]
             patientid   = userId
@@ -269,14 +268,14 @@ class caseFourDialog(ComponentDialog):
 
 
         if dosages == "syrup dose":
-            dosage = step_context.result
-            dosage = str(dosage)
-            dosage = dosage.lower()
-            dosage = dosage.replace("mL", "").replace("ml", "")
-            try:
-                dosage_ml = w2n.word_to_num(dosage)
-            except:
-                dosage_ml = 1
+            dosage      = step_context.result
+            dosage      = str(dosage)
+            dosage      = dosage.lower()
+            dosage_ml   = dosage.replace("mL", "").replace("ml", "")
+            # try:
+            #     dosage_ml = w2n.word_to_num(dosage)
+            # except:
+            #     dosage_ml = 1
             med_type    = "4"
             pill_name   = med_names[0]
             patientid   = userId
