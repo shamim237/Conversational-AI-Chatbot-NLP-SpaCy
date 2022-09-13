@@ -95,11 +95,11 @@ class caseSixDialog(ComponentDialog):
         except:
             pass
 
-            await step_context.context.send_activity(
-                MessageFactory.text("What times of the day do you want to take the medicine? Hint- 9AM, 2PM or 10PM."))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Please enter those times in the day.")),) 
+        await step_context.context.send_activity(
+            MessageFactory.text("What times of the day do you want to take the medicine? Hint- 9AM, 2PM or 10PM."))
+        return await step_context.prompt(
+            TextPrompt.__name__,
+            PromptOptions(prompt=MessageFactory.text("Please enter those times in the day.")),) 
 
     
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
