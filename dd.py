@@ -60,11 +60,11 @@
 # print(len(ss))
 # print(dat)
 # # logging.basicConfig(filename='output.txt', level=logging.DEBUG, format='')
-quants = ['4 ml']
+# quants = ['4 ml']
 
-ss = "".join(quants)
+# ss = "".join(quants)
 
-print(ss)
+# print(ss)
 # # def we_prints(data):
 # #     logging.info(data)
 # # #     print(data)
@@ -164,19 +164,57 @@ print(ss)
 # )
 # culture = Culture.English
 
-# p = parsedatetime.Calendar()
-# time_struct, parse_status = p.parse("from sept 25 to 7 days")
-# dates = datetime(*time_struct[:6]).strftime("%Y-%m-%d")
-# print(dates)
+# # p = parsedatetime.Calendar()
+# # time_struct, parse_status = p.parse("8 am and 9 pm")
+# # dates = datetime(*time_struct[:6]).strftime("%H:%M:%S")
+# # print(time_struct)
 
-# datess = dateparser.parse("today from 7 days")
-# #datess = datetime.strftime(datess, '%Y-%m-%d')
-# print(datess)
+# # datess = dateparser.parse("today from 7 days")
+# # #datess = datetime.strftime(datess, '%Y-%m-%d')
+# # print(datess)
+
+# from recognizers_text import Culture, ModelResult,StringUtility
+# from recognizers_date_time import DateTimeRecognizer 
+# import recognizers_suite as Recognizers
+# from recognizers_suite import Culture
+
+# culture = Culture.English
+
+# usertext = "8 am and 9 pm"
+
+# extract = Recognizers.recognize_datetime(usertext, culture) 
+# times = []     
+# for i in extract:
+#     keys = i.resolution
+#     values = keys['values']
+#     for j in values:
+#         timea = j['value']  
+#         times.append(timea) 
+
+# times = ",".join(times)
+
+# recognizer = DateTimeRecognizer(Culture.English)
+# model = recognizer.get_datetime_model()
+# mode_result = model.parse(times)
+
+# print(mode_result)
 
 
 
 
-# ss = Recognizers.recognize_datetime("Thursday", culture) 
+
+
+
+
+
+
+
+
+
+
+
+
+# ss = Recognizers.recognize_datetime("8am and 9pm", culture) 
 # timess = []     
 # for i in ss:
 #         ss = i.resolution

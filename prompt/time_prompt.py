@@ -1,17 +1,12 @@
 from botbuilder.dialogs.prompts import Prompt, PromptOptions,PromptRecognizerResult
 from botbuilder.core.turn_context import TurnContext
 from botbuilder.schema import ActivityTypes
-#from prompt_toolkit import prompt
-from recognizers_text import Culture, ModelResult,StringUtility
-#from recognizers_sequence import SequenceRecognizer
+from recognizers_text import Culture
 from recognizers_date_time import DateTimeRecognizer 
-import datetime
-import parsedatetime
-import datetime
-import dateparser
-from typing import Callable, Dict
-#import enum
-
+import recognizers_suite as Recognizers
+from recognizers_suite import Culture
+from typing import  Dict
+culture = Culture.English
 
 class TimePrompt (Prompt):
     def __init__(self, dialog_id, validator : object = None, defaultLocale = None):
@@ -22,9 +17,8 @@ class TimePrompt (Prompt):
 
      self._defaultLocale = defaultLocale
 
-    async def on_prompt(
-        self, 
-        turn_context: TurnContext, state: Dict[str, object], options: PromptOptions, is_retry: bool,):
+    async def on_prompt(self, turn_context: TurnContext, state: Dict[str, object], options: PromptOptions, is_retry: bool,):
+        
         if not turn_context:
             raise TypeError("turn_context Can’t  be none")
         if not options:
@@ -36,11 +30,7 @@ class TimePrompt (Prompt):
             if options.prompt is not None:
                 await turn_context.send_activity(options.prompt)    
 
-    async def on_recognize(self,
-        turn_context: TurnContext, 
-        state: Dict[str, object], 
-        options: PromptOptions, 
-    ) -> PromptRecognizerResult:  
+    async def on_recognize(self, turn_context: TurnContext,  state: Dict[str, object], options: PromptOptions,) -> PromptRecognizerResult:  
 
         if not turn_context:
             raise TypeError("turn_context cannt be none")
@@ -49,48 +39,28 @@ class TimePrompt (Prompt):
             usertext = turn_context.activity.text
 
 
-        if "/" or "-" not in usertext:
-            p = parsedatetime.Calendar()
-            time_struct, parse_status = p.parse(usertext)
-            dates = datetime.datetime(*time_struct[:6]).strftime("%H:%M:%S")
+        extract = Recognizers.recognize_datetime(usertext, culture) 
+        times = []     
+        for i in extract:
+            keys = i.resolution
+            values = keys['values']
+            for j in values:
+                timea = j['value']  
+                times.append(timea)  
 
-            turn_context.activity.locale = self._defaultLocale
+        times = ",".join(times)
+        turn_context.activity.locale = self._defaultLocale
+        recognizer = DateTimeRecognizer(Culture.English)
+        model = recognizer.get_datetime_model()
+        mode_result = model.parse(times)
 
-            recognizer = DateTimeRecognizer(Culture.English)
-            model = recognizer.get_datetime_model()
-            mode_result = model.parse(dates)
+        prompt_result = PromptRecognizerResult()
 
-            prompt_result = PromptRecognizerResult()
-
-            if len(mode_result) > 0 and len(mode_result[0].resolution) > 0:
-                for resolution in mode_result[0].resolution["values"]:
-                    if "value" in resolution:
-                        #prompt_result.succeeded = True
-                        prompt_result.value = resolution["value"]
-                        print("Date: ", prompt_result.value)
-                        prompt_result.succeeded = True
-                        return prompt_result
+        if len(mode_result) > 0 and len(mode_result[0].resolution) > 0:
+            for resolution in mode_result[0].resolution["values"]:
+                if "value" in resolution:
+                    prompt_result.value = resolution["value"]
+                    prompt_result.succeeded = True
+                    return prompt_result
 
 
-        if "/" or "-" in usertext:
-
-            dates = dateparser.parse(usertext)
-
-            dates = datetime.datetime.strftime(dates, '%H:%M:%S')
-
-            turn_context.activity.locale = self._defaultLocale
-
-            recognizer = DateTimeRecognizer(Culture.English)
-            model = recognizer.get_datetime_model()
-            mode_result = model.parse(dates)
-
-            prompt_result = PromptRecognizerResult()
-
-            if len(mode_result) > 0 and len(mode_result[0].resolution) > 0:
-                for resolution in mode_result[0].resolution["values"]:
-                    if "value" in resolution:
-                        #prompt_result.succeeded = True
-                        prompt_result.value = resolution["value"]
-                        print("Date: ", prompt_result.value)
-                        prompt_result.succeeded = True
-                        return prompt_result
