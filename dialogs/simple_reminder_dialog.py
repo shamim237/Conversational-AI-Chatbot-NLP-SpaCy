@@ -72,6 +72,7 @@ class SimplePillReminderDialog(ComponentDialog):
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:  
 
         global times
+        global med_name
 
         time = step_context.result
         culture = Culture.English
@@ -92,6 +93,8 @@ class SimplePillReminderDialog(ComponentDialog):
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global duration
+        global med_name
+        global times
         duration  = step_context.result  
         
         reply = MessageFactory.text("How often you would like to take the medicine? Will it be daily or only for some specific days?")
@@ -109,7 +112,10 @@ class SimplePillReminderDialog(ComponentDialog):
 
     
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
+        
+        global duration
+        global med_name
+        global times
         global med_type1
         global spec
 
@@ -154,6 +160,9 @@ class SimplePillReminderDialog(ComponentDialog):
 
     async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        global duration
+        global med_name
+        global times
         global dosages
         global days
         global med_type2
@@ -228,6 +237,9 @@ class SimplePillReminderDialog(ComponentDialog):
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
+        global duration
+        global med_name
+        global times
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
