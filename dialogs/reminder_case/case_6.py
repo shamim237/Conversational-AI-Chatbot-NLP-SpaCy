@@ -65,6 +65,14 @@ class caseSixDialog(ComponentDialog):
         multi_doses = []
         quants      = []
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
+        try:
+            wks.update_acell("F6", str("".join(quants[0])))
+        except:
+            pass
 
 ################################################################# remind me to take 5ml glucoplus twice a day ################################################################################
         
