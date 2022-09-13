@@ -77,16 +77,19 @@ class PillReminderDialog(ComponentDialog):
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        if excepts == "didn't do it":
-            response = predict_class(step_context.result)
-            if response == "adv_pill_reminder":
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thank You!"))
-                return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
-            else:
-                excepts = "didn't do it"
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Looks like you havn't got the point!")) 
-                await step_context.context.send_activity(
-                    MessageFactory.text("Alright! I am initializing other process for setting up a pill reminder!")) 
-                return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
+        wks.update_acell("E10", str(step_context.result))
+        response = predict_class(step_context.result)
+        wks.update_acell("E11", str(response))
+        
+        if response == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text("Thank You!"))
+            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+        else:
+            await step_context.context.send_activity(
+                MessageFactory.text("Alright! I am initializing other process for setting up a pill reminder!")) 
+            return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
