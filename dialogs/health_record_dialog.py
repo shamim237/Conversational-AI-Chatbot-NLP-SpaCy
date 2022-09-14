@@ -52,6 +52,7 @@ class HealthRecordDialog(ComponentDialog):
 
         global userId
         global token
+        global wks
         global pharmacyId
 
         userId = step_context.context.activity.from_property.id
@@ -107,14 +108,12 @@ class HealthRecordDialog(ComponentDialog):
     async def upload3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
         global upload3
-        
         upload3 = "vnizviv"
 
 
         yesno = predict_class(step_context.result)
 
         if upload2 == "want to add more or not":
-            print("entered14")
             if yesno == "positive":
                 upload3 = "add more/choose options"
                 prompt_options = PromptOptions(
@@ -180,6 +179,7 @@ class HealthRecordDialog(ComponentDialog):
         reportType2     = "typaaaaat"
 
         if upload4 == "kar report":
+            reportPatient1 = step_context.result
             pred = predict_class(step_context.result)
             if pred == "don't know":
                 upload5 = "patient_name12"    
@@ -190,7 +190,6 @@ class HealthRecordDialog(ComponentDialog):
 
             else: 
                 upload5 = "doctor name"
-                reportPatient1 = step_context.result
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
@@ -243,7 +242,7 @@ class HealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(reportType2))),)
 
             else: 
-                upload6 = "doctor name"
+                upload6 = "doctor name2"
                 reportPatient2 = step_context.result
                 return await step_context.prompt(
                     TextPrompt.__name__,
@@ -275,6 +274,7 @@ class HealthRecordDialog(ComponentDialog):
                     prompt=MessageFactory.text("Enter a name to your report. It can be 'Blood Sugar Level report' or 'Malaria Report' etc.\n\nYou can also find it on the report.")),)
 
         if upload6 == "reportname":
+            reportName1 = step_context.result
             pred = predict_class(step_context.result)
             if pred == "don't know":
                 upload7 = "reportname again"
@@ -284,7 +284,6 @@ class HealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text('You can find it on the top of your report. It can be "Typhoid report" or "CBP" etc.')),)
             else:
                 upload7 = "reportsummary"
-                reportName1 = step_context.result
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
@@ -298,7 +297,7 @@ class HealthRecordDialog(ComponentDialog):
                 PromptOptions(
                     prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
 
-        if upload6 == "doctor name":
+        if upload6 == "doctor name2":
             upload7 = "reportname--"
             reportDoctor2 = step_context.result
             return await step_context.prompt(
@@ -347,6 +346,16 @@ class HealthRecordDialog(ComponentDialog):
         if upload7 == "reportsummary":
             patientId = userId
             reportSummary1 = step_context.result
+            wks.update_acell("E1", str(patientId))
+            wks.update_acell("E2", str(reportName1))
+            wks.update_acell("E3", str(reportSummary1))
+            wks.update_acell("E4", str(reportType1))
+            wks.update_acell("E5", str(reportDoctor1))
+            wks.update_acell("E6", str(reportPatient1))
+            wks.update_acell("E7", str(ids1))
+            wks.update_acell("E8", str(urls1))
+            wks.update_acell("E9", str(pharmacyId))
+            wks.update_acell("E10", str(token))
             save_health_record_1(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)            
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
