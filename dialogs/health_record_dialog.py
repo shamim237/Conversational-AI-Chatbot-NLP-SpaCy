@@ -66,9 +66,7 @@ class HealthRecordDialog(ComponentDialog):
                 
         await step_context.context.send_activity(
             MessageFactory.text("Please upload the document."))            
-        prompt_options = PromptOptions(
-            prompt=MessageFactory.text(
-                "Tap \U0001F4CE to upload"),)
+        prompt_options = PromptOptions(prompt = MessageFactory.text("Tap \U0001F4CE to upload"), retry_prompt = MessageFactory.text("Please upload a valid document."),)
         return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
@@ -86,26 +84,11 @@ class HealthRecordDialog(ComponentDialog):
         userId = step_context.context.activity.from_property.id
         image = step_context.context.activity.additional_properties
 
-        try:
-            for i in image.keys():
-                if i == "attachmentUrl":
-                    urls = image[i]
-                    wks.update_acell("B6", str(urls))
-                if i == "attachmentId":
-                    ids = image[i]
-                    wks.update_acell("B7", str(ids))
-        except:
-            pass
-
-        check = list(image.values())[0]
-        
-        if len(check) <= 10:
-            ids1    = list(image.values())[0]
-            urls1   = list(image.values())[1]
-        else:
-            ids1    = list(image.values())[1]
-            urls1   = list(image.values())[0]  
-
+        for i in image.keys():
+            if i == "attachmentUrl":
+                urls1 = image[i]
+            if i == "attachmentId":
+                ids1 = image[i]
 
         if image is not None:
             upload2 = "want to add more or not"
@@ -168,14 +151,11 @@ class HealthRecordDialog(ComponentDialog):
             upload4 = "options choosing"
             image = step_context.context.activity.additional_properties
 
-            check = list(image.values())[0]
-            
-            if len(check) <= 10:
-                ids2    = list(image.values())[0]
-                urls2   = list(image.values())[1]
-            else:
-                ids2    = list(image.values())[1]
-                urls2   = list(image.values())[0] 
+            for i in image.keys():
+                if i == "attachmentUrl":
+                    urls2 = image[i]
+                if i == "attachmentId":
+                    ids2 = image[i]
 
             listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
             return await step_context.prompt((ChoicePrompt.__name__),
@@ -525,17 +505,7 @@ class HealthRecordDialog(ComponentDialog):
 
         if upload9 == "reportsummary132":
             patientId = userId
-            reportSummary131 = step_context.result
-            wks.update_acell("E1", str(patientId))
-            wks.update_acell("E2", str(reportName131))
-            wks.update_acell("E3", str(reportSummary131))
-            wks.update_acell("E4", str(reportType1))
-            wks.update_acell("E5", str(reportDoctor13))
-            wks.update_acell("E6", str(reportPatient13))
-            wks.update_acell("E7", str(ids1))
-            wks.update_acell("E8", str(urls1))
-            wks.update_acell("E9", str(pharmacyId))
-            wks.update_acell("E10", str(token))            
+            reportSummary131 = step_context.result         
             save_health_record_1(patientId, reportName131, reportSummary131, reportType1, reportDoctor13, reportPatient13, ids1, urls1, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))

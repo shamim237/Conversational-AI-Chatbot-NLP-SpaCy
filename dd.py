@@ -1,3 +1,15 @@
+ss =  {'attachmentUrl': 'https://jarvin-dev.azurewebsites.net/appimages/thumbs/0001488.pdf', 'local_timestamp': '11:31 am'}
+
+
+# for i in ss.keys():
+#     if 
+if "attachmentUrl" and "attachmentId" in ss:
+    print("ache")
+
+
+
+
+
 # # dd = {'attachmentId': '1303', 'attachmentUrl': 'https://jarvin-dev.azurewebsites.net/appimages/thumbs/0001303.jpeg'}
 
 # # id = list(dd.values())[1]

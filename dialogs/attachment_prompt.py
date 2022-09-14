@@ -1,12 +1,9 @@
 from typing import Callable, Dict
-
 from botbuilder.schema import ActivityTypes
 from botbuilder.core import TurnContext
-
 from botbuilder.dialogs.prompts import Prompt, PromptValidatorContext
 from botbuilder.dialogs.prompts import PromptOptions
 from botbuilder.dialogs.prompts  import PromptRecognizerResult
-import gspread
 
 
 class AttachmentPrompt(Prompt):
@@ -28,14 +25,6 @@ class AttachmentPrompt(Prompt):
         options: PromptOptions,
         is_retry: bool,
     ):
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-
-        try:
-            wks.update_acell("D7", str(turn_context.activity))
-        except:
-            pass     
 
         if not turn_context:
             raise TypeError("AttachmentPrompt.on_prompt(): TurnContext cannot be None.")
@@ -57,15 +46,6 @@ class AttachmentPrompt(Prompt):
         options: PromptOptions,
     ) -> PromptRecognizerResult:
 
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-
-        try:
-            wks.update_acell("D12", str(turn_context.activity))
-        except:
-            pass 
-
 
         if not turn_context:
             raise TypeError("AttachmentPrompt.on_recognize(): context cannot be None.")
@@ -74,7 +54,7 @@ class AttachmentPrompt(Prompt):
 
         if turn_context.activity.type == ActivityTypes.message:
             message = turn_context.activity
-            if message.additional_properties is not None:
+            if "attachmentUrl" and "attachmentId" in message.additional_properties.keys():  
                 result.succeeded = True
                 result.value = message.additional_properties
 
