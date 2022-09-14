@@ -77,7 +77,7 @@ class UserProfileDialog(ComponentDialog):
         try:
             wks.update_acell("B1", str(userId))
             wks.update_acell("B2", str(token))
-            wks.update_acell("B3", str(pharmacyId))
+            wks.update_acell("B30", str(pharmacyId))
         except:
             pass
 

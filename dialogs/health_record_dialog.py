@@ -9,7 +9,7 @@ from prompt.email_prompt import EmailPrompt
 from dialogs.attachment_prompt import AttachmentPrompt
 from user_info import check_email
 from nlp_model.predict import predict_class
-from health_record import save_health_record_1, save_health_record_2, save_health_record_3, save_health_record_4, save_health_record_5
+from health_record import save_health_record_1, save_health_record_2
 import gspread
 
 
@@ -41,7 +41,6 @@ class HealthRecordDialog(ComponentDialog):
                     self.upload10_step,
                     self.upload11_step,
 
-
                 ],
             )
         )
@@ -62,56 +61,37 @@ class HealthRecordDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-
-        try:
-            wks.update_acell("B5", str(step_context.context.activity))
-        except:
-            pass               
+             
                 
         prompt_options = PromptOptions(
             prompt=MessageFactory.text(
-                "You can take a snap or upload an image or PDF file. Please choose the document source."),
-            # retry_prompt=MessageFactory.text(
-            #     "The attachment must be a jpeg/png/pdf files."),
-            )
+                "You can take a snap or upload an image or PDF file. Please choose the document source."),)
         return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+
 
     async def upload2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        global email
         global urls1
         global ids1
         global upload2
         global userId
 
-        urls1 = "url1 of image"
-        ids1 = "id1 of image"
-        upload2 = "smnvosn"
-
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")   
+        urls1   = "url1 of imag"
+        ids1    = "id1 of image"
+        upload2 = "smnvosnsssss"
 
         userId = step_context.context.activity.from_property.id
-        email = check_email(userId, token)
-
         image = step_context.context.activity.additional_properties
 
-        try:
-            wks.update_acell("A6", str(type(image)))
-            wks.update_acell("B6", str(image))
-        except:
-            pass
+        check = list(image.values())[0]
+        
+        if len(check) <= 10:
+            ids1    = list(image.values())[0]
+            urls1   = list(image.values())[1]
+        else:
+            ids1    = list(image.values())[1]
+            urls1   = list(image.values())[0]  
 
-        ids1 = list(image.values())[0]
-        urls1 = list(image.values())[1]
-
-
-        try:
-            wks.update_acell("B7", " ".join(urls1))
-            wks.update_acell("B8", " ".join(ids1))
-        except:
-            pass
 
         if image is not None:
             upload2 = "want to add more or not"
@@ -122,10 +102,11 @@ class HealthRecordDialog(ComponentDialog):
                 PromptOptions(
                     prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?")),)   
 
+
+
     async def upload3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
         global upload3
-        global add_more
         
         upload3 = "vnizviv"
 
@@ -135,7 +116,6 @@ class HealthRecordDialog(ComponentDialog):
         if upload2 == "want to add more or not":
             print("entered14")
             if yesno == "positive":
-                add_more = "add more"
                 upload3 = "add more/choose options"
                 prompt_options = PromptOptions(
                     prompt=MessageFactory.text(
@@ -159,10 +139,10 @@ class HealthRecordDialog(ComponentDialog):
         global upload4
         global reportType1
 
-        reportType1 = "shell"
-        upload4 = "nothing much"
-        urls2 = "url of image"
-        ids2 = "id of image"
+        reportType1 = "shellsssssss"
+        upload4     = "nothing much"
+        urls2       = "url of image"
+        ids2        = "id of images"
 
         if upload3 == "choose options":
             upload4 = "kar report"
@@ -176,8 +156,14 @@ class HealthRecordDialog(ComponentDialog):
             upload4 = "options choosing"
             image = step_context.context.activity.additional_properties
 
-            ids2 = list(image.values())[0]
-            urls2 = list(image.values())[1]
+            check = list(image.values())[0]
+            
+            if len(check) <= 10:
+                ids2    = list(image.values())[0]
+                urls2   = list(image.values())[1]
+            else:
+                ids2    = list(image.values())[1]
+                urls2   = list(image.values())[0] 
 
             listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
             return await step_context.prompt((ChoicePrompt.__name__),
@@ -189,9 +175,9 @@ class HealthRecordDialog(ComponentDialog):
         global reportPatient1
         global reportType2
 
-        upload5 = "step5"
-        reportPatient1 = "patient!!!"
-        reportType2 = "type of report"
+        upload5         = "step5aaaa"
+        reportPatient1  = "patientaa"
+        reportType2     = "typaaaaat"
 
         if upload4 == "kar report":
             pred = predict_class(step_context.result)
@@ -226,10 +212,10 @@ class HealthRecordDialog(ComponentDialog):
         global reportPatient13
         global reportPatient2
 
-        upload6 = "step6"
-        reportDoctor1 = "vsmmvm"
-        reportPatient13 = "patientfskms9"
-        reportPatient2 = "acfafskms9"
+        upload6         = "step6sss"
+        reportDoctor1   = "vsmmvmss"
+        reportPatient13 = "patientf"
+        reportPatient2  = "acfafskm"
 
         if upload5 == "patient_name12":
             upload6 = "doc name13"
@@ -273,11 +259,11 @@ class HealthRecordDialog(ComponentDialog):
         global reportPatient21
         global reportDoctor2
 
-        upload7 = "zknvlzknv"
-        reportDoctor13 = ";vxsvvsopm"
-        reportName1 =  "vsiopvnsp0vnpjn"
+        upload7         = "zknvlzknv"
+        reportDoctor13  = "vxsvvsopm"
+        reportName1     = "vsiopvnsa"
         reportPatient21 = "vpkgvw00w"
-        reportDoctor2 = "fwofw0jf0w"
+        reportDoctor2   = "fwofw0jf0"
 
 
         if upload6 == "doc name13":
@@ -327,15 +313,12 @@ class HealthRecordDialog(ComponentDialog):
         global reportName13
         global reportName2
         global reportDoctor21
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-        wks.update_acell("A8", str(upload7))    
-        upload8 = "csomvsv"
-        reportName12 = "vfwkowf"
-        reportName13 = "WFWKFM WPM FOPM"
-        reportName2 = "vsinvionvb"
-        reportDoctor21 = "vmmsinvnmvjm"
+ 
+        upload8         = "csomvsvww"
+        reportName12    = "vfwkowfww"
+        reportName13    = "aqsdfffff"
+        reportName2     = "vsinvionv"
+        reportDoctor21  = "vmmsinvnm"
 
         if upload7 == "report name13":
             pred = predict_class(step_context.result)
@@ -364,36 +347,15 @@ class HealthRecordDialog(ComponentDialog):
         if upload7 == "reportsummary":
             patientId = userId
             reportSummary1 = step_context.result
-            # if len(urls1) == 1:
-            print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1, urls1)
-            save_health_record_1(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)
-            # if len(urls1) == 2:
-            #     print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1])
-            #     save_health_record_2(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], pharmacyId, token)
-            # if len(urls1) == 3:
-            #     print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2])
-            #     save_health_record_3(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], pharmacyId, token)
-            # if len(urls1) == 4:
-            #     print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3])
-            #     save_health_record_4(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], pharmacyId, token)
-            # if len(urls1) == 5:
-            #     print(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4])
-            #     save_health_record_5(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4], pharmacyId, token)               
-            
+            save_health_record_1(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)            
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),) 
+            await step_context.context.send_activity(
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+            return await step_context.end_dialog()
 
         if upload7 == "reportname--":  
-            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-            sh = ac.open("chatbot_logger")
-            wks = sh.worksheet("Sheet1")
-            wks.update_acell("A9", str(upload7))    
             pred = predict_class(step_context.result)
-            wks.update_acell("A10", str(upload7))    
             if pred == "don't know":
                 upload8 = "reportname again--"
                 return await step_context.prompt(
@@ -402,7 +364,6 @@ class HealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text('You can find it on the top of your report. It can be "Typhoid report" or "CBP" etc.')),)
             else:
                 upload8 = "reportsummary--"
-                wks.update_acell("A11", "dhukse")   
                 reportName2 = step_context.result
                 return await step_context.prompt(
                     TextPrompt.__name__,
@@ -425,10 +386,10 @@ class HealthRecordDialog(ComponentDialog):
         global reportName212
         global reportName131
 
-        upload9 = "sninovnnvb"
-        reportName21 = "smnv  k ovn"
-        reportName212 = "smgdgdfg"
-        reportName131 = "smnv  k gddovn"
+        upload9         = "snbxzcck"
+        reportName21    = "smnvxzik"
+        reportName212   = "smgdgdfg"
+        reportName131   = "smnziziz"
 
 
         if upload8 == "reportname again--":
@@ -442,119 +403,37 @@ class HealthRecordDialog(ComponentDialog):
 
         if upload8 == "reportsummary2":
 
-            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-            sh = ac.open("chatbot_logger")
-            wks = sh.worksheet("Sheet1")
-            wks.update_acell("A13", "dhukse tou")  
-            wks.update_acell("A14", str(upload8))
-
             patientId = userId
             reportSummary12 = step_context.result
             save_health_record_1(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)
-            # if len(urls1) == 2:
-            #     print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1])
-            #     save_health_record_2(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], pharmacyId, token)
-            # if len(urls1) == 3:
-            #     print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2])
-            #     save_health_record_3(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], pharmacyId, token)
-            # if len(urls1) == 4:
-            #     print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3])
-            #     save_health_record_4(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], pharmacyId, token)
-            # if len(urls1) == 5:
-            #     print(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4])
-            #     save_health_record_5(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4], pharmacyId, token)  
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)
+            await step_context.context.send_activity(
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+            return await step_context.end_dialog()
 
 
         if upload8 == "reportsummary13":
 
             patientId = userId
             reportSummary13 = step_context.result
-            # if len(urls1) == 1:
-            print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1, urls1)
             save_health_record_1(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1, urls1, pharmacyId, token)
-            # if len(urls1) == 2:
-            #     print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1])
-            #     save_health_record_2(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], pharmacyId, token)
-            # if len(urls1) == 3:
-            #     print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2])
-            #     save_health_record_3(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], pharmacyId, token)
-            # if len(urls1) == 4:
-            #     print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3])
-            #     save_health_record_4(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], pharmacyId, token)
-            # if len(urls1) == 5:
-            #     print(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4])
-            #     save_health_record_5(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids1[4], urls1[4], pharmacyId, token)  
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)
+            await step_context.context.send_activity(
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+            return await step_context.end_dialog()
 
         if upload8 == "reportsummary--":
             patientId = userId
             reportSummary2 = step_context.result            
-            if add_more == "add more":
-                # if len(urls1) == 1 and len(urls2) == 1:
-                print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2)
-                save_health_record_2(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2, pharmacyId, token)
-                # if len(urls1) == 1 and len(urls2) == 2:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_3(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 1:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0])
-                #     save_health_record_3(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 2:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_4(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 1:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0])
-                #     save_health_record_4(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 2:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 3:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 1 and len(urls2) == 3:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                #     save_health_record_4(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 3:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                # if len(urls1) == 4 and len(urls2) == 1:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 4 and len(urls2) == 2:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)    
-                # if len(urls1) == 4 and len(urls2) == 3:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 1 and len(urls2) == 4:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 4:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 4:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 4 and len(urls2) == 4:
-                #     print(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+            save_health_record_2(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)
+            await step_context.context.send_activity(
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+            return await step_context.end_dialog()
+
 
         if upload8 == "reportname nibo":
             pred = predict_class(step_context.result)
@@ -594,61 +473,13 @@ class HealthRecordDialog(ComponentDialog):
         if upload9 == "reportsummary-2-":
             patientId = userId
             reportSummary21 = step_context.result
-            if add_more == "add more":
-                # if len(urls1) == 1 and len(urls2) == 1:
-                print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2)
-                save_health_record_2(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2, pharmacyId, token)
-                # if len(urls1) == 1 and len(urls2) == 2:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_3(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 1:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0])
-                #     save_health_record_3(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 2:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_4(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 1:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0])
-                #     save_health_record_4(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 2:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 3:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 1 and len(urls2) == 3:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                #     save_health_record_4(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 3:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                # if len(urls1) == 4 and len(urls2) == 1:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 4 and len(urls2) == 2:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)    
-                # if len(urls1) == 4 and len(urls2) == 3:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 1 and len(urls2) == 4:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 4:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 4:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 4 and len(urls2) == 4:
-                #     print(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+            save_health_record_2(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)
+            await step_context.context.send_activity(
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+            return await step_context.end_dialog()
+
 
         if upload9 == "reportname again-2-":
             upload10 = "reportsummary-21-"
@@ -662,17 +493,23 @@ class HealthRecordDialog(ComponentDialog):
         if upload9 == "reportsummary--test":
             patientId = userId
             reportSummary212 = step_context.result
-            if add_more == "add more":
-                print(patientId, reportName212, reportSummary212, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2)
-                save_health_record_2(patientId, reportName212, reportSummary212, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2, pharmacyId, token)
+            save_health_record_2(patientId, reportName212, reportSummary212, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2, pharmacyId, token)
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+            await step_context.context.send_activity(
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+            return await step_context.end_dialog()
 
         if upload9 == "reportsummary132":
             patientId = userId
             reportSummary131 = step_context.result
             print(patientId, reportName131, reportSummary131, reportType1, reportDoctor13, reportPatient13, ids1, urls1)
             save_health_record_1(patientId, reportName131, reportSummary131, reportType1, reportDoctor13, reportPatient13, ids1, urls1, pharmacyId, token)
-
-
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+            await step_context.context.send_activity(
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+            return await step_context.end_dialog()
 
 
     async def upload11_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -680,97 +517,10 @@ class HealthRecordDialog(ComponentDialog):
         if upload10 == "reportsummary-21-":
             patientId = userId
             reportSummary22 = step_context.result
-            if add_more == "add more":
-                # if len(urls1) == 1 and len(urls2) == 1:
-                print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2)
-                save_health_record_2(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2, pharmacyId, token)
-                # if len(urls1) == 1 and len(urls2) == 2:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_3(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 1:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0])
-                #     save_health_record_3(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 2:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_4(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 1:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0])
-                #     save_health_record_4(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 2:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 3:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 1 and len(urls2) == 3:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                #     save_health_record_4(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 3:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                # if len(urls1) == 4 and len(urls2) == 1:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 4 and len(urls2) == 2:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)    
-                # if len(urls1) == 4 and len(urls2) == 3:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
-                # if len(urls1) == 1 and len(urls2) == 4:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], ids2[3], urls2[3], pharmacyId, token)
-                # if len(urls1) == 2 and len(urls2) == 4:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids2[0], urls2[0], ids2[1], urls2[1], ids2[2], urls2[2], pharmacyId, token)
-                # if len(urls1) == 3 and len(urls2) == 4:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids2[0], urls2[0], ids2[1], urls2[1], pharmacyId, token)
-                # if len(urls1) == 4 and len(urls2) == 4:
-                #     print(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0])
-                #     save_health_record_5(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1[0], urls1[0], ids1[1], urls1[1], ids1[2], urls1[2], ids1[3], urls1[3], ids2[0], urls2[0], pharmacyId, token)
+            save_health_record_2(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.")),)                    
-
-    # @staticmethod
-    
-    # async def picture_prompt_validator(prompt_context: PromptValidatorContext) -> bool:
-        
-    #     ac = gspread.service_account("sppech-to-text-351109-41a4f352dd45.json")
-    #     sh = ac.open("userId")
-    #     wks = sh.worksheet("Sheet1") 
-
-    #     if not prompt_context.recognized.succeeded:
-    #         await prompt_context.context.send_activity(
-    #             "No attachments received. Proceeding without a picture...")
-    #         # We can return true from a validator function even if recognized.succeeded is false.
-    #         return True
-
-    #     attachments = prompt_context.recognized.value
-    #     for i in attachments:
-    #         print(i.content_type)
-    #         wks.update_acell("A1", i.content_type)
-    #     valid_images = [
-    #         attachment
-    #         for attachment in attachments
-    #         if attachment.content_type in ["image/jpeg", "image/png", "image/jpg", "application/pdf"]]
-
-    #     for attachment in attachments:
-    #         response = urllib.request.urlopen(attachment.content_url)
-    #         headers = response.info()
-
-    #         if headers["content-type"] == "application/json":
-    #             data = bytes(json.load(response)["data"])
-    #         else:
-    #             data = response.read()
-
-    #         local_filename = os.path.join(os.getcwd(), attachment.name)
-    #         with open(local_filename, "wb") as out_file:
-    #             out_file.write(data)
-
-    #     prompt_context.recognized.value = valid_images
-    #     return len(valid_images) > 0
+            await step_context.context.send_activity(
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+            return await step_context.end_dialog()
+                

@@ -33,15 +33,16 @@ def messages():
     else:
         return Response(status = 415)
 
-    activity = Activity().deserialize(body)
+    # print(body['text'])
 
+    activity = Activity().deserialize(body)
     auth_header = (request.headers["Authorization"] if "Authorization" in request.headers else "")
 
     async def call_fun(turncontext):
         await bot.on_turn(turncontext)
 
-    task = loop.create_task(
-        adapter.process_activity(activity,auth_header,call_fun))
+    # print(adapter.key_for_app_credentials())
+    task = loop.create_task(adapter.process_activity(activity,auth_header,call_fun))
     loop.run_until_complete(task)
 
 
