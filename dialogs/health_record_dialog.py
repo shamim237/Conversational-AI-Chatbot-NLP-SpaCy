@@ -84,6 +84,12 @@ class HealthRecordDialog(ComponentDialog):
         userId = step_context.context.activity.from_property.id
         image = step_context.context.activity.additional_properties
 
+        try:
+            tt = image.keys()
+            wks.update_acell("B6", str(tt))
+        except:
+            pass
+
         check = list(image.values())[0]
         
         if len(check) <= 10:
@@ -346,16 +352,16 @@ class HealthRecordDialog(ComponentDialog):
         if upload7 == "reportsummary":
             patientId = userId
             reportSummary1 = step_context.result
-            wks.update_acell("E1", str(patientId))
-            wks.update_acell("E2", str(reportName1))
-            wks.update_acell("E3", str(reportSummary1))
-            wks.update_acell("E4", str(reportType1))
-            wks.update_acell("E5", str(reportDoctor1))
-            wks.update_acell("E6", str(reportPatient1))
-            wks.update_acell("E7", str(ids1))
-            wks.update_acell("E8", str(urls1))
-            wks.update_acell("E9", str(pharmacyId))
-            wks.update_acell("E10", str(token))
+            # wks.update_acell("E1", str(patientId))
+            # wks.update_acell("E2", str(reportName1))
+            # wks.update_acell("E3", str(reportSummary1))
+            # wks.update_acell("E4", str(reportType1))
+            # wks.update_acell("E5", str(reportDoctor1))
+            # wks.update_acell("E6", str(reportPatient1))
+            # wks.update_acell("E7", str(ids1))
+            # wks.update_acell("E8", str(urls1))
+            # wks.update_acell("E9", str(pharmacyId))
+            # wks.update_acell("E10", str(token))
             save_health_record_1(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)            
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
