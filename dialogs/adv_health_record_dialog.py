@@ -13,6 +13,7 @@ from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepC
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt,PromptOptions
 from dialogs.upload_case.case_2 import caseTwoRecordDialog
 from dialogs.upload_case.case_1 import caseOneRecordDialog
+from dialogs.upload_case.case_7 import caseSevenRecordDialog
 
 class AdvHealthRecordDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -27,6 +28,7 @@ class AdvHealthRecordDialog(ComponentDialog):
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(caseOneRecordDialog(caseOneRecordDialog.__name__))
         self.add_dialog(caseTwoRecordDialog(caseTwoRecordDialog.__name__))
+        self.add_dialog(caseSevenRecordDialog(caseSevenRecordDialog.__name__))
         self.add_dialog(AttachmentPrompt(AttachmentPrompt.__name__))
         self.add_dialog(
             WaterfallDialog(
@@ -197,7 +199,12 @@ class AdvHealthRecordDialog(ComponentDialog):
                     "Tap \U0001F4CE to upload"),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
+#########################################################################################################################################################################################################################
+##################################################################### Case 7: upload my health record #####################################################################################################################
+######################################################################################################################################################################################################################### 
 
+        if "PATIENT_NAME" in classes and "REPORT_NAME" not in classes and "REPORT_TYPE" not in classes and "DIAGNOSTIC" not in classes:
+            return await step_context.begin_dialog(caseSevenRecordDialog.__name__)
 
 
 
