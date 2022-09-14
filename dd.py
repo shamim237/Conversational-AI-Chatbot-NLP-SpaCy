@@ -1,11 +1,11 @@
-ss =  {'attachmentUrl': 'https://jarvin-dev.azurewebsites.net/appimages/thumbs/0001488.pdf', 'local_timestamp': '11:31 am'}
+# 
+# ss =  {'attachmentUrl': 'https://jarvin-dev.azurewebsites.net/appimages/thumbs/0001488.pdf', 'local_timestamp': '11:31 am'}
 
 
-# for i in ss.keys():
-#     if 
-if "attachmentUrl" and "attachmentId" in ss:
-    print("ache")
-
+# # for i in ss.keys():
+# #     if 
+# if "attachmentUrl" and "attachmentId" in ss:
+#     print("ache")
 
 
 

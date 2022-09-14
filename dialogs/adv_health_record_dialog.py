@@ -1,16 +1,17 @@
-from botbuilder.core import MessageFactory
-from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
-from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
-from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt,PromptOptions
-from prompt.date_prompt import DatePrompt
-from prompt.time_prompt import TimePrompt
-from prompt.email_prompt import EmailPrompt
-from dialogs.attachment_prompt import AttachmentPrompt
-from nlp_model.record_predict import predict_record
-from nlp_model.predict import predict_class
-from health_record import save_health_record_1, save_health_record_2
 import gspread
 from user_info import check_name
+from prompt.date_prompt import DatePrompt
+from prompt.time_prompt import TimePrompt
+from nlp_model.predict import predict_class
+from prompt.email_prompt import EmailPrompt
+from botbuilder.core import MessageFactory
+from nlp_model.record_predict import predict_record
+from dialogs.attachment_prompt import AttachmentPrompt
+from health_record import save_health_record_1, save_health_record_2
+from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
+from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
+from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt,PromptOptions
+
 
 
 class AdvHealthRecordDialog(ComponentDialog):
@@ -50,6 +51,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
         global userId
         global token
+        global wks
         global pharmacyId
 
         userId = step_context.context.activity.from_property.id
@@ -59,19 +61,18 @@ class AdvHealthRecordDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-        main = wks.acell("H22").value
-        wks.update_acell("H1", main)
 
-        pred = predict_record(main)
+        last = step_context.context.activity.text
+        wks.update_acell("A7", str(last))
+
+        pred = predict_record(last)
 
         try:
-            wks.update_acell("H2", main)
             wks.update_acell("H3", str(pred))
         except:
             pass
 
-        last = step_context.context.activity.text
-        wks.update_acell("A7", str(last))
+
 
         global patient_name
         global report_name
