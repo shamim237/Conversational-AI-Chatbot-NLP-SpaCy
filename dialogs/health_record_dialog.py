@@ -64,9 +64,11 @@ class HealthRecordDialog(ComponentDialog):
         wks = sh.worksheet("Sheet1")
              
                 
+        await step_context.context.send_activity(
+            MessageFactory.text("Please upload the document."))            
         prompt_options = PromptOptions(
             prompt=MessageFactory.text(
-                "You can take a snap or upload an image or PDF file. Please choose the document source."),)
+                "Tap \U0001F4CE to upload"),)
         return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
@@ -85,8 +87,13 @@ class HealthRecordDialog(ComponentDialog):
         image = step_context.context.activity.additional_properties
 
         try:
-            tt = image.keys()
-            wks.update_acell("B6", str(tt))
+            for i in image.keys():
+                if i == "attachmentUrl":
+                    urls = image[i]
+                    wks.update_acell("B6", str(urls))
+                if i == "attachmentId":
+                    ids = image[i]
+                    wks.update_acell("B7", str(ids))
         except:
             pass
 
@@ -124,7 +131,7 @@ class HealthRecordDialog(ComponentDialog):
                 upload3 = "add more/choose options"
                 prompt_options = PromptOptions(
                     prompt=MessageFactory.text(
-                        "Please attach more files you would like to uplaod"),
+                        "Please attach more files if you would like to upload them."),
                     retry_prompt=MessageFactory.text(
                         "The attachment must be a jpeg/png/pdf files."),)
 
@@ -192,7 +199,7 @@ class HealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(reportType1))),)
+                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(reportType1).lower() + ".")),)
 
             else: 
                 upload5 = "doctor name"
@@ -245,7 +252,7 @@ class HealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(reportType2))),)
+                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(reportType2).lower() + ".")),)
 
             else: 
                 upload6 = "doctor name2"
@@ -326,16 +333,17 @@ class HealthRecordDialog(ComponentDialog):
         reportDoctor21  = "vmmsinvnm"
 
         if upload7 == "report name13":
+            reportName13 = step_context.result
             pred = predict_class(step_context.result)
             if pred == "don't know":
-                upload8 = "reportname again"
+                upload8 = "reportname again2"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
                         prompt=MessageFactory.text('You can find it on the top of your report. It can be "Typhoid report" or "CBP" etc.')),)
             else:
                 upload8 = "reportsummary13"
-                reportName13 = step_context.result
+                
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
@@ -467,7 +475,7 @@ class HealthRecordDialog(ComponentDialog):
                         prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
 
 
-        if upload8 == "reportname again":
+        if upload8 == "reportname again2":
             upload9 = "reportsummary132"
             reportName131 = step_context.result
             return await step_context.prompt(
@@ -518,7 +526,16 @@ class HealthRecordDialog(ComponentDialog):
         if upload9 == "reportsummary132":
             patientId = userId
             reportSummary131 = step_context.result
-            print(patientId, reportName131, reportSummary131, reportType1, reportDoctor13, reportPatient13, ids1, urls1)
+            wks.update_acell("E1", str(patientId))
+            wks.update_acell("E2", str(reportName131))
+            wks.update_acell("E3", str(reportSummary131))
+            wks.update_acell("E4", str(reportType1))
+            wks.update_acell("E5", str(reportDoctor13))
+            wks.update_acell("E6", str(reportPatient13))
+            wks.update_acell("E7", str(ids1))
+            wks.update_acell("E8", str(urls1))
+            wks.update_acell("E9", str(pharmacyId))
+            wks.update_acell("E10", str(token))            
             save_health_record_1(patientId, reportName131, reportSummary131, reportType1, reportDoctor13, reportPatient13, ids1, urls1, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Thank You! Your report has been saved successfully."))
