@@ -4,5 +4,5 @@ def predict_record(msg):
     res = requests.get('https://health-record-jarvis.herokuapp.com/predict/{}'.format(msg))
     return res.json()
 
-# ss = predict_record("hey jarvis, please upload my malaria test report")
+# ss = predict_record("upload prescription")
 # print(ss)
