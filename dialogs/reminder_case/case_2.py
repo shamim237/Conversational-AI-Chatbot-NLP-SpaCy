@@ -126,7 +126,7 @@ class caseTwoDialog(ComponentDialog):
             daily = "daily nite chaise"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("For how long you want to take the medicine? Hints- 7 days/ 2 weeks/ 3 months.")),) 
+                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hints- 7 days/ 2 weeks/ 3 months.")),) 
 
         if periodss == "Specific Days":
             specific = "specific days nite chaise"
@@ -258,7 +258,7 @@ class caseTwoDialog(ComponentDialog):
                 recurr_or_not = "asking"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("For how long you want to recurr this reminder? Hint: 2 weeks/ 1 month/ 3 months.")),)
+                    PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint: 2 weeks/ 1 month/ 3 months.")),)
             else:
                 med_types2 = "type nite hobe2"
                 reply = MessageFactory.text("Please help me to recognize the type of medicine-")

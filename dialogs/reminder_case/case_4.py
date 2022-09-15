@@ -87,7 +87,7 @@ class caseFourDialog(ComponentDialog):
 
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("How long do you want to take the medicine? Hints- 7 days/ 2 weeks/ 3 months.")),)         
+            PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hints- 7 days/ 2 weeks/ 3 months.")),)         
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 

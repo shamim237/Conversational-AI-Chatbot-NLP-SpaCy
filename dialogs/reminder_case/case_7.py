@@ -1,21 +1,26 @@
-from botbuilder.core import MessageFactory
-from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
-from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
-from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
+import gspread
+from word2number import w2n
 from prompt.date_prompt import DatePrompt
-from prompt.time_prompt import TimePrompt
-from prompt.email_prompt import EmailPrompt
-from date_regex import cal_date_adv, cal_date_by_day
-from adv_pill_reminder import save_reminder_spec_days_multi_time
 import recognizers_suite as Recognizers
 from recognizers_suite import Culture 
-import gspread
+from prompt.time_prompt import TimePrompt
+from botbuilder.core import MessageFactory
+from prompt.email_prompt import EmailPrompt
+from nlp_model.predict import predict_class
+from nlp_model.pill_predict import reminder_class
+from adv_pill_reminder import save_reminder_spec_days, save_reminder_spec_days_multi_time
+from date_regex import cal_date_adv, cal_date_by_day, cal_day
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
+from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
+from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
 
 
-class SimplePillReminderDialog(ComponentDialog):
+####################################################   remind me to take Sapa   #################################################################
+
+class caseSevenDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
-        super(SimplePillReminderDialog, self).__init__(dialog_id or SimplePillReminderDialog.__name__)
+        super(caseSevenDialog, self).__init__(dialog_id or caseSevenDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
@@ -36,43 +41,52 @@ class SimplePillReminderDialog(ComponentDialog):
                     self.sixth_step,
                     self.seventh_step,
                     self.eighth_step,
-                    self.ninth_step,
                 ],
             )
         )
 
         self.initial_dialog_id = "WFDialog"
 
-        
     async def initial_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
-        global userId
+        
         global token
+        global userId
+        global med_names
         global pharmacyId
 
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
+        
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
 
-        return await step_context.prompt(
-            TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("What is the name of the medicine?")),) 
+        main = step_context.context.activity.text
+        wks.update_acell("R1", str(main))    
+        pred = reminder_class(main)
+        
+        
+        classes = []
+        med_names = []
 
 
-    async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        for x in pred.keys():
+            if x == "MED_NAME":
+                med_name = pred[x]
+                med_names.append(med_name)
+                classes.append(x)
 
-        global med_name
-        med_name = step_context.result
-
+   
+        #remind me to take Sapa
         return await step_context.prompt(
             "time_prompt",
             PromptOptions(prompt=MessageFactory.text("At what time would you like me to remind you to take the medicine? Hint- 6 AM.")),)  
 
 
-    async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:  
+    async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global times
-        global med_name
 
         time = step_context.result
         culture = Culture.English
@@ -90,10 +104,9 @@ class SimplePillReminderDialog(ComponentDialog):
             PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.")),) 
 
 
-    async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:  
 
         global duration
-        global med_name
         global times
         duration  = step_context.result  
         
@@ -110,11 +123,10 @@ class SimplePillReminderDialog(ComponentDialog):
                     value= "Specific Days"),])
         return await step_context.context.send_activity(reply) 
 
-    
-    async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-        
+
+    async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
         global duration
-        global med_name
         global times
         global med_type1
         global spec
@@ -155,13 +167,12 @@ class SimplePillReminderDialog(ComponentDialog):
             spec = "specific days nite chaise"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Please enter those days on which you want to take the medicine. Hint- Saturday/Monday/Friday.")),)            
+                PromptOptions(prompt=MessageFactory.text("Please enter those days on which you want to take the medicine. Hint- Saturday/Monday/Friday.")),)  
 
 
-    async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
         global duration
-        global med_name
         global times
         global dosages
         global days
@@ -235,18 +246,18 @@ class SimplePillReminderDialog(ComponentDialog):
             return await step_context.context.send_activity(reply)   
 
 
-    async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
+    async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global duration
-        global med_name
         global times
+
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
         wks.update_acell("C1", str(dosages))
         wks.update_acell("C2", str(duration))
-        wks.update_acell("C3", str(med_name))
+        wks.update_acell("C3", str(med_names[0]))
         wks.update_acell("C4", str("".join(times)))
         wks.update_acell("C5", "entered")
 
@@ -258,7 +269,7 @@ class SimplePillReminderDialog(ComponentDialog):
             dosage      = dosage.lower()
             dosage      = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
             med_type    = "0"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -326,7 +337,7 @@ class SimplePillReminderDialog(ComponentDialog):
             dosage      = dosage.lower()
             dosage      = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
             med_type    = "2"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -362,7 +373,7 @@ class SimplePillReminderDialog(ComponentDialog):
             dosage      = dosage.lower()
             dosage_ml   = dosage.replace("mL", "").replace("ml", "")
             med_type    = "3"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -398,7 +409,7 @@ class SimplePillReminderDialog(ComponentDialog):
             dosage      = dosage.lower()
             dosage_ml   = dosage.replace("mL", "").replace("ml", "")
             med_type    = "4"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -464,13 +475,13 @@ class SimplePillReminderDialog(ComponentDialog):
                     PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended by the doctor?")),)
 
 
+    async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
-    async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
         if dropfor1 == "drop kothay":
             place       = step_context.result
             med_type    = "1"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -505,7 +516,7 @@ class SimplePillReminderDialog(ComponentDialog):
             dosage      = dosage.lower()
             dosage      = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
             med_type    = "0"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -573,7 +584,7 @@ class SimplePillReminderDialog(ComponentDialog):
             dosage      = dosage.lower()
             dosage      = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
             med_type    = "2"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -609,7 +620,7 @@ class SimplePillReminderDialog(ComponentDialog):
             dosage      = dosage.lower()
             dosage_ml   = dosage.replace("mL", "").replace("ml", "")
             med_type    = "3"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -645,7 +656,7 @@ class SimplePillReminderDialog(ComponentDialog):
             dosage      = dosage.lower()
             dosage_ml   = dosage.replace("mL", "").replace("ml", "")
             med_type    = "4"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -675,12 +686,12 @@ class SimplePillReminderDialog(ComponentDialog):
                 return await step_context.end_dialog()  
 
 
-    async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
         if dropfor2 == "drop kothay2":
             place       = step_context.result
             med_type    = "1"
-            pill_name   = med_name
+            pill_name   = med_names[0]
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
@@ -706,5 +717,4 @@ class SimplePillReminderDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage2) + " dose of " + str(pill_name) + " for " + str(duration) + "."))
-                return await step_context.end_dialog()         
-        
+                return await step_context.end_dialog()  

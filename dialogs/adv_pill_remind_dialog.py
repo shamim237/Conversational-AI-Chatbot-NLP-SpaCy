@@ -21,6 +21,11 @@ from dialogs.reminder_case.case_3 import caseThreeDialog
 from dialogs.reminder_case.case_4 import caseFourDialog
 from dialogs.reminder_case.case_5 import caseFiveDialog
 from dialogs.reminder_case.case_6 import caseSixDialog
+from dialogs.reminder_case.case_7 import caseSevenDialog
+
+
+
+
 
 
 class AdvPillReminderDialog(ComponentDialog):
@@ -40,6 +45,7 @@ class AdvPillReminderDialog(ComponentDialog):
         self.add_dialog(caseFourDialog(caseFourDialog.__name__))
         self.add_dialog(caseFiveDialog(caseFiveDialog.__name__))
         self.add_dialog(caseSixDialog(caseSixDialog.__name__))
+        self.add_dialog(caseSevenDialog(caseSevenDialog.__name__))
         self.add_dialog(SimplePillReminderDialog(SimplePillReminderDialog.__name__))
         self.add_dialog(
             WaterfallDialog(
@@ -164,7 +170,7 @@ class AdvPillReminderDialog(ComponentDialog):
         #remind me to take napa. (done)
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_REMIND" not in classes:
             type_med = "just name is here-med_type needs to be added"
-            return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
+            return await step_context.begin_dialog(caseSevenDialog.__name__)
         
         #remind me to take Sapa at 4pm. (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_REMIND" not in classes:
@@ -209,7 +215,7 @@ class AdvPillReminderDialog(ComponentDialog):
             date_med = "just name,time and period is here-med_date needs to be added"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("For how long do you want to take this medicine? Hint- 7 days/2 weeks/2 months.")),)
+                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.")),)
 
         
         #remind me to take napa everyday at night. (done)
@@ -487,7 +493,7 @@ class AdvPillReminderDialog(ComponentDialog):
             dura44 = "duration nite hbe"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("For how long do you want to take this medicine? Hint- 7 days/2 weeks/2 months.")),)
+                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.")),)
 
 ################################################################################ CASE-2 ############################################################################################################################################
 ############################################################## remind me to take napa daily at morning for three weeks. #############################################################################################################################################

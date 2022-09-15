@@ -116,7 +116,7 @@ class caseOneDialog(ComponentDialog):
             daily = "daily nite chaise"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("For how long you want to take the medicine? Hints- 7 days/ 2 weeks/ 3 months.")),) 
+                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hints- 7 days/ 2 weeks/ 3 months.")),) 
 
         if periodss == "Specific Days":
             specific = "specific days nite chaise"
