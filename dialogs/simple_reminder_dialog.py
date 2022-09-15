@@ -76,14 +76,15 @@ class SimplePillReminderDialog(ComponentDialog):
 
         time = step_context.result
         culture = Culture.English
-        extract = Recognizers.recognize_datetime(time, culture) 
+        raw = Recognizers.recognize_datetime(str(time), culture) 
         times = []     
-        for i in extract:
-            keys = i.resolution
-            values = keys['values']
-            for j in values:
-                timea = j['value']  
-                times.append(timea)      
+        for i in raw:
+            raw = i.resolution
+            # print(raw)
+            dd = raw['values']
+            for j in dd:
+                tim = j['value']  
+                times.append(tim)        
 
         return await step_context.prompt(
             TextPrompt.__name__,

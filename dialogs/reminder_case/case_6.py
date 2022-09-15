@@ -108,14 +108,15 @@ class caseSixDialog(ComponentDialog):
 
         times = step_context.result
         culture = Culture.English
-        ss = Recognizers.recognize_datetime(times, culture) 
+        raw = Recognizers.recognize_datetime(str(times), culture) 
         timess = []     
-        for i in ss:
-            ss = i.resolution
-            dd = ss['values']
+        for i in raw:
+            raw = i.resolution
+            # print(raw)
+            dd = raw['values']
             for j in dd:
                 tim = j['value']  
-                timess.append(tim)  
+                timess.append(tim)    
 
 
         return await step_context.prompt(

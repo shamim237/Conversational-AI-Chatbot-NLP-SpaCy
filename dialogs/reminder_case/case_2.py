@@ -305,11 +305,6 @@ class caseTwoDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
-            
-            # try:
-            #     dosage = w2n.word_to_num(dosage)
-            # except:
-            #     dosage = 1
             wks.update_acell("Q4", str(dosage))
             med_type = "0"
             pill_name = med_names[0]
