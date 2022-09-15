@@ -1,12 +1,12 @@
 from botbuilder.dialogs.prompts import Prompt, PromptOptions,PromptRecognizerResult
 from botbuilder.core.turn_context import TurnContext
 from botbuilder.schema import ActivityTypes
-from recognizers_text import Culture
+from datetime import datetime
 from recognizers_date_time import DateTimeRecognizer 
-import datetime
-import parsedatetime
-import dateparser
+import recognizers_suite as Recognizers
+from recognizers_suite import Culture
 from typing import Dict
+culture = Culture.English
 
 
 class DatePrompt (Prompt):
@@ -51,55 +51,36 @@ class DatePrompt (Prompt):
         if turn_context.activity.type == ActivityTypes.message:
             usertext = turn_context.activity.text
 
+        today = datetime.now()
+        today = datetime.strftime(today, "%Y-%m-%d")   
+        today = datetime.strptime(today, "%Y-%m-%d").date()
 
-        if "/" or "-" not in usertext:
-            p = parsedatetime.Calendar()
-            time_struct, parse_status = p.parse(usertext)
-            dates = datetime.datetime(*time_struct[:6]).strftime("%Y-%m-%d")
+        raw = Recognizers.recognize_datetime(usertext, culture) 
+        dates = []     
+        for i in raw:
+            raw = i.resolution
+            dd = raw['values']
+            for j in dd:
+                tim = j['value']  
+                dates.append(tim) 
 
-            turn_context.activity.locale = self._defaultLocale
+        datek = ",".join(dates)
+            
+        turn_context.activity.locale = self._defaultLocale
 
-            recognizer = DateTimeRecognizer(Culture.English)
-            model = recognizer.get_datetime_model()
-            mode_result = model.parse(dates)
+        recognizer = DateTimeRecognizer(Culture.English)
+        model = recognizer.get_datetime_model()
+        mode_result = model.parse(datek)
 
-            prompt_result = PromptRecognizerResult()
+        prompt_result = PromptRecognizerResult()
 
-            if len(mode_result) > 0 and len(mode_result[0].resolution) > 0:
-                for resolution in mode_result[0].resolution["values"]:
-                    if "value" in resolution:
-                        #prompt_result.succeeded = True
-                        prompt_result.value = resolution["value"]
-                        print("Date: ", prompt_result.value)
-                        if prompt_result.value < datetime.datetime.today().strftime("%Y-%m-%d"):
-                            prompt_result.succeeded = False
-                            return prompt_result
-                        else:
-                            prompt_result.succeeded = True
-                            return prompt_result
-
-
-        if "/" or "-" in usertext:
-
-            dates = dateparser.parse(usertext)
-            dates = datetime.datetime.strftime(dates, '%Y-%m-%d')
-            turn_context.activity.locale = self._defaultLocale
-
-            recognizer = DateTimeRecognizer(Culture.English)
-            model = recognizer.get_datetime_model()
-            mode_result = model.parse(dates)
-
-            prompt_result = PromptRecognizerResult()
-
-            if len(mode_result) > 0 and len(mode_result[0].resolution) > 0:
-                for resolution in mode_result[0].resolution["values"]:
-                    if "value" in resolution:
-                        #prompt_result.succeeded = True
-                        prompt_result.value = resolution["value"]
-                        print("Date: ", prompt_result.value)
-                        if prompt_result.value < datetime.datetime.today().strftime("%Y-%m-%d"):
-                            prompt_result.succeeded = False
-                            return prompt_result
-                        else:
-                            prompt_result.succeeded = True
-                            return prompt_result
+        if len(mode_result) > 0 and len(mode_result[0].resolution) > 0:
+            for resolution in mode_result[0].resolution["values"]:
+                if "value" in resolution:
+                    prompt_result.value = resolution["value"]
+                    if prompt_result.value < datetime.today().strftime("%Y-%m-%d"):
+                        prompt_result.succeeded = False
+                        return prompt_result
+                    else:
+                        prompt_result.succeeded = True
+                        return prompt_result

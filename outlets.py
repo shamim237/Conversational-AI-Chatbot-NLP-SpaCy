@@ -104,7 +104,6 @@ def get_timeslots(id, date, time, time_now, token):
         for i in range(len(starts)):
             timesk.append(starts[i] + " - " + ends[i])
 
-        # print(timesk)
         today = datetime.now()
         today = datetime.strftime(today, "%Y-%m-%d")
         
@@ -148,9 +147,9 @@ def get_timeslots(id, date, time, time_now, token):
                     ss = ss.total_seconds()
                     if ss > 300:
                         tim.append(i)
+        print(starts)
         
         if slots1 == "not present date":
-            # print("dhukse1")
             timess = [int(i) for i in timess]
             count = 0
             for i in timess:
@@ -169,18 +168,19 @@ def get_timeslots(id, date, time, time_now, token):
                     return ss
         
         if slots1 == "future date":
-            # print("dhukse")
-            timt    = tim[0]
-            start   = datetime.strptime(timt, "%H:%M:%S")
-            dd      = start + timedelta(minutes= 15)
-            end     = datetime.strftime(dd, "%H:%M:%S")
-            slota   = datetime.strptime(timt, "%H:%M:%S").strftime("%I:%M %p") + " - " + datetime.strptime(end, "%H:%M:%S").strftime("%I:%M %p")
-
-            return slota
+            if len(tim) != 0:
+                timt    = tim[0]
+                start   = datetime.strptime(timt, "%H:%M:%S")
+                dd      = start + timedelta(minutes= 15)
+                end     = datetime.strftime(dd, "%H:%M:%S")
+                slota   = datetime.strptime(timt, "%H:%M:%S").strftime("%I:%M %p") + " - " + datetime.strptime(end, "%H:%M:%S").strftime("%I:%M %p")
+                return slota
+            else:
+                return "No slots available"
     else:
         return "No slots available" 
 
-# ss = get_timeslots("1", "2022-09-06", "22:00:00", "7:47 PM", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjI0NjQ3NDUsImV4cCI6MTY2MzA2OTU0NSwiaWF0IjoxNjYyNDY0NzQ1fQ.VQ3FD9Fs7WEEKVR6L9fWawyFv-lUKZJ-waEFX9cCNE8")
+# ss = get_timeslots("1", "2022-09-15", "21:35:00", "03:47 AM", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjMyMjE1NzAsImV4cCI6MTY2MzgyNjM3MCwiaWF0IjoxNjYzMjIxNTcwfQ.xfNseT29e_Bp2_gK2S3CvxDFt3QG7xLgOV5fRWQIMO8")
 # print(ss)
 
 
@@ -259,14 +259,3 @@ def timeConversion(s):
           a = str(a) + ":00"
           a = a.replace(" ", "")
    return a
-
-
-# ss = get_timeslots(23, "2022-08-10", "13:00:00", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjAwMTYwMDMsImV4cCI6MTY2MDYyMDgwMywiaWF0IjoxNjYwMDE2MDAzfQ.iAWMXS8a3xa7o9qRSIz59LxbW_uPdtdRsEmMN3OPxEk")
-# print(ss)
-# time = ss.split(" - ")
-# print(time)
-# time1 = timeConversion(time[0])
-# time2 = timeConversion(time[1])
-
-# print(time1)
-# print(time2)
