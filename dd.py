@@ -45,22 +45,22 @@
 # print(g.country)
 # print(ss[0].lower())
 # # # import logging
-# import recognizers_suite as Recognizers
-# from recognizers_suite import Culture
-# culture = Culture.English
+import recognizers_suite as Recognizers
+from recognizers_suite import Culture
+culture = Culture.English
 
 
-# raw = Recognizers.recognize_datetime("from sept 25 to 7 days", culture) 
-# times = []     
-# for i in raw:
-#     raw = i.resolution
-#     print(raw)
-#     dd = raw['values']
-#     for j in dd:
-#         tim = j['value']  
-#         times.append(tim) 
+raw = Recognizers.recognize_datetime("11 am, 7pm & 9.45 pm", culture) 
+times = []     
+for i in raw:
+    raw = i.resolution
+    print(raw)
+    dd = raw['values']
+    for j in dd:
+        tim = j['value']  
+        times.append(tim) 
 
-# print(times)
+print(times)
 # from datetime import datetime, timedelta
 # filtered_days = ['2022-09-15']
 

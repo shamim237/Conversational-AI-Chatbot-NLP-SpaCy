@@ -51,6 +51,7 @@ class caseSevenDialog(ComponentDialog):
         
         global token
         global userId
+        global wks
         global med_names
         global pharmacyId
 
@@ -90,14 +91,17 @@ class caseSevenDialog(ComponentDialog):
 
         time = step_context.result
         culture = Culture.English
-        extract = Recognizers.recognize_datetime(time, culture) 
+        raw = Recognizers.recognize_datetime(str(time), culture) 
         times = []     
-        for i in extract:
-            keys = i.resolution
-            values = keys['values']
-            for j in values:
-                timea = j['value']  
-                times.append(timea)      
+        for i in raw:
+            raw = i.resolution
+            print(raw)
+            dd = raw['values']
+            for j in dd:
+                tim = j['value']  
+                times.append(tim)     
+
+        wks.update_acell("C15", str("".join(times)))
 
         return await step_context.prompt(
             TextPrompt.__name__,
@@ -250,10 +254,6 @@ class caseSevenDialog(ComponentDialog):
 
         global duration
         global times
-
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
 
         wks.update_acell("C1", str(dosages))
         wks.update_acell("C2", str(duration))
