@@ -45,23 +45,36 @@
 # print(g.country)
 # print(ss[0].lower())
 # # # import logging
-import recognizers_suite as Recognizers
-from recognizers_suite import Culture
-culture = Culture.English
+# from datetime import datetime
+# import recognizers_suite as Recognizers
+# from recognizers_suite import Culture
+# culture = Culture.English
 
+# def date_cal(date):
 
-raw = Recognizers.recognize_datetime("11 am, 7pm & 9.45 pm", culture) 
-times = []     
-for i in raw:
-    raw = i.resolution
-    print(raw)
-    dd = raw['values']
-    for j in dd:
-        tim = j['value']  
-        times.append(tim) 
+#     today = datetime.now()
+#     today = datetime.strftime(today, "%Y-%m-%d")   
+#     today = datetime.strptime(today, "%Y-%m-%d").date()
 
-print(times)
-# from datetime import datetime, timedelta
+#     raw = Recognizers.recognize_datetime(date, culture) 
+#     times = []     
+#     for i in raw:
+#         raw = i.resolution
+#         dd = raw['values']
+#         for j in dd:
+#             tim = j['value']  
+#             times.append(tim) 
+#     for i in times:
+#         datey = datetime.strptime(i, "%Y-%m-%d").date()
+#         if datey >= today:
+#             return i
+#         else:
+#             pass
+
+# ss =  date_cal("15-09-2022")
+# print(ss)
+
+# # from datetime import datetime, timedelta
 # filtered_days = ['2022-09-15']
 
 # dat = filtered_days[0]

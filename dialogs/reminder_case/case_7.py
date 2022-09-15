@@ -95,7 +95,7 @@ class caseSevenDialog(ComponentDialog):
         times = []     
         for i in raw:
             raw = i.resolution
-            print(raw)
+            # print(raw)
             dd = raw['values']
             for j in dd:
                 tim = j['value']  

@@ -5,7 +5,7 @@ import parsedatetime
 from outlets import outlet_name
 from user_info import check_name
 from user_info import outlet_ids
-from appointment import save_appoint
+from appointment import save_appoint, date_cal
 from recognizers_suite import Culture
 import recognizers_suite as Recognizers
 from datetime import datetime, timedelta
@@ -69,6 +69,7 @@ class SupAdvBookAppDialog(ComponentDialog):
 
         global userId
         global token
+        global wks
         global pharmacyId
 
         userId = step_context.context.activity.from_property.id
@@ -143,15 +144,8 @@ class SupAdvBookAppDialog(ComponentDialog):
 
         if "DATE" in classes and "TIME" in classes:
 
-            if "/" or "-" in date[0]:
-                datet = dateparser.parse(date[0])
-                datet = datetime.strftime(datet, '%Y-%m-%d')
-
-            else:
-                p = parsedatetime.Calendar()
-                time_struct, parse_status = p.parse(date[0])
-                datet = datetime(*time_struct[:6]).strftime("%Y-%m-%d")  
-
+            datek = date_cal(date[0])
+            datekk = datetime.strptime(datek, "%Y-%m-%d").date()
 
             extract = Recognizers.recognize_datetime(time[0], culture) 
             timet = []     
@@ -164,22 +158,20 @@ class SupAdvBookAppDialog(ComponentDialog):
 
             today = datetime.now()
             today = datetime.strftime(today, "%Y-%m-%d")   
-            today = datetime.strptime(today, "%Y-%m-%d").date()
-            
-            datey = datet         
-            datey = datetime.strptime(datey, "%Y-%m-%d").date()
- 
+            today = datetime.strptime(today, "%Y-%m-%d").date()  
 
-            if datey < today:
+
+
+            if datek is None:
                 case1a = "abar date nibo"
                 await step_context.context.send_activity(
-                    MessageFactory.text("The date you have mentioned is a past date!"))                
+                    MessageFactory.text("I can only book appointments for times in the future."))                
                 return await step_context.prompt("date_prompt", PromptOptions(
                     prompt=MessageFactory.text("Please enter an upcoming date or day."),
                         retry_prompt= MessageFactory.text(
                         "Please enter a valid day or date. P.S. It can't be past date."),))
 
-            if datey == today:
+            if datekk == today:
                 case1a = "time a problem"
                 now = timey
                 current_time = datetime.strptime(now, "%I:%M %p")
@@ -190,11 +182,11 @@ class SupAdvBookAppDialog(ComponentDialog):
                 
                 if current_time > timet[0]:
                     await step_context.context.send_activity(
-                        MessageFactory.text("The time you have mentioned is in the past!"))
+                        MessageFactory.text("I can only book appointments for times in the future."))
                     return await step_context.prompt(
                         "time_prompt",
                         PromptOptions(
-                            prompt=MessageFactory.text("Please enter an upcoming time.")),) 
+                            prompt=MessageFactory.text("When do you want to book the appointment?")),) 
                 else:
                     pass                    
 
