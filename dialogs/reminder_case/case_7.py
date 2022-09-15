@@ -264,7 +264,7 @@ class caseSevenDialog(ComponentDialog):
         if dosages == "tablet dose":
             wks.update_acell("C6", "entered")
             dosage      = step_context.result
-            wks.update_acell("C6", str(dosage))
+            wks.update_acell("C7", str(dosage))
             dosage      = str(dosage)
             dosage      = dosage.lower()
             dosage      = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
@@ -274,22 +274,27 @@ class caseSevenDialog(ComponentDialog):
             pharmacyid  = pharmacyId
             tokens      = token
             color_code  = "#DB4F64"
+            wks.update_acell("C8", "enetered")
             pill_time   = times
             shape_type  = "0"
             place       = ""
             dosage_ml   = ""
+            wks.update_acell("C9", "enetered1")
             duration    = str(duration)
+            wks.update_acell("C10", str(duration))
             duration    = duration.lower()
             duration    = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
             dates       = cal_date_adv(duration)
+            wks.update_acell("C11", "enetered2")
+            wks.update_acell("C12", str("".join(dates)))
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
@@ -353,11 +358,11 @@ class caseSevenDialog(ComponentDialog):
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
@@ -389,11 +394,11 @@ class caseSevenDialog(ComponentDialog):
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
@@ -425,11 +430,11 @@ class caseSevenDialog(ComponentDialog):
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
@@ -496,11 +501,11 @@ class caseSevenDialog(ComponentDialog):
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage1, color_code, shape_type, place, dosage_ml)    
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
@@ -532,11 +537,11 @@ class caseSevenDialog(ComponentDialog):
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
@@ -600,11 +605,11 @@ class caseSevenDialog(ComponentDialog):
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
@@ -636,11 +641,11 @@ class caseSevenDialog(ComponentDialog):
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
@@ -672,11 +677,11 @@ class caseSevenDialog(ComponentDialog):
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
@@ -706,11 +711,11 @@ class caseSevenDialog(ComponentDialog):
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage2, color_code, shape_type, place, dosage_ml)    
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set."))
-            if len(times) == 1:
+            if len(pill_time) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage2) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
-            if len(times) == 2:
+            if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage2) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + "."))
                 return await step_context.end_dialog() 
