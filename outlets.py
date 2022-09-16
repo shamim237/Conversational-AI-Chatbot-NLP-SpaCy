@@ -176,7 +176,7 @@ def get_timeslots(id, date, time, time_now, token):
                 slota   = datetime.strptime(timt, "%H:%M:%S").strftime("%I:%M %p") + " - " + datetime.strptime(end, "%H:%M:%S").strftime("%I:%M %p")
                 return slota
             else:
-                return "No slots available"
+               pass
     else:
         return "No slots available" 
 

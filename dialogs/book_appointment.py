@@ -292,10 +292,9 @@ class AppointmentDialog(ComponentDialog):
             wks.update_acell("B31", str(slott))
 
             if slott == "No slots available":
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("No slots are available for " + str(pharmacist) + " on " + str(date) + ". Please try another date or pharmacist!")),)
+                await step_context.context.send_activity(
+                    MessageFactory.text("No slots are available for " + str(pharmacist) + " on " + str(date) + ". Please try another date or pharmacist!")) 
+                return await step_context.end_dialog()
 
             if slott == "NOPE":
                 timeslot2 = "again2"

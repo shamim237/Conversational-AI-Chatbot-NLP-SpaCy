@@ -129,6 +129,9 @@ class UserProfileDialog(ComponentDialog):
                         MessageFactory.text(f"Let me check the earliest appointment slots for you."))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
+                if msg == "adv_appointment":
+                    return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
+
                 if msg == "reminder":
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
