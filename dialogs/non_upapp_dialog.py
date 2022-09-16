@@ -7,7 +7,6 @@ from prompt.time_prompt import TimePrompt
 from nlp_model.predict import predict_class
 from prompt.email_prompt import EmailPrompt
 from dialogs.health_record_dialog import HealthRecordDialog
-import gspread
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 
@@ -81,10 +80,6 @@ class UploadNonInDialogApp(ComponentDialog):
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
             if msg == "adv_pill_reminder":
-                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-                sh = ac.open("chatbot_logger")
-                wks = sh.worksheet("Sheet1")
-                wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)

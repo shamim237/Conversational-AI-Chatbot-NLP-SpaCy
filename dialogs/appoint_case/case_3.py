@@ -2,7 +2,7 @@ import gspread
 from outlets import outlet_name
 from user_info import check_name
 from user_info import outlet_ids
-from appointment import save_appoint, date_cal
+from appointment import save_appoint, date_cal, appoint_id
 from recognizers_suite import Culture
 import recognizers_suite as Recognizers
 from datetime import datetime, timedelta
@@ -181,14 +181,17 @@ class caseThreeDialog(ComponentDialog):
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        global case3c 
-        case3c = "ruausau"
+        global case3c
+        global appointId
+        appointId   = "aayayyaaa" 
+        case3c      = "ruausauzz"
 
         if case3b == "confirm or not3x":
             msgsxy = predict_class(step_context.result)
             if msgsxy == "positive":
                 case3c = "question ask3xx"
                 save_appoint(date3x, times3xx, endTime3x, userId, pharmacistId3x, doc_name3x, pharmacyId, token)
+                appointId = appoint_id(userId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! Your appointment with " + str(doc_name3x) + " has been booked on " + str(date3x) + " at "  + str(use_time3x) + ".")) 
                 await step_context.context.send_activity(
@@ -231,7 +234,7 @@ class caseThreeDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()    
             else:

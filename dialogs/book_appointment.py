@@ -14,7 +14,7 @@ from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from pill_reminder import get_patient_id
 from outlets import check_outlet, outlet_name, get_avail_slot, get_timeslots, match, get_timeslots2, timeConversion
 from user_info import check_email
-from appointment import save_appoint
+from appointment import save_appoint, appoint_id
 from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
@@ -215,6 +215,7 @@ class AppointmentDialog(ComponentDialog):
         global times
         global question
         global scnd_time
+        global appointId1
 
         global timeslot2
         global slott
@@ -225,6 +226,7 @@ class AppointmentDialog(ComponentDialog):
         timeslot2       = "kskvmkss"
         confirmation2   = "kjasnfsj"
         idt             = "sisiisis"
+        appointId1       = "auauauau"
 
         question    = "ssiojgv"
         times       = "vmsovo"
@@ -265,6 +267,7 @@ class AppointmentDialog(ComponentDialog):
                 wks.update_acell("A29", str(pharmacistId))
                 wks.update_acell("A30", str(date))
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                appointId1 = appoint_id(patientId, token)
                 wks.update_acell("A34", str(pharmacyId))
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
@@ -337,6 +340,9 @@ class AppointmentDialog(ComponentDialog):
     async def save2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
         global question2
+        global appointId2
+
+        appointId2 = "auauuau"
         question2 = "ksnvinsin"
 
         if question == "ask question":
@@ -345,13 +351,14 @@ class AppointmentDialog(ComponentDialog):
             if yesno == "positive":
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! I am opening the questionnare page."))
+
                 reply = MessageFactory.text("go to question page")
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
-                            title= "go to question page",
-                            type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            title   = "go to question page",
+                            type    = ActionTypes.im_back,
+                            value   = str(appointId1),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -374,6 +381,7 @@ class AppointmentDialog(ComponentDialog):
                 pharmacistId = id
                 question2 = "questionnare ask2"
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                appointId2 = appoint_id(patientId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
@@ -389,8 +397,10 @@ class AppointmentDialog(ComponentDialog):
         global times2
         global scnd_time2 
         global question21
+        global appointId3
 
         times2     = "ahshshs"
+        appointId3 = "aajajjj"
         scnd_time2 = "sjkskns"
         question21 = "skkskss"
 
@@ -416,6 +426,7 @@ class AppointmentDialog(ComponentDialog):
                 patientId = step_context.context.activity.from_property.id
                 pharmacistId = idt
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                appointId3 = appoint_id(patientId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
@@ -461,7 +472,7 @@ class AppointmentDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId2),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -475,8 +486,10 @@ class AppointmentDialog(ComponentDialog):
 
         global question22
         global question24
+        global appointId4
 
         question22 = "sskahah"
+        appointId4 = "aujajaj"
         question24 = "ghshshh"
 
         if scnd_time2 == "ask to save 2nd time2":
@@ -489,6 +502,7 @@ class AppointmentDialog(ComponentDialog):
                 pharmacistId = id
                 question22 = "questionnare ask22"
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                appointId4 = appoint_id(patientId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
@@ -512,7 +526,7 @@ class AppointmentDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId3),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -554,7 +568,7 @@ class AppointmentDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId4),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
             else:

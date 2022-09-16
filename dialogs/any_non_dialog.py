@@ -8,7 +8,6 @@ from nlp_model.predict import predict_class
 from prompt.email_prompt import EmailPrompt
 from dialogs.book_appointment import AppointmentDialog
 from dialogs.health_record_dialog import HealthRecordDialog
-import gspread
 from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
 
 class NonAnyDialog(ComponentDialog):
@@ -64,12 +63,6 @@ class NonAnyDialog(ComponentDialog):
             return await step_context.begin_dialog(AppointmentDialog.__name__)
         
         if msg == "adv_health_record":
-            ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-            sh = ac.open("chatbot_logger")
-            wks = sh.worksheet("Sheet1")
-            wks.update_acell("H22", str(step_context.result))
-            # await step_context.context.send_activity(
-            #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
         else:
             want = "nothing"
@@ -90,12 +83,6 @@ class NonAnyDialog(ComponentDialog):
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
             
             if msg == "adv_health_record":
-                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-                sh = ac.open("chatbot_logger")
-                wks = sh.worksheet("Sheet1")
-                wks.update_acell("H22", str(step_context.result))
-                # await step_context.context.send_activity(
-                #     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
                 return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
             else:
                 return await step_context.prompt(

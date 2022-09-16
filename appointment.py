@@ -19,6 +19,20 @@ def save_appoint(date, startTime, endTime, patientId, pharmacistId, pharmacist, 
     dictFromServer = res.json()
 
 
+def appoint_id(userId, token):
+    headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
+    dictToSend = {"patientId": userId, "pageIndex": 1, "pageSize": 20, "appointmentType": "Future"}
+    res = requests.post('https://jarvin-dev.azurewebsites.net/api/GetAllPatientAppointment', headers= headers, json=dictToSend)
+    dictFromServer = res.json()
+    stat = dictFromServer['status']
+    if stat == "Success":
+        ids = dictFromServer['response']['appointment'][0]['id']
+        return ids
+
+# ss = appoint_id("106", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjMzMjUxNDMsImV4cCI6MTY2MzkyOTk0MywiaWF0IjoxNjYzMzI1MTQzfQ.flP57DJYaYMcEPZbspLzl5dKO8UFvWhQrLrgHjgnFt")
+# print(ss)
+
+
 def upcoming_appointment(id, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
     dictToSend = {

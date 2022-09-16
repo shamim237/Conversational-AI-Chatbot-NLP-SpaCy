@@ -11,9 +11,9 @@ from prompt.time_prompt import TimePrompt
 from botbuilder.core import MessageFactory
 from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
-from appointment import save_appoint, date_cal
 from nlp_model.appoint_predict import predict_appoint
 from dialogs.book_appointment import AppointmentDialog
+from appointment import save_appoint, date_cal, appoint_id
 from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.profile_update_dialog import HealthProfileDialog
@@ -240,15 +240,18 @@ class SupAdvBookAppDialog(ComponentDialog):
         global doc_name2
         global pharmacistId2
         global dat
-        timey = step_context.context.activity.additional_properties
-        timey = timey.get('local_timestamp')
-        times2 = "aklala"
-        endTime2 = "asjsjjs"
-        use_time2 = "jsjsuiww"
-        doc_name2 = "asysusu"
-        pharmacistId2 = "jsjsjs"
-        case1b = "kiskskks"
-        dat = "skskksk"
+        global appointId1
+
+        timey           = step_context.context.activity.additional_properties
+        timey           = timey.get('local_timestamp')
+        times2          = "aklala"
+        endTime2        = "asjsjjs"
+        use_time2       = "jsjsuiww"
+        doc_name2       = "asysusu"
+        pharmacistId2   = "jsjsjs"
+        case1b          = "kiskskks"
+        appointId1      = "atatatat"
+        dat             = "skskksk"
 
         if case1a == "abar date nibo":
             dat = step_context.result
@@ -295,6 +298,7 @@ class SupAdvBookAppDialog(ComponentDialog):
             if msg == "positive":
                 case1b = "question ask"
                 save_appoint(datek, times, endTime1, userId, pharmacistId1, doc_name1, pharmacyId, token)
+                appointId1 = appoint_id(userId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! Your appointment with " + str(doc_name1) + " has been booked on " + str(date[0]) + " at " + str(use_time1) + ".")) 
                 await step_context.context.send_activity(
@@ -365,13 +369,19 @@ class SupAdvBookAppDialog(ComponentDialog):
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global case1c
-        case1c = "ksksaksk"
+        global appointId2
+        global appointId3
+
+        appointId3  = "aauuauau"
+        appointId2  = "atettets"
+        case1c      = "ksksaksk"
 
         if case1b == "confirm or not2":
             msg = predict_class(step_context.result)
             if msg == "positive":
                 case1c = "question ask2"
                 save_appoint(dat, times2, endTime2, userId, pharmacistId2, doc_name2, pharmacyId, token)
+                appointId2 = appoint_id(userId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! Your appointment with " + str(doc_name2) + " has been booked on " + str(dat) + " at "  + str(use_time2) + ".")) 
                 await step_context.context.send_activity(
@@ -400,7 +410,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId1),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()    
             
@@ -418,6 +428,7 @@ class SupAdvBookAppDialog(ComponentDialog):
             if msg == "positive":
                 case1c = "question ask3"
                 save_appoint(datek, times3, endTime3, userId, pharmacistId3, doc_name3, pharmacyId, token)
+                appointId3 = appoint_id(userId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! Your appointment with " + str(doc_name3) + " has been booked on " + str(datek) + " at "  + str(use_time3) + ".")) 
                 await step_context.context.send_activity(
@@ -441,18 +452,32 @@ class SupAdvBookAppDialog(ComponentDialog):
 
         if case1c == "question ask2" or case1c == "question ask3":
             msgs = predict_class(step_context.result)
-            if msgs == "positive":       
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! I am opening the questionnare page."))
-                reply = MessageFactory.text("go to question page")
-                reply.suggested_actions = SuggestedActions(
-                    actions=[
-                        CardAction(
-                            title= "go to question page",
-                            type=ActionTypes.im_back,
-                            value= "go to question page",)])
-                await step_context.context.send_activity(reply)
-                return await step_context.end_dialog()    
+            if msgs == "positive":
+                if case1c == "question ask2":       
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thank You! I am opening the questionnare page."))
+                    reply = MessageFactory.text("go to question page")
+                    reply.suggested_actions = SuggestedActions(
+                        actions=[
+                            CardAction(
+                                title= "go to question page",
+                                type=ActionTypes.im_back,
+                                value= str(appointId2),)])
+                    await step_context.context.send_activity(reply)
+                    return await step_context.end_dialog()   
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thank You! I am opening the questionnare page."))
+                    reply = MessageFactory.text("go to question page")
+                    reply.suggested_actions = SuggestedActions(
+                        actions=[
+                            CardAction(
+                                title= "go to question page",
+                                type=ActionTypes.im_back,
+                                value= str(appointId3),)])
+                    await step_context.context.send_activity(reply)
+                    return await step_context.end_dialog()   
+
             else:
                 case1d = "update or not2"
                 await step_context.context.send_activity(

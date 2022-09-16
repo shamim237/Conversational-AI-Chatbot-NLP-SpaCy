@@ -2,7 +2,7 @@ import gspread
 from outlets import outlet_name
 from user_info import check_name
 from user_info import outlet_ids
-from appointment import save_appoint, date_cal
+from appointment import appoint_id, save_appoint, date_cal
 from recognizers_suite import Culture
 import recognizers_suite as Recognizers
 from datetime import datetime, timedelta
@@ -158,13 +158,16 @@ class caseTwoDialog(ComponentDialog):
 ############################################################## case-2: book an appointment on today ######################################################################################################
 
         global case2c 
-        case2c = "ruauau"
+        global appointId
+        appointId   = "aayayyaaa"
+        case2c      = "ruauausss"
 
         if case2b == "confirm or notx":            
             msgsx = predict_class(step_context.result)
             if msgsx == "positive":
                 case2c = "question ask3x"
                 save_appoint(datex, timesxx, endTimex, userId, pharmacistIdx, doc_namex, pharmacyId, token)
+                appointId = appoint_id(userId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! Your appointment with " + str(doc_namex) + " has been booked on " + str(datex) + " at "  + str(use_timex) + ".")) 
                 await step_context.context.send_activity(
@@ -207,7 +210,7 @@ class caseTwoDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()    
             else:

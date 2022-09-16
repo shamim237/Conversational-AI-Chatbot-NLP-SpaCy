@@ -2,7 +2,7 @@ import gspread
 from outlets import outlet_name
 from user_info import check_name
 from user_info import outlet_ids
-from appointment import save_appoint
+from appointment import appoint_id, save_appoint
 from datetime import datetime, timedelta
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
@@ -116,13 +116,16 @@ class AppointExtraDialog(ComponentDialog):
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global step1
-        step1 = "nvsjknvsk"
+        global appointId
+        appointId   = "ajajajaja"
+        step1       = "nvsjknvsk"
 
         msg = predict_class(step_context.result)
 
         if msg == "positive":
             step1 = "question ask"
             save_appoint(dates, times, endTime, userId, pharmacistId, doc_name, pharmacyId, token)
+            appointId = appoint_id(userId, token)
             await step_context.context.send_activity(
                 MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".")) 
             await step_context.context.send_activity(
@@ -153,7 +156,7 @@ class AppointExtraDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
             

@@ -13,7 +13,7 @@ from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from pill_reminder import get_patient_id
 from outlets import check_outlet, outlet_name, get_avail_slot, get_timeslots, match, get_timeslots2, timeConversion
 from user_info import check_email
-from appointment import save_appoint
+from appointment import appoint_id, save_appoint
 from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
@@ -209,11 +209,13 @@ class AppointExtraPlusDialog(ComponentDialog):
 
         global times
         global question
+        global appointId1
         global scnd_time
     
 
         question    = "ssiojgv"
         times       = "vmsovo"
+        appointId1  = "auauauu"
         scnd_time   = "sinnsivn"
 
         if timeslot == "again":
@@ -236,6 +238,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                 patientId = step_context.context.activity.from_property.id
                 pharmacistId = ids
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                appointId1 = appoint_id(patientId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
@@ -313,7 +316,10 @@ class AppointExtraPlusDialog(ComponentDialog):
     async def save2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
         global question2
-        question2 = "ksnvinsin"
+        global appointId2
+
+        appointId2  = "aoaoaoao"
+        question2   = "ksnvinsn"
 
         if question == "ask question":
             yesno = predict_class(step_context.result)
@@ -327,7 +333,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId1),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -347,6 +353,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                 pharmacistId = id
                 question2 = "questionnare ask2"
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                appointId2 = appoint_id(patientId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
@@ -360,10 +367,12 @@ class AppointExtraPlusDialog(ComponentDialog):
                 return await step_context.end_dialog()
 
         global times2
+        global appointId3
         global scnd_time2 
         global question21
 
         times2     = "ahshshs"
+        appointId3 = "aaiaiai"
         scnd_time2 = "sjkskns"
         question21 = "skkskss"
 
@@ -389,6 +398,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                 patientId = step_context.context.activity.from_property.id
                 pharmacistId = idt
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                appointId3 = appoint_id(patientId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
@@ -418,7 +428,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId2),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -428,9 +438,11 @@ class AppointExtraPlusDialog(ComponentDialog):
                 return await step_context.end_dialog()  
 
         global question22
+        global appointId4
         global question24
 
         question22 = "sskahah"
+        appointId4 = "aiaidid"
         question24 = "ghshshh"
 
         if scnd_time2 == "ask to save 2nd time2":
@@ -443,6 +455,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                 pharmacistId = id
                 question22 = "questionnare ask22"
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                appointId4 = appoint_id(patientId, token)
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
@@ -466,7 +479,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId3),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -488,7 +501,7 @@ class AppointExtraPlusDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= "go to question page",)])
+                            value= str(appointId4),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
             else:
