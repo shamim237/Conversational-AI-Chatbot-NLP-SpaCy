@@ -43,9 +43,6 @@ def get_slots(id, date, timey, token):
                     ids.append(j)
                     ssts.append(sst)
                     starts.append(start)
-
-
-
     now = timey
     current_time = datetime.strptime(now, "%I:%M %p")
     current_time = datetime.strftime(current_time, "%H:%M:%S")
@@ -102,7 +99,7 @@ def get_slots_sup(id, date, timen, token):
                     ids.append(j)
                     ssts.append(sst)
                     starts.append(start)
-    print(starts)
+    # print(starts)
     for i in starts:
         if i == timen:
             tim = i

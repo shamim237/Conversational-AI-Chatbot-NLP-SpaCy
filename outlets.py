@@ -147,7 +147,7 @@ def get_timeslots(id, date, time, time_now, token):
                     ss = ss.total_seconds()
                     if ss > 300:
                         tim.append(i)
-        print(starts)
+        #print(starts)
         
         if slots1 == "not present date":
             timess = [int(i) for i in timess]
@@ -180,8 +180,6 @@ def get_timeslots(id, date, time, time_now, token):
     else:
         return "No slots available" 
 
-# ss = get_timeslots("1", "2022-09-15", "21:35:00", "03:47 AM", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjMyMjE1NzAsImV4cCI6MTY2MzgyNjM3MCwiaWF0IjoxNjYzMjIxNTcwfQ.xfNseT29e_Bp2_gK2S3CvxDFt3QG7xLgOV5fRWQIMO8")
-# print(ss)
 
 
 
