@@ -54,8 +54,15 @@ class DatePrompt (Prompt):
             for j in dd:
                 tim = j['value']  
                 dates.append(tim) 
+        datess = []
+        for i in dates:
+            datey = datetime.strptime(i, "%Y-%m-%d").date()
+            if datey >= today:
+                datess.append(i)
+            else:
+                pass
 
-        datek = ",".join(dates)
+        datek = ",".join(datess)
             
         turn_context.activity.locale = self._defaultLocale
 
@@ -63,7 +70,6 @@ class DatePrompt (Prompt):
         model = recognizer.get_datetime_model()
         mode_result = model.parse(datek)
 
-        today = datetime.today().strftime("%Y-%m-%d")
 
         wks.update_acell("F10", str(datek))
         wks.update_acell("F11", str(mode_result[0].resolution))
