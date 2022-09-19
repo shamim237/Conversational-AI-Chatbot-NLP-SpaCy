@@ -94,8 +94,18 @@ class AdvBookAppDialog(ComponentDialog):
         wks.update_acell("D4", str(dates)) 
         slots_id        = get_slots(pharmacistsIds, dates, timey, token) 
         wks.update_acell("D5", str(slots_id)) 
+        
+        if slots_id is None:
+            opt =  "asking another"
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Sorry! No slots are available at this moment", extra = step_context.result))
+            
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = step_context.context.activity.text)),)
 
-        if slots_id is not None:
+        if slots_id != None:
             opt = "saving appointment"
             doc_name        = pharmacist_name(slots_id[1])
             pharmacistId    = slots_id[1]
@@ -117,15 +127,6 @@ class AdvBookAppDialog(ComponentDialog):
                 TextPrompt.__name__,
                 PromptOptions(
                     prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = step_context.context.activity.text)),)
-        else:
-            opt =  "asking another"
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Sorry! No slots are available at this moment", extra = step_context.result))
-            
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = step_context.context.activity.text)),)
     
     
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
