@@ -138,10 +138,10 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             case3a = "upload attachments_case3"
             await step_context.context.send_activity(
-                MessageFactory.text("Sure. Please upload the document.", extra = step_context.context.activity.text))            
+                MessageFactory.text("Sure. Please upload the document.", extra = last))            
             prompt_options = PromptOptions(
                 prompt=MessageFactory.text(
-                    "Tap \U0001F4CE to upload", extra = step_context.context.activity.text),)
+                    "Tap \U0001F4CE to upload", extra = last),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
@@ -154,13 +154,13 @@ class AdvHealthRecordDialog(ComponentDialog):
         case4a = "ksvnsvn"
 
         if "PATIENT_NAME" in classes and "REPORT_NAME" in classes and "REPORT_TYPE" in classes and "DIAGNOSTIC" not in classes:
-
+            wks.update_acell("A19", "Entered health record4")
             case4a = "upload attachments_case4"
             await step_context.context.send_activity(
-                MessageFactory.text("Sure. Please upload the document.", extra = step_context.context.activity.text))            
+                MessageFactory.text("Sure. Please upload the document.", extra = last))            
             prompt_options = PromptOptions(
                 prompt=MessageFactory.text(
-                    "Tap \U0001F4CE to upload", extra = step_context.context.activity.text),)
+                    "Tap \U0001F4CE to upload", extra = last),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
@@ -172,13 +172,13 @@ class AdvHealthRecordDialog(ComponentDialog):
         case5a = "ksvnsvn"
 
         if "PATIENT_NAME" not in classes and "REPORT_NAME" not in classes and "REPORT_TYPE" not in classes and "DIAGNOSTIC" in classes:
-
+            wks.update_acell("A19", "Entered health record5")
             case5a = "upload attachments_case5"
             await step_context.context.send_activity(
-                MessageFactory.text("Sure. Please upload the document.", extra = step_context.context.activity.text))            
+                MessageFactory.text("Sure. Please upload the document.", extra = last))            
             prompt_options = PromptOptions(
                 prompt=MessageFactory.text(
-                    "Tap \U0001F4CE to upload", extra = step_context.context.activity.text),)
+                    "Tap \U0001F4CE to upload", extra = last),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
@@ -190,13 +190,14 @@ class AdvHealthRecordDialog(ComponentDialog):
         case6a = "ksvnsvn"
 
         if "PATIENT_NAME" in classes and "REPORT_NAME" not in classes and "REPORT_TYPE" not in classes and "DIAGNOSTIC" in classes:
-
+            wks.update_acell("A19", "Entered health record6")
+            wks.update_acell("A20", str(classes))
             case6a = "upload attachments_case6"
             await step_context.context.send_activity(
-                MessageFactory.text("Sure. Please upload the document.", extra = step_context.context.activity.text))            
+                MessageFactory.text("Sure. Please upload the document.", extra = last))            
             prompt_options = PromptOptions(
                 prompt=MessageFactory.text(
-                    "Tap \U0001F4CE to upload", extra = step_context.context.activity.text),)
+                    "Tap \U0001F4CE to upload", extra = last),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 #########################################################################################################################################################################################################################
