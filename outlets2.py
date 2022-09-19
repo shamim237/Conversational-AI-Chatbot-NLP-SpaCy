@@ -78,7 +78,7 @@ def pharmacist_name(id):
 
 
 
-def get_slots_sup(id, date, timen, token):
+def get_slots_sup(id, date, timen, time_now, token):
 
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
     
@@ -99,15 +99,40 @@ def get_slots_sup(id, date, timen, token):
                     ids.append(j)
                     ssts.append(sst)
                     starts.append(start)
-    # print(starts)
+
+    today = datetime.now()
+    today = datetime.strftime(today, "%Y-%m-%d")
+    today = datetime.strptime(today, "%Y-%m-%d").date()
+    
+    datet = date
+    datet = datetime.strptime(datet, "%Y-%m-%d").date()
+    
+
+    timex = time_now
+    current_time = datetime.strptime(timex, "%I:%M %p")
+    current_time = datetime.strftime(current_time, "%H:%M:%S")
+
     for i in starts:
-        if i == timen:
-            tim = i
-            for j in ssts:
-                reg = re.sub(r"\d{1,3}\-\-", r"", j)
-                if tim == reg:
-                    idt = re.sub(r"(\d{1,3})\-\-\d{1,2}\:\d{1,2}\:\d{1,2}", r"\1", j)
-            return tim, idt
+        if datet > today:
+            if i == timen:
+                tim = i
+                for j in ssts:
+                    reg = re.sub(r"\d{1,3}\-\-", r"", j)
+                    if tim == reg:
+                        idt = re.sub(r"(\d{1,3})\-\-\d{1,2}\:\d{1,2}\:\d{1,2}", r"\1", j)
+                return tim, idt
+        if datet < today:
+            pass
+        if datet == today:
+            if timen > current_time and i == timen:
+                tim = i
+                for j in ssts:
+                    reg = re.sub(r"\d{1,3}\-\-", r"", j)
+                    if tim == reg:
+                        idt = re.sub(r"(\d{1,3})\-\-\d{1,2}\:\d{1,2}\:\d{1,2}", r"\1", j)
+                return tim, idt
+            else:
+                return "time is past"
         else:
             pass 
         
