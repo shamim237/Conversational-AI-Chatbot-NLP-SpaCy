@@ -216,7 +216,7 @@ class AppointmentDialog(ComponentDialog):
         global question
         global scnd_time
         global appointId1
-
+        global wks
         global timeslot2
         global slott
         global idt
@@ -374,14 +374,24 @@ class AppointmentDialog(ComponentDialog):
             msgs = predict_class(step_context.result)
 
             if msgs == "positive":
+                wks.update_acell("G1", "entered")
+                wks.update_acell("G2", str(times))
                 timet = times.split(" - ")
+                wks.update_acell("G3", str(timet))
                 time1 = timeConversion(timet[0])
+                wks.update_acell("G4", str(time1[0]))
                 time2 = timeConversion(timet[1])
-                patientId = get_patient_id(email, pharmacyId)
-                pharmacistId = id
+                wks.update_acell("G5", str(time1[1]))
+                patientId = userId
+                wks.update_acell("G6", str(patientId))
+                pharmacistId = ids
+                wks.update_acell("G7", str(pharmacistId))
                 question2 = "questionnare ask2"
                 save_appoint(date, time1, time2, patientId, pharmacistId, pharmacist, pharmacyId, token)
+                wks.update_acell("G8", "entered2")
                 appointId2 = appoint_id(patientId, token)
+                wks.update_acell("G9", "entered3")
+                wks.update_acell("G10", str(appointId2))
                 await step_context.context.send_activity(MessageFactory.text("Thank You! Your appointment with " + str(pharmacist) + " has been booked at " + str(time1) + " on" + str(date) + "."))
                 await step_context.context.send_activity(MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
                 return await step_context.prompt(
