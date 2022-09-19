@@ -125,7 +125,7 @@ class ToBeLoggedInDialog(ComponentDialog):
             prompts = "Would you like to subscribe to a daily health tip from an expert?"
             await step_context.context.send_activity(
                 MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today?", extra = step_context.result))
-            reply = MessageFactory.text("Would you like my help with any of these?", extra = step_context.result)
+            reply = MessageFactory.text("Would you like my help with any of these?" ,extra = step_context.result)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
@@ -144,7 +144,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         value = "Upload Health Records",
                         extra = step_context.result),
                         ])
-            return await step_context.context.send_activity(reply)  
+            return await step_context.context.send_activity(reply, step_context.result)  
         if health == "bad":
             prompts = "Have you consulted with a Doctor/Pharmacist?"
             await step_context.context.send_activity(

@@ -1238,9 +1238,9 @@ class CardAction(Model):
         self.image_alt_text = image_alt_text
 
         raw  = translator.detect(extra)
-        type =  raw.lang
+        types =  raw.lang
         if raw.lang != "en":
-            convert = translator.translate(title, dest= type)
+            convert = translator.translate(title, dest= types)
             extra = convert.text
             self.title = extra
             self.value = extra

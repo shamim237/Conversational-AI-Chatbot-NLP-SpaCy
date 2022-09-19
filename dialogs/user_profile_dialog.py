@@ -183,8 +183,8 @@ class UserProfileDialog(ComponentDialog):
         if health == "good":
             prompts = "Would you like to subscribe to a daily health tip from an expert?"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today?"))
-            reply = MessageFactory.text("Would you like my help with any of these?")
+                MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today?", extra = step_context.result))
+            reply = MessageFactory.text("Would you like my help with any of these?", extra = step_context.result)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
@@ -410,7 +410,7 @@ class UserProfileDialog(ComponentDialog):
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
             if msg == "negative":
                 more_work = "askin me"
-                reply = MessageFactory.text("What would you like to do?")
+                reply = MessageFactory.text("What would you like to do?", extra = step_context.result)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
@@ -470,7 +470,7 @@ class UserProfileDialog(ComponentDialog):
                 return await step_context.begin_dialog(AdvBookAppDialog.__name__)
             if msg == "negative":
                 more_work = "dusking me"
-                reply = MessageFactory.text("What would you like to do?")
+                reply = MessageFactory.text("What would you like to do?", extra = step_context.result)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
