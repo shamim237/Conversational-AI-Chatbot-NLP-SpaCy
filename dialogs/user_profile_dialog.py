@@ -1,4 +1,6 @@
 import gspread
+from googletrans import Translator
+translator = Translator()
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
@@ -82,6 +84,30 @@ class UserProfileDialog(ComponentDialog):
             pass
 
         status = check_user(userId, token)
+
+        raw  = translator.detect(step_context.context.activity.text)
+
+        if raw.lang != "en":
+            reply = MessageFactory.text("language detection")
+            reply.suggested_actions = SuggestedActions(
+                actions=[
+                    CardAction(
+                        title = "Not English",
+                        type  = ActionTypes.im_back,
+                        value = str(raw.lang),)
+                        ])
+            await step_context.context.send_activity(reply)  
+        if raw.lang == "en":
+            reply = MessageFactory.text("language detection")
+            reply.suggested_actions = SuggestedActions(
+                actions=[
+                    CardAction(
+                        title = "English",
+                        type  = ActionTypes.im_back,
+                        value = str(raw.lang),)
+                        ])
+            await step_context.context.send_activity(reply)  
+
 
         if userId == 0 or status == "Fail" or status == 400:
             return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
