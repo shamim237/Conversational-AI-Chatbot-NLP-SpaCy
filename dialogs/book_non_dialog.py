@@ -41,7 +41,7 @@ class BookNonInDialog(ComponentDialog):
 
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("I think you should see a Doctor or pharmacist. Would you like to book an appointment with a pharmacist?"),))
+            PromptOptions(prompt=MessageFactory.text("I think you should see a Doctor or pharmacist. Would you like to book an appointment with a pharmacist?", extra = step_context.context.activity.text),))
 
     async def final_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -50,11 +50,11 @@ class BookNonInDialog(ComponentDialog):
 
         if msg == "positive":
             await step_context.context.send_activity(
-                MessageFactory.text("I am initializing the book appointment process."))
+                MessageFactory.text("I am initializing the book appointment process.", extra = step_context.context.activity.text))
             return await step_context.begin_dialog(AppointmentDialog.__name__)
         else:
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text(f"What would you like to do?")))             
+                PromptOptions(prompt=MessageFactory.text(f"What would you like to do?", extra = step_context.context.activity.text)))             
     
         

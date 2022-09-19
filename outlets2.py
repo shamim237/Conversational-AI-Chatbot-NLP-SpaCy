@@ -19,6 +19,9 @@ def get_pharmacist_id(pharmacyId, outletId):
 
     return ds
 
+# ss = get_pharmacist_id("1", "48")
+# print(ss)
+
 
 def get_slots(id, date, timey, token):
 
@@ -47,7 +50,6 @@ def get_slots(id, date, timey, token):
     current_time = datetime.strptime(now, "%I:%M %p")
     current_time = datetime.strftime(current_time, "%H:%M:%S")
     wks.update_acell("I3", str(current_time))
-    
     upcoming = []
     for i in starts:
         if i > current_time:
@@ -57,13 +59,19 @@ def get_slots(id, date, timey, token):
                 upcoming.append(i)
     ss = sorted(upcoming)
 
-    for i in ssts:
-        reg = re.sub(r"\d{1,3}\-\-", r"", i)
-        if ss[0] == reg:
-            idt = re.sub(r"(\d{1,3})\-\-\d{1,2}\:\d{1,2}\:\d{1,2}", r"\1", i)
+    if len(upcoming) > 0:
+        for i in ssts:
+            reg = re.sub(r"\d{1,3}\-\-", r"", i)
+            if ss[0] == reg:
+                idt = re.sub(r"(\d{1,3})\-\-\d{1,2}\:\d{1,2}\:\d{1,2}", r"\1", i)
+    else:
+        pass
     
 
-    return ss[0], idt          
+    return ss[0], idt       
+# ids = [35, 36, 39, 40, 48, 52, 55]
+# ss = get_slots(ids, "2022-09-19", "10:26 pm", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjM2MDI3NTMsImV4cCI6MTY2NDIwNzU1MywiaWF0IjoxNjYzNjAyNzUzfQ.9OrmOKZh-klMswLD837-4LfSljkr08FJHKHzUBtSPO4")
+# print(ss)   
 
 
 def pharmacist_name(id):

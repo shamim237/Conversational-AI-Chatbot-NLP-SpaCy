@@ -20,7 +20,6 @@ from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, C
 from dialogs.appoint_extra_plus import AppointExtraPlusDialog
 
 
-
 class AppointExtraDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
         super(AppointExtraDialog, self).__init__(dialog_id or AppointExtraDialog.__name__)
@@ -61,7 +60,15 @@ class AppointExtraDialog(ComponentDialog):
         global use_time
         global endTime
         global dates
+        global opt
         global pharmacistId
+
+        opt = "aiaiaiaia"
+        use_time = "auiaai"
+        doc_name = 'uauauau'
+        endTime = "kakakak"
+        times = "kaskak"
+        pharmacistId = "asjjajaj"
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
@@ -85,31 +92,43 @@ class AppointExtraDialog(ComponentDialog):
         dates           = datetime.today().strftime('%Y-%m-%d')
         wks.update_acell("P4", str(dates))
         slots_id        = get_slots(pharmacistsIds, dates, timey, token) 
-        wks.update_acell("P5", str(slots_id))
-        doc_name        = pharmacist_name(slots_id[1])
-        pharmacistId    = slots_id[1]
-        wks.update_acell("P6", str(doc_name))
-        userName        = check_name(userId, token) 
-        wks.update_acell("P7", str(userName))
 
-        times           = slots_id[0]
-        ss = datetime.strptime(times, "%H:%M:%S")
-        dd = ss + timedelta(minutes= 15)
-        endTime = datetime.strftime(dd, "%H:%M:%S")
+        if slots_id is not None:
+            opt = "saving appointment"
+            wks.update_acell("P5", str(slots_id))
+            doc_name        = pharmacist_name(slots_id[1])
+            pharmacistId    = slots_id[1]
+            wks.update_acell("P6", str(doc_name))
+            userName        = check_name(userId, token) 
+            wks.update_acell("P7", str(userName))
 
-        wks.update_acell("P8", str(times))
-        use_time        = datetime.strptime(times, "%H:%M:%S").strftime("%I:%M %p")
+            times           = slots_id[0]
+            ss = datetime.strptime(times, "%H:%M:%S")
+            dd = ss + timedelta(minutes= 15)
+            endTime = datetime.strftime(dd, "%H:%M:%S")
 
-        if userName != "not found":
-            await step_context.context.send_activity(
-                MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available."))
+            wks.update_acell("P8", str(times))
+            use_time        = datetime.strptime(times, "%H:%M:%S").strftime("%I:%M %p")
+
+            if userName != "not found":
+                await step_context.context.send_activity(
+                    MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available."))
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available."))            
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to confirm the appointment?")),)
         else:
+            opt =  "asking another"
             await step_context.context.send_activity(
-                MessageFactory.text("Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available."))            
-        return await step_context.prompt(
-            TextPrompt.__name__,
-            PromptOptions(
-                prompt=MessageFactory.text("Would you like to confirm the appointment?")),)
+                MessageFactory.text(f"Sorry! No slots are available at this moment", extra = step_context.result))
+            
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = step_context.context.activity.text)),)
 
     
     
@@ -120,25 +139,38 @@ class AppointExtraDialog(ComponentDialog):
         appointId   = "ajajajaja"
         step1       = "nvsjknvsk"
 
-        msg = predict_class(step_context.result)
+        if opt == "saving appointment":
 
-        if msg == "positive":
-            step1 = "question ask"
-            save_appoint(dates, times, endTime, userId, pharmacistId, doc_name, pharmacyId, token)
-            appointId = appoint_id(userId, token)
-            await step_context.context.send_activity(
-                MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".")) 
-            await step_context.context.send_activity(
-                MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?")),)     
+            msg = predict_class(step_context.result)
 
-        else:
-            await step_context.context.send_activity(
-                MessageFactory.text("Alright!"))
-            return await step_context.begin_dialog(AppointExtraPlusDialog.__name__)                    
+            if msg == "positive":
+                step1 = "question ask"
+                save_appoint(dates, times, endTime, userId, pharmacistId, doc_name, pharmacyId, token)
+                appointId = appoint_id(userId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".")) 
+                await step_context.context.send_activity(
+                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?")),)     
+
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Alright!"))
+                return await step_context.begin_dialog(AppointExtraPlusDialog.__name__)  
+
+        if opt == "asking another":
+            msg = predict_class(step_context.result)  
+            if msg == "positive":
+                await step_context.context.send_activity(
+                    MessageFactory.text("Alright!", extra = step_context.result))
+                return await step_context.begin_dialog(AppointExtraPlusDialog.__name__)
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                return await step_context.end_dialog()                      
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:

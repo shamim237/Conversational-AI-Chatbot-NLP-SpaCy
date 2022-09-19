@@ -1220,8 +1220,8 @@ class CardAction(Model):
         image: str = None,
         text: str = None,
         display_text: str = None,
-        value=None,
-        extra = str,
+        value =None,
+        extra: str = None,
         channel_data=None,
         image_alt_text: str = None,
         **kwargs

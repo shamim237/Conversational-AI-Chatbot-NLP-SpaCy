@@ -404,14 +404,13 @@ class SupAdvBookAppDialog(ComponentDialog):
             if msgs == "positive":       
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
-                reply = MessageFactory.text("go to question page", extra = step_context.result)
+                reply = MessageFactory.text("go to question page")
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= str(appointId1),
-                            extra =  step_context.result)])
+                            value= str(appointId1),)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()    
             
@@ -457,27 +456,27 @@ class SupAdvBookAppDialog(ComponentDialog):
                 if case1c == "question ask2":       
                     await step_context.context.send_activity(
                         MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
-                    reply = MessageFactory.text("go to question page", extra = step_context.result)
+                    reply = MessageFactory.text("go to question page")
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= "go to question page",
                                 type=ActionTypes.im_back,
                                 value= str(appointId2),
-                                extra = step_context.result)])
+                                )])
                     await step_context.context.send_activity(reply)
                     return await step_context.end_dialog()   
                 else:
                     await step_context.context.send_activity(
                         MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
-                    reply = MessageFactory.text("go to question page", extra = step_context.result)
+                    reply = MessageFactory.text("go to question page")
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= "go to question page",
                                 type=ActionTypes.im_back,
                                 value= str(appointId3),
-                                extra = step_context.result)])
+                                )])
                     await step_context.context.send_activity(reply)
                     return await step_context.end_dialog()   
 

@@ -277,17 +277,17 @@ class UserProfileDialog(ComponentDialog):
 
         if prompts == "Would you like to subscribe to a daily health tip from an expert?":
             msgs = step_context.result
-            if msgs == "Book an Appointment":
+            if msgs == "Book an Appointment" or msgs == "Reservar una cita":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Wait a second...", extra = step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
                 return await step_context.begin_dialog(AdvBookAppDialog.__name__)
-            if msgs == "Upload Health Records":
+            if msgs == "Upload Health Records" or msgs == "Cargar registros de salud":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = step_context.result))
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
-            if msgs == "Pill Reminder":
+            if msgs == "Pill Reminder" or msgs == "Recordatorio de pastillas":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)  
@@ -570,24 +570,24 @@ class UserProfileDialog(ComponentDialog):
 
         if more_work == "askin me":
             msg = step_context.result
-            if msg == "Book an Appointment":
+            if msg == "Book an Appointment" or msg == "Reservar una cita":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Wait a second...", extra = step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
                 return await step_context.begin_dialog(AdvBookAppDialog.__name__)
-            if msg == "Pill Reminder":
+            if msg == "Pill Reminder" or msg == "Recordatorio de pastillas":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
         if more_work == "dusking me":
             msg = step_context.result
-            if msg == "Upload Health Records":
+            if msg == "Upload Health Records" or msg == "Cargar registros de salud":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay! I am initializing the health record upload process!", extra = step_context.result))
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
-            if msg == "Pill Reminder":
+            if msg == "Pill Reminder" or msg == "Recordatorio de pastillas":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)

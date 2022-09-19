@@ -56,6 +56,7 @@ class AdvBookAppDialog(ComponentDialog):
 
     async def first_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
+        global opt
         global userId
         global token
         global pharmacyId
@@ -65,6 +66,13 @@ class AdvBookAppDialog(ComponentDialog):
         global endTime
         global dates
         global pharmacistId
+
+        opt = "aiaiaiaia"
+        use_time = "auiaai"
+        doc_name = 'uauauau'
+        endTime = "kakakak"
+        times = "kaskak"
+        pharmacistId = "asjjajaj"
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
@@ -81,29 +89,38 @@ class AdvBookAppDialog(ComponentDialog):
         pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId) 
         dates           = datetime.today().strftime('%Y-%m-%d')
         slots_id        = get_slots(pharmacistsIds, dates, timey, token) 
-        doc_name        = pharmacist_name(slots_id[1])
-        pharmacistId    = slots_id[1]
-        userName        = check_name(userId, token) 
 
-        times           = slots_id[0]
-        ss = datetime.strptime(times, "%H:%M:%S")
-        dd = ss + timedelta(minutes= 15)
-        endTime = datetime.strftime(dd, "%H:%M:%S")
+        if slots_id is not None:
+            opt = "saving appointment"
+            doc_name        = pharmacist_name(slots_id[1])
+            pharmacistId    = slots_id[1]
+            userName        = check_name(userId, token) 
 
-        wks.update_acell("J8", str(times))
-        use_time        = datetime.strptime(times, "%H:%M:%S").strftime("%I:%M %p")
+            times           = slots_id[0]
+            ss = datetime.strptime(times, "%H:%M:%S")
+            dd = ss + timedelta(minutes= 15)
+            endTime = datetime.strftime(dd, "%H:%M:%S")
+            use_time        = datetime.strptime(times, "%H:%M:%S").strftime("%I:%M %p")
 
-        if userName != "not found":
-            await step_context.context.send_activity(
-                MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available.", extra = step_context.context.activity.text))
+            if userName != "not found":
+                await step_context.context.send_activity(
+                    MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available.", extra = step_context.context.activity.text))
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available.", extra = step_context.context.activity.text))            
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = step_context.context.activity.text)),)
         else:
+            opt =  "asking another"
             await step_context.context.send_activity(
-                MessageFactory.text("Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available.", extra = step_context.context.activity.text))            
-        return await step_context.prompt(
-            TextPrompt.__name__,
-            PromptOptions(
-                prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = step_context.context.activity.text)),)
-
+                MessageFactory.text(f"Sorry! No slots are available at this moment", extra = step_context.result))
+            
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = step_context.context.activity.text)),)
     
     
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -113,25 +130,39 @@ class AdvBookAppDialog(ComponentDialog):
         appointId   = "aayayyaaa"
         step1       = "nvsjknvsk"
 
-        msg = predict_class(step_context.result)
+        if opt == "saving appointment":
 
-        if msg == "positive":
-            step1 = "question ask"
-            save_appoint(dates, times, endTime, userId, pharmacistId, doc_name, pharmacyId, token)
-            appointId = appoint_id(userId, token)
-            await step_context.context.send_activity(
-                MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".", extra = step_context.result)) 
-            await step_context.context.send_activity(
-                MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = step_context.result))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = step_context.result)),)     
+            msg = predict_class(step_context.result)
 
-        else:
-            await step_context.context.send_activity(
-                MessageFactory.text("Alright!", extra = step_context.result))
-            return await step_context.begin_dialog(AppointmentDialog.__name__)                    
+            if msg == "positive":
+                step1 = "question ask"
+                save_appoint(dates, times, endTime, userId, pharmacistId, doc_name, pharmacyId, token)
+                appointId = appoint_id(userId, token)
+                await step_context.context.send_activity(
+                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".", extra = step_context.result)) 
+                await step_context.context.send_activity(
+                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = step_context.result))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = step_context.result)),)     
+
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Alright!", extra = step_context.result))
+                return await step_context.begin_dialog(AppointmentDialog.__name__) 
+
+        if opt == "asking another":
+            msg = predict_class(step_context.result)  
+            if msg == "positive":
+                await step_context.context.send_activity(
+                    MessageFactory.text("Alright!", extra = step_context.result))
+                return await step_context.begin_dialog(AppointmentDialog.__name__)
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                return await step_context.end_dialog()                 
+
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -145,14 +176,14 @@ class AdvBookAppDialog(ComponentDialog):
             if msgs == "positive":       
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
-                reply = MessageFactory.text("go to question page", extra = step_context.result)
+                reply = MessageFactory.text("go to question page")
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
                             value= str(appointId),
-                            extra = step_context.result)])
+                            )])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()    
             

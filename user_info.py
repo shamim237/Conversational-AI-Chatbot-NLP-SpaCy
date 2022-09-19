@@ -42,3 +42,5 @@ def outlet_ids(userId, token):
         st = dictFromServer['response']['patientData']['outletId']
         return st
 
+# ss = outlet_ids("106", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjM2MDUxMzYsImV4cCI6MTY2NDIwOTkzNiwiaWF0IjoxNjYzNjA1MTM2fQ.-BBawUW5Nrwhw510dPOsUf__RO_gNHI68YdsenoIWHA")
+# print(ss)
