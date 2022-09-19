@@ -15,7 +15,7 @@ class DatePrompt (Prompt):
      super().__init__(dialog_id, validator=validator)
      
      if defaultLocale is None:
-        defaultLocale = Culture.Englis
+        defaultLocale = Culture.English
      self._defaultLocale = defaultLocale
 
     async def on_prompt(self, turn_context: TurnContext, state: Dict[str, object], options: PromptOptions, is_retry: bool,):
