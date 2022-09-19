@@ -52,11 +52,11 @@ class MessageFactory:
         wks.update_acell('C6', str(extra))
         wks.update_acell('C7', str(raw.lang))
         type =  raw.lang
-        if raw.lang != "en":
+        if raw.lang == "es":
             convert = translator.translate(text, dest= type)
             message = Activity(type=ActivityTypes.message, text=convert.text, input_hint=input_hint)
             
-        else:
+        if raw.lang == "en":
             message = Activity(type=ActivityTypes.message, text=text, input_hint=input_hint)
             
 
