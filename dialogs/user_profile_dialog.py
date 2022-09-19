@@ -276,18 +276,18 @@ class UserProfileDialog(ComponentDialog):
         msg = predict_class(step_context.result)
 
         if prompts == "Would you like to subscribe to a daily health tip from an expert?":
-            msg = step_context.result
-            if msg ==  "Book an Appointment":
+            msgs = step_context.result
+            if msgs == "Book an Appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Wait a second...", extra = step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
                 return await step_context.begin_dialog(AdvBookAppDialog.__name__)
-            if msg == "Upload Health Records":
+            if msgs == "Upload Health Records":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = step_context.result))
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
-            if msg == "Pill Reminder":
+            if msgs == "Pill Reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)  
