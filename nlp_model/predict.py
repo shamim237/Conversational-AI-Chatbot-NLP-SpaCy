@@ -1,8 +1,15 @@
 import requests
+from googletrans import Translator
+translator = Translator()
 
 def predict_class(msg):
-    res = requests.get('https://chatbot-zibew.herokuapp.com/send_msg/{}'.format(msg))
-    return res.text
+    raw  = translator.detect(msg)
+    if raw.lang != "en":
+        convert = translator.translate(msg, dest= "en")
+        res = requests.get('https://chatbot-zibew.herokuapp.com/send_msg/{}'.format(convert.text))
+    else:
+        res = requests.get('https://chatbot-zibew.herokuapp.com/send_msg/{}'.format(msg))
 
+    return res.text
 # ss = predict_class("book an appointment on today")
 # print(ss)
