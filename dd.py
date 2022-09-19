@@ -45,6 +45,7 @@
 # print(g.country)
 # print(ss[0].lower())
 # # # import logging
+# from recognizers_date_time import DateTimeRecognizer 
 # from datetime import datetime
 # import recognizers_suite as Recognizers
 # from recognizers_suite import Culture
@@ -64,14 +65,14 @@
 #         for j in dd:
 #             tim = j['value']  
 #             times.append(tim) 
-#     for i in times:
-#         datey = datetime.strptime(i, "%Y-%m-%d").date()
-#         if datey >= today:
-#             return i
-#         else:
-#             pass
 
-# ss =  date_cal("15-09-2022")
+#     datek = ",".join(times)
+#     recognizer = DateTimeRecognizer(Culture.English)
+#     model = recognizer.get_datetime_model()
+#     mode_result = model.parse(datek)
+#     return mode_result[0].resolution
+
+# ss =  date_cal("23 september")
 # print(ss)
 
 # # from datetime import datetime, timedelta

@@ -5,29 +5,20 @@ from datetime import datetime
 from recognizers_date_time import DateTimeRecognizer 
 import recognizers_suite as Recognizers
 from recognizers_suite import Culture
+import gspread
 from typing import Dict
 culture = Culture.English
 
 
 class DatePrompt (Prompt):
-    def __init__(self, 
-        dialog_id,
-        validator : object = None,
-        defaultLocale = None):
+    def __init__(self, dialog_id, validator : object = None, defaultLocale = None):
      super().__init__(dialog_id, validator=validator)
      
      if defaultLocale is None:
-        defaultLocale = Culture.English
-
+        defaultLocale = Culture.Englis
      self._defaultLocale = defaultLocale
 
-    async def on_prompt(
-        self, 
-        turn_context: TurnContext, 
-        state: Dict[str, object], 
-        options: PromptOptions, 
-        is_retry: bool, 
-    ):
+    async def on_prompt(self, turn_context: TurnContext, state: Dict[str, object], options: PromptOptions, is_retry: bool,):
         if not turn_context:
             raise TypeError("turn_context Can’t  be none")
         if not options:
@@ -39,11 +30,11 @@ class DatePrompt (Prompt):
             if options.prompt is not None:
                 await turn_context.send_activity(options.prompt)    
 
-    async def on_recognize(self,
-        turn_context: TurnContext, 
-        state: Dict[str, object], 
-        options: PromptOptions, 
-    ) -> PromptRecognizerResult:  
+    async def on_recognize(self, turn_context: TurnContext, state: Dict[str, object], options: PromptOptions,) -> PromptRecognizerResult: 
+
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
 
         if not turn_context:
             raise TypeError("turn_context cannt be none")
@@ -72,6 +63,12 @@ class DatePrompt (Prompt):
         model = recognizer.get_datetime_model()
         mode_result = model.parse(datek)
 
+        today = datetime.today().strftime("%Y-%m-%d")
+
+        wks.update_acell("F10", str(datek))
+        wks.update_acell("F11", str(mode_result[0].resolution))
+        wks.update_acell("F12", str(today))
+
         prompt_result = PromptRecognizerResult()
 
         if len(mode_result) > 0 and len(mode_result[0].resolution) > 0:
@@ -79,8 +76,10 @@ class DatePrompt (Prompt):
                 if "value" in resolution:
                     prompt_result.value = resolution["value"]
                     if prompt_result.value < datetime.today().strftime("%Y-%m-%d"):
+                        wks.update_acell("F13", str("entered-False"))
                         prompt_result.succeeded = False
                         return prompt_result
                     else:
+                        wks.update_acell("F14", str("entered-True"))
                         prompt_result.succeeded = True
                         return prompt_result
