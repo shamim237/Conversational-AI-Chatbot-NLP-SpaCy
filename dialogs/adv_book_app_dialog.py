@@ -95,7 +95,7 @@ class AdvBookAppDialog(ComponentDialog):
         slots_id        = get_slots(pharmacistsIds, dates, timey, token) 
         wks.update_acell("D5", str(slots_id)) 
         
-        if slots_id is None:
+        if slots_id == None:
             opt =  "asking another"
             await step_context.context.send_activity(
                 MessageFactory.text(f"Sorry! No slots are available at this moment", extra = step_context.result))
