@@ -67,7 +67,7 @@ def get_slots(id, date, timey, token):
                 idt = re.sub(r"(\d{1,3})\-\-\d{1,2}\:\d{1,2}\:\d{1,2}", r"\1", i)
             return ss[0], idt 
     else:
-        return None
+        return "None"
     
 
           

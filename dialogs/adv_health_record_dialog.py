@@ -156,11 +156,8 @@ class AdvHealthRecordDialog(ComponentDialog):
         if "PATIENT_NAME" in classes and "REPORT_NAME" in classes and "REPORT_TYPE" in classes and "DIAGNOSTIC" not in classes:
             wks.update_acell("A19", "Entered health record4")
             case4a = "upload attachments_case4"
-            await step_context.context.send_activity(
-                MessageFactory.text("Sure. Please upload the document.", extra = last))            
-            prompt_options = PromptOptions(
-                prompt=MessageFactory.text(
-                    "Tap \U0001F4CE to upload", extra = last),)
+            await step_context.context.send_activity(MessageFactory.text(f"Sure. Please upload the document.", extra = last))            
+            prompt_options = PromptOptions(prompt=MessageFactory.text(f"Tap \U0001F4CE to upload", extra = last))
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
