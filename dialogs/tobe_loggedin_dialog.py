@@ -1,5 +1,4 @@
 import gspread
-from botbuilder.core import MessageFactory
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
@@ -20,8 +19,10 @@ from username import check_name_email, check_passwrd_email
 from reset_pass import sendcode, resetpass
 from user_info import check_name
 from validateotp import validatecode
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from dialogs.adv_book_app_dialog import AdvBookAppDialog
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from botbuilder.schema import ActionTypes, SuggestedActions
 from dialogs.adv_appoint_dialog import SupAdvBookAppDialog
 
 class ToBeLoggedInDialog(ComponentDialog):

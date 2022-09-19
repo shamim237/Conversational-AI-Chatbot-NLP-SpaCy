@@ -5,13 +5,15 @@ from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
-from botbuilder.core import MessageFactory, UserState
+from botbuilder.core import UserState
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from botbuilder.dialogs import ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, PromptOptions
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.book_appointment import AppointmentDialog
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from botbuilder.schema import ActionTypes, SuggestedActions
 from dialogs.tobe_loggedin_dialog import ToBeLoggedInDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from user_info import check_user
