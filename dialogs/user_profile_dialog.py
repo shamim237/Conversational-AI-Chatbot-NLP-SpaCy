@@ -86,28 +86,14 @@ class UserProfileDialog(ComponentDialog):
         status = check_user(userId, token)
 
         raw  = translator.detect(step_context.context.activity.text)
+        wks.update_acell("A14", str(raw.lang))
 
         if raw.lang != "en":
-            reply = MessageFactory.text("language detection")
-            reply.suggested_actions = SuggestedActions(
-                actions=[
-                    CardAction(
-                        title = "Not English",
-                        type  = ActionTypes.im_back,
-                        value = str(raw.lang),)
-                        ])
-            await step_context.context.send_activity(reply)  
+            await step_context.context.send_activity(MessageFactory.content_url(url = "Not English", content_type = str(raw.lang)))
         if raw.lang == "en":
-            reply = MessageFactory.text("language detection")
-            reply.suggested_actions = SuggestedActions(
-                actions=[
-                    CardAction(
-                        title = "English",
-                        type  = ActionTypes.im_back,
-                        value = str(raw.lang),)
-                        ])
-            await step_context.context.send_activity(reply)  
+            await step_context.context.send_activity(MessageFactory.content_url(url = "English", content_type = str(raw.lang)))
 
+        
 
         if userId == 0 or status == "Fail" or status == 400:
             return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
