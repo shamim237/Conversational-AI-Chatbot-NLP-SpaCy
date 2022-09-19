@@ -203,7 +203,7 @@ class UserProfileDialog(ComponentDialog):
                         value = "Upload Health Records",
                         extra=step_context.result),
                         ])
-            return await step_context.context.send_activity(reply, extra = step_context.result)      
+            return await step_context.context.send_activity(reply)      
 
         if health == "bad":
             prompts = "Have you consulted with a Doctor/Pharmacist?"
@@ -424,7 +424,7 @@ class UserProfileDialog(ComponentDialog):
                             value = "Pill Reminder",
                             extra=step_context.result),
                             ])
-                return await step_context.context.send_activity(reply, extra = step_context.result)
+                return await step_context.context.send_activity(reply)
             if msg == "appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Wait a second...", extra = step_context.result))
@@ -484,7 +484,7 @@ class UserProfileDialog(ComponentDialog):
                             value   = "Pill Reminder",
                             extra   = step_context.result),
                             ])
-                return await step_context.context.send_activity(reply, extra = step_context.result) 
+                return await step_context.context.send_activity(reply) 
             if msg == "appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Wait a sec...", extra = step_context.result))
