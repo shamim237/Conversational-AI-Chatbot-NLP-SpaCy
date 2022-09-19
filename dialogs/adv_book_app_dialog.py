@@ -85,10 +85,15 @@ class AdvBookAppDialog(ComponentDialog):
         timey = timey.get('local_timestamp')
 
         outletId        = outlet_ids(userId, token)
+        wks.update_acell("D1", str(outletId))
         outletName      = outlet_name(outletId, token)
-        pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId) 
+        wks.update_acell("D2", str(outletName))
+        pharmacistsIds  = get_pharmacist_id(pharmacyId, outletId)
+        wks.update_acell("D3", str(pharmacistsIds)) 
         dates           = datetime.today().strftime('%Y-%m-%d')
+        wks.update_acell("D4", str(dates)) 
         slots_id        = get_slots(pharmacistsIds, dates, timey, token) 
+        wks.update_acell("D5", str(slots_id)) 
 
         if slots_id is not None:
             opt = "saving appointment"
