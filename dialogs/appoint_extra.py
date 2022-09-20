@@ -113,10 +113,10 @@ class AppointExtraDialog(ComponentDialog):
 
             if userName != "not found":
                 await step_context.context.send_activity(
-                    MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available."))
+                    MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available.", extra = step_context.context.activity.text))
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available."))            
+                    MessageFactory.text("Today at " + str(use_time) + ", " + str(doc_name) + " of " + str(outletName) + " outlet is available.", extra = step_context.context.activity.text))            
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
@@ -124,7 +124,7 @@ class AppointExtraDialog(ComponentDialog):
         else:
             opt =  "asking another"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Sorry! No slots are available at this moment", extra = step_context.result))
+                MessageFactory.text(f"Sorry! No slots are available at this moment", extra = step_context.context.activity.text))
             
             return await step_context.prompt(
                 TextPrompt.__name__,

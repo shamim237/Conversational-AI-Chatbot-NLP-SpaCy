@@ -49,7 +49,7 @@ def get_slots(id, date, timey, token):
     now = timey
     current_time = datetime.strptime(now, "%I:%M %p")
     current_time = datetime.strftime(current_time, "%H:%M:%S")
-    wks.update_acell("I3", str(current_time))
+    # wks.update_acell("I3", str(current_time))
     upcoming = []
     for i in starts:
         if i > current_time:
@@ -58,21 +58,21 @@ def get_slots(id, date, timey, token):
             if ss > 300:
                 upcoming.append(i)
     ss = sorted(upcoming)
-    print(upcoming)
+    # print(upcoming)
 
     if len(upcoming) > 0:
         for i in ssts:
             reg = re.sub(r"\d{1,3}\-\-", r"", i)
             if ss[0] == reg:
                 idt = re.sub(r"(\d{1,3})\-\-\d{1,2}\:\d{1,2}\:\d{1,2}", r"\1", i)
-            return ss[0], idt 
+        return ss[0], idt 
     else:
         return "None"
     
 
           
-# ids = [1, 35, 36, 39, 40, 48, 52, 55]
-# ss = get_slots(ids, "2022-09-22", "10:26 am", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjM2MDI3NTMsImV4cCI6MTY2NDIwNzU1MywiaWF0IjoxNjYzNjAyNzUzfQ.9OrmOKZh-klMswLD837-4LfSljkr08FJHKHzUBtSPO4")
+# ids = [8, 13, 23, 25, 32, 34, 35, 36, 39, 40, 48, 52, 55]
+# ss = get_slots(ids, "2022-09-20", "10:53 am", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjM2NDk1NTcsImV4cCI6MTY2NDI1NDM1NywiaWF0IjoxNjYzNjQ5NTU3fQ.MeQYK_XNlLhZrpUqOfPrUVhWafHDTrfsK8TuDBy2zFg")
 # print(ss)   
 
 

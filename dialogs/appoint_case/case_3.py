@@ -8,7 +8,8 @@ import recognizers_suite as Recognizers
 from datetime import datetime, timedelta
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
 from nlp_model.appoint_predict import predict_appoint
@@ -18,7 +19,7 @@ from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from outlets2 import get_pharmacist_id, get_slots, get_slots_sup, pharmacist_name
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from botbuilder.schema import ActionTypes, SuggestedActions
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
@@ -106,9 +107,9 @@ class caseThreeDialog(ComponentDialog):
             
             
         return await step_context.prompt("date_prompt", PromptOptions(
-            prompt=MessageFactory.text("On which date you would like to book an appointment?"),
+            prompt=MessageFactory.text("On which date you would like to book an appointment?", extra = step_context.context.activity.text),
                 retry_prompt= MessageFactory.text(
-                "Please enter a valid day or date. P.S. It can't be past date."),))
+                "Please enter a valid day or date. P.S. It can't be past date.", extra = step_context.context.activity.text),))
 
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -145,11 +146,11 @@ class caseThreeDialog(ComponentDialog):
         if slots3x is None:
             case3b = "different time3x"
             await step_context.context.send_activity(
-                MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time."))
+                MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time.", extra = step_context.result))
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?")),) 
+                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = step_context.result)),) 
         else:
 
             wks.update_acell("O4", str(slots3x)) 
@@ -168,14 +169,14 @@ class caseThreeDialog(ComponentDialog):
             if userName != "not found":
                 case3b = "confirm or not3x"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Hey " + str(userName) + ", on " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available."))
+                    MessageFactory.text("Hey " + str(userName) + ", on " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = step_context.result))
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("On " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available."))            
+                    MessageFactory.text("On " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = step_context.result))            
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to confirm the appointment?")),)
+                    prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = step_context.result)),)
 
 
 
@@ -193,28 +194,28 @@ class caseThreeDialog(ComponentDialog):
                 save_appoint(date3x, times3xx, endTime3x, userId, pharmacistId3x, doc_name3x, pharmacyId, token)
                 appointId = appoint_id(userId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name3x) + " has been booked on " + str(date3x) + " at "  + str(use_time3x) + ".")) 
+                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name3x) + " has been booked on " + str(date3x) + " at "  + str(use_time3x) + ".", extra = step_context.result)) 
                 await step_context.context.send_activity(
-                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
+                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = step_context.result))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?")),)     
+                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = step_context.result)),)     
 
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("Alright!"))
+                    MessageFactory.text("Alright!", extra = step_context.result))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)  
 
         if case3b == "different time3x":
             msgx = predict_class(step_context.result)
             if msgx == "positive":
                 await step_context.context.send_activity(
-                    MessageFactory.text("Alright!"))
+                    MessageFactory.text("Alright!", extra = step_context.result))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thanks for connecting with Jarvis Care."))
+                    MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = step_context.result))
                 return await step_context.end_dialog()    
 
 
@@ -227,7 +228,7 @@ class caseThreeDialog(ComponentDialog):
             msgs = predict_class(step_context.result)
             if msgs == "positive":       
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! I am opening the questionnare page."))
+                    MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
                 reply = MessageFactory.text("go to question page")
                 reply.suggested_actions = SuggestedActions(
                     actions=[
@@ -240,11 +241,11 @@ class caseThreeDialog(ComponentDialog):
             else:
                 case1d = "update or not2"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition."))    
+                    MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition.", extra = step_context.result))    
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Would you like to update health profile now?")),) 
+                        prompt=MessageFactory.text("Would you like to update health profile now?", extra = step_context.result)),) 
 
 
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:        
@@ -254,10 +255,10 @@ class caseThreeDialog(ComponentDialog):
 
             if msg == "positive":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = step_context.result))
 
                 return await step_context.begin_dialog(HealthProfileDialog.__name__) 
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Thanks for connecting with Jarvis Care."))
+                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = step_context.result))
                 return await step_context.end_dialog() 
