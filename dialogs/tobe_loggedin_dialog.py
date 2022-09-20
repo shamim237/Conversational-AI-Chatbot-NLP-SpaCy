@@ -377,13 +377,14 @@ class ToBeLoggedInDialog(ComponentDialog):
 
             await step_context.context.send_activity(
                 MessageFactory.text("Thanks " + str(name) + ". You have registered successfully.", extra = step_context.result))
-            reply = MessageFactory.text("do login")
+            reply = MessageFactory.text("do login", extra = step_context.result)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= id,
                         type=ActionTypes.im_back,
-                        value= token,)])
+                        value= token,
+                        extra = step_context.result)])
             await step_context.context.send_activity(reply)
 
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
@@ -517,13 +518,14 @@ class ToBeLoggedInDialog(ComponentDialog):
                         MessageFactory.text(f"You've logged in successfully. But I can't find your name in the APP.", extra = step_context.result))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login")
+                    reply = MessageFactory.text("do login", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
-                                value= token,)])
+                                value= token,
+                                extra = step_context.result)])
                     await step_context.context.send_activity(reply)
                     return await step_context.prompt(
                         TextPrompt.__name__,
@@ -533,13 +535,14 @@ class ToBeLoggedInDialog(ComponentDialog):
                     await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login")
+                    reply = MessageFactory.text("do login", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
-                                value= token,)])
+                                value= token,
+                                extra = step_context.result)])
                     await step_context.context.send_activity(reply)
 
                     job = predict_class(step_context.values["command"])
@@ -963,13 +966,14 @@ class ToBeLoggedInDialog(ComponentDialog):
                         MessageFactory.text(f"You've logged in successfully.", extra = step_context.result))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login")
+                    reply = MessageFactory.text("do login", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
-                                value= token,)])
+                                value= token,
+                                extra = step_context.result)])
                     await step_context.context.send_activity(reply)
                     return await step_context.prompt(
                         TextPrompt.__name__,
@@ -979,7 +983,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login")
+                    reply = MessageFactory.text("do login", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
@@ -1343,13 +1347,14 @@ class ToBeLoggedInDialog(ComponentDialog):
                         MessageFactory.text(f"Thank You! Password updated successfully.", extra = step_context.result))
                     userid = user_id_email(email, pharmacyId, passwords)
                     token = email_token(email, pharmacyId, passwords)
-                    reply = MessageFactory.text("do login")
+                    reply = MessageFactory.text("do login", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
-                                value= token,)])
+                                value= token,
+                                extra = step_context.result)])
                     await step_context.context.send_activity(reply)
                     return await step_context.prompt(
                         TextPrompt.__name__,
@@ -1359,13 +1364,14 @@ class ToBeLoggedInDialog(ComponentDialog):
                     await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
                     userid = user_id_email(email, pharmacyId, passwords)
                     token = email_token(email, pharmacyId, passwords)
-                    reply = MessageFactory.text("do login")
+                    reply = MessageFactory.text("do login", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
-                                value= token,)])
+                                value= token,
+                                extra = step_context.result)])
                     await step_context.context.send_activity(reply)
                     
                     job = predict_class(step_context.values["command"])  
@@ -1663,13 +1669,14 @@ class ToBeLoggedInDialog(ComponentDialog):
                         MessageFactory.text(f"Thank You! Password updated successfully.", extra = step_context.result))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login")
+                    reply = MessageFactory.text("do login", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
-                                value= token,)])
+                                value= token,
+                                extra = step_context.result)])
                     await step_context.context.send_activity(reply)
                     return await step_context.prompt(
                         TextPrompt.__name__,
@@ -1679,13 +1686,14 @@ class ToBeLoggedInDialog(ComponentDialog):
                     await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login")
+                    reply = MessageFactory.text("do login", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
-                                value= token,)])
+                                value= token,
+                                extra = step_context.result)])
                     await step_context.context.send_activity(reply)
 
                     job = predict_class(step_context.values["command"]) 

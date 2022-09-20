@@ -190,7 +190,7 @@ class AdvBookAppDialog(ComponentDialog):
                             title= "go to question page",
                             type=ActionTypes.im_back,
                             value= str(appointId),
-                            )])
+                            extra= step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()    
             

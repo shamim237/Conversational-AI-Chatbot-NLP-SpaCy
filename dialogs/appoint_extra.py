@@ -149,17 +149,17 @@ class AppointExtraDialog(ComponentDialog):
                 save_appoint(dates, times, endTime, userId, pharmacistId, doc_name, pharmacyId, token)
                 appointId = appoint_id(userId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".")) 
+                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".", extra = step_context.result)) 
                 await step_context.context.send_activity(
-                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment."))
+                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = step_context.result))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?")),)     
+                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = step_context.result)),)     
 
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("Alright!"))
+                    MessageFactory.text("Alright!", extra = step_context.result))
                 return await step_context.begin_dialog(AppointExtraPlusDialog.__name__)  
 
         if opt == "asking another":
@@ -182,20 +182,21 @@ class AppointExtraDialog(ComponentDialog):
 
             if msg == "positive":       
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! I am opening the questionnare page."))
-                reply = MessageFactory.text("go to question page")
+                    MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
+                reply = MessageFactory.text("go to question page", extra = step_context.result)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= str(appointId),)])
+                            value= str(appointId),
+                            extra= step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
             
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. Thanks for connecting with Jarvis Care."))
+                    MessageFactory.text(f"Okay. Thanks for connecting with Jarvis Care.", extra = step_context.result))
                 return await step_context.end_dialog()
 
 

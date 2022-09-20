@@ -334,7 +334,8 @@ class AppointExtraPlusDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= str(appointId1),)])
+                            value= str(appointId1),
+                            extra= step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -429,7 +430,8 @@ class AppointExtraPlusDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= str(appointId2),)])
+                            value= str(appointId2),
+                            extra = step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -480,7 +482,8 @@ class AppointExtraPlusDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= str(appointId3),)])
+                            value= str(appointId3),
+                            extra = step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -502,7 +505,8 @@ class AppointExtraPlusDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= str(appointId4),)])
+                            value= str(appointId4),
+                            extra = step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
             else:

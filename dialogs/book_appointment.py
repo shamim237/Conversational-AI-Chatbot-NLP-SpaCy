@@ -1,6 +1,6 @@
 from lib.message_factory import MessageFactory
 from lib.card import CardAction
-from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog, DialogTurnStatus
+from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
 from botbuilder.dialogs.choices import Choice
@@ -303,7 +303,7 @@ class AppointmentDialog(ComponentDialog):
             if slott == "NOPE":
                 timeslot2 = "again2"
                 aslots = get_timeslots2(idt, date, token)
-                reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time_scnds) + ". Please choose a different time slot")
+                reply = MessageFactory.text("Sorry!. Pharmacist is not available at " + str(time_scnds) + ". Please choose a different time slot", extra = step_context.result)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
@@ -359,7 +359,8 @@ class AppointmentDialog(ComponentDialog):
                         CardAction(
                             title   = "go to question page",
                             type    = ActionTypes.im_back,
-                            value   = str(appointId1),)])
+                            value   = str(appointId1),
+                            extra = step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -483,7 +484,8 @@ class AppointmentDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= str(appointId2),)])
+                            value= str(appointId2),
+                            extra = step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -537,7 +539,8 @@ class AppointmentDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= str(appointId3),)])
+                            value= str(appointId3),
+                            extra = step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
 
@@ -579,7 +582,8 @@ class AppointmentDialog(ComponentDialog):
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
-                            value= str(appointId4),)])
+                            value= str(appointId4),
+                            extra = step_context.result)])
                 await step_context.context.send_activity(reply)
                 return await step_context.end_dialog()   
             else:
