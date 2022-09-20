@@ -43,7 +43,7 @@ class NonAnyDialog(ComponentDialog):
 
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("I can help you connect with a pharmacist, set a pill reminder, and upload health records. Do you want me to do any of these?"),))
+            PromptOptions(prompt=MessageFactory.text("I can help you connect with a pharmacist, set a pill reminder, and upload health records. Do you want me to do any of these?", extra = step_context.context.activity.text),))
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -57,7 +57,7 @@ class NonAnyDialog(ComponentDialog):
             want = "options"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Okay, Tell me which one you want me to do?"),))
+                PromptOptions(prompt=MessageFactory.text("Okay, Tell me which one you want me to do?", extra = step_context.context.activity.text),))
         
         if msg == "appointment":
             return await step_context.begin_dialog(AppointmentDialog.__name__)
@@ -68,7 +68,7 @@ class NonAnyDialog(ComponentDialog):
             want = "nothing"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text(f"What would you like to do?"),))             
+                PromptOptions(prompt=MessageFactory.text(f"What would you like to do?", extra = step_context.context.activity.text),))             
     
     async def final_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -79,7 +79,7 @@ class NonAnyDialog(ComponentDialog):
             
             if msg == "appointment":
                 await step_context.context.send_activity(
-                    MessageFactory.text("I am initializing the book appointment process."))
+                    MessageFactory.text("I am initializing the book appointment process.", extra = step_context.context.activity.text))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
             
             if msg == "adv_health_record":
@@ -87,5 +87,5 @@ class NonAnyDialog(ComponentDialog):
             else:
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text(f"Sorry! I don't understand. What would you like to do?"),))             
+                    PromptOptions(prompt=MessageFactory.text(f"Sorry! I don't understand. What would you like to do?", extra = step_context.context.activity.text),))             
                                 

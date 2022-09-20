@@ -49,7 +49,7 @@ class UploadNonInDialogApp(ComponentDialog):
 
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("Would you like to save the prescription, or medical reports with me? I'll keep them all at one safe place."),))
+            PromptOptions(prompt=MessageFactory.text("Would you like to save the prescription, or medical reports with me? I'll keep them all at one safe place.", extra =  step_context.context.activity.text),))
 
     async def final_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -61,13 +61,13 @@ class UploadNonInDialogApp(ComponentDialog):
 
         if msg == "positive":
             await step_context.context.send_activity(
-                MessageFactory.text("I am initializing the health record uploading process."))
+                MessageFactory.text("I am initializing the health record uploading process.", extra =  step_context.context.activity.text))
             return await step_context.begin_dialog(HealthRecordDialog.__name__)
         else:
             prop = "ki korba"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text(f"What would you like to do?")))             
+                PromptOptions(prompt=MessageFactory.text(f"What would you like to do?", extra =  step_context.context.activity.text)))             
     
     async def final1_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:  
 
@@ -76,12 +76,12 @@ class UploadNonInDialogApp(ComponentDialog):
 
             if msg == "reminder":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra =  step_context.context.activity.text))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
             if msg == "adv_pill_reminder":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra =  step_context.context.activity.text))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
     

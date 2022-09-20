@@ -65,6 +65,7 @@ class AdvBookAppDialog(ComponentDialog):
         global times
         global use_time
         global endTime
+        global main
         global dates
         global pharmacistId
 
@@ -78,6 +79,8 @@ class AdvBookAppDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
+
+        main = step_context.context.activity.text
 
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
@@ -146,30 +149,30 @@ class AdvBookAppDialog(ComponentDialog):
                 save_appoint(dates, times, endTime, userId, pharmacistId, doc_name, pharmacyId, token)
                 appointId = appoint_id(userId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".", extra = step_context.result)) 
+                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name) + " has been booked today at " + str(use_time) + ".", extra = main)) 
                 await step_context.context.send_activity(
-                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = step_context.result))
+                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = step_context.result)),)     
+                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
 
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("Alright!", extra = step_context.result))
+                    MessageFactory.text("Alright!", extra = main))
                 return await step_context.begin_dialog(AppointmentDialog.__name__) 
 
         if opt == "asking another":
             msg = predict_class(step_context.result)  
             if msg == "positive":
                 await step_context.context.send_activity(
-                    MessageFactory.text("Alright!", extra = step_context.result))
+                    MessageFactory.text("Alright!", extra = main))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = step_context.result))
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()                 
 
 
@@ -184,28 +187,28 @@ class AdvBookAppDialog(ComponentDialog):
 
             if msgs == "positive":       
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
-                reply = MessageFactory.text("go to question page", extra = step_context.result)
+                    MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
+                reply = MessageFactory.text("go to question page", extra = main)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
                             title= "go to question page",
                             type=ActionTypes.im_back,
                             value= str(appointId),
-                            extra= step_context.result)])
+                            extra = main)])
                 await step_context.context.send_activity(reply)
                 await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = step_context.result))
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()    
             
             else:
                 update = "update or not"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition.", extra = step_context.result))    
+                    MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition.", extra = main))    
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Would you like to update health profile now?", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Would you like to update health profile now?", extra = main)),)
 
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -215,13 +218,13 @@ class AdvBookAppDialog(ComponentDialog):
 
             if msg == "positive":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = step_context.result))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__) 
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = step_context.result))
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()             
 
 

@@ -93,6 +93,8 @@ class AdvPillReminderDialog(ComponentDialog):
         global userId
         global token
         global pharmacyId
+        global main
+
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
@@ -176,39 +178,39 @@ class AdvPillReminderDialog(ComponentDialog):
         #remind me to take Sapa at 4pm. (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second..."))           
+                MessageFactory.text("Wait a second...", extra = main))           
             return await step_context.begin_dialog(caseOneDialog.__name__, main)
 
         
         #remind me to take Maxpro 50mg at morning. (done)
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second..."))           
+                MessageFactory.text("Wait a second...", extra = main))           
             return await step_context.begin_dialog(caseTwoDialog.__name__, main)
 
         
         #remind me to take 10ml Benadryl from tomorrow (done)
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" in classes and "MED_TYPE" not in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second..."))           
+                MessageFactory.text("Wait a second...", extra = main))           
             return await step_context.begin_dialog(caseThreeDialog.__name__, main)
 
         #set a pill reminder for bendix tablet daily at 9 pm (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second..."))           
+                MessageFactory.text("Wait a second...", extra = main))           
             return await step_context.begin_dialog(caseFourDialog.__name__, main)        
 
         #set a pill reminder for bendix tablet daily at 9 pm for 6 months (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second..."))           
+                MessageFactory.text("Wait a second...", extra = main))           
             return await step_context.begin_dialog(caseFiveDialog.__name__, main)   
 
         #remind me to take 5ml glucoplus twice a day
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" in classes and "MED_TYPE" not in classes and "MULTI_REMIND" in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second..."))           
+                MessageFactory.text("Wait a second...", extra = main))           
             return await step_context.begin_dialog(caseSixDialog.__name__, main)            
 
         #remind me to take Fexo daily at 4pm. (done)
@@ -216,7 +218,7 @@ class AdvPillReminderDialog(ComponentDialog):
             date_med = "just name,time and period is here-med_date needs to be added"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.")),)
+                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.", extra = main)),)
 
         
         #remind me to take napa everyday at night. (done)
@@ -224,35 +226,40 @@ class AdvPillReminderDialog(ComponentDialog):
             time_med = "just name,u_time and period is here-med_time needs to be added"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?")),)
+                PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?", extra = main)),)
 
         #remind me to take napa daily at 4pm for three weeks. (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_REMIND" not in classes:
             wks.update_acell("G1", "dhukse2")
             not_med = "just name,time,period and duration is here-med_not needs to be added"
-            reply = MessageFactory.text("Please help me to recognize the type of medicine-")
+            reply = MessageFactory.text("Please help me to recognize the type of medicine-", extra= main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Tablet",
                         type=ActionTypes.im_back,
-                        value= "Tablet"),
+                        value= "Tablet",
+                        extra= main),
                     CardAction(
                         title= "Drop",
                         type=ActionTypes.im_back,
-                        value= "Drop"),
+                        value= "Drop",
+                        extra= main),
                     CardAction(
                         title= "Capsule",
                         type=ActionTypes.im_back,
-                        value= "Capsule"),
+                        value= "Capsule",
+                        extra= main),
                     CardAction(
                         title= "Syringe",
                         type=ActionTypes.im_back,
-                        value= "Syringe"),
+                        value= "Syringe",
+                        extra= main),
                     CardAction(
                         title= "Syrup",
                         type=ActionTypes.im_back,
-                        value= "Syrup"),])
+                        value= "Syrup",
+                        extra= main),])
             return await step_context.context.send_activity(reply) 
 
         
@@ -261,7 +268,7 @@ class AdvPillReminderDialog(ComponentDialog):
             time_med = "just name,u_time,period and duration is here-med_time needs to be added"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?")),)
+                PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?", extra = main)),)
 
         #remind me to take 4 Napa tablets daily at 5 pm for 3 months
         if "MED_NAME" in classes and "TIME" in classes and "MED_TYPE" in classes and "DURATION" in classes and "PERIOD" in classes and "QUANT" in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "MULTI_REMIND" not in classes:
@@ -288,28 +295,31 @@ class AdvPillReminderDialog(ComponentDialog):
                 dates = cal_date_adv(durations[0])
                 save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_types, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your pill reminder has been set."))
+                    MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                    MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
                 return await step_context.end_dialog()
 
             if types in drop:
                 dropfor66 = "drop kothay"
-                reply = MessageFactory.text("Where to use the drop?")
+                reply = MessageFactory.text("Where to use the drop?", extra = main)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
                             title= "Eye",
                             type=ActionTypes.im_back,
-                            value= "Eye"),
+                            value= "Eye",
+                            extra= main),
                         CardAction(
                             title= "Nose",
                             type=ActionTypes.im_back,
-                            value= "Nose"),
+                            value= "Nose",
+                            extra= main),
                         CardAction(
                             title= "Ear",
                             type=ActionTypes.im_back,
-                            value= "Ear"),
+                            value= "Ear",
+                            extra= main),
                     ])
                 return await step_context.context.send_activity(reply) 
 
@@ -330,9 +340,9 @@ class AdvPillReminderDialog(ComponentDialog):
                 save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_types, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
 
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your pill reminder has been set."))
+                    MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                    MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
                 return await step_context.end_dialog()
 
             if types in syringe:
@@ -352,9 +362,9 @@ class AdvPillReminderDialog(ComponentDialog):
                 save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_types, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
 
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your pill reminder has been set."))
+                    MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                    MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
                 return await step_context.end_dialog()  
 
             if types in syrup:
@@ -374,9 +384,9 @@ class AdvPillReminderDialog(ComponentDialog):
                 save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_types, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
 
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your pill reminder has been set."))
+                    MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                    MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
                 return await step_context.end_dialog() 
 
 
@@ -426,9 +436,9 @@ class AdvPillReminderDialog(ComponentDialog):
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_types, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
 
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dose) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dose) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()           
             
 
@@ -445,29 +455,34 @@ class AdvPillReminderDialog(ComponentDialog):
         if date_med == "just name,time and period is here-med_date needs to be added":
             duration33 = step_context.result
             type_case3 = "tell med type"
-            reply = MessageFactory.text("Please help me to recognize the type of medicine-")
+            reply = MessageFactory.text("Please help me to recognize the type of medicine-", extra= main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Tablet",
                         type=ActionTypes.im_back,
-                        value= "Tablet"),
+                        value= "Tablet",
+                        extra= main),
                     CardAction(
                         title= "Drop",
                         type=ActionTypes.im_back,
-                        value= "Drop"),
+                        value= "Drop",
+                        extra= main),
                     CardAction(
                         title= "Capsule",
                         type=ActionTypes.im_back,
-                        value= "Capsule"),
+                        value= "Capsule",
+                        extra= main),
                     CardAction(
                         title= "Syringe",
                         type=ActionTypes.im_back,
-                        value= "Syringe"),
+                        value= "Syringe",
+                        extra= main),
                     CardAction(
                         title= "Syrup",
                         type=ActionTypes.im_back,
-                        value= "Syrup"),])
+                        value= "Syrup",
+                        extra= main),])
             return await step_context.context.send_activity(reply) 
 
 ################################################################################ CASE-4 ############################################################################################################################################
@@ -494,7 +509,7 @@ class AdvPillReminderDialog(ComponentDialog):
             dura44 = "duration nite hbe"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.")),)
+                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.", extra = main)),)
 
 ################################################################################ CASE-2 ############################################################################################################################################
 ############################################################## remind me to take napa daily at morning for three weeks. #############################################################################################################################################
@@ -516,29 +531,34 @@ class AdvPillReminderDialog(ComponentDialog):
 
             wks.update_acell("A3", str(timess))
 
-            reply = MessageFactory.text("Please help me to recognize the type of medicine-")
+            reply = MessageFactory.text("Please help me to recognize the type of medicine-", extra= main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Tablet",
                         type=ActionTypes.im_back,
-                        value= "Tablet"),
+                        value= "Tablet",
+                        extra= main),
                     CardAction(
                         title= "Drop",
                         type=ActionTypes.im_back,
-                        value= "Drop"),
+                        value= "Drop",
+                        extra= main),
                     CardAction(
                         title= "Capsule",
                         type=ActionTypes.im_back,
-                        value= "Capsule"),
+                        value= "Capsule",
+                        extra= main),
                     CardAction(
                         title= "Syringe",
                         type=ActionTypes.im_back,
-                        value= "Syringe"),
+                        value= "Syringe",
+                        extra= main),
                     CardAction(
                         title= "Syrup",
                         type=ActionTypes.im_back,
-                        value= "Syrup"),])
+                        value= "Syrup",
+                        extra= main),])
             return await step_context.context.send_activity(reply)   
 
 ################################################################################ CASE-1 ############################################################################################################################################
@@ -552,31 +572,31 @@ class AdvPillReminderDialog(ComponentDialog):
                 dosage_q = "koto dosage"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?", extra = main)),)
 
             if med_type == "Drop":
                 dosage_drop_1 = "koto drop1"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?")),)
+                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?", extra = main)),)
 
             if med_type == "Capsule":
                 dosage_cap_1 = "koto dosage2"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many caposules you have to take at a time?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many caposules you have to take at a time?", extra = main)),)
 
             if med_type == "Syringe":
                 dosage_inj_1 = "koto dosage3"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?", extra = main)),)
 
             if med_type == "Syrup":
                 dosage_syrup_1 = "koto dosage4"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?", extra = main)),)
 
 
 
@@ -621,9 +641,9 @@ class AdvPillReminderDialog(ComponentDialog):
 
             #remind me to take napa daily at 4pm for three weeks.
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()
 
         if dosage_drop_1 == "koto drop1":
@@ -638,21 +658,24 @@ class AdvPillReminderDialog(ComponentDialog):
             except:
                 dosage11 = 1
 
-            reply = MessageFactory.text("Where to use the drop?")
+            reply = MessageFactory.text("Where to use the drop?", extra= main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Eye",
-                        type=ActionTypes.im_back,
-                        value= "Eye"),
+                        type= ActionTypes.im_back,
+                        value= "Eye",
+                        extra= main),
                     CardAction(
                         title= "Nose",
-                        type=ActionTypes.im_back,
-                        value= "Nose"),
+                        type= ActionTypes.im_back,
+                        value= "Nose",
+                        extra= main),
                     CardAction(
                         title= "Ear",
-                        type=ActionTypes.im_back,
-                        value= "Ear"),
+                        type= ActionTypes.im_back,
+                        value= "Ear",
+                        extra= main),
                 ])
             return await step_context.context.send_activity(reply)  
 
@@ -679,9 +702,9 @@ class AdvPillReminderDialog(ComponentDialog):
 
             #remind me to take napa daily at 4pm for three weeks.
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()
 
         if dosage_inj_1 == "koto dosage3":
@@ -710,9 +733,9 @@ class AdvPillReminderDialog(ComponentDialog):
 
             #remind me to take napa daily at 4pm for three weeks.
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()   
 
         if dosage_syrup_1 == "koto dosage4":
@@ -738,9 +761,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()   
 
 ################################################################################ CASE-2 ############################################################################################################################################
@@ -766,31 +789,31 @@ class AdvPillReminderDialog(ComponentDialog):
                 dosage_tab_11 = "koto dosage11"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?", extra = main)),)
 
             if med_type1 == "Drop":
                 dosage_drop_11 = "koto drop12"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?")),)
+                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?", extra = main)),)
 
             if med_type1 == "Capsule":
                 dosage_cap_11 = "koto dosage13"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many capsules you have to take at a time?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many capsules you have to take at a time?", extra = main)),)
 
             if med_type1 == "Syringe":
                 dosage_inj_11 = "koto dosage14"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?", extra = main)),)
 
             if med_type1 == "Syrup":
                 dosage_syrup_11 = "koto dosage15"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?", extra = main)),)
 
 ################################################################################ CASE-3 ############################################################################################################################################
 ############################################################## remind me to take Fexo daily at 4pm. #############################################################################################################################################
@@ -814,27 +837,27 @@ class AdvPillReminderDialog(ComponentDialog):
                 dosage_tab_33 = "koto dosage11"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?", extra = main)),)
             if med_type3 == "Drop":
                 dosage_drop_33 = "koto drop12"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?")),)
+                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?", extra = main)),)
             if med_type3 == "Capsule":
                 dosage_cap_33 = "koto dosage13"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many capsules you have to take at a time?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many capsules you have to take at a time?", extra = main)),)
             if med_type3 == "Syringe":
                 dosage_inj_33 = "koto dosage14"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?", extra = main)),)
             if med_type3 == "Syrup":
                 dosage_syrup_33 = "koto dosage15"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?", extra = main)),)
 
 
 ################################################################################ CASE-4 ############################################################################################################################################
@@ -850,29 +873,34 @@ class AdvPillReminderDialog(ComponentDialog):
             duration44 = step_context.result
             med_type44 = "type nite hobe44"
 
-            reply = MessageFactory.text("Please help me to recognize the type of medicine-")
+            reply = MessageFactory.text("Please help me to recognize the type of medicine-", extra= main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Tablet",
                         type=ActionTypes.im_back,
-                        value= "Tablet"),
+                        value= "Tablet",
+                        extra= main),
                     CardAction(
                         title= "Drop",
                         type=ActionTypes.im_back,
-                        value= "Drop"),
+                        value= "Drop",
+                        extra= main),
                     CardAction(
                         title= "Capsule",
                         type=ActionTypes.im_back,
-                        value= "Capsule"),
+                        value= "Capsule",
+                        extra= main),
                     CardAction(
                         title= "Syringe",
                         type=ActionTypes.im_back,
-                        value= "Syringe"),
+                        value= "Syringe",
+                        extra= main),
                     CardAction(
                         title= "Syrup",
                         type=ActionTypes.im_back,
-                        value= "Syrup"),])
+                        value= "Syrup",
+                        extra= main),])
             return await step_context.context.send_activity(reply)  
 
 
@@ -902,9 +930,9 @@ class AdvPillReminderDialog(ComponentDialog):
 
             #remind me to take napa daily at 4pm for three weeks.
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage11) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage11) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()
 
 ################################################################################ CASE-2 ############################################################################################################################################
@@ -935,9 +963,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()
 
         global dropfor22
@@ -958,21 +986,24 @@ class AdvPillReminderDialog(ComponentDialog):
             except:
                 dosage22 = 1
 
-            reply = MessageFactory.text("Where to use the drop?")
+            reply = MessageFactory.text("Where to use the drop?", extra= main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Eye",
                         type=ActionTypes.im_back,
-                        value= "Eye"),
+                        value= "Eye",
+                        extra= main),
                     CardAction(
                         title= "Nose",
                         type=ActionTypes.im_back,
-                        value= "Nose"),
+                        value= "Nose",
+                        extra= main),
                     CardAction(
                         title= "Ear",
                         type=ActionTypes.im_back,
-                        value= "Ear"),
+                        value= "Ear",
+                        extra= main),
                 ])
             return await step_context.context.send_activity(reply)
 
@@ -999,9 +1030,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()  
 
         if dosage_inj_11 == "koto dosage14":
@@ -1027,9 +1058,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()  
 
         if dosage_syrup_11 == "koto dosage15":
@@ -1055,9 +1086,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog() 
 
 ################################################################################ CASE-3 ############################################################################################################################################
@@ -1087,9 +1118,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration33)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
             return await step_context.end_dialog() 
 
         global dropfor33
@@ -1110,21 +1141,24 @@ class AdvPillReminderDialog(ComponentDialog):
             except:
                 dosage33 = 1
 
-            reply = MessageFactory.text("Where to use the drop?")
+            reply = MessageFactory.text("Where to use the drop?", extra = main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Eye",
                         type=ActionTypes.im_back,
-                        value= "Eye"),
+                        value= "Eye",
+                        extra= main),
                     CardAction(
                         title= "Nose",
                         type=ActionTypes.im_back,
-                        value= "Nose"),
+                        value= "Nose",
+                        extra= main),
                     CardAction(
                         title= "Ear",
                         type=ActionTypes.im_back,
-                        value= "Ear"),
+                        value= "Ear",
+                        extra= main),
                 ])
             return await step_context.context.send_activity(reply)
 
@@ -1151,9 +1185,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration33)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
             return await step_context.end_dialog()  
 
         if dosage_inj_33 == "koto dosage14":
@@ -1179,9 +1213,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration33)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
             return await step_context.end_dialog()  
 
         if dosage_syrup_33 == "koto dosage15":
@@ -1207,9 +1241,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration33)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
             return await step_context.end_dialog() 
 
 ################################################################################ CASE-4 ############################################################################################################################################
@@ -1235,31 +1269,31 @@ class AdvPillReminderDialog(ComponentDialog):
                 dosage_tab_44 = "koto dosage11"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many tablets you have to take at a time?", extra = main)),)
 
             if med_type4 == "Drop":
                 dosage_drop_44 = "koto drop12"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?")),)
+                    PromptOptions(prompt=MessageFactory.text("What is the recommended drops of medicine you need to consume?", extra = main)),)
 
             if med_type4 == "Capsule":
                 dosage_cap_44 = "koto dosage13"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many capsules you have to take at a time?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many capsules you have to take at a time?", extra = main)),)
 
             if med_type4 == "Syringe":
                 dosage_inj_44 = "koto dosage14"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?", extra = main)),)
 
             if med_type4 == "Syrup":
                 dosage_syrup_44 = "koto dosage15"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?")),)
+                    PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?", extra = main)),)
 
 
     
@@ -1284,9 +1318,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(durations[0])
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage22, color_code, shape_type, place22, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage22) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage22) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
             return await step_context.end_dialog()
 
 ################################################################################ CASE-3 ############################################################################################################################################
@@ -1308,9 +1342,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration33)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage33, color_code, shape_type, place33, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage33) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage33) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
             return await step_context.end_dialog()
 
 
@@ -1341,9 +1375,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration44)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
             return await step_context.end_dialog() 
 
         global dropfor44
@@ -1364,21 +1398,24 @@ class AdvPillReminderDialog(ComponentDialog):
             except:
                 dosage44 = 1
 
-            reply = MessageFactory.text("Where to use the drop?")
+            reply = MessageFactory.text("Where to use the drop?", extra = main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Eye",
                         type=ActionTypes.im_back,
-                        value= "Eye"),
+                        value= "Eye",
+                        extra= main),
                     CardAction(
                         title= "Nose",
                         type=ActionTypes.im_back,
-                        value= "Nose"),
+                        value= "Nose",
+                        extra= main),
                     CardAction(
                         title= "Ear",
                         type=ActionTypes.im_back,
-                        value= "Ear"),
+                        value= "Ear",
+                        extra= main),
                 ])
             return await step_context.context.send_activity(reply)
 
@@ -1405,9 +1442,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration44)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
             return await step_context.end_dialog()  
 
         if dosage_inj_44 == "koto dosage14":
@@ -1433,9 +1470,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration44)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
             return await step_context.end_dialog()  
 
         if dosage_syrup_44 == "koto dosage15":
@@ -1461,9 +1498,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration44)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
             return await step_context.end_dialog() 
 
 
@@ -1488,9 +1525,9 @@ class AdvPillReminderDialog(ComponentDialog):
             dates = cal_date_adv(duration44)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage44, color_code, shape_type, place44, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage44) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage44) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
             return await step_context.end_dialog()
 
 

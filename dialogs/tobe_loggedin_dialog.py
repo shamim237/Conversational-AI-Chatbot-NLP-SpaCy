@@ -1,3 +1,4 @@
+from ast import main
 import gspread
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
@@ -68,6 +69,10 @@ class ToBeLoggedInDialog(ComponentDialog):
         self.initial_dialog_id = "WFDialog"
 
     async def initial_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        global main
+
+        main = step_context.context.activity.text
        
         msg = predict_class(step_context.context.activity.text)
         if msg == "morning":
@@ -124,41 +129,41 @@ class ToBeLoggedInDialog(ComponentDialog):
         if health == "good":
             prompts = "Would you like to subscribe to a daily health tip from an expert?"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today?", extra = step_context.result))
-            reply = MessageFactory.text("Would you like my help with any of these?" ,extra = step_context.result)
+                MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today?", extra = main))
+            reply = MessageFactory.text("Would you like my help with any of these?" ,extra = main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title = "Book an Appointment",
                         type  = ActionTypes.im_back,
                         value = "Book an Appointment",
-                        extra = step_context.result),
+                        extra = main),
                     CardAction(
                         title = "Pill Reminder",
                         type  = ActionTypes.im_back,
                         value = "Pill Reminder",
-                        extra = step_context.result),
+                        extra = main),
                     CardAction(
                         title = "Upload Health Records",
                         type  = ActionTypes.im_back,
                         value = "Upload Health Records",
-                        extra = step_context.result),
+                        extra = main),
                         ])
             return await step_context.context.send_activity(reply, step_context.result)  
         if health == "bad":
             prompts = "Have you consulted with a Doctor/Pharmacist?"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Sorry to hear that!", extra = step_context.result))
+                MessageFactory.text(f"Sorry to hear that!", extra = main))
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Have you consulted with any Doctor/Pharmacist?", extra = step_context.result)),)
+                PromptOptions(prompt=MessageFactory.text("Have you consulted with any Doctor/Pharmacist?", extra = main)),)
         else:
             prompts = "What would you like to start with?"
             await step_context.context.send_activity(
-                MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = step_context.result))
+                MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = main))
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = step_context.result)),)    
+                PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = main)),)    
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -170,10 +175,10 @@ class ToBeLoggedInDialog(ComponentDialog):
         if prompts == "Would you like to subscribe to a daily health tip from an expert?" or prompts == "What would you like to start with?" or prompts == "Have you consulted with a Doctor/Pharmacist?":
             email1 = "email taken"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Alright! But look like you are not logged in or registered yet with the Jarvis App.", extra = step_context.result))
+                MessageFactory.text(f"Alright! But look like you are not logged in or registered yet with the Jarvis App.", extra = main))
             return await step_context.prompt(
                 "email_prompt",
-                PromptOptions(prompt=MessageFactory.text("Please enter your e-mail address.", extra = step_context.result)),)
+                PromptOptions(prompt=MessageFactory.text("Please enter your e-mail address.", extra = main)),)
 
 
     async def fourths_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -198,24 +203,24 @@ class ToBeLoggedInDialog(ComponentDialog):
 
             if status == "Fail" and status1 == "Fail" :
                 login = "logged in"
-                await step_context.context.send_activity(MessageFactory.text("Thank you for sharing your email address. Let's get you logged in.", extra = step_context.result))
+                await step_context.context.send_activity(MessageFactory.text("Thank you for sharing your email address. Let's get you logged in.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("google login", extra = step_context.result)),)  
+                    PromptOptions(prompt=MessageFactory.text("google login", extra = main)),)  
 
             if status == "Fail" and status1 == "Success":
                 passwrd = "paswrd nibo"
-                await step_context.context.send_activity(MessageFactory.text("Thank you for sharing your email address.", extra = step_context.result))
+                await step_context.context.send_activity(MessageFactory.text("Thank you for sharing your email address.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text(f"Please enter your password to login or you can login manually.", extra = step_context.result)))
+                    PromptOptions(prompt=MessageFactory.text(f"Please enter your password to login or you can login manually.", extra = main)))
 
             if status == "Success":
                 names = "name nite hbe2"
-                await step_context.context.send_activity(MessageFactory.text("Thank you for sharing your email address.", extra = step_context.result))
+                await step_context.context.send_activity(MessageFactory.text("Thank you for sharing your email address.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text(f"Please enter your good name-", extra = step_context.result)))                
+                    PromptOptions(prompt=MessageFactory.text(f"Please enter your good name-", extra = main)))                
                             
 
     async def register_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -235,34 +240,34 @@ class ToBeLoggedInDialog(ComponentDialog):
             name = check_name(userid, token)
 
             if name != "not found":
-                await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully.", extra = step_context.result))
+                await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully.", extra = main))
                 if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                     job = predict_class(step_context.values["command"])
                     
                     if job == "appointment":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                            MessageFactory.text(f"Wait a sec...", extra = main))
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                            MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                         return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                     if job == "adv_health_record":
                         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                         sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
-                        wks.update_acell("H22", str(extra = step_context.result))
+                        wks.update_acell("H22", str(extra = main))
                         return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                     if job == "adv_appointment":
                         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                         sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
-                        wks.update_acell("L20", str(extra = step_context.result))
+                        wks.update_acell("L20", str(extra = main))
                         return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
                         
                     if job == "reminder":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                         return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                     if job == "adv_pill_reminder":
@@ -271,7 +276,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         wks = sh.worksheet("Sheet1")
                         wks.update_acell("A2", str(step_context.values["command"]))
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                         return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                     else:
                         return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -280,28 +285,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                     job = predict_class(step_context.values["command"])
                     if job == "appointment":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                            MessageFactory.text(f"Wait a sec...", extra = main))
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                            MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                         return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                     if job == "adv_health_record":
                         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                         sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
-                        wks.update_acell("H22", str(extra = step_context.result))
+                        wks.update_acell("H22", str(extra = main))
                         return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
                     
                     if job == "adv_appointment":
                         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                         sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
-                        wks.update_acell("L20", str(extra = step_context.result))
+                        wks.update_acell("L20", str(extra = main))
                         return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
                     
                     if job == "reminder":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                         return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                     if job == "adv_pill_reminder":
@@ -310,7 +315,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                         wks = sh.worksheet("Sheet1")
                         wks.update_acell("A2", str(step_context.values["command"]))
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                         return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                     else:
                         return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -326,28 +331,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                     
                     if jobs == "appointment":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                            MessageFactory.text(f"Wait a sec...", extra = main))
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                            MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                         return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                     if jobs == "adv_health_record":
                         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                         sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
-                        wks.update_acell("H22", str(extra = step_context.result))
+                        wks.update_acell("H22", str(extra = main))
                         return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                     if jobs == "adv_appointment":
                         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                         sh = ac.open("chatbot_logger")
                         wks = sh.worksheet("Sheet1")
-                        wks.update_acell("L20", str(extra = step_context.result))
+                        wks.update_acell("L20", str(extra = main))
                         return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                     if jobs == "reminder":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                         return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                     if jobs == "adv_pill_reminder":
@@ -356,17 +361,17 @@ class ToBeLoggedInDialog(ComponentDialog):
                         wks = sh.worksheet("Sheet1")
                         wks.update_acell("A2", str(step_context.values["command"]))
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                            MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                         return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
                     else:
                         return await step_context.begin_dialog(NonAnyDialog.__name__)
             else:
                 named = "name nite hobe3e"
-                await step_context.context.send_activity(MessageFactory.text("You've logged in successfully! But I can't find your name in the App!", extra = step_context.result))
+                await step_context.context.send_activity(MessageFactory.text("You've logged in successfully! But I can't find your name in the App!", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("Please enter your good name-", extra = step_context.result)))                 
+                    PromptOptions(prompt=MessageFactory.text("Please enter your good name-", extra = main)))                 
 
         if names == "name nite hbe2":
             name = step_context.result
@@ -376,43 +381,43 @@ class ToBeLoggedInDialog(ComponentDialog):
             token = new_token(email, pharmacyId)
 
             await step_context.context.send_activity(
-                MessageFactory.text("Thanks " + str(name) + ". You have registered successfully.", extra = step_context.result))
-            reply = MessageFactory.text("do login", extra = step_context.result)
+                MessageFactory.text("Thanks " + str(name) + ". You have registered successfully.", extra = main))
+            reply = MessageFactory.text("do login", extra = main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= id,
                         type=ActionTypes.im_back,
                         value= token,
-                        extra = step_context.result)])
+                        extra = main)])
             await step_context.context.send_activity(reply)
 
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -421,35 +426,35 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
             if prompts == "What would you like to start with?":
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -458,7 +463,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
             if prompts == "Have you consulted with a Doctor/Pharmacist?":
@@ -470,28 +475,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -500,7 +505,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -515,34 +520,34 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if name is None:
                     items = "name nibo re"
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"You've logged in successfully. But I can't find your name in the APP.", extra = step_context.result))
+                        MessageFactory.text(f"You've logged in successfully. But I can't find your name in the APP.", extra = main))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login", extra = step_context.result)
+                    reply = MessageFactory.text("do login", extra = main)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
                                 value= token,
-                                extra = step_context.result)])
+                                extra = main)])
                     await step_context.context.send_activity(reply)
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("Please tell me your full name.", extra = step_context.result)),)
+                            prompt=MessageFactory.text("Please tell me your full name.", extra = main)),)
                 else:
-                    await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
+                    await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = main))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login", extra = step_context.result)
+                    reply = MessageFactory.text("do login", extra = main)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
                                 value= token,
-                                extra = step_context.result)])
+                                extra = main)])
                     await step_context.context.send_activity(reply)
 
                     job = predict_class(step_context.values["command"])
@@ -551,28 +556,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -581,7 +586,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -590,28 +595,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -620,7 +625,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
@@ -633,28 +638,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -663,7 +668,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
                         else:
@@ -672,11 +677,11 @@ class ToBeLoggedInDialog(ComponentDialog):
             if verify == "Fail":
                 items = "arekbar passwrd den"
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"You've entered an incorrect password.", extra = step_context.result))
+                    MessageFactory.text(f"You've entered an incorrect password.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please enter the correct password", extra = step_context.result)),)                                       
+                        prompt=MessageFactory.text("Please enter the correct password", extra = main)),)                                       
 
 
 
@@ -693,32 +698,32 @@ class ToBeLoggedInDialog(ComponentDialog):
                 name = step_context.result
                 job = predict_class(step_context.values["command"])
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thanks " + str(name) + ".", extra = step_context.result))
+                    MessageFactory.text("Thanks " + str(name) + ".", extra = main))
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -727,7 +732,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -736,32 +741,32 @@ class ToBeLoggedInDialog(ComponentDialog):
                 name = step_context.result
                 job = predict_class(step_context.values["command"])
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thanks " + str(name) + ".", extra = step_context.result))
+                    MessageFactory.text("Thanks " + str(name) + ".", extra = main))
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -770,7 +775,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -779,7 +784,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 job = predict_class(step_context.values["command"])
                 name = step_context.result
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thanks " + str(name) + ".", extra = step_context.result))
+                    MessageFactory.text("Thanks " + str(name) + ".", extra = main))
                 if job == "positive":
                     return await step_context.begin_dialog(UploadNonInDialog.__name__)
                 
@@ -788,28 +793,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -818,7 +823,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 
                 else:
@@ -828,33 +833,33 @@ class ToBeLoggedInDialog(ComponentDialog):
         if items == "name nibo re":
             name = step_context.result
             job = predict_class(step_context.values["command"])
-            await step_context.context.send_activity(MessageFactory.text("Thanks"+ str(name) + ".", extra = step_context.result))
+            await step_context.context.send_activity(MessageFactory.text("Thanks"+ str(name) + ".", extra = main))
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -863,7 +868,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
                 else:
@@ -873,28 +878,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -903,7 +908,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -918,28 +923,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -948,7 +953,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -963,27 +968,27 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if name is None:
                     port = "ki ar kora, nam deya nai22"
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"You've logged in successfully.", extra = step_context.result))
+                        MessageFactory.text(f"You've logged in successfully.", extra = main))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login", extra = step_context.result)
+                    reply = MessageFactory.text("do login", extra = main)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
                                 value= token,
-                                extra = step_context.result)])
+                                extra = main)])
                     await step_context.context.send_activity(reply)
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("But I can't find your name in the APP. Please tell me your full name.", extra = step_context.result)),)
+                            prompt=MessageFactory.text("But I can't find your name in the APP. Please tell me your full name.", extra = main)),)
                 else:
-                    await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
+                    await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = main))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login", extra = step_context.result)
+                    reply = MessageFactory.text("do login", extra = main)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
@@ -998,28 +1003,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -1028,35 +1033,35 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
                     if prompts == "What would you like to start with?":
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -1065,7 +1070,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
                     if prompts == "Have you consulted with a Doctor/Pharmacist?":
@@ -1078,28 +1083,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -1108,7 +1113,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1117,11 +1122,11 @@ class ToBeLoggedInDialog(ComponentDialog):
             if verify == "Fail":
                 port = "reset pass kore den"
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"You've entered an incorrect password.", extra = step_context.result))
+                    MessageFactory.text(f"You've entered an incorrect password.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Do you want me to reset the password?", extra = step_context.result)),) 
+                        prompt=MessageFactory.text("Do you want me to reset the password?", extra = main)),) 
 
 
     async def reset2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -1134,34 +1139,34 @@ class ToBeLoggedInDialog(ComponentDialog):
         if port == "ki ar kora, nam deya nai22":
             name = step_context.result
             job = predict_class(step_context.values["command"])
-            await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
+            await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = main))
 
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -1170,7 +1175,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1179,28 +1184,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -1209,7 +1214,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1223,28 +1228,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -1253,7 +1258,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1265,18 +1270,18 @@ class ToBeLoggedInDialog(ComponentDialog):
                 sorts = "reset kora otp dibe"
                 sendcode(email, pharmacyId)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay! I am reseting your password.", extra = step_context.result))
+                    MessageFactory.text(f"Okay! I am reseting your password.", extra = main))
                 return await step_context.prompt(
                     NumberPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("I have send a code to your email. Please enter the code to reset your password.", extra = step_context.result)),)
+                        prompt=MessageFactory.text("I have send a code to your email. Please enter the code to reset your password.", extra = main)),)
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Sorry! I can't let you login then!", extra = step_context.result))
+                    MessageFactory.text(f"Sorry! I can't let you login then!", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Please come again after login with the app.", extra = step_context.result))
+                    MessageFactory.text(f"Please come again after login with the app.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = step_context.result))
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()
 
 
@@ -1297,20 +1302,20 @@ class ToBeLoggedInDialog(ComponentDialog):
             if stats == "correct code":
                 dot = "passwrd update kore dibo"
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Thanks for the OTP!", extra = step_context.result))
+                    MessageFactory.text(f"Thanks for the OTP!", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please enter a new password!", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Please enter a new password!", extra = main)),)
 
             if stats == "incorrect code":
                 dot = "otp nite hbe abr email user--"
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"You have entered an invalid OTP.", extra = step_context.result))
+                    MessageFactory.text(f"You have entered an invalid OTP.", extra = main))
                 return await step_context.prompt(
                     NumberPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please try again!", extra = step_context.result)),) 
+                        prompt=MessageFactory.text("Please try again!", extra = main)),) 
 
 
     async def reset4_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -1346,34 +1351,34 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks.update_acell("G7", str(name))
                     pot = "name niye asi"
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Thank You! Password updated successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Thank You! Password updated successfully.", extra = main))
                     userid = user_id_email(email, pharmacyId, passwords)
                     token = email_token(email, pharmacyId, passwords)
-                    reply = MessageFactory.text("do login", extra = step_context.result)
+                    reply = MessageFactory.text("do login", extra = main)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
                                 value= token,
-                                extra = step_context.result)])
+                                extra = main)])
                     await step_context.context.send_activity(reply)
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("But I can't find your name in the APP. Please tell me your full name.", extra = step_context.result)),)
+                            prompt=MessageFactory.text("But I can't find your name in the APP. Please tell me your full name.", extra = main)),)
                 else:                      
-                    await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
+                    await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = main))
                     userid = user_id_email(email, pharmacyId, passwords)
                     token = email_token(email, pharmacyId, passwords)
-                    reply = MessageFactory.text("do login", extra = step_context.result)
+                    reply = MessageFactory.text("do login", extra = main)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
                                 value= token,
-                                extra = step_context.result)])
+                                extra = main)])
                     await step_context.context.send_activity(reply)
                     
                     job = predict_class(step_context.values["command"])  
@@ -1382,28 +1387,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -1412,7 +1417,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1421,28 +1426,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -1451,7 +1456,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1465,28 +1470,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -1495,17 +1500,17 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Sorry! I can't let you login then!", extra = step_context.result))
+                    MessageFactory.text(f"Sorry! I can't let you login then!", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Please come again after login with the app.", extra = step_context.result))
+                    MessageFactory.text(f"Please come again after login with the app.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = step_context.result))
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()
         
         if dot == "otp nite hbe abr email user--":
@@ -1515,18 +1520,18 @@ class ToBeLoggedInDialog(ComponentDialog):
             if stats == "correct code":
                 dot1 = "passwrd update kore dibo"
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Thanks for the OTP!", extra = step_context.result))
+                    MessageFactory.text(f"Thanks for the OTP!", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please enter a new password!", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Please enter a new password!", extra = main)),)
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Sorry! I can't let you login then!", extra = step_context.result))
+                    MessageFactory.text(f"Sorry! I can't let you login then!", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Please come again after login with the app.", extra = step_context.result))
+                    MessageFactory.text(f"Please come again after login with the app.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = step_context.result))
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()                
 
     async def reset5_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -1539,33 +1544,33 @@ class ToBeLoggedInDialog(ComponentDialog):
         if pot == "name niye asi":
             name = step_context.result
             job = predict_class(step_context.values["command"]) 
-            await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
+            await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = main))
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -1574,7 +1579,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__) 
@@ -1583,28 +1588,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -1613,7 +1618,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1627,28 +1632,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -1657,7 +1662,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1672,34 +1677,34 @@ class ToBeLoggedInDialog(ComponentDialog):
                 if name is None:
                     pot1 = "name niye asi"
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Thank You! Password updated successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Thank You! Password updated successfully.", extra = main))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login", extra = step_context.result)
+                    reply = MessageFactory.text("do login", extra = main)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
                                 value= token,
-                                extra = step_context.result)])
+                                extra = main)])
                     await step_context.context.send_activity(reply)
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("But I can't find your name in the APP. Please tell me your full name.", extra = step_context.result)),)
+                            prompt=MessageFactory.text("But I can't find your name in the APP. Please tell me your full name.", extra = main)),)
                 else:                      
-                    await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
+                    await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = main))
                     userid = user_id_email(email, pharmacyId, password)
                     token = email_token(email, pharmacyId, password)
-                    reply = MessageFactory.text("do login", extra = step_context.result)
+                    reply = MessageFactory.text("do login", extra = main)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
                                 title= userid,
                                 type=ActionTypes.im_back,
                                 value= token,
-                                extra = step_context.result)])
+                                extra = main)])
                     await step_context.context.send_activity(reply)
 
                     job = predict_class(step_context.values["command"]) 
@@ -1708,28 +1713,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -1738,7 +1743,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1747,28 +1752,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                         
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -1777,7 +1782,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1792,28 +1797,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                         if job == "appointment":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                                MessageFactory.text(f"Wait a sec...", extra = main))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                         if job == "adv_health_record":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("H22", str(extra = step_context.result))
+                            wks.update_acell("H22", str(extra = main))
                             return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                         if job == "adv_appointment":
                             ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                             sh = ac.open("chatbot_logger")
                             wks = sh.worksheet("Sheet1")
-                            wks.update_acell("L20", str(extra = step_context.result))
+                            wks.update_acell("L20", str(extra = main))
                             return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                         if job == "reminder":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                         if job == "adv_pill_reminder":
@@ -1822,7 +1827,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                             wks = sh.worksheet("Sheet1")
                             wks.update_acell("A2", str(step_context.values["command"]))
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                         else:
                             return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1833,35 +1838,35 @@ class ToBeLoggedInDialog(ComponentDialog):
 
         if pot1 == "name niye asi":
             name = step_context.result
-            await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = step_context.result))
+            await step_context.context.send_activity(MessageFactory.text(str(name) + ", You have logged in successfully!", extra = main))
             job = predict_class(step_context.values["command"]) 
 
             if prompts == "Would you like to subscribe to a daily health tip from an expert?":
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -1870,7 +1875,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1879,28 +1884,28 @@ class ToBeLoggedInDialog(ComponentDialog):
                 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -1909,7 +1914,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)
@@ -1924,28 +1929,28 @@ class ToBeLoggedInDialog(ComponentDialog):
 
                 if job == "appointment":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Wait a sec...", extra = step_context.result))
+                        MessageFactory.text(f"Wait a sec...", extra = main))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                        MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
                     return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
                 if job == "adv_health_record":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("H22", str(extra = step_context.result))
+                    wks.update_acell("H22", str(extra = main))
                     return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
 
                 if job == "adv_appointment":
                     ac = gspread.service_account("chatbot-logger-985638d4a780.json")
                     sh = ac.open("chatbot_logger")
                     wks = sh.worksheet("Sheet1")
-                    wks.update_acell("L20", str(extra = step_context.result))
+                    wks.update_acell("L20", str(extra = main))
                     return await step_context.begin_dialog(SupAdvBookAppDialog.__name__)
 
                 if job == "reminder":
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(PillReminderDialog.__name__)
 
                 if job == "adv_pill_reminder":
@@ -1954,7 +1959,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     wks = sh.worksheet("Sheet1")
                     wks.update_acell("A2", str(step_context.values["command"]))
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.result))
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                     return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
                 else:
                     return await step_context.begin_dialog(NonAnyDialog.__name__)

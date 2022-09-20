@@ -54,7 +54,10 @@ class ByPassAppointmentDialog(ComponentDialog):
 
         global userId
         global token
+        global main
         global pharmacyId
+
+        main = step_context.context.activity.text
 
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
@@ -80,36 +83,36 @@ class ByPassAppointmentDialog(ComponentDialog):
 
         if msg == "positive":
             await step_context.context.send_activity(
-                MessageFactory.text(f"Okay. Wait a second...", extra = step_context.result))
+                MessageFactory.text(f"Okay. Wait a second...", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = step_context.result))
+                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
             return await step_context.begin_dialog(AdvBookAppDialog.__name__)
 
         else:
             choose = "choose options"
-            reply = MessageFactory.text("How can I help you?\nI can- ", extra = step_context.result)
+            reply = MessageFactory.text("How can I help you?\nI can- ", extra = main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Book an Appointment",
                         type=ActionTypes.im_back,
                         value= "Book an Appointment",
-                        extra = step_context.result),
+                        extra = main),
                     CardAction(
                         title = "Set a Pill Reminder",
                         type = ActionTypes.im_back,
                         value = "Set a Pill Reminder",
-                        extra = step_context.result),
+                        extra = main),
                     CardAction(
                         title = "Save Health Records",
                         type = ActionTypes.im_back,
                         value = "Save Health Records",
-                        extra = step_context.result),
+                        extra = main),
                     CardAction(
                         title = "Update your health profile",
                         type = ActionTypes.im_back,
                         value = "Update your health profile",
-                        extra = step_context.result),
+                        extra = main),
                         ])
             return await step_context.context.send_activity(reply)    
 

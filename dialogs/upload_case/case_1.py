@@ -4,7 +4,8 @@ from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from nlp_model.predict import predict_class
 from prompt.email_prompt import EmailPrompt
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from nlp_model.record_predict import predict_record
 from dialogs.attachment_prompt import AttachmentPrompt
 from health_record import save_health_record_1, save_health_record_2
@@ -54,8 +55,10 @@ class caseOneRecordDialog(ComponentDialog):
         global userId
         global token
         global wks
+        global main
         global pharmacyId
 
+        main = step_context.context.activity.text
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
@@ -89,10 +92,10 @@ class caseOneRecordDialog(ComponentDialog):
 
 
         await step_context.context.send_activity(
-            MessageFactory.text("Sure. Please upload the document."))            
+            MessageFactory.text("Sure. Please upload the document.", extra = main))            
         prompt_options = PromptOptions(
             prompt=MessageFactory.text(
-                "Tap \U0001F4CE to upload"),)
+                "Tap \U0001F4CE to upload", extra = main),)
         return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)  
 
 
@@ -115,11 +118,11 @@ class caseOneRecordDialog(ComponentDialog):
 
         if image is not None:
             await step_context.context.send_activity(
-                MessageFactory.text("The file is uploaded successfully."))
+                MessageFactory.text("The file is uploaded successfully.", extra = main))
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?")),)  
+                    prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?", extra = main)),)  
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -138,9 +141,9 @@ class caseOneRecordDialog(ComponentDialog):
             case1c = "add more attachments"
             prompt_options = PromptOptions(
                 prompt=MessageFactory.text(
-                    "Please attach more files if you would like to upload them."),
+                    "Please attach more files if you would like to upload them.", extra = main),
                 retry_prompt=MessageFactory.text(
-                    "The attachment must be in jpeg/png/pdf format."),)
+                    "The attachment must be in jpeg/png/pdf format.", extra = main),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
         
         else:
@@ -159,7 +162,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is this " + str(report_types) + " for?")),)    
+                    prompt=MessageFactory.text("Who is this " + str(report_types) + " for?", extra = main)),)    
 
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -202,7 +205,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is this " + str(report_types1) + " for?")),)  
+                    prompt=MessageFactory.text("Who is this " + str(report_types1) + " for?", extra = main)),)  
 
 
         if case1c == "patient_name should take":
@@ -213,14 +216,14 @@ class caseOneRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(report_types) + ".")),)
+                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(report_types) + ".", extra = main)),)
 
             else: 
                 case1d  = "doctor name should take"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),)
 
 
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -244,7 +247,7 @@ class caseOneRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(report_types1) + ".")),)
+                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(report_types1) + ".", extra = main)),)
 
             else: 
                 case1e  = "doctor name should take3"
@@ -252,7 +255,7 @@ class caseOneRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),)
 
 
         if case1d == "patient_name should again take":
@@ -262,7 +265,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),)
 
         if case1d == "doctor name should take":
 
@@ -271,7 +274,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please enter the name of the report. You can find it on the " + str(report_types) + ".")),)
+                    prompt=MessageFactory.text("Please enter the name of the report. You can find it on the " + str(report_types) + ".", extra = main)),)
 
 
     async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -295,7 +298,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),)
 
         if case1e  == "doctor name should take3":
 
@@ -304,7 +307,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please enter the name of the report. You can find it on the " + str(report_types1) + ".")),)
+                    prompt=MessageFactory.text("Please enter the name of the report. You can find it on the " + str(report_types1) + ".", extra = main)),)
 
         if case1e  == "doctor name should take2":
 
@@ -313,7 +316,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please enter the name of the report. You can find it on the " + str(report_types) + ".")),)
+                    prompt=MessageFactory.text("Please enter the name of the report. You can find it on the " + str(report_types) + ".", extra = main)),)
 
         if case1e == "report name name should take":
             
@@ -323,7 +326,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add a report summary?")),)
+                    prompt=MessageFactory.text("Would you like to add a report summary?", extra = main)),)
 
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -345,7 +348,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please enter the name of the report. You can find it on the " + str(report_types1) + ".")),)
+                    prompt=MessageFactory.text("Please enter the name of the report. You can find it on the " + str(report_types1) + ".", extra = main)),)
 
 
         if case1f == "report name name should take2":
@@ -356,7 +359,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add a report summary?")),)
+                    prompt=MessageFactory.text("Would you like to add a report summary?", extra = main)),)
 
         if case1f == "report name name should take3":
 
@@ -366,7 +369,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add a report summary?")),)
+                    prompt=MessageFactory.text("Would you like to add a report summary?", extra = main)),)
 
         if case1f == "summary should take":
 
@@ -377,13 +380,13 @@ class caseOneRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the report summary.")),)
+                        prompt=MessageFactory.text("Please share the report summary.", extra = main)),)
 
             else:
                 reportSummary = ""
                 save_health_record_1(userId, reportName1a, reportSummary, report_types, reportDoctor1a, reportPatient1a, ids1a, urls1a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully."))
+                    MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()  
 
 
@@ -401,7 +404,7 @@ class caseOneRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add a report summary?")),)            
+                    prompt=MessageFactory.text("Would you like to add a report summary?", extra = main)),)            
 
         if case1g == "summary should take2":
 
@@ -412,13 +415,13 @@ class caseOneRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the report summary.")),)
+                        prompt=MessageFactory.text("Please share the report summary.", extra = main)),)
 
             else:
                 reportSummary = ""
                 save_health_record_2(userId, reportName1b, reportSummary, report_types1, reportDoctor1b, reportPatient1b, ids1a, urls1a, ids1b, urls1b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully."))
+                    MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()                
 
 
@@ -431,13 +434,13 @@ class caseOneRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the report summary.")),)
+                        prompt=MessageFactory.text("Please share the report summary.", extra = main)),)
 
             else:
                 reportSummary = ""
                 save_health_record_1(userId, reportName1a1, reportSummary, report_types, reportDoctor1a1, reportPatient1a1, ids1a, urls1a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully."))
+                    MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()                
 
         if case1g == "add summary":
@@ -445,7 +448,7 @@ class caseOneRecordDialog(ComponentDialog):
             reportSummary = step_context.result
             save_health_record_1(userId, reportName1a, reportSummary, report_types, reportDoctor1a, reportPatient1a, ids1a, urls1a, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully."))
+                MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
             return await step_context.end_dialog()      
 
 
@@ -462,13 +465,13 @@ class caseOneRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the report summary.")),)
+                        prompt=MessageFactory.text("Please share the report summary.", extra = main)),)
 
             else:
                 reportSummary = ""
                 save_health_record_2(userId, reportName1b1, reportSummary, report_types1, reportDoctor1b1, reportPatient1b1, ids1a, urls1a, ids1b, urls1b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully."))
+                    MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()   
 
 
@@ -476,7 +479,7 @@ class caseOneRecordDialog(ComponentDialog):
             reportSummary = step_context.result
             save_health_record_2(userId, reportName1b, reportSummary, report_types1, reportDoctor1b, reportPatient1b, ids1a, urls1a, ids1b, urls1b, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully."))
+                MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
             return await step_context.end_dialog()             
 
         
@@ -484,7 +487,7 @@ class caseOneRecordDialog(ComponentDialog):
             reportSummary = step_context.result
             save_health_record_1(userId, reportName1a1, reportSummary, report_types, reportDoctor1a1, reportPatient1a1, ids1a, urls1a, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully."))
+                MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
             return await step_context.end_dialog() 
 
 
@@ -494,5 +497,5 @@ class caseOneRecordDialog(ComponentDialog):
             reportSummary = step_context.result
             save_health_record_2(userId, reportName1b1, reportSummary, report_types1, reportDoctor1b1, reportPatient1b1, ids1a, urls1a, ids1b, urls1b, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully."))
+                MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
             return await step_context.end_dialog() 

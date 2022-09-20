@@ -12,6 +12,7 @@ from user_info import check_email
 from nlp_model.predict import predict_class
 from health_record import save_health_record_1, save_health_record_2
 import gspread
+from botbuilder.schema import ActionTypes, SuggestedActions
 
 
 class HealthRecordDialog(ComponentDialog):
@@ -20,9 +21,9 @@ class HealthRecordDialog(ComponentDialog):
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
-        self.add_dialog(DatePrompt("date_prompt"))
-        self.add_dialog(EmailPrompt("email_prompt"))
-        self.add_dialog(TimePrompt("time_prompt"))
+        self.add_dialog(DatePrompt("date_prompt", extra = main))
+        self.add_dialog(EmailPrompt("email_prompt", extra = main))
+        self.add_dialog(TimePrompt("time_prompt", extra = main))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(AttachmentPrompt(AttachmentPrompt.__name__))
@@ -54,8 +55,10 @@ class HealthRecordDialog(ComponentDialog):
         global userId
         global token
         global wks
+        global main
         global pharmacyId
 
+        main = step_context.context.activity.text
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
@@ -66,8 +69,8 @@ class HealthRecordDialog(ComponentDialog):
              
                 
         await step_context.context.send_activity(
-            MessageFactory.text("Please upload the document."))            
-        prompt_options = PromptOptions(prompt = MessageFactory.text("Tap \U0001F4CE to upload"), retry_prompt = MessageFactory.text("Please upload a valid document."),)
+            MessageFactory.text("Please upload the document.", extra = main))            
+        prompt_options = PromptOptions(prompt = MessageFactory.text("Tap \U0001F4CE to upload"), retry_prompt = MessageFactory.text("Please upload a valid document.", extra = main),)
         return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
@@ -94,11 +97,11 @@ class HealthRecordDialog(ComponentDialog):
         if image is not None:
             upload2 = "want to add more or not"
             await step_context.context.send_activity(
-                MessageFactory.text("The files are uploaded successfully."))
+                MessageFactory.text("The files are uploaded successfully.", extra = main))
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?")),)   
+                    prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?", extra = main)),)   
 
 
 
@@ -115,17 +118,34 @@ class HealthRecordDialog(ComponentDialog):
                 upload3 = "add more/choose options"
                 prompt_options = PromptOptions(
                     prompt=MessageFactory.text(
-                        "Please attach more files if you would like to upload them."),
+                        "Please attach more files if you would like to upload them.", extra = main),
                     retry_prompt=MessageFactory.text(
-                        "The attachment must be a jpeg/png/pdf files."),)
+                        "The attachment must be a jpeg/png/pdf files.", extra = main),)
 
                 return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
             
             else:
                 upload3 = "choose options"
-                listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
-                return await step_context.prompt((ChoicePrompt.__name__),
-                    PromptOptions(prompt=MessageFactory.text("Okay! What best describes the report?"),choices=listofchoice))
+                reply = MessageFactory.text("Okay! What best describes the report?", extra= main)
+                reply.suggested_actions = SuggestedActions(
+                    actions=[
+                        CardAction(
+                            title= "Prescriptions",
+                            type= ActionTypes.im_back,
+                            value= "Prescriptions",
+                            extra= main),
+                        CardAction(
+                            title= "Diagonstic Reports",
+                            type= ActionTypes.im_back,
+                            value= "Diagonstic Reports",
+                            extra= main),
+                        CardAction(
+                            title= "Medical Claims",
+                            type= ActionTypes.im_back,
+                            value= "Medical Claims",
+                            extra= main),
+                    ])
+                return await step_context.context.send_activity(reply) 
 
 
     async def upload4_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -142,11 +162,11 @@ class HealthRecordDialog(ComponentDialog):
 
         if upload3 == "choose options":
             upload4 = "kar report"
-            reportType1 = step_context.result.value
+            reportType1 = step_context.result
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is the report for? Please enter the patient name- ")),)          
+                    prompt=MessageFactory.text("Who is the report for? Please enter the patient name- ", extra = main)),)          
 
         if upload3 == "add more/choose options":
             upload4 = "options choosing"
@@ -158,9 +178,26 @@ class HealthRecordDialog(ComponentDialog):
                 if i == "attachmentId":
                     ids2 = image[i]
 
-            listofchoice = [Choice("Prescriptions"),Choice("Diagonstic Reports"), Choice("Medical Claims")]
-            return await step_context.prompt((ChoicePrompt.__name__),
-                PromptOptions(prompt=MessageFactory.text("Okay! What best describes the report?"),choices=listofchoice))
+            reply = MessageFactory.text("Okay! What best describes the report?", extra= main)
+            reply.suggested_actions = SuggestedActions(
+                actions=[
+                    CardAction(
+                        title= "Prescriptions",
+                        type= ActionTypes.im_back,
+                        value= "Prescriptions",
+                        extra= main),
+                    CardAction(
+                        title= "Diagonstic Reports",
+                        type= ActionTypes.im_back,
+                        value= "Diagonstic Reports",
+                        extra= main),
+                    CardAction(
+                        title= "Medical Claims",
+                        type= ActionTypes.im_back,
+                        value= "Medical Claims",
+                        extra= main),
+                ])
+            return await step_context.context.send_activity(reply) 
 
     async def upload5_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -180,22 +217,22 @@ class HealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(reportType1).lower() + ".")),)
+                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(reportType1).lower() + ".", extra = main)),)
 
             else: 
                 upload5 = "doctor name"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),)
 
         if upload4 == "options choosing":
             upload5 = "patient name"
-            reportType2 = step_context.result.value
+            reportType2 = step_context.result
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is the report for? Please enter the patient name- ")),)
+                    prompt=MessageFactory.text("Who is the report for? Please enter the patient name- ", extra = main)),)
 
 
     async def upload6_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -216,7 +253,7 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is the doctor you have consulted with?")),) 
+                    prompt=MessageFactory.text("Who is the doctor you have consulted with?", extra = main)),) 
 
         if upload5 == "doctor name":
             upload6 = "reportname"
@@ -224,7 +261,7 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Enter a name to your report. It can be 'Blood Sugar Level report' or 'Malaria Report' etc.\n\nYou can also find it on the report.")),)
+                    prompt=MessageFactory.text("Enter a name to your report. It can be 'Blood Sugar Level report' or 'Malaria Report' etc.\n\nYou can also find it on the report.", extra = main)),)
 
         if upload5 == "patient name":
             pred = predict_class(step_context.result)
@@ -233,7 +270,7 @@ class HealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(reportType2).lower() + ".")),)
+                        prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(reportType2).lower() + ".", extra = main)),)
 
             else: 
                 upload6 = "doctor name2"
@@ -241,7 +278,7 @@ class HealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),)
 
 
     async def upload7_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -265,7 +302,7 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Enter a name to your report. It can be 'Blood Sugar Level report' or 'Malaria Report' etc.\n\nYou can also find it on the report.")),)
+                    prompt=MessageFactory.text("Enter a name to your report. It can be 'Blood Sugar Level report' or 'Malaria Report' etc.\n\nYou can also find it on the report.", extra = main)),)
 
         if upload6 == "reportname":
             reportName1 = step_context.result
@@ -281,7 +318,7 @@ class HealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+                        prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-", extra = main)),)
 
         if upload6 == "patient_name":
             upload7 = "doctor name nibo"
@@ -289,7 +326,7 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is the doctor you've consulted with?")),)
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),)
 
         if upload6 == "doctor name2":
             upload7 = "reportname--"
@@ -297,7 +334,7 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Enter a name to your report. It can be 'Blood Sugar Level report' or 'Malaria Report' etc.\n\nYou can also find it on the report.")),) 
+                    prompt=MessageFactory.text("Enter a name to your report. It can be 'Blood Sugar Level report' or 'Malaria Report' etc.\n\nYou can also find it on the report.", extra = main)),) 
 
     async def upload8_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -328,7 +365,7 @@ class HealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+                        prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-", extra = main)),)
 
         if upload7 == "reportname again":
             upload8 = "reportsummary2"
@@ -336,26 +373,16 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-", extra = main)),)
 
         if upload7 == "reportsummary":
             patientId = userId
             reportSummary1 = step_context.result
-            # wks.update_acell("E1", str(patientId))
-            # wks.update_acell("E2", str(reportName1))
-            # wks.update_acell("E3", str(reportSummary1))
-            # wks.update_acell("E4", str(reportType1))
-            # wks.update_acell("E5", str(reportDoctor1))
-            # wks.update_acell("E6", str(reportPatient1))
-            # wks.update_acell("E7", str(ids1))
-            # wks.update_acell("E8", str(urls1))
-            # wks.update_acell("E9", str(pharmacyId))
-            # wks.update_acell("E10", str(token))
             save_health_record_1(patientId, reportName1, reportSummary1, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)            
             await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
             return await step_context.end_dialog()
 
         if upload7 == "reportname--":  
@@ -372,7 +399,7 @@ class HealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+                        prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-", extra = main)),)
 
         if upload7 == "doctor name nibo":
             upload8 = "reportname nibo"
@@ -380,7 +407,7 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Enter a name to your report. It can be 'Blood Sugar Level report' or 'Malaria Report' etc.\n\nYou can also find it on the report.")),)
+                    prompt=MessageFactory.text("Enter a name to your report. It can be 'Blood Sugar Level report' or 'Malaria Report' etc.\n\nYou can also find it on the report.", extra = main)),)
 
 
     async def upload9_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -402,7 +429,7 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-", extra = main)),)
 
 
         if upload8 == "reportsummary2":
@@ -411,9 +438,9 @@ class HealthRecordDialog(ComponentDialog):
             reportSummary12 = step_context.result
             save_health_record_1(patientId, reportName12, reportSummary12, reportType1, reportDoctor1, reportPatient1, ids1, urls1, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
             return await step_context.end_dialog()
 
 
@@ -423,9 +450,9 @@ class HealthRecordDialog(ComponentDialog):
             reportSummary13 = step_context.result
             save_health_record_1(patientId, reportName13, reportSummary13, reportType1, reportDoctor13, reportPatient13, ids1, urls1, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
             return await step_context.end_dialog()
 
         if upload8 == "reportsummary--":
@@ -433,9 +460,9 @@ class HealthRecordDialog(ComponentDialog):
             reportSummary2 = step_context.result            
             save_health_record_2(patientId, reportName2, reportSummary2, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
             return await step_context.end_dialog()
 
 
@@ -453,7 +480,7 @@ class HealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+                        prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-", extra = main)),)
 
 
         if upload8 == "reportname again2":
@@ -462,7 +489,7 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-", extra = main)),)
 
 
 
@@ -479,9 +506,9 @@ class HealthRecordDialog(ComponentDialog):
             reportSummary21 = step_context.result
             save_health_record_2(patientId, reportName21, reportSummary21, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
             return await step_context.end_dialog()
 
 
@@ -491,7 +518,7 @@ class HealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-")),)
+                    prompt=MessageFactory.text("You can add a short summary of the report for reference. Please write a short summary-", extra = main)),)
 
 
         if upload9 == "reportsummary--test":
@@ -499,9 +526,9 @@ class HealthRecordDialog(ComponentDialog):
             reportSummary212 = step_context.result
             save_health_record_2(patientId, reportName212, reportSummary212, reportType2, reportDoctor2, reportPatient2, ids1, urls1, ids2, urls2, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
             return await step_context.end_dialog()
 
         if upload9 == "reportsummary132":
@@ -509,9 +536,9 @@ class HealthRecordDialog(ComponentDialog):
             reportSummary131 = step_context.result         
             save_health_record_1(patientId, reportName131, reportSummary131, reportType1, reportDoctor13, reportPatient13, ids1, urls1, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
             return await step_context.end_dialog()
 
 
@@ -522,8 +549,8 @@ class HealthRecordDialog(ComponentDialog):
             reportSummary22 = step_context.result
             save_health_record_2(patientId, reportName22, reportSummary22, reportType2, reportDoctor21, reportPatient21, ids1, urls1, ids2, urls2, pharmacyId, token)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You! Your report has been saved successfully."))
+                MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app."))                
+                MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
             return await step_context.end_dialog()
                 

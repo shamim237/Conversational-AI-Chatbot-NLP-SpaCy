@@ -57,6 +57,7 @@ class AdvHealthRecordDialog(ComponentDialog):
         global userId
         global token
         global wks
+        global main
         global pharmacyId
 
         userId = step_context.context.activity.from_property.id
@@ -67,10 +68,10 @@ class AdvHealthRecordDialog(ComponentDialog):
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
-        last = step_context.context.activity.text
-        wks.update_acell("A7", str(last))
+        main = step_context.context.activity.text
+        wks.update_acell("A7", str(main))
 
-        pred = predict_record(last)
+        pred = predict_record(main)
 
         try:
             wks.update_acell("H3", str(pred))
@@ -139,10 +140,10 @@ class AdvHealthRecordDialog(ComponentDialog):
 
             case3a = "upload attachments_case3"
             await step_context.context.send_activity(
-                MessageFactory.text("Sure. Please upload the document.", extra = last))            
+                MessageFactory.text("Sure. Please upload the document.", extra = main))            
             prompt_options = PromptOptions(
                 prompt=MessageFactory.text(
-                    "Tap \U0001F4CE to upload", extra = last),)
+                    "Tap \U0001F4CE to upload", extra = main),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
@@ -157,8 +158,8 @@ class AdvHealthRecordDialog(ComponentDialog):
         if "PATIENT_NAME" in classes and "REPORT_NAME" in classes and "REPORT_TYPE" in classes and "DIAGNOSTIC" not in classes:
             wks.update_acell("A19", "Entered health record4")
             case4a = "upload attachments_case4"
-            await step_context.context.send_activity(MessageFactory.text(f"Sure. Please upload the document.", extra = last))            
-            prompt_options = PromptOptions(prompt=MessageFactory.text(f"Tap \U0001F4CE to upload", extra = last))
+            await step_context.context.send_activity(MessageFactory.text(f"Sure. Please upload the document.", extra = main))            
+            prompt_options = PromptOptions(prompt=MessageFactory.text(f"Tap \U0001F4CE to upload", extra = main))
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
@@ -173,10 +174,10 @@ class AdvHealthRecordDialog(ComponentDialog):
             wks.update_acell("A19", "Entered health record5")
             case5a = "upload attachments_case5"
             await step_context.context.send_activity(
-                MessageFactory.text("Sure. Please upload the document.", extra = last))            
+                MessageFactory.text("Sure. Please upload the document.", extra = main))            
             prompt_options = PromptOptions(
                 prompt=MessageFactory.text(
-                    "Tap \U0001F4CE to upload", extra = last),)
+                    "Tap \U0001F4CE to upload", extra = main),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
@@ -190,13 +191,13 @@ class AdvHealthRecordDialog(ComponentDialog):
         if "PATIENT_NAME" in classes and "REPORT_NAME" not in classes and "REPORT_TYPE" not in classes and "DIAGNOSTIC" in classes:
             wks.update_acell("A19", "Entered health record6")
             wks.update_acell("A20", str(classes))
-            wks.update_acell("A21", str(last))
+            wks.update_acell("A21", str(main))
             case6a = "upload attachments_case6"
             await step_context.context.send_activity(
-                MessageFactory.text("Sure. Please upload the document.", extra = last))            
+                MessageFactory.text("Sure. Please upload the document.", extra = main))            
             prompt_options = PromptOptions(
                 prompt=MessageFactory.text(
-                    "Tap \U0001F4CE to upload", extra = last),)
+                    "Tap \U0001F4CE to upload", extra = main),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 #########################################################################################################################################################################################################################
@@ -237,11 +238,11 @@ class AdvHealthRecordDialog(ComponentDialog):
             if image is not None: 
                 case3b = "want to add more or not_case3"
                 await step_context.context.send_activity(
-                    MessageFactory.text("The files are uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text("The files are uploaded successfully.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?", extra = step_context.result)),)      
+                        prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?", extra = main)),)      
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
@@ -270,11 +271,11 @@ class AdvHealthRecordDialog(ComponentDialog):
             if image is not None: 
                 case4b = "want to add more or not_case4"
                 await step_context.context.send_activity(
-                    MessageFactory.text("The files are uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text("The files are uploaded successfully.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?", extra = step_context.result)),)   
+                        prompt=MessageFactory.text("You can add more images to this report. Would you like to add more?", extra = main)),)   
 
 
 
@@ -299,9 +300,9 @@ class AdvHealthRecordDialog(ComponentDialog):
                 case3c = "add more attachments_case3"
                 prompt_options = PromptOptions(
                     prompt=MessageFactory.text(
-                        "Please attach more files you would like to uplaod", extra = step_context.result),
+                        "Please attach more files you would like to uplaod", extra = main),
                     retry_prompt=MessageFactory.text(
-                        "The attachment must be a jpeg/png/pdf files.", extra = step_context.result),)
+                        "The attachment must be a jpeg/png/pdf files.", extra = main),)
                 return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
             
             else:
@@ -324,13 +325,13 @@ class AdvHealthRecordDialog(ComponentDialog):
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("Who is this " + str(report_types_case3) + " for?", extra = step_context.result)),) 
+                            prompt=MessageFactory.text("Who is this " + str(report_types_case3) + " for?", extra = main)),) 
                 if case5a == "upload attachments_case5":
                     case3c = "patient_name should take_case3"
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("Who is this diagnostic reports for?", extra = step_context.result)),) 
+                            prompt=MessageFactory.text("Who is this diagnostic reports for?", extra = main)),) 
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
@@ -366,9 +367,9 @@ class AdvHealthRecordDialog(ComponentDialog):
                 case4c = "add more attachments_case4"
                 prompt_options = PromptOptions(
                     prompt=MessageFactory.text(
-                        "Please attach more files you would like to uplaod", extra = step_context.result),
+                        "Please attach more files you would like to uplaod", extra = main),
                     retry_prompt=MessageFactory.text(
-                        "The attachment must be a jpeg/png/pdf files.", extra = step_context.result),)
+                        "The attachment must be a jpeg/png/pdf files.", extra = main),)
                 return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
             
             else:
@@ -376,7 +377,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who's the doctor you've consulted with?", extra = step_context.result)),)      
+                        prompt=MessageFactory.text("Who's the doctor you've consulted with?", extra = main)),)      
 
 
 
@@ -431,14 +432,14 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is this " + str(report_types_case3b) + " for?", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Who is this " + str(report_types_case3b) + " for?", extra = main)),)
 
             if case5a == "upload attachments_case5":
                 case3d = "patient_name should take2_case3"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is this diagnostic reports for?", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Who is this diagnostic reports for?", extra = main)),)
 
 
         if case3c == "patient_name should take_case3": 
@@ -457,7 +458,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("It's the patient name. You can find it on the diagnostic reports.", extra = step_context.result)),)
+                            prompt=MessageFactory.text("It's the patient name. You can find it on the diagnostic reports.", extra = main)),)
 
             else: 
                 case3d = "doctor name should take_case3"
@@ -465,7 +466,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = step_context.result)),) 
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),) 
 
 
 #########################################################################################################################################################################################################################
@@ -499,7 +500,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who's the doctor you've consulted with?", extra = step_context.result)),) 
+                    prompt=MessageFactory.text("Who's the doctor you've consulted with?", extra = main)),) 
         
         if case4c == "doctor_name should take_case4":
 
@@ -508,7 +509,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add a report summary?", extra = step_context.result)),)  
+                    prompt=MessageFactory.text("Would you like to add a report summary?", extra = main)),)  
 
 
 
@@ -539,14 +540,14 @@ class AdvHealthRecordDialog(ComponentDialog):
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(report_types_case3b) + ".", extra = step_context.result)))
+                            prompt=MessageFactory.text("It's the patient name. You can find it on the " + str(report_types_case3b) + ".", extra = main)))
 
                 if case5a == "upload attachments_case5":
                     case3e = "patient_name should again take2_case3"    
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("It's the patient name. You can find it on the diagnostic reports.", extra = step_context.result)),)
+                            prompt=MessageFactory.text("It's the patient name. You can find it on the diagnostic reports.", extra = main)),)
 
             else: 
                 case3e  = "doctor name should take2_case3"
@@ -554,7 +555,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = step_context.result)),) 
+                        prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),) 
 
 
         if case3d == "patient_name should again take_case3":
@@ -564,7 +565,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = step_context.result)),)
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),)
 
         if case3d == "doctor name should take_case3":
 
@@ -573,7 +574,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add report summary?", extra = step_context.result)),)
+                    prompt=MessageFactory.text("Would you like to add report summary?", extra = main)),)
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
@@ -593,7 +594,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add a report summary?", extra = step_context.result)),) 
+                    prompt=MessageFactory.text("Would you like to add a report summary?", extra = main)),) 
 
         if case4d == "report summarry should take_case4":
 
@@ -604,7 +605,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the reeport summary.", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Please share the reeport summary.", extra = main)),)
 
             else:
                 reportSummary = ""
@@ -616,21 +617,21 @@ class AdvHealthRecordDialog(ComponentDialog):
                         case4e = "name nite hbe_case4"
                         if case4a == "upload attachments_case4":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server.", extra = step_context.result))
+                                MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server.", extra = main))
                         else:
                             report_types = "Diagnostic Reports"
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server.", extra = step_context.result))
+                                MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server.", extra = main))
                         return await step_context.prompt(
                             TextPrompt.__name__,
                             PromptOptions(
-                                prompt=MessageFactory.text("Please enter your name-", extra = step_context.result)),)
+                                prompt=MessageFactory.text("Please enter your name-", extra = main)),)
                     else:
                         if case4a == "upload attachments_case4":
 
                             save_health_record_1(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                             return await step_context.end_dialog()
 
                         if case6a == "upload attachments_case6": 
@@ -640,7 +641,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                             save_health_record_1(userId, report_names, reportSummary, report_types, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = step_context.result))
+                                MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
                             return await step_context.end_dialog()
 
                 else:
@@ -648,7 +649,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                         save_health_record_1(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                         return await step_context.end_dialog()  
 
                     if case6a == "upload attachments_case6": 
@@ -658,7 +659,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                         save_health_record_1(userId, report_names, reportSummary, report_types, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = step_context.result))
+                            MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
                         return await step_context.end_dialog()  
 
 
@@ -685,7 +686,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = step_context.result)),)
+                    prompt=MessageFactory.text("Who is the doctor you've consulted with?", extra = main)),)
 
         if case3e == "doctor name should take2_case3":
 
@@ -694,7 +695,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add report summary?", extra = step_context.result)),)
+                    prompt=MessageFactory.text("Would you like to add report summary?", extra = main)),)
 
         if case3e == "doctor name should take2a_case3":
 
@@ -703,7 +704,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add report summary?", extra = step_context.result)),)
+                    prompt=MessageFactory.text("Would you like to add report summary?", extra = main)),)
 
         
         if case3e == "report summary should take_case3":
@@ -715,14 +716,14 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the report summary.", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Please share the report summary.", extra = main)),)
 
             else:
                 if case3a == "upload attachments_case3":
                     summary = ""
                     save_health_record_1(userId, report_name[0], summary, report_types_case3, reportDoctor3a, reportPatient3a, ids3a, urls3a, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog()
 
                 if case5a == "upload attachments_case5": 
@@ -731,7 +732,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     report_typet = "Diagnostic Reports"
                     save_health_record_1(userId, report_namest, summary, report_typet, reportDoctor3a, reportPatient3a, ids3a, urls3a, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog()
 
 #########################################################################################################################################################################################################################
@@ -752,7 +753,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the report summary.", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Please share the report summary.", extra = main)),)
 
             else:
                 reportSummary = ""
@@ -765,22 +766,22 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                         if case4a == "upload attachments_case4":
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server.", extra = step_context.result))
+                                MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server.", extra = main))
                         else:
                             report_types = "Diagnostic Reports"
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server.", extra = step_context.result))  
+                                MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server.", extra = main))  
 
                         return await step_context.prompt(
                             TextPrompt.__name__,
                             PromptOptions(
-                                prompt=MessageFactory.text("Please enter your name-", extra = step_context.result)),)
+                                prompt=MessageFactory.text("Please enter your name-", extra = main)),)
                     else:
                         if case4a == "upload attachments_case4":
 
                             save_health_record_2(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                                MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                             return await step_context.end_dialog()
 
                         if case4a == "upload attachments_case6":
@@ -790,7 +791,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                             save_health_record_2(userId, report_names, reportSummary, report_typef, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                                MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                             return await step_context.end_dialog()                               
 
                 else:
@@ -798,7 +799,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                         save_health_record_2(userId, report_name[0], reportSummary, report_types_case4, reportDoctor4b, patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                         return await step_context.end_dialog()
 
                     if case4a == "upload attachments_case6":
@@ -808,7 +809,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                             save_health_record_2(userId, report_names, reportSummary, report_typef, reportDoctor4b,  patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                             await step_context.context.send_activity(
-                                MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                                MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                             return await step_context.end_dialog()                             
 
         if case4e == "add summary_case4":
@@ -824,22 +825,22 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                     if case4a == "upload attachments_case4":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server.", extra = step_context.result))
+                            MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server.", extra = main))
                     else:
                         report_types = "Diagnostic Reports"
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server.", extra = step_context.result))
+                            MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server.", extra = main))
 
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("Please enter your name-", extra = step_context.result)),)
+                            prompt=MessageFactory.text("Please enter your name-", extra = main)),)
                 else:
                     
                     if case4a == "upload attachments_case4":
                         save_health_record_1(userId, report_name[0], summary4a, report_types_case4, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                         return await step_context.end_dialog() 
                     
                     if case4a == "upload attachments_case6":
@@ -848,7 +849,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         report_typef = "Diagnostic Reports"                    
                         save_health_record_1(userId, report_names, summary4a, report_typef, reportDoctor4a, user_name, ids4a, urls4a, pharmacyId, token)
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                            MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                         return await step_context.end_dialog() 
 
             else:
@@ -856,7 +857,7 @@ class AdvHealthRecordDialog(ComponentDialog):
 
                     save_health_record_1(userId, report_name[0], summary4a, report_types_case4, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog() 
 
                 if case4a == "upload attachments_case6":
@@ -865,7 +866,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     report_typef = "Diagnostic Reports" 
                     save_health_record_1(userId, report_names, summary4a, report_typef, reportDoctor4a, patient_name[0], ids4a, urls4a, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog() 
 
         
@@ -876,14 +877,14 @@ class AdvHealthRecordDialog(ComponentDialog):
             if case4a == "upload attachments_case4":
                 save_health_record_1(userId, report_name[0], summary, report_types_case4, reportDoctor4a, patt_name, ids4a, urls4a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()
             if case4a == "upload attachments_case6":               
                 report_names = diagnostic[0]
                 report_typef = "Diagnostic Reports" 
                 save_health_record_1(userId, report_names, summary, report_typef, reportDoctor4a, patt_name, ids4a, urls4a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()        
 
 
@@ -906,7 +907,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to add report summary?", extra = step_context.result)),)
+                    prompt=MessageFactory.text("Would you like to add report summary?", extra = main)),)
 
         if case3f == "report summary should take2_case3":
 
@@ -917,14 +918,14 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the report summary.", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Please share the report summary.", extra = main)),)
 
             else:
                 if case3a == "upload attachments_case3": 
                     summary = ""
                     save_health_record_2(userId, report_name[0], summary, report_types_case3b, reportDoctor3b, reportPatient3b, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog() 
 
                 if case5a == "upload attachments_case5":
@@ -933,7 +934,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     summary = ""
                     save_health_record_2(userId, report_namet, summary, report_typet, reportDoctor3b, reportPatient3b, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog() 
 
 
@@ -946,14 +947,14 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the report summary.", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Please share the report summary.", extra = main)),)
 
             else:
                 if case3a == "upload attachments_case3":
                     summary = ""
                     save_health_record_1(userId, report_name[0], summary, report_types_case3, reportDoctor3a1, reportPatient3a1, ids3a, urls3a, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog()
 
                 if case5a == "upload attachments_case5":
@@ -962,7 +963,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     report_typet = "Diagnostic Reports" 
                     save_health_record_1(userId, report_namet, summary, report_typet, reportDoctor3a1, reportPatient3a1, ids3a, urls3a, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog()                     
 
 
@@ -972,7 +973,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             if case3a == "upload attachments_case3":
                 save_health_record_1(userId, report_name[0], summary, report_types_case3, reportDoctor3a, reportPatient3a, ids3a, urls3a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog() 
 
             if case5a == "upload attachments_case5":
@@ -980,7 +981,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 report_typet = "Diagnostic Reports" 
                 save_health_record_1(userId, report_namet, summary, report_typet, reportDoctor3a, reportPatient3a, ids3a, urls3a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()                       
 
 
@@ -1007,28 +1008,28 @@ class AdvHealthRecordDialog(ComponentDialog):
                     case4g = "name nite hbe_case4s"
                     if case4a == "upload attachments_case4":
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server.", extra = step_context.result))
+                            MessageFactory.text(f"I need your name to upload your " + str(report_types_case4) + ". But I haven't find your name in the server.", extra = main))
                     else:
                         report_types = "Diagnostic Reports"
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server.", extra = step_context.result))
+                            MessageFactory.text(f"I need your name to upload your " + str(report_types) + ". But I haven't find your name in the server.", extra = main))
 
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("Please enter your name-", extra = step_context.result)),)
+                            prompt=MessageFactory.text("Please enter your name-", extra = main)),)
                 else:
                     if case4a == "upload attachments_case4":
                         save_health_record_2(userId, report_name[0], summary4b, report_types_case4, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                            MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                         return await step_context.end_dialog()
                     if case4a == "upload attachments_case6":               
                         report_names = diagnostic[0]
                         report_typef = "Diagnostic Reports" 
                         save_health_record_2(userId, report_names, summary4b, report_typef, reportDoctor4b, user_name, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                         await step_context.context.send_activity(
-                            MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                            MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                         return await step_context.end_dialog()
                       
   
@@ -1037,7 +1038,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 if case4a == "upload attachments_case4":
                     save_health_record_2(userId, report_name[0], summary4b, report_types_case4, reportDoctor4b, patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog()   
 
                 if case4a == "upload attachments_case6":               
@@ -1045,7 +1046,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     report_typef = "Diagnostic Reports" 
                     save_health_record_2(userId, report_names, summary4b, report_typef, reportDoctor4b, patient_name[0], ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog() 
 
 
@@ -1056,14 +1057,14 @@ class AdvHealthRecordDialog(ComponentDialog):
             if case4a == "upload attachments_case4":
                 save_health_record_2(userId, report_name[0], summary, report_types_case4, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()
             if case4a == "upload attachments_case6":               
                 report_names = diagnostic[0]
                 report_typef = "Diagnostic Reports" 
                 save_health_record_2(userId, report_names, summary, report_typef, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()               
 
         if case4f == "name nite hbe_case4a":
@@ -1071,14 +1072,14 @@ class AdvHealthRecordDialog(ComponentDialog):
             if case4a == "upload attachments_case4":
                 save_health_record_1(userId, report_name[0], summary4a, report_types_case4, reportDoctor4a, names, ids4a, urls4a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()              
             if case4a == "upload attachments_case6":               
                 report_names = diagnostic[0]
                 report_typef = "Diagnostic Reports"
                 save_health_record_1(userId, report_names, summary4a, report_typef, reportDoctor4a, names, ids4a, urls4a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()    
                 
 
@@ -1100,14 +1101,14 @@ class AdvHealthRecordDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please share the report summary.", extra = step_context.result)),)
+                        prompt=MessageFactory.text("Please share the report summary.", extra = main)),)
 
             else:
                 if case3a == "upload attachments_case3":
                     summary = ""
                     save_health_record_2(userId, report_name[0], summary, report_types_case3b, reportDoctor3b1, reportPatient3b1, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog() 
 
                 if case5a == "upload attachments_case5":
@@ -1116,7 +1117,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     summary = ""
                     save_health_record_2(userId, report_namet, summary, report_typet, reportDoctor3b1, reportPatient3b1, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
                     await step_context.context.send_activity(
-                        MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = step_context.result))
+                        MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                     return await step_context.end_dialog() 
 
 
@@ -1126,7 +1127,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             if case3a == "upload attachments_case3":
                 save_health_record_2(userId, report_name[0], summary, report_types_case3b, reportDoctor3b, reportPatient3b, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()
             
             if case5a == "upload attachments_case5":
@@ -1134,7 +1135,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 report_typet = "Diagnostic Reports" 
                 save_health_record_2(userId, report_namet, summary, report_typet, reportDoctor3b, reportPatient3b, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()
 
         
@@ -1144,7 +1145,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             if case3a == "upload attachments_case3":
                 save_health_record_1(userId, report_name[0], summary, report_types_case3, reportDoctor3a1, reportPatient3a1, ids3a, urls3a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog() 
             
             if case5a == "upload attachments_case5":
@@ -1152,7 +1153,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 report_typet = "Diagnostic Reports" 
                 save_health_record_1(userId, report_namet, summary, report_typet, reportDoctor3a1, reportPatient3a1, ids3a, urls3a, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog() 
 
 #########################################################################################################################################################################################################################
@@ -1165,7 +1166,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             if case4a == "upload attachments_case4":
                 save_health_record_2(userId, report_name[0], summary4b, report_types_case4, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()  
 
             if case4a == "upload attachments_case6":               
@@ -1173,7 +1174,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 report_typef = "Diagnostic Reports"
                 save_health_record_2(userId, report_names, summary4b, report_typef, reportDoctor4b, names, ids4a, urls4a, ids4b, urls4b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog()  
 
 
@@ -1189,7 +1190,7 @@ class AdvHealthRecordDialog(ComponentDialog):
             if case3a == "upload attachments_case3":
                 save_health_record_2(userId, report_name[0], summary, report_types_case3b, reportDoctor3b1, reportPatient3b1, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog() 
 
             if case5a == "upload attachments_case5":
@@ -1197,7 +1198,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                 report_typet = "Diagnostic Reports"                 
                 save_health_record_2(userId, report_namet, summary, report_typet, reportDoctor3b1, reportPatient3b1, ids3a, urls3a, ids3b, urls3b, pharmacyId, token)
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = step_context.result))
+                    MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                 return await step_context.end_dialog() 
 
 

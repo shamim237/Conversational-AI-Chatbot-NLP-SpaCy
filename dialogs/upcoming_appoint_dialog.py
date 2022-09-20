@@ -47,6 +47,7 @@ class UpcomingAppointmentDialog(ComponentDialog):
 
         global userId
         global token
+        global main
         global pharmacyId
         global prompts 
 
@@ -58,7 +59,7 @@ class UpcomingAppointmentDialog(ComponentDialog):
 
 
         prompts = "appapapap"
-
+        main = step_context.context.activity.text
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
@@ -72,10 +73,10 @@ class UpcomingAppointmentDialog(ComponentDialog):
         if appoint['response']['appointment'] == []:
             prompts = "no upcoming appointment"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Sorry! You have no upcoming appointments."))
+                MessageFactory.text(f"Sorry! You have no upcoming appointments.", extra = main))
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Would you like me to book an appointment for you?")),) 
+                PromptOptions(prompt=MessageFactory.text("Would you like me to book an appointment for you?", extra = main)),) 
         else:
             prompts = "have upcoming appointment"
             apps = []
@@ -105,20 +106,14 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 dd = "Appointment " + str(apps[i]) + ": \n" + "Pharmacist: " + pharmacist[i] + "\n" + "Date: " + dates[i] + "\n" + "Time: " + starttimes[i] + " - " + endtimes[i] + "\n"
                 sss.append(dd)
 
-            wks.update_acell("C3", "\n".join(sss))
-            wks.update_acell("C4", str(len(apps)))
-
             send = "\n".join(sss) + "\n"
 
-            wks.update_acell("C5", str(len(apps)))
-            wks.update_acell("C6", str(send))
-
             await step_context.context.send_activity(
-                MessageFactory.text("You have " + str(len(apps)) + " upcoming appointments." + "\n\n" + str(send)))
+                MessageFactory.text("You have " + str(len(apps)) + " upcoming appointments." + "\n\n" + str(send), extra = main))
 
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Do you want to know anything else from me?")),) 
+                PromptOptions(prompt=MessageFactory.text("Do you want to know anything else from me?", extra = main)),) 
 
     async def init2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -130,32 +125,32 @@ class UpcomingAppointmentDialog(ComponentDialog):
 
             if response == "positive":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
             if response == "negative":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records."))
+                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?")),) 
+                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = main)),) 
             if response == "appointment":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
 
             if response == "health_records":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = main))
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
 
             if response == "reminder":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
             if response == "health_profile":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if response == "adv_pill_reminder":
@@ -164,15 +159,15 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records."))
+                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?")),)   
+                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = main)),)   
 
         if prompts == "have upcoming appointment":
             response = predict_class(step_context.result)
@@ -181,34 +176,34 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 promp = "what to do"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("Okay. Please tell me what would you like to do?")),)
+                    PromptOptions(prompt=MessageFactory.text("Okay. Please tell me what would you like to do?", extra = main)),)
 
             if response == "negative":
                 promp = "what not to do"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Okay. But I can help you connect with a pharmacist, set a pill reminder, and upload health records."))
+                    MessageFactory.text("Okay. But I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("Do you want anything of these?")),) 
+                    PromptOptions(prompt=MessageFactory.text("Do you want anything of these?", extra = main)),) 
 
             if response == "appointment":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
 
             if response == "health_records":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = main))
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
 
             if response == "reminder":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
             if response == "health_profile":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if response == "adv_pill_reminder":
@@ -217,15 +212,15 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records."))
+                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?")),)   
+                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = main)),)   
 
 
     async def init3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -235,22 +230,22 @@ class UpcomingAppointmentDialog(ComponentDialog):
 
             if response == "appointment":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
 
             if response == "health_records":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = main))
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
 
             if response == "reminder":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
             if response == "health_profile":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if response == "adv_pill_reminder":
@@ -259,37 +254,37 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records."))
+                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?")),)  
+                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = main)),)  
 
         if promp == "what not to do":
             response = predict_class(step_context.result)
 
             if response == "appointment":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
                 return await step_context.begin_dialog(AppointmentDialog.__name__)
 
             if response == "health_records":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = main))
                 return await step_context.begin_dialog(HealthRecordDialog.__name__)
 
             if response == "reminder":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
             if response == "health_profile":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if response == "adv_pill_reminder":
@@ -298,13 +293,13 @@ class UpcomingAppointmentDialog(ComponentDialog):
                 wks = sh.worksheet("Sheet1")
                 wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!"))
+                    MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records."))
+                    MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?")),)  
+                    PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = main)),)  
 

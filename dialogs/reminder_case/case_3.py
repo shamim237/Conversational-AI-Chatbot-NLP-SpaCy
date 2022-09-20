@@ -1,13 +1,13 @@
 import gspread
-from word2number import w2n
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from prompt.email_prompt import EmailPrompt
 from nlp_model.pill_predict import reminder_class
 from adv_pill_reminder import save_reminder_spec_days
 from date_regex import cal_date_stend
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from botbuilder.schema import ActionTypes, SuggestedActions
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
@@ -46,6 +46,7 @@ class caseThreeDialog(ComponentDialog):
 
         global userId
         global token
+        global main
         global pharmacyId
 
         userId = step_context.context.activity.from_property.id
@@ -90,7 +91,7 @@ class caseThreeDialog(ComponentDialog):
 
         return await step_context.prompt(
             "time_prompt",
-            PromptOptions(prompt=MessageFactory.text("At what time do you need to take the medicine?")),)            
+            PromptOptions(prompt=MessageFactory.text("At what time do you need to take the medicine?", extra = main)),)            
         
 
 
@@ -101,7 +102,7 @@ class caseThreeDialog(ComponentDialog):
         
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hints- 7 days/ 2 weeks/ 3 months.")),) 
+            PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hints- 7 days/ 2 weeks/ 3 months.", extra = main)),) 
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -109,31 +110,35 @@ class caseThreeDialog(ComponentDialog):
         global duration
         duration = step_context.result
 
-        reply = MessageFactory.text("Please help me to recognize the type of medicine-")
+        reply = MessageFactory.text("Please help me to recognize the type of medicine-", extra = main)
         reply.suggested_actions = SuggestedActions(
             actions=[
                 CardAction(
                     title= "Tablet",
                     type=ActionTypes.im_back,
-                    value= "Tablet"),
+                    value= "Tablet",
+                    extra = main),
                 CardAction(
                     title= "Drop",
                     type=ActionTypes.im_back,
-                    value= "Drop"),
+                    value= "Drop",
+                    extra = main),
                 CardAction(
                     title= "Capsule",
                     type=ActionTypes.im_back,
-                    value= "Capsule"),
+                    value= "Capsule",
+                    extra = main),
                 CardAction(
                     title= "Syringe",
                     type=ActionTypes.im_back,
-                    value= "Syringe"),
+                    value= "Syringe",
+                    extra = main),
                 CardAction(
                     title= "Syrup",
                     type=ActionTypes.im_back,
-                    value= "Syrup"),])
+                    value= "Syrup",
+                    extra = main),])
         return await step_context.context.send_activity(reply)
-
 
     
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -152,12 +157,6 @@ class caseThreeDialog(ComponentDialog):
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
-            
-            # try:
-            #     dosage = w2n.word_to_num(dosage)
-            # except:
-            #     dosage = 1
-
             med_type    = "0"
             pill_name   = med_names[0]
             patientid   = userId
@@ -174,9 +173,9 @@ class caseThreeDialog(ComponentDialog):
             dates       = cal_date_stend(start_dates[0], duration)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             return await step_context.end_dialog() 
 
 
@@ -191,27 +190,24 @@ class caseThreeDialog(ComponentDialog):
             dosage  = str(dosage)
             dosage  = dosage.lower()
             dosage1 = dosage.replace("drops", "").replace("drop ", "")
-
-            # try:
-            #     dosage1 = w2n.word_to_num(dosage)
-            # except:
-            #     dosage1 = 1
-
-            reply = MessageFactory.text("Where to use the drop?")
+            reply = MessageFactory.text("Where to use the drop?", extra = main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title= "Eye",
                         type=ActionTypes.im_back,
-                        value= "Eye"),
+                        value= "Eye",
+                        extra = main),
                     CardAction(
                         title= "Nose",
                         type=ActionTypes.im_back,
-                        value= "Nose"),
+                        value= "Nose",
+                        extra = main),
                     CardAction(
                         title= "Ear",
                         type=ActionTypes.im_back,
-                        value= "Ear"),
+                        value= "Ear",
+                        extra = main),
                 ])
             return await step_context.context.send_activity(reply)
 
@@ -221,10 +217,6 @@ class caseThreeDialog(ComponentDialog):
             dosage      = str(dosage)
             dosage      = dosage.lower()
             dosage      = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
-            # try:
-            #     dosage  = w2n.word_to_num(dosage)
-            # except:
-            #     dosage  = 1
             med_type    = "2"
             pill_name   = med_names[0]
             patientid   = userId
@@ -241,9 +233,9 @@ class caseThreeDialog(ComponentDialog):
             dates       = cal_date_stend(start_dates[0], duration)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             return await step_context.end_dialog() 
 
         wks.update_acell("G1", str(duration))
@@ -255,10 +247,6 @@ class caseThreeDialog(ComponentDialog):
             dosage       = str(dosage)
             dosage       = dosage.lower()
             dosage_ml    = dosage.replace("mL", "").replace("ml", "")
-            # try:
-            #     dosage_ml= w2n.word_to_num(dosage)
-            # except:
-            #     dosage_ml= 1
             wks.update_acell("G4", str(dosage))
             med_type    = "3"
             pill_name   = med_names[0]
@@ -281,9 +269,9 @@ class caseThreeDialog(ComponentDialog):
             wks.update_acell("G9", str(dates))
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             return await step_context.end_dialog()  
 
         if typeo == "Syrup":
@@ -291,10 +279,6 @@ class caseThreeDialog(ComponentDialog):
             dosage      = str(dosage)
             dosage      = dosage.lower()
             dosage_ml   = dosage.replace("mL", "").replace("ml", "")
-            # try:
-            #     dosage_ml = w2n.word_to_num(dosage)
-            # except:
-            #     dosage_ml = 1
             med_type    = "4"
             pill_name   = med_names[0]
             patientid   = userId
@@ -311,9 +295,9 @@ class caseThreeDialog(ComponentDialog):
             dates       = cal_date_stend(start_dates[0], duration)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dose, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             return await step_context.end_dialog() 
 
 
@@ -337,7 +321,7 @@ class caseThreeDialog(ComponentDialog):
             dates       = cal_date_stend(start_dates[0], duration)
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage1, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your pill reminder has been set."))
+                MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage1) + " drops of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + "."))
+                MessageFactory.text("I will remind you to take " + str(dosage1) + " drops of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             return await step_context.end_dialog()

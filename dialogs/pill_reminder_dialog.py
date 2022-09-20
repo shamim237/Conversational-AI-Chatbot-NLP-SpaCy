@@ -51,7 +51,7 @@ class PillReminderDialog(ComponentDialog):
 
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("Please provide medicine name, dosage, time and duration for setting up the pill reminder.\n\nExample: remind me to take Aspirin 100mg tablets daily at 10 am for 3 weeks.")),)  
+            PromptOptions(prompt=MessageFactory.text("Please provide medicine name, dosage, time and duration for setting up the pill reminder.\n\nExample: remind me to take Aspirin 100mg tablets daily at 10 am for 3 weeks.", extra =  step_context.context.activity.text)),)  
 
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -63,16 +63,16 @@ class PillReminderDialog(ComponentDialog):
 
         if response == "adv_pill_reminder":
             await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You!"))
+                MessageFactory.text(f"Thank You!", extra =  step_context.context.activity.text))
             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
         else:
             excepts = "didn't do it"
             await step_context.context.send_activity(
-                MessageFactory.text(f"To set a pill reminder, please follow the example:")) 
+                MessageFactory.text(f"To set a pill reminder, please follow the example:", extra =  step_context.context.activity.text)) 
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("'set a pill reminder for Bendix Syrup daily at 9 pm'")),)  
+                PromptOptions(prompt=MessageFactory.text("'set a pill reminder for Bendix Syrup daily at 9 pm'", extra =  step_context.context.activity.text)),)  
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -87,9 +87,9 @@ class PillReminderDialog(ComponentDialog):
         
         if response == "adv_pill_reminder":
             await step_context.context.send_activity(
-                MessageFactory.text("Thank You!"))
+                MessageFactory.text("Thank You!", extra =  step_context.context.activity.text))
             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
         else:
             await step_context.context.send_activity(
-                MessageFactory.text("Alright! I am initializing other process for setting up a pill reminder!")) 
+                MessageFactory.text("Alright! I am initializing other process for setting up a pill reminder!", extra =  step_context.context.activity.text)) 
             return await step_context.begin_dialog(SimplePillReminderDialog.__name__)

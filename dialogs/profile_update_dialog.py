@@ -45,8 +45,10 @@ class HealthProfileDialog(ComponentDialog):
 
         global userId
         global token
+        global main
         global pharmacyId
 
+        main  =  step_context.context.activity.text
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role  
@@ -54,7 +56,7 @@ class HealthProfileDialog(ComponentDialog):
         return await step_context.prompt(
             NumberPrompt.__name__,
             PromptOptions(
-                prompt=MessageFactory.text("What's your body temperature in Celcius?")),)
+                prompt=MessageFactory.text("What's your body temperature in Celcius?", extra = main)),)
 
     async def temp1_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
@@ -66,38 +68,38 @@ class HealthProfileDialog(ComponentDialog):
         if "36.1" <= str(temp) <= "37.2" or "98.2" <= str(temp) <= "99.9":
             profile1 = "normal health"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your body temperature is pretty normal."))
+                MessageFactory.text(f"Your body temperature is pretty normal.", extra = main))
             return await step_context.prompt(
                 NumberPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please measure your blood pressure using a BP (Blood Pressure) apparatus and share the BP readings.")),)   
+                    prompt=MessageFactory.text("Please measure your blood pressure using a BP (Blood Pressure) apparatus and share the BP readings.", extra = main)),)   
 
         if "37.3" <= str(temp) <= "38.9" or "100.0" <= str(temp) <= "100.4":
             profile1 = "mild fever"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your body temperature shows you have mild fever."))
+                MessageFactory.text(f"Your body temperature shows you have mild fever.", extra = main))
             return await step_context.prompt(
                 NumberPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please measure your blood pressure using a BP (Blood Pressure) apparatus and share the BP readings.")),) 
+                    prompt=MessageFactory.text("Please measure your blood pressure using a BP (Blood Pressure) apparatus and share the BP readings.", extra = main)),) 
 
         if "39.0" <= str(temp) <= "40.6" or "100.4" <= str(temp) <= "102.6":
             profile1 = "high fever"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Your body temperature shows you have high fever. I suggest you should see a doctor or pharmacist."))
+                MessageFactory.text(f"Your body temperature shows you have high fever. I suggest you should see a doctor or pharmacist.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text(f"Keep monitoring your temperature every three hours."))
+                MessageFactory.text(f"Keep monitoring your temperature every three hours.", extra = main))
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("I can book an appointment with currently available pharmacist. Would you like book the appointment now?")),)
+                    prompt=MessageFactory.text("I can book an appointment with currently available pharmacist. Would you like book the appointment now?", extra = main)),)
 
         else:
             profile1 = "out of range"
             return await step_context.prompt(
                 NumberPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please enter a valid body temperature. It could be from 36-41 degree celcius.")),)
+                    prompt=MessageFactory.text("Please enter a valid body temperature. It could be from 36-41 degree celcius.", extra = main)),)
 
     async def temp2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
@@ -106,26 +108,28 @@ class HealthProfileDialog(ComponentDialog):
 
         if profile1 == "normal health" or profile1 == "mild fever":
             bp = step_context.result
-            if "60" <= str(bp) <= "130":
+            if "60" < str(bp) <= "130":
                 profile2 = "bp normal"
                 return await step_context.prompt(
                     NumberPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Your blood pressure is normal. Please enter the pulse rate.")),)
+                        prompt=MessageFactory.text("Your blood pressure is normal. Please enter the pulse rate.", extra = main)),)
             
             if "130" < str(bp) <= "179":
                 profile2 = "bp high"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Your blood pressure is higher than normal."))
+                    MessageFactory.text("Your blood pressure is higher than normal.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Are you on medication and taking them on time?")),)
+                        prompt=MessageFactory.text("Are you on medication and taking them on time?", extra = main)),)
 
             if str(bp) >= "180":
                 await step_context.context.send_activity(
-                    MessageFactory.text("Your blood pressure is higher than normal."))
-                return await step_context.end_dialog("You are in the state of emergency. Please call 911 or call for emergency help.")            
+                    MessageFactory.text("Your blood pressure is higher than normal.", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("You are in the state of emergency. Please call 911 or call for emergency help.", extra = main))
+                return await step_context.end_dialog()            
 
         if profile1 == "high fever":
             yesno = predict_class(step_context.result)
@@ -133,13 +137,16 @@ class HealthProfileDialog(ComponentDialog):
             if yesno == "positive":
                 profile2 = "emergency appointment"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Okay! Let me search a emergency appointment slot for you!"))
+                    MessageFactory.text("Okay! Let me search a emergency appointment slot for you!", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I am initializing the appointment process!"))
+                    MessageFactory.text(f"I am initializing the appointment process!", extra = main))
                 return await step_context.begin_dialog(AppointExtraDialog.__name__)
 
             if yesno == "negative":
-                return await step_context.end_dialog("Okay! No problem, Please take care of yourself.")
+                await step_context.context.send_activity(
+                    MessageFactory.text("Okay! No problem, Please take care of yourself.", extra = main))
+                return await step_context.end_dialog() 
+
 
         if profile1 == "out of range":
             
@@ -148,31 +155,31 @@ class HealthProfileDialog(ComponentDialog):
             if "36.1" <= str(temp) <= "37.2" or "98.2" <= str(temp) <= "99.9":
                 profile2 = "normal health2"
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your body temperature is pretty normal."))
+                    MessageFactory.text(f"Your body temperature is pretty normal.", extra = main))
                 return await step_context.prompt(
                     NumberPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please measure your blood pressure using a BP (Blood Pressure) apparatus and share the BP readings.")),)   
+                        prompt=MessageFactory.text("Please measure your blood pressure using a BP (Blood Pressure) apparatus and share the BP readings.", extra = main)),)   
 
             if "37.3" <= str(temp) <= "38.9" or "100.0" <= str(temp) <= "100.4":
                 profile2 = "mild fever2"
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your body temperature shows you have mild fever."))
+                    MessageFactory.text(f"Your body temperature shows you have mild fever.", extra = main))
                 return await step_context.prompt(
                     NumberPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please measure your blood pressure using a BP (Blood Pressure) apparatus and share the BP readings.")),) 
+                        prompt=MessageFactory.text("Please measure your blood pressure using a BP (Blood Pressure) apparatus and share the BP readings.", extra = main)),) 
 
             if "39.0" <= str(temp) <= "40.6" or "100.4" <= str(temp) <= "102.6":
                 profile2 = "high fever2"
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Your body temperature shows you have high fever. I suggest you should see a doctor or pharmacist."))
+                    MessageFactory.text(f"Your body temperature shows you have high fever. I suggest you should see a doctor or pharmacist.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Keep monitoring your temperature every three hours."))
+                    MessageFactory.text(f"Keep monitoring your temperature every three hours.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("I can book an appointment with currently available pharmacist. Would you like book the appointment now?")),)
+                        prompt=MessageFactory.text("I can book an appointment with currently available pharmacist. Would you like book the appointment now?", extra = main)),)
             
 
 
@@ -187,7 +194,7 @@ class HealthProfileDialog(ComponentDialog):
             return await step_context.prompt(
                 NumberPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please share your blood sugar levels.")),)
+                    prompt=MessageFactory.text("Please share your blood sugar levels.", extra = main)),)
             
         if profile2 == "bp high":
             yesno = predict_class(step_context.result)
@@ -196,12 +203,12 @@ class HealthProfileDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Would you like to review your prescription with our pharmacist?")),)
+                        prompt=MessageFactory.text("Would you like to review your prescription with our pharmacist?", extra = main)),)
 
             if yesno == "negative":
-                await step_context.context.send_activity(MessageFactory.text("No Problem. I can setup pill reminders for you, so you can never forget on your medication."))  
+                await step_context.context.send_activity(MessageFactory.text("No Problem. I can setup pill reminders for you, so you can never forget on your medication.", extra = main))  
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I am initializing the pill reminder process!"))
+                    MessageFactory.text(f"I am initializing the pill reminder process!", extra = main))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
 
@@ -213,35 +220,39 @@ class HealthProfileDialog(ComponentDialog):
                 return await step_context.prompt(
                     NumberPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Your blood pressure is normal. Please enter the pulse rate.")),)
+                        prompt=MessageFactory.text("Your blood pressure is normal. Please enter the pulse rate.", extra = main)),)
             
             if "130" < str(bp) <= "179":
                 profile3 = "bp high2"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Your blood pressure is higher than normal."))
+                    MessageFactory.text("Your blood pressure is higher than normal.", extra = main))
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Are you on medication and taking them on time?")),)
+                        prompt=MessageFactory.text("Are you on medication and taking them on time?", extra = main)),)
 
             if str(bp) >= "180":
                 await step_context.context.send_activity(
-                    MessageFactory.text("Your blood pressure is higher than normal."))
-                return await step_context.end_dialog("You are in the state of emergency. Please call 911 or call for emergency help.")
+                    MessageFactory.text("Your blood pressure is higher than normal.", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("You are in the state of emergency. Please call 911 or call for emergency help.", extra = main))
+                return await step_context.end_dialog() 
+
 
         if profile2 == "high fever2":
             yesno = predict_class(step_context.result)
 
             if yesno == "positive":
                 await step_context.context.send_activity(
-                    MessageFactory.text("Okay! Let me search a emergency appointment slot for you!"))
+                    MessageFactory.text("Okay! Let me search a emergency appointment slot for you!", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I am initializing the appointment process!"))
+                    MessageFactory.text(f"I am initializing the appointment process!", extra = main))
                 return await step_context.begin_dialog(AppointExtraDialog.__name__)
 
             if yesno == "negative":
-                return await step_context.end_dialog("Okay! No problem, Please take care of yourself.")
-
+                await step_context.context.send_activity(
+                    MessageFactory.text("Okay! No problem, Please take care of yourself.", extra = main))
+                return await step_context.end_dialog() 
 
 
     async def temp4_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -254,19 +265,23 @@ class HealthProfileDialog(ComponentDialog):
 
             if yesno == "positive":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay! I'll help you with that."))
+                    MessageFactory.text(f"Okay! I'll help you with that.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I am initializing the appointment process..."))
+                    MessageFactory.text(f"I am initializing the appointment process...", extra = main))
                 return await step_context.begin_dialog(AppointExtraDialog.__name__)
 
-            if yesno == "negative":              
-                return await step_context.end_dialog("Okay. Thanks for connecting with jarvis!")
+            if yesno == "negative":    
+                await step_context.context.send_activity(
+                    MessageFactory.text("Okay. Thanks for connecting with jarvis!", extra = main))
+                return await step_context.end_dialog()           
         
         if profile3 == "sugrar level":
 
             await step_context.context.send_activity(
-                MessageFactory.text("Thank You! I will remember it for you."))
-            return await step_context.end_dialog("Thanks for connecting with jarvis!") 
+                MessageFactory.text("Thank You! I will remember it for you.", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("Thanks for connecting with jarvis!", extra = main))
+            return await step_context.end_dialog()
 
 
         if profile3 == "bp normal2":
@@ -274,7 +289,7 @@ class HealthProfileDialog(ComponentDialog):
             return await step_context.prompt(
                 NumberPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please share your blood sugar levels.")),)
+                    prompt=MessageFactory.text("Please share your blood sugar levels.", extra = main)),)
             
         if profile3 == "bp high2":
             yesno = predict_class(step_context.result)
@@ -283,12 +298,12 @@ class HealthProfileDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Would you like to review your prescription with our pharmacist?")),)
+                        prompt=MessageFactory.text("Would you like to review your prescription with our pharmacist?", extra = main)),)
 
             if yesno == "negative":
-                await step_context.context.send_activity(MessageFactory.text("No Problem. I can setup pill reminders for you, so you can never forget on your medication."))  
+                await step_context.context.send_activity(MessageFactory.text("No Problem. I can setup pill reminders for you, so you can never forget on your medication.", extra = main))  
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I am initializing the pill reminder process!"))
+                    MessageFactory.text(f"I am initializing the pill reminder process!", extra = main))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
 
@@ -301,16 +316,20 @@ class HealthProfileDialog(ComponentDialog):
 
             if yesno == "positive":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay! I'll help you with that."))
+                    MessageFactory.text(f"Okay! I'll help you with that.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"I am initializing the appointment process..."))
+                    MessageFactory.text(f"I am initializing the appointment process...", extra = main))
                 return await step_context.begin_dialog(AppointExtraDialog.__name__)
 
-            if yesno == "negative":              
-                return await step_context.end_dialog("Okay. Thanks for connecting with jarvis!")
+            if yesno == "negative":  
+                await step_context.context.send_activity(
+                    MessageFactory.text("Okay. Thanks for connecting with jarvis!", extra = main))
+                return await step_context.end_dialog()            
         
         if profile4 == "sugrar level2":
 
             await step_context.context.send_activity(
-                MessageFactory.text("Thank You! I will remember it for you."))
-            return await step_context.end_dialog("Thanks for connecting with jarvis!") 
+                MessageFactory.text("Thank You! I will remember it for you.", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("Thanks for connecting with jarvis!", extra = main))
+            return await step_context.end_dialog() 
