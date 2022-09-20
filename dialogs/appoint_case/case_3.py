@@ -66,6 +66,7 @@ class caseThreeDialog(ComponentDialog):
 
         global wks
         global time
+        global main
         global time3x
         global token
         global timey
@@ -146,11 +147,11 @@ class caseThreeDialog(ComponentDialog):
         if slots3x is None:
             case3b = "different time3x"
             await step_context.context.send_activity(
-                MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time.", extra = step_context.result))
+                MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time.", extra = main))
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = step_context.result)),) 
+                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = main)),) 
         else:
 
             wks.update_acell("O4", str(slots3x)) 
@@ -169,14 +170,14 @@ class caseThreeDialog(ComponentDialog):
             if userName != "not found":
                 case3b = "confirm or not3x"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Hey " + str(userName) + ", on " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = step_context.result))
+                    MessageFactory.text("Hey " + str(userName) + ", on " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = main))
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("On " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = step_context.result))            
+                    MessageFactory.text("On " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = main))            
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = step_context.result)),)
+                    prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = main)),)
 
 
 
@@ -216,6 +217,8 @@ class caseThreeDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()    
 
 
@@ -237,6 +240,8 @@ class caseThreeDialog(ComponentDialog):
                             type=ActionTypes.im_back,
                             value= str(appointId),)])
                 await step_context.context.send_activity(reply)
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()    
             else:
                 case1d = "update or not2"
@@ -261,4 +266,6 @@ class caseThreeDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog() 

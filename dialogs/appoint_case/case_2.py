@@ -65,6 +65,7 @@ class caseTwoDialog(ComponentDialog):
     async def first_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global wks
+        global main
         global date
         global datex
         global token
@@ -126,20 +127,20 @@ class caseTwoDialog(ComponentDialog):
         if slotsx is None:
             case2b = "different time2x"
             await step_context.context.send_activity(
-                MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time.", extra = step_context.result))
+                MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time.", extra = main))
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = step_context.result)),)
+                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = main)),)
         
         if slotsx == "time is past":
             case2b = "again time"
             await step_context.context.send_activity(
-                MessageFactory.text("I can only book appointments for times in the future.", extra = step_context.result))
+                MessageFactory.text("I can only book appointments for times in the future.", extra = main))
             return await step_context.prompt(
                 "time_prompt",
                 PromptOptions(
-                    prompt=MessageFactory.text("When do you want to book the appointment?", extra = step_context.result)),) 
+                    prompt=MessageFactory.text("When do you want to book the appointment?", extra = main)),) 
         else:             
             doc_namex       = pharmacist_name(slotsx[1])  
             pharmacistIdx   = slotsx[1]
@@ -155,14 +156,14 @@ class caseTwoDialog(ComponentDialog):
             if userName != "not found":
                 case2b = "confirm or notx"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Hey " + str(userName) + ", on " + str(datex) + " at " + str(use_timex) + ", " + str(doc_namex) + " of " + str(outletNamex) + " outlet is available.", extra = step_context.result))
+                    MessageFactory.text("Hey " + str(userName) + ", on " + str(datex) + " at " + str(use_timex) + ", " + str(doc_namex) + " of " + str(outletNamex) + " outlet is available.", extra = main))
             else:
                 await step_context.context.send_activity(
-                    MessageFactory.text("On " + str(datex) + " at " + str(use_timex) + ", " + str(doc_namex) + " of " + str(outletNamex) + " outlet is available.", extra = step_context.result))            
+                    MessageFactory.text("On " + str(datex) + " at " + str(use_timex) + ", " + str(doc_namex) + " of " + str(outletNamex) + " outlet is available.", extra = main))            
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = step_context.result)),)
+                    prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = main)),)
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -214,11 +215,12 @@ class caseTwoDialog(ComponentDialog):
             timef  = step_context.result
             slotsxx = get_slots_sup(pharmacistsIds, datex, timef, timey, token)
             if slotsxx == "time is past":
-                # case2c = "again time"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Sorry! You have entered a time in the past! I can only book appointments for times in the future.", extra = step_context.result))
+                    MessageFactory.text("Sorry! You have entered a time in the past! I can only book appointments for times in the future.", extra = main))
                 await step_context.context.send_activity(
-                    MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                    MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()
             else:
                 doc_namexy       = pharmacist_name(slotsxx[1])  
@@ -231,14 +233,13 @@ class caseTwoDialog(ComponentDialog):
                 endTimexy        = datetime.strftime(dd, "%H:%M:%S")
                 use_timexy       = datetime.strptime(timesxy, "%H:%M:%S").strftime("%I:%M %p")
 
-
                 if userNamey != "not found":
                     case2c = "confirm or notxy"
                     await step_context.context.send_activity(
-                        MessageFactory.text("Hey " + str(userNamey) + ", on " + str(datex) + " at " + str(use_timexy) + ", " + str(doc_namexy) + " of " + str(outletNamexy) + " outlet is available.", extra = step_context.result))
+                        MessageFactory.text("Hey " + str(userNamey) + ", on " + str(datex) + " at " + str(use_timexy) + ", " + str(doc_namexy) + " of " + str(outletNamexy) + " outlet is available.", extra = main))
                 else:
                     await step_context.context.send_activity(
-                        MessageFactory.text("On " + str(datex) + " at " + str(use_timexy) + ", " + str(doc_namexy) + " of " + str(outletNamexy) + " outlet is available.", extra = step_context.result))            
+                        MessageFactory.text("On " + str(datex) + " at " + str(use_timexy) + ", " + str(doc_namexy) + " of " + str(outletNamexy) + " outlet is available.", extra = main))            
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
@@ -254,6 +255,8 @@ class caseTwoDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog() 
 
 
@@ -278,6 +281,8 @@ class caseTwoDialog(ComponentDialog):
                             type=ActionTypes.im_back,
                             value= str(appointId),)])
                 await step_context.context.send_activity(reply)
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()    
             else:
                 case1d = "update or not2"
@@ -324,6 +329,8 @@ class caseTwoDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog() 
 
         if case1d == "question ask3xy":
@@ -339,6 +346,8 @@ class caseTwoDialog(ComponentDialog):
                             type=ActionTypes.im_back,
                             value= str(appointIdx),)])
                 await step_context.context.send_activity(reply)
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()    
             else:
                 case1e = "update or not2x"
@@ -361,4 +370,6 @@ class caseTwoDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog() 

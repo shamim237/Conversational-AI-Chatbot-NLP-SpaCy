@@ -1275,6 +1275,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     MessageFactory.text(f"Sorry! I can't let you login then!", extra = step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Please come again after login with the app.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()
 
 
@@ -1502,6 +1504,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     MessageFactory.text(f"Sorry! I can't let you login then!", extra = step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Please come again after login with the app.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()
         
         if dot == "otp nite hbe abr email user--":
@@ -1521,6 +1525,8 @@ class ToBeLoggedInDialog(ComponentDialog):
                     MessageFactory.text(f"Sorry! I can't let you login then!", extra = step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Please come again after login with the app.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()                
 
     async def reset5_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:

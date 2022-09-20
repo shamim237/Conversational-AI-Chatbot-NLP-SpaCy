@@ -280,6 +280,8 @@ class AppointmentDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment.", extra = step_context.result))
                 await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()
 
 
@@ -297,7 +299,9 @@ class AppointmentDialog(ComponentDialog):
 
             if slott == "No slots available":
                 await step_context.context.send_activity(
-                    MessageFactory.text("No slots are available for " + str(pharmacist) + " on " + str(date) + ". Please try another date or pharmacist!", extra = step_context.result)) 
+                    MessageFactory.text("No slots are available for " + str(pharmacist) + " on " + str(date) + ". Please try another date or pharmacist!", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result)) 
                 return await step_context.end_dialog()
 
             if slott == "NOPE":
@@ -327,6 +331,8 @@ class AppointmentDialog(ComponentDialog):
             if slott is None:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Sorry! You have failed to provide a valid time.", extra = step_context.result)) 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()
             
             else:
@@ -362,6 +368,8 @@ class AppointmentDialog(ComponentDialog):
                             value   = str(appointId1),
                             extra = step_context.result)])
                 await step_context.context.send_activity(reply)
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()   
 
             else:
@@ -404,6 +412,8 @@ class AppointmentDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment.", extra = step_context.result))
                 await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()
 
         global times2
@@ -449,6 +459,8 @@ class AppointmentDialog(ComponentDialog):
             if confirm == "negative":
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment.", extra = step_context.result))
                 await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()
 
 
@@ -469,6 +481,8 @@ class AppointmentDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()    
 
         if question2 == "questionnare ask2":
@@ -487,6 +501,8 @@ class AppointmentDialog(ComponentDialog):
                             value= str(appointId2),
                             extra = step_context.result)])
                 await step_context.context.send_activity(reply)
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()   
 
             else:
@@ -526,6 +542,8 @@ class AppointmentDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment.", extra = step_context.result))
                 await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()
 
         if question21 == "ask question2":
@@ -542,6 +560,8 @@ class AppointmentDialog(ComponentDialog):
                             value= str(appointId3),
                             extra = step_context.result)])
                 await step_context.context.send_activity(reply)
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()   
 
             else:
@@ -569,6 +589,8 @@ class AppointmentDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()  
 
         if question22 == "questionnare ask22":
@@ -585,6 +607,8 @@ class AppointmentDialog(ComponentDialog):
                             value= str(appointId4),
                             extra = step_context.result)])
                 await step_context.context.send_activity(reply)
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()   
             else:
                 question32 = "health_profile update22"
@@ -604,6 +628,8 @@ class AppointmentDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()    
 
 
@@ -620,4 +646,6 @@ class AppointmentDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = step_context.result))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = step_context.result))
                 return await step_context.end_dialog()  
