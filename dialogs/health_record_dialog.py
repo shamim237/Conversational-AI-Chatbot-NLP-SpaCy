@@ -21,9 +21,9 @@ class HealthRecordDialog(ComponentDialog):
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
-        self.add_dialog(DatePrompt("date_prompt", extra = main))
-        self.add_dialog(EmailPrompt("email_prompt", extra = main))
-        self.add_dialog(TimePrompt("time_prompt", extra = main))
+        self.add_dialog(DatePrompt("date_prompt"))
+        self.add_dialog(EmailPrompt("email_prompt"))
+        self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(AttachmentPrompt(AttachmentPrompt.__name__))

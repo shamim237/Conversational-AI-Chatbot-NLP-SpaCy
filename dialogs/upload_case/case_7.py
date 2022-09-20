@@ -6,7 +6,6 @@ from nlp_model.predict import predict_class
 from lib.message_factory import MessageFactory
 from lib.card import CardAction
 from prompt.email_prompt import EmailPrompt
-from botbuilder.dialogs.choices import Choice
 from nlp_model.record_predict import predict_record
 from dialogs.attachment_prompt import AttachmentPrompt
 from health_record import save_health_record_1, save_health_record_2
