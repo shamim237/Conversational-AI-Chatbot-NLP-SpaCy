@@ -405,7 +405,7 @@ class SupAdvBookAppDialog(ComponentDialog):
             if msgs == "positive":       
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
-                reply = MessageFactory.text("go to question page")
+                reply = MessageFactory.text("go to question page", extra = step_context.result)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
@@ -457,7 +457,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                 if case1c == "question ask2":       
                     await step_context.context.send_activity(
                         MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
-                    reply = MessageFactory.text("go to question page")
+                    reply = MessageFactory.text("go to question page", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(
@@ -470,7 +470,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                 else:
                     await step_context.context.send_activity(
                         MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
-                    reply = MessageFactory.text("go to question page")
+                    reply = MessageFactory.text("go to question page", extra = step_context.result)
                     reply.suggested_actions = SuggestedActions(
                         actions=[
                             CardAction(

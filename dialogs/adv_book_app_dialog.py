@@ -183,7 +183,7 @@ class AdvBookAppDialog(ComponentDialog):
             if msgs == "positive":       
                 await step_context.context.send_activity(
                     MessageFactory.text("Thank You! I am opening the questionnare page.", extra = step_context.result))
-                reply = MessageFactory.text("go to question page")
+                reply = MessageFactory.text("go to question page", extra = step_context.result)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
                         CardAction(
