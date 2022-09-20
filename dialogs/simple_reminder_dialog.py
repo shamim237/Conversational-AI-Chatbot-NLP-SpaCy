@@ -291,15 +291,21 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
         
         
         global dropfor1
@@ -362,15 +368,21 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog()  
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog() 
 
 
         if dosages == "syringe dose": 
@@ -398,15 +410,21 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog()  
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
 
 
         if dosages == "syrup dose":
@@ -434,14 +452,20 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()  
 
         global dosages2
@@ -505,14 +529,20 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
 
 
@@ -541,14 +571,20 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
 
         
@@ -612,15 +648,21 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog()  
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog() 
 
 
         if dosages2 == "syringe dose2": 
@@ -648,15 +690,21 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog()  
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog() 
 
 
         if dosages2 == "syrup dose2":
@@ -684,15 +732,21 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog()  
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog() 
 
 
     async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -718,13 +772,19 @@ class SimplePillReminderDialog(ComponentDialog):
             if len(times) == 1:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage2) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             if len(times) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage2) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
-                return await step_context.end_dialog() 
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage2) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()         
         

@@ -345,6 +345,8 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog() 
 
         global dropfor1
@@ -404,6 +406,8 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog()  
 
         if dosage_inj == "koto dosage14":
@@ -430,6 +434,8 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog()  
 
         if dosage_syrup == "koto dosage15":
@@ -456,7 +462,9 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
-            return await step_context.end_dialog() 
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog()  
 
 
         global dosage_tab_2
@@ -577,7 +585,9 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage1) + " drops of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
-            return await step_context.end_dialog()
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog() 
 
 
 
@@ -602,7 +612,9 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ ".", extra = main))
-            return await step_context.end_dialog() 
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog()  
 
         global dropfor2
         global dosage2
@@ -660,6 +672,8 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+  ".", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog()  
 
         if dosage_inj_2 == "koto dosage2":
@@ -684,7 +698,9 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time) + ".", extra = main))
-            return await step_context.end_dialog()  
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog()   
 
         if dosage_syrup_2 == "koto dosage2":
             dosage = step_context.result
@@ -708,6 +724,8 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time) + ".", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog() 
 
 
@@ -785,7 +803,9 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage2) + " drops of " + str(pill_name) + " at " + str(pill_time) + ".", extra = main))
-            return await step_context.end_dialog()
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog() 
 
 
         if dosage_tab_3 == "koto dosag3":
@@ -813,6 +833,8 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration2) + ".", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog()    
 
 
@@ -875,7 +897,9 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration2) + ".", extra = main))
-            return await step_context.end_dialog()  
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog()   
 
 
         if dosage_inj_3 == "koto dosage3":      
@@ -902,7 +926,9 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration2) + ".", extra = main))
-            return await step_context.end_dialog()
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog() 
 
 
         if dosage_syrup_3 == "koto dosage3":  
@@ -929,7 +955,9 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time) + " for " + str(duration2) + ".", extra = main))
-            return await step_context.end_dialog() 
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog()  
 
 
     async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -961,4 +989,6 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage3) + " drops of " + str(pill_name) + " at " + str(pill_time)  + " for " + str(duration2) + ".", extra = main))
-            return await step_context.end_dialog()
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog() 

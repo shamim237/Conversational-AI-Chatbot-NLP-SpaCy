@@ -387,7 +387,9 @@ class caseOneRecordDialog(ComponentDialog):
                 save_health_record_1(userId, reportName1a, reportSummary, report_types, reportDoctor1a, reportPatient1a, ids1a, urls1a, pharmacyId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
-                return await step_context.end_dialog()  
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog() 
 
 
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
@@ -422,6 +424,8 @@ class caseOneRecordDialog(ComponentDialog):
                 save_health_record_2(userId, reportName1b, reportSummary, report_types1, reportDoctor1b, reportPatient1b, ids1a, urls1a, ids1b, urls1b, pharmacyId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()                
 
 
@@ -441,7 +445,9 @@ class caseOneRecordDialog(ComponentDialog):
                 save_health_record_1(userId, reportName1a1, reportSummary, report_types, reportDoctor1a1, reportPatient1a1, ids1a, urls1a, pharmacyId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
-                return await step_context.end_dialog()                
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()               
 
         if case1g == "add summary":
 
@@ -449,7 +455,9 @@ class caseOneRecordDialog(ComponentDialog):
             save_health_record_1(userId, reportName1a, reportSummary, report_types, reportDoctor1a, reportPatient1a, ids1a, urls1a, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
-            return await step_context.end_dialog()      
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog()     
 
 
     async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
@@ -472,7 +480,9 @@ class caseOneRecordDialog(ComponentDialog):
                 save_health_record_2(userId, reportName1b1, reportSummary, report_types1, reportDoctor1b1, reportPatient1b1, ids1a, urls1a, ids1b, urls1b, pharmacyId, token)
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
-                return await step_context.end_dialog()   
+                await step_context.context.send_activity(
+                    MessageFactory.text("end dialog", extra = main))
+                return await step_context.end_dialog()  
 
 
         if case1h == "add summary2":
@@ -480,6 +490,8 @@ class caseOneRecordDialog(ComponentDialog):
             save_health_record_2(userId, reportName1b, reportSummary, report_types1, reportDoctor1b, reportPatient1b, ids1a, urls1a, ids1b, urls1b, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog()             
 
         
@@ -488,6 +500,8 @@ class caseOneRecordDialog(ComponentDialog):
             save_health_record_1(userId, reportName1a1, reportSummary, report_types, reportDoctor1a1, reportPatient1a1, ids1a, urls1a, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog() 
 
 
@@ -498,4 +512,6 @@ class caseOneRecordDialog(ComponentDialog):
             save_health_record_2(userId, reportName1b1, reportSummary, report_types1, reportDoctor1b1, reportPatient1b1, ids1a, urls1a, ids1b, urls1b, pharmacyId, token)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
-            return await step_context.end_dialog() 
+            await step_context.context.send_activity(
+                MessageFactory.text("end dialog", extra = main))
+            return await step_context.end_dialog()
