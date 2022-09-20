@@ -4,14 +4,15 @@ from recognizers_suite import Culture
 import recognizers_suite as Recognizers
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
 from nlp_model.pill_predict import reminder_class
 from date_regex import cal_date_adv, cal_date_by_day
 from adv_pill_reminder import save_reminder_spec_days
 from dialogs.simple_reminder_dialog import SimplePillReminderDialog
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from botbuilder.schema import ActionTypes, SuggestedActions
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions

@@ -1,4 +1,5 @@
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
@@ -9,7 +10,7 @@ from prompt.email_prompt import EmailPrompt
 from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from botbuilder.schema import ActionTypes, SuggestedActions
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
 from dialogs.adv_book_app_dialog import AdvBookAppDialog
 from dialogs.profile_update_dialog import HealthProfileDialog

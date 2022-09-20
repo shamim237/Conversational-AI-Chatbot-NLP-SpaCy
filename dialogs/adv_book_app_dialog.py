@@ -6,7 +6,8 @@ from appointment import appoint_id, save_appoint
 from datetime import datetime, timedelta
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
 from dialogs.book_appointment import AppointmentDialog
@@ -15,7 +16,7 @@ from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from outlets2 import get_pharmacist_id, get_slots, pharmacist_name
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from botbuilder.schema import ActionTypes, SuggestedActions
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions

@@ -4,7 +4,8 @@ from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from nlp_model.predict import predict_class
 from prompt.email_prompt import EmailPrompt
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from nlp_model.record_predict import predict_record
 from dialogs.attachment_prompt import AttachmentPrompt
 from health_record import save_health_record_1, save_health_record_2

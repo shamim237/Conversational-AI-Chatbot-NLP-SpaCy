@@ -1,4 +1,5 @@
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
+from lib.card import CardAction
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog, DialogTurnStatus
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
@@ -15,7 +16,7 @@ from outlets import check_outlet, outlet_name, get_avail_slot, get_timeslots, ma
 from user_info import check_email
 from appointment import appoint_id, save_appoint
 from botbuilder.dialogs.choices import Choice
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from botbuilder.schema import ActionTypes, SuggestedActions
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
 
 
