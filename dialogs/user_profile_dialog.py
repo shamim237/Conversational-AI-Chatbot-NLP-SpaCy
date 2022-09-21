@@ -1,28 +1,28 @@
 import gspread
+from lib.card import CardAction
+from user_info import check_user
 from googletrans import Translator
-translator = Translator()
-from prompt.date_prompt import DatePrompt
+from botbuilder.core import UserState
 from prompt.time_prompt import TimePrompt
+from prompt.date_prompt import DatePrompt
 from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
-from botbuilder.core import UserState
 from lib.message_factory import MessageFactory
-from lib.card import CardAction
-from botbuilder.dialogs import ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult
-from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, PromptOptions
-from dialogs.pill_reminder_dialog import PillReminderDialog
-from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.book_appointment import AppointmentDialog
+from dialogs.adv_book_app_dialog import AdvBookAppDialog
+from dialogs.adv_appoint_dialog import SupAdvBookAppDialog
 from botbuilder.schema import ActionTypes, SuggestedActions
 from dialogs.tobe_loggedin_dialog import ToBeLoggedInDialog
 from dialogs.health_record_dialog import HealthRecordDialog
-from user_info import check_user
+from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.profile_update_dialog import HealthProfileDialog
-from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
-from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
-from dialogs.adv_book_app_dialog import AdvBookAppDialog
+from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.bypass_appoint_dialog import ByPassAppointmentDialog
-from dialogs.adv_appoint_dialog import SupAdvBookAppDialog
+from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
+from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
+from botbuilder.dialogs import ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult
+from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, PromptOptions
+translator = Translator()
 
 
 
@@ -68,6 +68,7 @@ class UserProfileDialog(ComponentDialog):
         global userId
         global token
         global main
+        global wks
         global pharmacyId
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
@@ -81,13 +82,12 @@ class UserProfileDialog(ComponentDialog):
 
         try:
             wks.update_acell("B1", str(userId))
-            wks.update_acell("B22", str(token))
+            wks.update_acell("B30", str(token))
             wks.update_acell("B2", str(pharmacyId))
         except:
             pass
-
+        
         status = check_user(userId, token)
-
 
         if userId == 0 or status == "Fail" or status == 400:
             return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)

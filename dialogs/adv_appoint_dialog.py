@@ -1,30 +1,31 @@
 import gspread
+from lib.card import CardAction
 from outlets import outlet_name
-from user_info import check_name
 from user_info import outlet_ids
+from user_info import check_name
 from recognizers_suite import Culture
 import recognizers_suite as Recognizers
 from datetime import datetime, timedelta
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
-from lib.message_factory import MessageFactory
-from lib.card import CardAction
 from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
+from lib.message_factory import MessageFactory
+from dialogs.appoint_case.case_2 import caseTwoDialog
 from nlp_model.appoint_predict import predict_appoint
 from dialogs.book_appointment import AppointmentDialog
+from dialogs.appoint_case.case_3 import caseThreeDialog
 from appointment import save_appoint, date_cal, appoint_id
 from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
+from botbuilder.schema import ActionTypes, SuggestedActions
 from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
-from botbuilder.schema import ActionTypes, SuggestedActions
+from outlets2 import get_pharmacist_id, get_slots_sup, pharmacist_name
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
-from outlets2 import get_pharmacist_id, get_slots, get_slots_sup, pharmacist_name
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
-from dialogs.appoint_case.case_2 import caseTwoDialog
-from dialogs.appoint_case.case_3 import caseThreeDialog
+
 
 
 
