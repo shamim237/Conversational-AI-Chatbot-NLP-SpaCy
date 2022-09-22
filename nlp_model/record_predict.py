@@ -7,9 +7,9 @@ def predict_record(msg):
     raw  = translator.detect(msg)
     if raw.lang != "en":
         convert = translator.translate(msg, dest= "en")
-        res = requests.get('https://health-record-jarvis.herokuapp.com/predict/{}'.format(convert.text))
+        res = requests.get('https://jarvis-chatbot-model.herokuapp.com/predict_record/{}'.format(convert.text))
     else:
-        res = requests.get('https://health-record-jarvis.herokuapp.com/predict/{}'.format(msg))
+        res = requests.get('https://jarvis-chatbot-model.herokuapp.com/predict_record/{}'.format(msg))
     return res.json()
 
 

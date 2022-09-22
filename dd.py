@@ -7,7 +7,13 @@
 # if "attachmentUrl" and "attachmentId" in ss:
 #     print("ache")
 
+# from google_trans_new import google_translator  
 
+# detector = google_translator() 
+# # ss = "hey bro"
+# raw = detector.detect('')
+
+# print(raw)
 
 
 # # dd = {'attachmentId': '1303', 'attachmentUrl': 'https://jarvin-dev.azurewebsites.net/appimages/thumbs/0001303.jpeg'}
