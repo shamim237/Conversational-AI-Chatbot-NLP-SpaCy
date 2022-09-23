@@ -1,3 +1,4 @@
+import gspread
 from lib.message_factory import MessageFactory
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
@@ -46,7 +47,12 @@ class HealthProfileDialog(ComponentDialog):
         global userId
         global token
         global main
+        global wks
         global pharmacyId
+
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
 
         main  =  step_context.context.activity.text
         userId = step_context.context.activity.from_property.id
@@ -108,6 +114,8 @@ class HealthProfileDialog(ComponentDialog):
 
         if profile1 == "normal health" or profile1 == "mild fever":
             bp = step_context.result
+            wks.update_acell("D5", type(bp))
+            wks.update_acell("D6", str(bp))
             if "60" < str(bp) <= "130":
                 profile2 = "bp normal"
                 return await step_context.prompt(

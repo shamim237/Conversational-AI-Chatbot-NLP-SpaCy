@@ -15,6 +15,9 @@
 
 # print(raw)
 
+# ss = 36.5
+# print(type(ss))
+
 
 # # dd = {'attachmentId': '1303', 'attachmentUrl': 'https://jarvin-dev.azurewebsites.net/appimages/thumbs/0001303.jpeg'}
 
