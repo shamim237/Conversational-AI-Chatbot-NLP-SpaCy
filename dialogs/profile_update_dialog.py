@@ -114,8 +114,8 @@ class HealthProfileDialog(ComponentDialog):
 
         if profile1 == "normal health" or profile1 == "mild fever":
             bp = step_context.result
-            wks.update_acell("D5", type(bp))
-            wks.update_acell("D6", str(bp))
+            # wks.update_acell("D5", type(bp))
+            # wks.update_acell("D6", str(bp))
             if "60" < str(bp) <= "130":
                 profile2 = "bp normal"
                 return await step_context.prompt(
