@@ -181,6 +181,7 @@ class UserProfileDialog(ComponentDialog):
         step_context.values["goodbad"] = step_context.result
         health = predict_class(step_context.values["goodbad"])
 
+        wks.update_acell("I1", str(step_context.context.activity))
         wks.update_acell("C11", str(step_context.context.activity.text))
 
         if step_context.context.activity.text == "end dialog now":
@@ -284,6 +285,10 @@ class UserProfileDialog(ComponentDialog):
         step_context.values["2ndpath"] = step_context.result
         prompts2 = "nothing2"
         msg = predict_class(step_context.result)
+
+        wks.update_acell("I2", str(step_context.context.activity))
+        wks.update_acell("J2", str((step_context.result)))
+        wks.update_acell("K2", str(step_context.context.activity.text))
 
         if step_context.context.activity.text == "end dialog now":
             await step_context.context.send_activity(
@@ -422,6 +427,12 @@ class UserProfileDialog(ComponentDialog):
         more_work = 'msivn nv '
         msg = step_context.result
         msg = predict_class(msg)
+
+
+        wks.update_acell("I3", str(step_context.context.activity))
+        wks.update_acell("J3", str((step_context.result)))
+        wks.update_acell("K3", str(step_context.context.activity.text))
+
 
         if step_context.context.activity.text == "end dialog now":
             await step_context.context.send_activity(
@@ -593,6 +604,10 @@ class UserProfileDialog(ComponentDialog):
                         PromptOptions(prompt=MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records. What would you like me to do?", extra = main)))
 
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        wks.update_acell("I4", str(step_context.context.activity))
+        wks.update_acell("J4", str((step_context.result)))
+        wks.update_acell("K4", str(step_context.context.activity.text))
 
         if step_context.context.activity.text == "end dialog now":
             await step_context.context.send_activity(
