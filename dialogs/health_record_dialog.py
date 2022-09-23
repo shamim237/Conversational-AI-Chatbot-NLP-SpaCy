@@ -73,7 +73,7 @@ class HealthRecordDialog(ComponentDialog):
                 
             await step_context.context.send_activity(
                 MessageFactory.text("Please upload the document.", extra = main))            
-            prompt_options = PromptOptions(prompt = MessageFactory.text("Tap \U0001F4CE to upload"), retry_prompt = MessageFactory.text("Please upload a valid document.", extra = main),)
+            prompt_options = PromptOptions(prompt = MessageFactory.text("Tap \U0001F4CE to upload", extra= main), retry_prompt = MessageFactory.text("Please upload a valid document.", extra = main),)
             return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 

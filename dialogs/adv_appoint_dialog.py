@@ -20,8 +20,10 @@ from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from botbuilder.schema import ActionTypes, SuggestedActions
 from dialogs.profile_update_dialog import HealthProfileDialog
+from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from outlets2 import get_pharmacist_id, get_slots_sup, pharmacist_name
+from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
@@ -45,6 +47,8 @@ class SupAdvBookAppDialog(ComponentDialog):
         self.add_dialog(caseThreeDialog(caseThreeDialog.__name__))
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
+        self.add_dialog(AdvHealthRecordDialog(AdvHealthRecordDialog.__name__))
+        self.add_dialog(UpcomingAppointmentDialog(UpcomingAppointmentDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
@@ -244,79 +248,6 @@ class SupAdvBookAppDialog(ComponentDialog):
         global dat
         global appointId1
 
-        timey           = step_context.context.activity.additional_properties
-        timey           = timey.get('local_timestamp')
-        times2          = "aklala"
-        endTime2        = "asjsjjs"
-        use_time2       = "jsjsuiww"
-        doc_name2       = "asysusu"
-        pharmacistId2   = "jsjsjs"
-        case1b          = "kiskskks"
-        appointId1      = "atatatat"
-        dat             = "skskksk"
-
-        if case1a == "abar date nibo":
-            dat = step_context.result
-            outletId         = outlet_ids(userId, token)
-            outletName       = outlet_name(outletId, token)
-            pharmacistsIds1  = get_pharmacist_id(pharmacyId, outletId) 
-            slots            = get_slots_sup(pharmacistsIds1, dat, timet[0], token)
-            doc_name2        = pharmacist_name(slots[1])
-            pharmacistId2    = slots[1]
-            userName         = check_name(userId, token) 
-            times2           = slots[0]
-            ss               = datetime.strptime(times2, "%H:%M:%S")
-            dd               = ss + timedelta(minutes= 15)
-            endTime2         = datetime.strftime(dd, "%H:%M:%S")
-            use_time2        = datetime.strptime(times2, "%H:%M:%S").strftime("%I:%M %p")         
-
-            if userName != "not found":
-                case1b = "confirm or not2"
-                await step_context.context.send_activity(
-                    MessageFactory.text("Hey " + str(userName) + ", on " + str(dat) + " at " + str(use_time2) + ", " + str(doc_name2) + " of " + str(outletName) + " outlet is available.", extra = main))
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("On " + str(dat) + " at " + str(use_time2) + ", " + str(doc_name2) + " of " + str(outletName) + " outlet is available.", extra = main))            
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = main)),)
-
-
-        if case1a == "different time":
-            msg = predict_class(step_context.result)
-            if msg == "positive":
-                await step_context.context.send_activity(
-                    MessageFactory.text("Alright!", extra = main))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()                               
-
-
-        if case1a == "confrim or not":
-            msg = predict_class(step_context.result)
-            if msg == "positive":
-                case1b = "question ask"
-                save_appoint(datek, times, endTime1, userId, pharmacistId1, doc_name1, pharmacyId, token)
-                appointId1 = appoint_id(userId, token)
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name1) + " has been booked on " + str(date[0]) + " at " + str(use_time1) + ".", extra = main)) 
-                await step_context.context.send_activity(
-                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = main))
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
-
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("Alright!", extra = main))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
-
         global pharmacistId3
         global endTime3
         global times3
@@ -329,47 +260,148 @@ class SupAdvBookAppDialog(ComponentDialog):
         doc_name3     = "sususus"  
         use_time3     = "jjsjsjs"
 
+        timey           = step_context.context.activity.additional_properties
+        timey           = timey.get('local_timestamp')
+        times2          = "aklala"
+        endTime2        = "asjsjjs"
+        use_time2       = "jsjsuiww"
+        doc_name2       = "asysusu"
+        pharmacistId2   = "jsjsjs"
+        case1b          = "kiskskks"
+        appointId1      = "atatatat"
+        dat             = "skskksk"
 
-        if case1a == "time a problem": 
-            corr_time = step_context.result
-            now = timey
-            current_time = datetime.strptime(now, "%I:%M %p")
-            current_time = datetime.strftime(current_time, "%H:%M:%S")  
 
-            if current_time < corr_time:
-                today = datetime.now()
-                today = datetime.strftime(today, "%Y-%m-%d") 
-                case1b          = "confirm or not3"      
-                slots3          = get_slots_sup(pharmacistsIds, today, corr_time, token)                
-                doc_name3       = pharmacist_name(slots3[1])
-                pharmacistId3   = slots3[1]
-                userName        = check_name(userId, token) 
-                outletId        = outlet_ids(userId, token)
-                outletName      = outlet_name(outletId, token)
-                times3          = slots3[0]
-                ss              = datetime.strptime(times3, "%H:%M:%S")
-                dd              = ss + timedelta(minutes= 15)
-                endTime3        = datetime.strftime(dd, "%H:%M:%S")
-                use_time3       = datetime.strptime(times3, "%H:%M:%S").strftime("%I:%M %p")
+        switch = predict_class(step_context.result)
+
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(PillReminderDialog.__name__) 
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)  
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Let me check...", extra = main))
+            return await step_context.begin_dialog(UpcomingAppointmentDialog.__name__)  
+
+        if switch == "health_profile":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(HealthProfileDialog.__name__)             
+
+        else:
+
+            if case1a == "abar date nibo":
+                dat = step_context.result
+                outletId         = outlet_ids(userId, token)
+                outletName       = outlet_name(outletId, token)
+                pharmacistsIds1  = get_pharmacist_id(pharmacyId, outletId) 
+                slots            = get_slots_sup(pharmacistsIds1, dat, timet[0], token)
+                doc_name2        = pharmacist_name(slots[1])
+                pharmacistId2    = slots[1]
+                userName         = check_name(userId, token) 
+                times2           = slots[0]
+                ss               = datetime.strptime(times2, "%H:%M:%S")
+                dd               = ss + timedelta(minutes= 15)
+                endTime2         = datetime.strftime(dd, "%H:%M:%S")
+                use_time2        = datetime.strptime(times2, "%H:%M:%S").strftime("%I:%M %p")         
 
                 if userName != "not found":
+                    case1b = "confirm or not2"
                     await step_context.context.send_activity(
-                        MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time3) + ", " + str(doc_name3) + " of " + str(outletName) + " outlet is available.", extra = main))
+                        MessageFactory.text("Hey " + str(userName) + ", on " + str(dat) + " at " + str(use_time2) + ", " + str(doc_name2) + " of " + str(outletName) + " outlet is available.", extra = main))
                 else:
                     await step_context.context.send_activity(
-                        MessageFactory.text("Today at " + str(use_time3) + ", " + str(doc_name3) + " of " + str(outletName) + " outlet is available.", extra = main))            
+                        MessageFactory.text("On " + str(dat) + " at " + str(use_time2) + ", " + str(doc_name2) + " of " + str(outletName) + " outlet is available.", extra = main))            
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
                         prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = main)),)
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("Sorry! The time you have entered is invalid!", extra = main))   
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thank you for connecting with Jarvis Care.", extra = main))    
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))                                                 
-                return await step_context.end_dialog()  
+
+
+            if case1a == "different time":
+                msg = predict_class(step_context.result)
+                if msg == "positive":
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Alright!", extra = main))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
+                    await step_context.context.send_activity(
+                        MessageFactory.text("end dialog", extra = main))
+                    return await step_context.end_dialog()                               
+
+
+            if case1a == "confrim or not":
+                msg = predict_class(step_context.result)
+                if msg == "positive":
+                    case1b = "question ask"
+                    save_appoint(datek, times, endTime1, userId, pharmacistId1, doc_name1, pharmacyId, token)
+                    appointId1 = appoint_id(userId, token)
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thank You! Your appointment with " + str(doc_name1) + " has been booked on " + str(date[0]) + " at " + str(use_time1) + ".", extra = main)) 
+                    await step_context.context.send_activity(
+                        MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = main))
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
+
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Alright!", extra = main))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)
+
+
+            if case1a == "time a problem": 
+                corr_time = step_context.result
+                now = timey
+                current_time = datetime.strptime(now, "%I:%M %p")
+                current_time = datetime.strftime(current_time, "%H:%M:%S")  
+
+                if current_time < corr_time:
+                    today = datetime.now()
+                    today = datetime.strftime(today, "%Y-%m-%d") 
+                    case1b          = "confirm or not3"      
+                    slots3          = get_slots_sup(pharmacistsIds, today, corr_time, token)                
+                    doc_name3       = pharmacist_name(slots3[1])
+                    pharmacistId3   = slots3[1]
+                    userName        = check_name(userId, token) 
+                    outletId        = outlet_ids(userId, token)
+                    outletName      = outlet_name(outletId, token)
+                    times3          = slots3[0]
+                    ss              = datetime.strptime(times3, "%H:%M:%S")
+                    dd              = ss + timedelta(minutes= 15)
+                    endTime3        = datetime.strftime(dd, "%H:%M:%S")
+                    use_time3       = datetime.strptime(times3, "%H:%M:%S").strftime("%I:%M %p")
+
+                    if userName != "not found":
+                        await step_context.context.send_activity(
+                            MessageFactory.text("Hey " + str(userName) + ", Today at " + str(use_time3) + ", " + str(doc_name3) + " of " + str(outletName) + " outlet is available.", extra = main))
+                    else:
+                        await step_context.context.send_activity(
+                            MessageFactory.text("Today at " + str(use_time3) + ", " + str(doc_name3) + " of " + str(outletName) + " outlet is available.", extra = main))            
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = main)),)
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Sorry! The time you have entered is invalid!", extra = main))   
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thank you for connecting with Jarvis Care.", extra = main))    
+                    await step_context.context.send_activity(
+                        MessageFactory.text("end dialog", extra = main))                                                 
+                    return await step_context.end_dialog()  
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -382,75 +414,102 @@ class SupAdvBookAppDialog(ComponentDialog):
         appointId2  = "atettets"
         case1c      = "ksksaksk"
 
-        if case1b == "confirm or not2":
-            msg = predict_class(step_context.result)
-            if msg == "positive":
-                case1c = "question ask2"
-                save_appoint(dat, times2, endTime2, userId, pharmacistId2, doc_name2, pharmacyId, token)
-                appointId2 = appoint_id(userId, token)
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name2) + " has been booked on " + str(dat) + " at "  + str(use_time2) + ".", extra = main)) 
-                await step_context.context.send_activity(
-                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = main))
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
+        switch = predict_class(step_context.result)
 
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("Alright!", extra = main))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)         
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(PillReminderDialog.__name__) 
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)  
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Let me check...", extra = main))
+            return await step_context.begin_dialog(UpcomingAppointmentDialog.__name__)  
+
+        if switch == "health_profile":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(HealthProfileDialog.__name__) 
+
+        else:
+
+            if case1b == "confirm or not2":
+                msg = predict_class(step_context.result)
+                if msg == "positive":
+                    case1c = "question ask2"
+                    save_appoint(dat, times2, endTime2, userId, pharmacistId2, doc_name2, pharmacyId, token)
+                    appointId2 = appoint_id(userId, token)
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thank You! Your appointment with " + str(doc_name2) + " has been booked on " + str(dat) + " at "  + str(use_time2) + ".", extra = main)) 
+                    await step_context.context.send_activity(
+                        MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = main))
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
+
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Alright!", extra = main))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)         
 
 
-        if case1b == "question ask":
+            if case1b == "question ask":
 
-            msgs = predict_class(step_context.result)
+                msgs = predict_class(step_context.result)
 
-            if msgs == "positive":       
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
-                reply = MessageFactory.text("go to question page", extra = main)
-                reply.suggested_actions = SuggestedActions(
-                    actions=[
-                        CardAction(
-                            title= "go to question page",
-                            type=ActionTypes.im_back,
-                            value= str(appointId1),
-                            extra = main)])
-                await step_context.context.send_activity(reply)
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()    
-            
-            else:
-                case1c = "update or not"
-                await step_context.context.send_activity(
-                    MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition.", extra = main))    
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would you like to update health profile now?", extra = main)),)
+                if msgs == "positive":       
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
+                    reply = MessageFactory.text("go to question page", extra = main)
+                    reply.suggested_actions = SuggestedActions(
+                        actions=[
+                            CardAction(
+                                title= "go to question page",
+                                type=ActionTypes.im_back,
+                                value= str(appointId1),
+                                extra = main)])
+                    await step_context.context.send_activity(reply)
+                    await step_context.context.send_activity(
+                        MessageFactory.text("end dialog", extra = main))
+                    return await step_context.end_dialog()    
+                
+                else:
+                    case1c = "update or not"
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition.", extra = main))    
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Would you like to update health profile now?", extra = main)),)
 
-        if case1b == "confirm or not3":
-            msg = predict_class(step_context.result)
-            if msg == "positive":
-                case1c = "question ask3"
-                save_appoint(datek, times3, endTime3, userId, pharmacistId3, doc_name3, pharmacyId, token)
-                appointId3 = appoint_id(userId, token)
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name3) + " has been booked on " + str(datek) + " at "  + str(use_time3) + ".", extra = main)) 
-                await step_context.context.send_activity(
-                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = main))
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
+            if case1b == "confirm or not3":
+                msg = predict_class(step_context.result)
+                if msg == "positive":
+                    case1c = "question ask3"
+                    save_appoint(datek, times3, endTime3, userId, pharmacistId3, doc_name3, pharmacyId, token)
+                    appointId3 = appoint_id(userId, token)
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thank You! Your appointment with " + str(doc_name3) + " has been booked on " + str(datek) + " at "  + str(use_time3) + ".", extra = main)) 
+                    await step_context.context.send_activity(
+                        MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = main))
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
 
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("Alright!", extra = main))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)  
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Alright!", extra = main))
+                    return await step_context.begin_dialog(AppointmentDialog.__name__)  
 
 
 
@@ -459,80 +518,135 @@ class SupAdvBookAppDialog(ComponentDialog):
         global case1d
         case1d = "sjksksk"
 
-        if case1c == "question ask2" or case1c == "question ask3":
-            msgs = predict_class(step_context.result)
-            if msgs == "positive":
-                if case1c == "question ask2":       
+        switch = predict_class(step_context.result)
+
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(PillReminderDialog.__name__) 
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)  
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Let me check...", extra = main))
+            return await step_context.begin_dialog(UpcomingAppointmentDialog.__name__)  
+
+        if switch == "health_profile":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(HealthProfileDialog.__name__) 
+             
+        else:
+
+            if case1c == "question ask2" or case1c == "question ask3":
+                msgs = predict_class(step_context.result)
+                if msgs == "positive":
+                    if case1c == "question ask2":       
+                        await step_context.context.send_activity(
+                            MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
+                        reply = MessageFactory.text("go to question page", extra = main)
+                        reply.suggested_actions = SuggestedActions(
+                            actions=[
+                                CardAction(
+                                    title= "go to question page",
+                                    type=ActionTypes.im_back,
+                                    value= str(appointId2),
+                                    extra = main)])
+                        await step_context.context.send_activity(reply)
+                        await step_context.context.send_activity(
+                            MessageFactory.text("end dialog", extra = main))
+                        return await step_context.end_dialog()   
+                    else:
+                        await step_context.context.send_activity(
+                            MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
+                        reply = MessageFactory.text("go to question page", extra = main)
+                        reply.suggested_actions = SuggestedActions(
+                            actions=[
+                                CardAction(
+                                    title= "go to question page",
+                                    type=ActionTypes.im_back,
+                                    value= str(appointId3),
+                                    extra = main)])
+                        await step_context.context.send_activity(reply)
+                        await step_context.context.send_activity(
+                            MessageFactory.text("end dialog", extra = main))
+                        return await step_context.end_dialog()   
+
+                else:
+                    case1d = "update or not2"
                     await step_context.context.send_activity(
-                        MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
-                    reply = MessageFactory.text("go to question page", extra = main)
-                    reply.suggested_actions = SuggestedActions(
-                        actions=[
-                            CardAction(
-                                title= "go to question page",
-                                type=ActionTypes.im_back,
-                                value= str(appointId2),
-                                extra = main)])
-                    await step_context.context.send_activity(reply)
+                        MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition.", extra = main))    
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Would you like to update health profile now?", extra = main)),)         
+            
+            if case1c == "update or not":
+                msg = predict_class(step_context.result) 
+
+                if msg == "positive":
                     await step_context.context.send_activity(
-                        MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()   
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
+
+                    return await step_context.begin_dialog(HealthProfileDialog.__name__) 
                 else:
                     await step_context.context.send_activity(
-                        MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
-                    reply = MessageFactory.text("go to question page", extra = main)
-                    reply.suggested_actions = SuggestedActions(
-                        actions=[
-                            CardAction(
-                                title= "go to question page",
-                                type=ActionTypes.im_back,
-                                value= str(appointId3),
-                                extra = main)])
-                    await step_context.context.send_activity(reply)
+                        MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()   
-
-            else:
-                case1d = "update or not2"
-                await step_context.context.send_activity(
-                    MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition.", extra = main))    
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would you like to update health profile now?", extra = main)),)         
-        
-        if case1c == "update or not":
-            msg = predict_class(step_context.result) 
-
-            if msg == "positive":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
-
-                return await step_context.begin_dialog(HealthProfileDialog.__name__) 
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                    return await step_context.end_dialog() 
 
             
 
 
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        if case1d == "update or not2":
-            msg = predict_class(step_context.result) 
 
-            if msg == "positive":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
+        switch = predict_class(step_context.result)
 
-                return await step_context.begin_dialog(HealthProfileDialog.__name__) 
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(PillReminderDialog.__name__) 
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog(AdvHealthRecordDialog.__name__)  
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Let me check...", extra = main))
+            return await step_context.begin_dialog(UpcomingAppointmentDialog.__name__)  
+
+        if switch == "health_profile":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog(HealthProfileDialog.__name__) 
+             
+        else:
+
+            if case1d == "update or not2":
+                msg = predict_class(step_context.result) 
+
+                if msg == "positive":
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
+
+                    return await step_context.begin_dialog(HealthProfileDialog.__name__) 
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
+                    await step_context.context.send_activity(
+                        MessageFactory.text("end dialog", extra = main))
+                    return await step_context.end_dialog() 
