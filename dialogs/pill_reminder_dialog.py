@@ -45,6 +45,13 @@ class PillReminderDialog(ComponentDialog):
         global token
         global pharmacyId
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
+        wks.update_acell("E4", str(step_context.context.activity.text))
+        wks.update_acell("E5", str(step_context.context.activity))
+
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
