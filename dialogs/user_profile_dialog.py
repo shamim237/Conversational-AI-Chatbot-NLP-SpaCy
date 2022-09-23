@@ -181,7 +181,11 @@ class UserProfileDialog(ComponentDialog):
         step_context.values["goodbad"] = step_context.result
         health = predict_class(step_context.values["goodbad"])
 
+        wks.update_acell("C11", str(step_context.context.activity.text))
+
+
         if step_context.context.activity.text == "end dialog now":
+            wks.update_acell("C12", str(step_context.context.activity.text))
             return await step_context.end_dialog()
 
         else:
