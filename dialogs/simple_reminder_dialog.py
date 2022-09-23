@@ -1,4 +1,4 @@
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
@@ -10,7 +10,8 @@ from adv_pill_reminder import save_reminder_spec_days_multi_time
 import recognizers_suite as Recognizers
 from recognizers_suite import Culture 
 import gspread
-from botbuilder.schema import CardAction, ActionTypes, SuggestedActions
+from lib.card import CardAction
+from botbuilder.schema import ActionTypes, SuggestedActions
 
 
 class SimplePillReminderDialog(ComponentDialog):

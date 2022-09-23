@@ -4,7 +4,6 @@ from user_info import check_name
 from user_info import outlet_ids
 from appointment import appoint_id, save_appoint, date_cal
 from recognizers_suite import Culture
-import recognizers_suite as Recognizers
 from datetime import datetime, timedelta
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
@@ -18,7 +17,7 @@ from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
 from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
-from outlets2 import get_pharmacist_id, get_slots, get_slots_sup, pharmacist_name
+from outlets2 import get_pharmacist_id, get_slots_sup, pharmacist_name
 from botbuilder.schema import ActionTypes, SuggestedActions
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog

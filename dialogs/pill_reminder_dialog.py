@@ -1,4 +1,4 @@
-from botbuilder.core import MessageFactory
+from lib.message_factory import MessageFactory
 from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepContext, ComponentDialog
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
@@ -6,6 +6,7 @@ from nlp_model.predict import predict_class
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
+from lib.card import CardAction
 import gspread
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.simple_reminder_dialog import SimplePillReminderDialog
