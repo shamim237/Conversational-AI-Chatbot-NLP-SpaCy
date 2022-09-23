@@ -186,7 +186,7 @@ class UserProfileDialog(ComponentDialog):
 
         if step_context.context.activity.text == "end dialog now":
             wks.update_acell("C12", str(step_context.context.activity.text))
-            return await step_context.reprompt_dialog()
+            return await step_context.end_active_dialog()
 
         else:
 
@@ -287,7 +287,7 @@ class UserProfileDialog(ComponentDialog):
 
         if step_context.context.activity.text == "end dialog now":
             wks.update_acell("C13", str(step_context.context.activity.text))
-            return await step_context.reprompt_dialog()
+            return await step_context.end_active_dialog()
 
         else:
 
@@ -422,7 +422,8 @@ class UserProfileDialog(ComponentDialog):
         msg = predict_class(msg)
 
         if step_context.context.activity.text == "end dialog now":
-            return await step_context.end_dialog()
+            wks.update_acell("C14", str(step_context.context.activity.text))
+            return await step_context.end_active_dialog()
 
         else:
 
