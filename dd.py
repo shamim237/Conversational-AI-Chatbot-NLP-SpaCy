@@ -210,11 +210,11 @@
 # from recognizers_suite import Culture
 
 # culture = Culture.English
-# time = "8 am"
+# time = "8.30 am"
 # # time = time.split(" ")
 # pm = ["AM", "PM", "A.M", "P.M", "am", "pm", "a.m", "p.m"]
 
-# if "AM" or "PM" or "A.M" or "P.M" or "am" or "pm" or "a.m" or "p.m" in time:
+# if "AM" in time or "PM" in time or "A.M" in time or "P.M" in time or "am" in time or "pm" in time or "a.m" in time or "p.m" in time:
 #     print(time)
 # else:
 #     print("time nai")
