@@ -268,11 +268,11 @@ class caseSevenDialog(ComponentDialog):
         global duration
         global times
 
-        wks.update_acell("C1", str(dosages))
-        wks.update_acell("C2", str(duration))
-        wks.update_acell("C3", str(med_names[0]))
-        wks.update_acell("C4", str("".join(times)))
-        wks.update_acell("C5", "entered")
+        # wks.update_acell("C1", str(dosages))
+        # wks.update_acell("C2", str(duration))
+        # wks.update_acell("C3", str(med_names[0]))
+        # wks.update_acell("C4", str("".join(times)))
+        # wks.update_acell("C5", "entered")
 
         if dosages == "tablet dose":
             wks.update_acell("C6", "entered")
@@ -559,26 +559,40 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog() 
 
+        wks.update_acell("D30", str(times))
+        wks.update_acell("D31", str(step_context.result))
+        wks.update_acell("D32", str(dosages2))
 
         if dosages2 == "tablet dose2":
             dosage      = step_context.result
             dosage      = str(dosage)
+            wks.update_acell("D33", str(dosage))
             dosage      = dosage.lower()
             dosage      = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
+            wks.update_acell("D34", str(dosage))
             med_type    = "0"
             pill_name   = med_names[0]
+            wks.update_acell("D35", str(pill_name))
             patientid   = userId
             pharmacyid  = pharmacyId
             tokens      = token
+            wks.update_acell("D36", str(patientid))
+            wks.update_acell("D37", str(pharmacyid))
+            wks.update_acell("D38", str(tokens))
             color_code  = "#DB4F64"
             pill_time   = times
+            wks.update_acell("D39", str(pill_time))
             shape_type  = "0"
             place       = ""
             dosage_ml   = ""
+            wks.update_acell("D40", str(duration))
             duration    = str(duration)
             duration    = duration.lower()
+            wks.update_acell("D41", str(duration))
             duration    = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
+            wks.update_acell("D42", str(duration))
             dates       = cal_date_by_day(days, duration)
+            wks.update_acell("D43", str(dates))
             save_reminder_spec_days_multi_time(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
