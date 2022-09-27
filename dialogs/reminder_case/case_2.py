@@ -99,17 +99,23 @@ class caseTwoDialog(ComponentDialog):
         
         time = step_context.result
         culture = Culture.English
+        times = [] 
         if "AM" or "PM" or "A.M" or "P.M" or "am" or "pm" or "a.m" or "p.m" in time:
             raw = Recognizers.recognize_datetime(str(time), culture)
+            for i in raw:
+                raw = i.resolution
+                dd = raw['values']
+                for j in dd:
+                    tim = j['value']  
+                    times.append(tim)     
         else: 
-            raw = Recognizers.recognize_datetime(str(time) + " in the " + str(u_times[0]), culture) 
-        times = []     
-        for i in raw:
-            raw = i.resolution
-            dd = raw['values']
-            for j in dd:
-                tim = j['value']  
-                times.append(tim)     
+            raw = Recognizers.recognize_datetime(str(time) + " in the " + str(u_times[0]), culture)
+            for i in raw:
+                raw = i.resolution
+                dd = raw['values']
+                for j in dd:
+                    tim = j['value']  
+                    times.append(tim)      
 
         wks.update_acell("A30", str(times))
 
@@ -342,7 +348,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = "#DB4F64"
-            pill_time = time
+            pill_time = times[0]
             shape_type = "0"
             place = ""
             dosage_ml = ""
@@ -353,7 +359,6 @@ class caseTwoDialog(ComponentDialog):
             wks.update_acell("Q7", str(duration))
             duration = duration.replace("for ", "").replace("about ", "").replace("almost ", "")
             wks.update_acell("Q8", "entered1")
-
             dates = cal_date_adv(duration)
             wks.update_acell("Q9", "entered2")
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
@@ -410,7 +415,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = time 
+            pill_time = times[0] 
             shape_type = "-1"
             place = ""
             dosage_ml = ""
@@ -438,7 +443,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = time
+            pill_time = times[0]
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -466,7 +471,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = time
+            pill_time = times[0]
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -589,7 +594,7 @@ class caseTwoDialog(ComponentDialog):
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
-            pill_time = time
+            pill_time = times[0]
             color_code = ""
             shape_type = "-1"
             dosage_ml = ""
@@ -619,7 +624,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = "#DB4F64"
-            pill_time = time
+            pill_time = times[0]
             shape_type = "0"
             place = ""
             dosage_ml = ""
@@ -678,7 +683,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = time 
+            pill_time = times[0] 
             shape_type = "-1"
             place = ""
             dosage_ml = ""
@@ -704,7 +709,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = time
+            pill_time = times[0]
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -730,7 +735,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = time
+            pill_time = times[0]
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -809,7 +814,7 @@ class caseTwoDialog(ComponentDialog):
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
-            pill_time = time
+            pill_time = times[0]
             color_code = ""
             shape_type = "-1"
             dosage_ml = ""
@@ -836,7 +841,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = "#DB4F64"
-            pill_time = time
+            pill_time = times[0]
             shape_type = "0"
             place = ""
             dosage_ml = ""
@@ -901,7 +906,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = time 
+            pill_time = times[0] 
             shape_type = "-1"
             place = ""
             dosage_ml = ""
@@ -930,7 +935,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = time
+            pill_time = times[0]
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -959,7 +964,7 @@ class caseTwoDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = time
+            pill_time = times[0]
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -993,7 +998,7 @@ class caseTwoDialog(ComponentDialog):
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
-            pill_time = time
+            pill_time = times[0]
             color_code = ""
             shape_type = "-1"
             dosage_ml = ""
