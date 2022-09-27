@@ -6,8 +6,6 @@ from botbuilder.schema import ChannelAccount
 from botbuilder.dialogs import Dialog
 from helpers.dialog_helper import DialogHelper
 import time
-import gspread
-from user_info import check_name
 
 class DialogBot(ActivityHandler):
     """
@@ -61,6 +59,7 @@ class DialogBot(ActivityHandler):
         await self.user_state.save_changes(turn_context)
 
     async def on_members_added_activity(self, members_added: ChannelAccount, turn_context: TurnContext):
+        
         """
         Greet when users are added to the conversation.
         Note that all channels do not send the conversation update activity.
@@ -68,53 +67,14 @@ class DialogBot(ActivityHandler):
         another channel the reason is most likely that the channel does not
         send this activity.
         """
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-
-        try:
-
-            wks.update_acell("C15", str(turn_context.activity.from_property.id))
-            wks.update_acell("C16", str(turn_context.activity.from_property.name))
-            wks.update_acell("C17", str(turn_context.activity.from_property.role))
-            wks.update_acell("C18", str(turn_context.activity.local_timestamp))
-            wks.update_acell("C19", str(turn_context.activity.local_timezone))
-            wks.update_acell("C20", str(turn_context.activity.locale))
-            wks.update_acell("C21", str(turn_context.activity))
-
-        except:
-            pass
-
-        name = check_name(turn_context.activity.from_property.id, turn_context.activity.from_property.role)
-        wks.update_acell("C22", str(name))
 
         for member in members_added:
             if member.id != turn_context.activity.recipient.id:
-                if name != "not found":
-                    await turn_context.send_activity("Hi there " + str(name) + "!")
-                else:
-                    await turn_context.send_activity("Hi there!")
+                    await turn_context.send_activity("Hello, Welcome to Jarvis Care!")
+                    await turn_context.send_activity("How can I help you?")
 
 
 
     async def on_message_activity(self, turn_context: TurnContext):
-        """
-        Respond to messages sent from the user.
-        """
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
-
-        try:
-
-            wks.update_acell("E25", str(turn_context.activity.from_property.id))
-            wks.update_acell("E26", str(turn_context.activity.from_property.name))
-            wks.update_acell("E27", str(turn_context.activity.from_property.role))
-            wks.update_acell("E28", str(turn_context.activity.additional_properties))
-
-        except:
-            pass
-
-        await turn_context.send_activity("I am checking the welcoming message!")
 
         await DialogHelper.run_dialog(self.dialog, turn_context, self.dialog_state_property,)
