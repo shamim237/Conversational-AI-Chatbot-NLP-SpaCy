@@ -89,18 +89,18 @@ class caseSevenDialog(ComponentDialog):
 
         global times
 
-        time = step_context.result
-        culture = Culture.English
-        raw = Recognizers.recognize_datetime(str(time), culture) 
-        times = []     
-        for i in raw:
-            raw = i.resolution
-            dd = raw['values']
-            for j in dd:
-                tim = j['value']  
-                times.append(tim)     
+        times = step_context.result
+        # culture = Culture.English
+        # raw = Recognizers.recognize_datetime(str(time), culture) 
+        # times = []     
+        # for i in raw:
+        #     raw = i.resolution
+        #     dd = raw['values']
+        #     for j in dd:
+        #         tim = j['value']  
+        #         times.append(tim)     
 
-        wks.update_acell("C15", str("".join(times)))
+        wks.update_acell("C15", str(times))
 
         return await step_context.prompt(
             TextPrompt.__name__,
