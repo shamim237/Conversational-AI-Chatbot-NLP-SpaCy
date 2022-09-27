@@ -17,21 +17,13 @@ class DialogBot(ActivityHandler):
     BotState objects are saved at the end of a turn.
     """
 
-    def __init__(
-        self,
-        expire_after_seconds: int,
-        conversation_state: ConversationState,
-        user_state: UserState,
-        dialog: Dialog,
-    ):
+    def __init__(self, expire_after_seconds: int, conversation_state: ConversationState, user_state: UserState, dialog: Dialog,):
+        
         if conversation_state is None:
             raise TypeError(
-                "[DialogBot]: Missing parameter. conversation_state is required but None was given"
-            )
+                "[DialogBot]: Missing parameter. conversation_state is required but None was given")
         if user_state is None:
-            raise TypeError(
-                "[DialogBot]: Missing parameter. user_state is required but None was given"
-            )
+            raise TypeError("[DialogBot]: Missing parameter. user_state is required but None was given")
         if dialog is None:
             raise Exception("[DialogBot]: Missing parameter. dialog is required")
 
@@ -67,7 +59,7 @@ class DialogBot(ActivityHandler):
         await self.conversation_state.save_changes(turn_context)
         await self.user_state.save_changes(turn_context)
 
-    async def on_members_added_activity(self, members_added: [ChannelAccount], turn_context: TurnContext):
+    async def on_members_added_activity(self, members_added: ChannelAccount, turn_context: TurnContext):
         """
         Greet when users are added to the conversation.
         Note that all channels do not send the conversation update activity.
@@ -89,15 +81,29 @@ class DialogBot(ActivityHandler):
         except:
             pass
 
-
         for member in members_added:
             if member.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity("Hi there")
 
 
     async def on_message_activity(self, turn_context: TurnContext):
-        await DialogHelper.run_dialog(
-            self.dialog,
-            turn_context,
-            self.dialog_state_property,
-        )
+        """
+        Respond to messages sent from the user.
+        """
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
+        try:
+
+            wks.update_acell("E25", str(turn_context.activity.from_property.id))
+            wks.update_acell("E26", str(turn_context.activity.from_property.name))
+            wks.update_acell("E27", str(turn_context.activity.from_property.role))
+            wks.update_acell("E28", str(turn_context.activity.additional_properties))
+
+        except:
+            pass
+
+        await turn_context.send_activity("I am checking the welcoming message!")
+
+        await DialogHelper.run_dialog(self.dialog, turn_context, self.dialog_state_property,)
