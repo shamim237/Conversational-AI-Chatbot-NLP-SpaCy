@@ -89,18 +89,18 @@ class caseSevenDialog(ComponentDialog):
 
         global times
 
-        times = step_context.result
-        # culture = Culture.English
-        # raw = Recognizers.recognize_datetime(str(time), culture) 
-        # times = []     
-        # for i in raw:
-        #     raw = i.resolution
-        #     dd = raw['values']
-        #     for j in dd:
-        #         tim = j['value']  
-        #         times.append(tim)     
+        time = step_context.result
+        culture = Culture.English
+        raw = Recognizers.recognize_datetime(str(time), culture) 
+        times = []     
+        for i in raw:
+            raw = i.resolution
+            dd = raw['values']
+            for j in dd:
+                tim = j['value']  
+                times.append(tim)     
 
-        wks.update_acell("C15", str(times))
+        wks.update_acell("D22", str(times))
 
         return await step_context.prompt(
             TextPrompt.__name__,
@@ -787,7 +787,7 @@ class caseSevenDialog(ComponentDialog):
             med_type    = "1"
             pill_name   = med_names[0]
             patientid   = userId
-            pharmacyid  = pharmacyId
+            pharmacyid  = pharmacyId 
             tokens      = token
             pill_time   = times
             color_code  = ""
