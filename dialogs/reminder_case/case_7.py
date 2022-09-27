@@ -521,6 +521,7 @@ class caseSevenDialog(ComponentDialog):
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
+        global duration
 
         if dropfor1 == "drop kothay":
             place       = step_context.result
@@ -778,6 +779,8 @@ class caseSevenDialog(ComponentDialog):
 
 
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
+
+        global duration
 
         if dropfor2 == "drop kothay2":
             place       = step_context.result
