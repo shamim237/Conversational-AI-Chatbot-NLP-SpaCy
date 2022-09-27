@@ -69,8 +69,6 @@ class PillReminderDialog(ComponentDialog):
         response = predict_class(step_context.result)
 
         if response == "adv_pill_reminder":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Thank You!", extra =  step_context.context.activity.text))
             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
         else:
@@ -93,8 +91,6 @@ class PillReminderDialog(ComponentDialog):
         wks.update_acell("E11", str(response))
         
         if response == "adv_pill_reminder":
-            await step_context.context.send_activity(
-                MessageFactory.text("Thank You!", extra =  step_context.context.activity.text))
             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
         else:
             await step_context.context.send_activity(

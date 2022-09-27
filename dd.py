@@ -206,14 +206,12 @@
 # # #datess = datetime.strftime(datess, '%Y-%m-%d')
 # # print(datess)
 
-# from recognizers_text import Culture, ModelResult,StringUtility
-# from recognizers_date_time import DateTimeRecognizer 
 # import recognizers_suite as Recognizers
 # from recognizers_suite import Culture
 
 # culture = Culture.English
 
-# usertext = "8 AM and 8 PM"
+# usertext = "4 in the afternoon"
 
 # extract = Recognizers.recognize_datetime(usertext, culture) 
 # times = []     

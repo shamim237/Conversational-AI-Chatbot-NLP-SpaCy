@@ -1,6 +1,8 @@
 import gspread
 from lib.message_factory import MessageFactory
 from lib.card import CardAction
+import recognizers_suite as Recognizers
+from recognizers_suite import Culture 
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
@@ -51,6 +53,7 @@ class caseTwoDialog(ComponentDialog):
         global userId
         global token
         global main
+        global wks
         global pharmacyId
 
         userId = step_context.context.activity.from_property.id
@@ -86,15 +89,30 @@ class caseTwoDialog(ComponentDialog):
 
 
         return await step_context.prompt(
-            "time_prompt",
+            TextPrompt.__name__,
             PromptOptions(prompt=MessageFactory.text("At what time in the " + str(u_times[0]) + " you need to take the medicine?", extra = main)),)
 
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        global time
+        global times
         
         time = step_context.result
+        culture = Culture.English
+        pm = ["AM", "PM", "A.M", "P.M", "am", "pm", "a.m", "p.m"]
+        if pm in time:
+            raw = Recognizers.recognize_datetime(str(time), culture)
+        else: 
+            raw = Recognizers.recognize_datetime(str(time) + " in the " + str(u_times[0]), culture) 
+        times = []     
+        for i in raw:
+            raw = i.resolution
+            dd = raw['values']
+            for j in dd:
+                tim = j['value']  
+                times.append(tim)     
+
+        wks.update_acell("A30", str(times))
 
         reply = MessageFactory.text("How often you would like to take the medicine? Will it be for daily or only for some specific days?", extra = main)
         reply.suggested_actions = SuggestedActions(
