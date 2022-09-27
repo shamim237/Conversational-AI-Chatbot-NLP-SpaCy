@@ -2,9 +2,11 @@
 # Licensed under the MIT License.
 
 from botbuilder.core import ActivityHandler, ConversationState, TurnContext, UserState
+from botbuilder.schema import ChannelAccount
 from botbuilder.dialogs import Dialog
 from helpers.dialog_helper import DialogHelper
 import time
+import gspread
 
 class DialogBot(ActivityHandler):
     """
@@ -65,10 +67,37 @@ class DialogBot(ActivityHandler):
         await self.conversation_state.save_changes(turn_context)
         await self.user_state.save_changes(turn_context)
 
+    async def on_members_added_activity(self, members_added: [ChannelAccount], turn_context: TurnContext):
+        """
+        Greet when users are added to the conversation.
+        Note that all channels do not send the conversation update activity.
+        If you find that this bot works in the emulator, but does not in
+        another channel the reason is most likely that the channel does not
+        send this activity.
+        """
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
+
+        try:
+
+            wks.update_acell("C15", str(turn_context.activity.from_property.id))
+            wks.update_acell("C16", str(turn_context.activity.from_property.name))
+            wks.update_acell("C17", str(turn_context.activity.from_property.role))
+            wks.update_acell("C18", str(turn_context.activity.additional_properties))
+
+        except:
+            pass
+
+
+        for member in members_added:
+            if member.id != turn_context.activity.recipient.id:
+                await turn_context.send_activity("Hi there")
+
+
     async def on_message_activity(self, turn_context: TurnContext):
         await DialogHelper.run_dialog(
             self.dialog,
             turn_context,
-            # self.conversation_state.create_property("DialogState"),
             self.dialog_state_property,
         )
