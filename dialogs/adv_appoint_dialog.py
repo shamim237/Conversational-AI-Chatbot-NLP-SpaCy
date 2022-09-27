@@ -154,7 +154,6 @@ class SupAdvBookAppDialog(ComponentDialog):
             today = datetime.strptime(today, "%Y-%m-%d").date()  
 
 
-
             if datek is None:
                 case1a = "abar date nibo"
                 await step_context.context.send_activity(
@@ -185,7 +184,7 @@ class SupAdvBookAppDialog(ComponentDialog):
 
             else:
                 
-                slots = get_slots_sup(pharmacistsIds, datek, timet[0], token)
+                slots = get_slots_sup(pharmacistsIds, datek, timet[0], timey, token)
 
                 if slots is None:
                     case1a = "different time"

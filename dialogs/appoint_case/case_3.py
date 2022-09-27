@@ -141,7 +141,7 @@ class caseThreeDialog(ComponentDialog):
         outletName3x       = outlet_name(outletId, token)
         pharmacistsIds   = get_pharmacist_id(pharmacyId, outletId)  
         wks.update_acell("O3", str(pharmacistsIds))           
-        slots3x          = get_slots_sup(pharmacistsIds, date3x, time3x[0], token)
+        slots3x          = get_slots_sup(pharmacistsIds, date3x, time3x[0], timey, token)
 
 
         if slots3x is None:
