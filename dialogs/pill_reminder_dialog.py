@@ -6,7 +6,6 @@ from nlp_model.predict import predict_class
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
-from lib.card import CardAction
 import gspread
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.simple_reminder_dialog import SimplePillReminderDialog
@@ -59,7 +58,7 @@ class PillReminderDialog(ComponentDialog):
 
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("Please provide medicine name, dosage, time and duration for setting up the pill reminder.\n\nExample: remind me to take Aspirin 100mg tablets daily at 10 am for 3 weeks.", extra =  step_context.context.activity.text)),)  
+            PromptOptions(prompt=MessageFactory.text("Please provide medicine name, dosage, time and duration for setting up the pill reminder.\n\nEx: remind me to take Aspirin 100mg tablets daily at 10 am for 3 weeks.", extra =  step_context.context.activity.text)),)  
 
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:

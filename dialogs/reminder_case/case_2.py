@@ -129,13 +129,13 @@ class caseTwoDialog(ComponentDialog):
             daily = "daily nite chaise"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hints- 7 days/ 2 weeks/ 3 months.", extra = main)),) 
+                PromptOptions(prompt=MessageFactory.text("How long do you have to take this medicine? Ex: 7 days or 2 weeks or 3 months.", extra = main)),) 
 
         if periodss == "Specific Days":
             specific = "specific days nite chaise"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Please enter those days on which you want to take the medicine. Hint- Saturday/ Monday/ Friday.", extra = main)),)        
+                PromptOptions(prompt=MessageFactory.text("Please enter those days on which you want to take the medicine. Ex: Saturday or Monday or Friday.", extra = main)),)        
 
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -266,7 +266,7 @@ class caseTwoDialog(ComponentDialog):
                 recurr_or_not = "asking"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint: 2 weeks/ 1 month/ 3 months.", extra = main)),)
+                    PromptOptions(prompt=MessageFactory.text("How long do you have to take this medicine? Hint: 2 weeks/ 1 month/ 3 months.", extra = main)),)
             else:
                 med_types2 = "type nite hobe2"
                 reply = MessageFactory.text("Please help me to recognize the type of medicine-", extra = main)

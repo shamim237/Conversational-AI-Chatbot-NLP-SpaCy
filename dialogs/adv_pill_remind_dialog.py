@@ -177,39 +177,39 @@ class AdvPillReminderDialog(ComponentDialog):
         #remind me to take Sapa at 4pm. (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second...", extra = main))           
+                MessageFactory.text("Please wait for a second...", extra = main))           
             return await step_context.begin_dialog(caseOneDialog.__name__, main)
 
         
         #remind me to take Maxpro 50mg at morning. (done)
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" in classes and "QUANT" not in classes and "MED_TYPE" not in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second...", extra = main))           
+                MessageFactory.text("Please wait for a second...", extra = main))           
             return await step_context.begin_dialog(caseTwoDialog.__name__, main)
 
         
         #remind me to take 10ml Benadryl from tomorrow (done)
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" in classes and "MED_TYPE" not in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second...", extra = main))           
+                MessageFactory.text("Please wait for a second...", extra = main))           
             return await step_context.begin_dialog(caseThreeDialog.__name__, main)
 
         #set a pill reminder for bendix tablet daily at 9 pm (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second...", extra = main))           
+                MessageFactory.text("Please wait for a second...", extra = main))           
             return await step_context.begin_dialog(caseFourDialog.__name__, main)        
 
         #set a pill reminder for bendix tablet daily at 9 pm for 6 months (done)
         if "MED_NAME" in classes and "TIME" in classes and "PERIOD" in classes and "DURATION" in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" not in classes and "MED_TYPE" in classes and "MULTI_REMIND" not in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second...", extra = main))           
+                MessageFactory.text("Please wait for a second...", extra = main))           
             return await step_context.begin_dialog(caseFiveDialog.__name__, main)   
 
         #remind me to take 5ml glucoplus twice a day
         if "MED_NAME" in classes and "TIME" not in classes and "PERIOD" not in classes and "DURATION" not in classes and "START_DATE" not in classes and "END_DATE" not in classes and "U_TIME" not in classes and "QUANT" in classes and "MED_TYPE" not in classes and "MULTI_REMIND" in classes:
             await step_context.context.send_activity(
-                MessageFactory.text("Wait a second...", extra = main))           
+                MessageFactory.text("Please wait for a second...", extra = main))           
             return await step_context.begin_dialog(caseSixDialog.__name__, main)            
 
         #remind me to take Fexo daily at 4pm. (done)
@@ -217,7 +217,7 @@ class AdvPillReminderDialog(ComponentDialog):
             date_med = "just name,time and period is here-med_date needs to be added"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.", extra = main)),)
+                PromptOptions(prompt=MessageFactory.text("How long do you have to take this medicine? Ex:- 7 days or 2 weeks or 3 months.", extra = main)),)
 
         
         #remind me to take napa everyday at night. (done)
@@ -516,7 +516,7 @@ class AdvPillReminderDialog(ComponentDialog):
             dura44 = "duration nite hbe"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.", extra = main)),)
+                PromptOptions(prompt=MessageFactory.text("How long do you have to take this medicine? Ex:- 7 days or 2 weeks or 3 months.", extra = main)),)
 
 ################################################################################ CASE-2 ############################################################################################################################################
 ############################################################## remind me to take napa daily at morning for three weeks. #############################################################################################################################################

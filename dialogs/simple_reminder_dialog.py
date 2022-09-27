@@ -69,7 +69,7 @@ class SimplePillReminderDialog(ComponentDialog):
 
         return await step_context.prompt(
             "time_prompt",
-            PromptOptions(prompt=MessageFactory.text("At what time would you like me to remind you to take the medicine? Hint- 6 AM.", extra = main)),)  
+            PromptOptions(prompt=MessageFactory.text("At what time would you like me to remind you to take the medicine? Ex: 6 AM.", extra = main)),)  
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:  
@@ -90,7 +90,7 @@ class SimplePillReminderDialog(ComponentDialog):
 
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("How many days do you have to take this medicine? Hint- 7 days/2 weeks/3 months.", extra = main)),) 
+            PromptOptions(prompt=MessageFactory.text("How long do you have to take this medicine? Ex: 7 days or 2 weeks or 3 months.", extra = main)),) 
 
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -165,7 +165,7 @@ class SimplePillReminderDialog(ComponentDialog):
             spec = "specific days nite chaise"
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Please enter those days on which you want to take the medicine. Hint- Saturday/Monday/Friday.", extra = main)),)            
+                PromptOptions(prompt=MessageFactory.text("Please enter those days on which you want to take the medicine. Ex: Saturday or Monday or Friday.", extra = main)),)            
 
 
     async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
