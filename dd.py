@@ -210,14 +210,14 @@
 # from recognizers_suite import Culture
 
 # culture = Culture.English
-time = "8 am"
-# time = time.split(" ")
-pm = ["AM", "PM", "A.M", "P.M", "am", "pm", "a.m", "p.m"]
+# time = "8 am"
+# # time = time.split(" ")
+# pm = ["AM", "PM", "A.M", "P.M", "am", "pm", "a.m", "p.m"]
 
-if "AM" or "PM" or "A.M" or "P.M" or "am" or "pm" or "a.m" or "p.m" in time:
-    print(time)
-else:
-    print("time nai")
+# if "AM" or "PM" or "A.M" or "P.M" or "am" or "pm" or "a.m" or "p.m" in time:
+#     print(time)
+# else:
+#     print("time nai")
 # usertext = "4 in the afternoon"
 
 # extract = Recognizers.recognize_datetime(usertext, culture) 
