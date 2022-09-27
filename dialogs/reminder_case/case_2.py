@@ -99,8 +99,7 @@ class caseTwoDialog(ComponentDialog):
         
         time = step_context.result
         culture = Culture.English
-        pm = ["AM", "PM", "A.M", "P.M", "am", "pm", "a.m", "p.m"]
-        if pm in time:
+        if "AM" or "PM" or "A.M" or "P.M" or "am" or "pm" or "a.m" or "p.m" in time:
             raw = Recognizers.recognize_datetime(str(time), culture)
         else: 
             raw = Recognizers.recognize_datetime(str(time) + " in the " + str(u_times[0]), culture) 
