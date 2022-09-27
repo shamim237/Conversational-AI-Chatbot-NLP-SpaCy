@@ -42,5 +42,15 @@ def outlet_ids(userId, token):
         st = dictFromServer['response']['patientData']['outletId']
         return st
 
-# ss = outlet_ids("106", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjM2MDUxMzYsImV4cCI6MTY2NDIwOTkzNiwiaWF0IjoxNjYzNjA1MTM2fQ.-BBawUW5Nrwhw510dPOsUf__RO_gNHI68YdsenoIWHA")
-# print(ss)
+
+
+def check(userId, token):
+    headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
+    params = {"patientId": userId}
+    res = requests.get('https://jarvin-dev.azurewebsites.net/api/GetPatientById', params=params, headers= headers)
+    dictFromServer = res.json()
+    stat = dictFromServer
+    return stat
+
+ss = check("106", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjQxOTI1NDMsImV4cCI6MTY2NDc5NzM0MywiaWF0IjoxNjY0MTkyNTQzfQ.6-Zp14oJBvDp3WEo8vC9ScgRsXFv6czBIeLhEWqU3I4")
+print(ss)

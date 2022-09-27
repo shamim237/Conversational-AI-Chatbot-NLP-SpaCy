@@ -7,6 +7,7 @@ from botbuilder.dialogs import Dialog
 from helpers.dialog_helper import DialogHelper
 import time
 import gspread
+from user_info import check_name
 
 class DialogBot(ActivityHandler):
     """
@@ -76,14 +77,24 @@ class DialogBot(ActivityHandler):
             wks.update_acell("C15", str(turn_context.activity.from_property.id))
             wks.update_acell("C16", str(turn_context.activity.from_property.name))
             wks.update_acell("C17", str(turn_context.activity.from_property.role))
-            wks.update_acell("C18", str(turn_context.activity.additional_properties))
+            wks.update_acell("C18", str(turn_context.activity.local_timestamp))
+            wks.update_acell("C19", str(turn_context.activity.local_timezone))
+            wks.update_acell("C20", str(turn_context.activity.locale))
+            wks.update_acell("C21", str(turn_context.activity))
 
         except:
             pass
 
+        name = check_name(turn_context.activity.from_property.id, turn_context.activity.from_property.role)
+        wks.update_acell("C22", str(name))
+
         for member in members_added:
             if member.id != turn_context.activity.recipient.id:
-                await turn_context.send_activity("Hi there")
+                if name != "not found":
+                    await turn_context.send_activity("Hi there " + str(name) + "!")
+                else:
+                    await turn_context.send_activity("Hi there!")
+
 
 
     async def on_message_activity(self, turn_context: TurnContext):
