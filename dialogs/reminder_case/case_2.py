@@ -101,6 +101,7 @@ class caseTwoDialog(ComponentDialog):
         culture = Culture.English
         times = [] 
         if "AM" or "PM" or "A.M" or "P.M" or "am" or "pm" or "a.m" or "p.m" in time:
+            wks.update_acell("A29", "entered1")
             raw = Recognizers.recognize_datetime(str(time), culture)
             for i in raw:
                 raw = i.resolution
@@ -109,7 +110,9 @@ class caseTwoDialog(ComponentDialog):
                     tim = j['value']  
                     times.append(tim)     
         else: 
-            raw = Recognizers.recognize_datetime(str(time) + " in the " + str(u_times[0]), culture)
+            wks.update_acell("A31", "entered2")
+            tt = str(time) + " in the " + str(u_times[0])
+            raw = Recognizers.recognize_datetime(tt, culture)
             for i in raw:
                 raw = i.resolution
                 dd = raw['values']
