@@ -206,10 +206,10 @@
 # # #datess = datetime.strftime(datess, '%Y-%m-%d')
 # # print(datess)
 
-import recognizers_suite as Recognizers
-from recognizers_suite import Culture
-
-culture = Culture.English
+# import recognizers_suite as Recognizers
+# from recognizers_suite import Culture
+# import re
+# culture = Culture.English
 # time = "8.30 am"
 # # time = time.split(" ")
 # pm = ["AM", "PM", "A.M", "P.M", "am", "pm", "a.m", "p.m"]
@@ -233,10 +233,12 @@ culture = Culture.English
 # times = ",".join(times)
 # print(times)
 # times=[]
-# time = 8
-# u_times = ["morning"]
-# tt = str(time) + " in the " + str(u_times[0])
-
+# # time = "9:30"
+# # u_times = ["afternoon"]
+# # tt = str(time) + " in the " + str(u_times[0])
+# tt = "12.30 a.m"
+# time = re.sub(r"(\d{1,10})\.(\d+)", r"\1:\2", tt)
+# print(time)
 # raw = Recognizers.recognize_datetime(tt, culture)
 # for i in raw:
 #     raw = i.resolution

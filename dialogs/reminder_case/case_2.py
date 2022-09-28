@@ -1,4 +1,5 @@
 import gspread
+import re
 from lib.message_factory import MessageFactory
 from lib.card import CardAction
 import recognizers_suite as Recognizers
@@ -98,10 +99,14 @@ class caseTwoDialog(ComponentDialog):
         global times
         
         time = step_context.result
+        time = str(time)
+        
         culture = Culture.English
         times = [] 
         if "AM" in time or "PM" in time or "A.M" in time or "P.M" in time or "am" in time or "pm" in time or "a.m" in time or "p.m" in time:
             wks.update_acell("A29", "entered1")
+            time = re.sub(r"(\d{1,10})\.(\d+)", r"\1:\2", time)
+            wks.update_acell("A32", str(time))
             raw = Recognizers.recognize_datetime(str(time), culture)
             for i in raw:
                 raw = i.resolution
@@ -111,6 +116,7 @@ class caseTwoDialog(ComponentDialog):
                     times.append(tim)     
         else: 
             wks.update_acell("A31", "entered2")
+            time = re.sub(r"(\d{1,10})\.(\d+)", r"\1:\2", time)
             tt = str(time) + " in the " + str(u_times[0])
             wks.update_acell("A32", str(tt))
             raw = Recognizers.recognize_datetime(tt, culture)
