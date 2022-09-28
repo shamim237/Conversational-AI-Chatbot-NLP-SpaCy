@@ -648,13 +648,17 @@ class caseTwoDialog(ComponentDialog):
         dropfor2 = "dksbnkjs"
         dosage2  = "kjsnkjsn"
 
+        wks.update_acell("F11", str(dosage_drop_2))
+
         if dosage_drop_2 == "koto drop2":
             dropfor2 = "drop kothay2"
+            wks.update_acell("F12", "entered")
             dosage   = step_context.result
+            wks.update_acell("F13", str(dosage))
             dosage   = str(dosage)
             dosage   = dosage.lower()
             dosage2   = dosage.replace("drops", "").replace("drop ", "")
-
+            wks.update_acell("F14", str(dosage2))
             reply = MessageFactory.text("Where to use the drop?", extra = main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
