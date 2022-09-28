@@ -822,22 +822,28 @@ class caseTwoDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-        wks.update_acell("P8", str(duration2))
+        # wks.update_acell("P8", str(duration2))
+        wks.update_acell("F23", str(dropfor2))
+        wks.update_acell("F24", str(dayss))
 
         if dropfor2 == "drop kothay2":
             place = step_context.result
+            wks.update_acell("F25", str(place))
             med_type = "1"
             pill_name = med_names[0]
+            wks.update_acell("F26", str(pill_name))
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
             pill_time = times[0]
+            wks.update_acell("F27", str(pill_time))
             color_code = ""
             shape_type = "-1"
             dosage_ml = ""
-
             dates = cal_day(dayss)
+            wks.update_acell("F28", str(dates))
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage2, color_code, shape_type, place, dosage_ml)
+            wks.update_acell("F29", str(dates))
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
