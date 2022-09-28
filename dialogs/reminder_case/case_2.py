@@ -112,6 +112,7 @@ class caseTwoDialog(ComponentDialog):
         else: 
             wks.update_acell("A31", "entered2")
             tt = str(time) + " in the " + str(u_times[0])
+            wks.update_acell("A32", str(tt))
             raw = Recognizers.recognize_datetime(tt, culture)
             for i in raw:
                 raw = i.resolution
