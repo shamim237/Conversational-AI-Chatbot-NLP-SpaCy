@@ -817,6 +817,7 @@ class caseTwoDialog(ComponentDialog):
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
         global duration2
+        global dayss
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
@@ -824,7 +825,6 @@ class caseTwoDialog(ComponentDialog):
         wks.update_acell("P8", str(duration2))
 
         if dropfor2 == "drop kothay2":
-
             place = step_context.result
             med_type = "1"
             pill_name = med_names[0]
@@ -1002,6 +1002,7 @@ class caseTwoDialog(ComponentDialog):
     async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global duration2
+        global dayss
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
