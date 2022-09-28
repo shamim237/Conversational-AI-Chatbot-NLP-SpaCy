@@ -301,7 +301,7 @@ class caseTwoDialog(ComponentDialog):
                 recurr_or_not = "asking"
                 return await step_context.prompt(
                     TextPrompt.__name__,
-                    PromptOptions(prompt=MessageFactory.text("How long do you have to take this medicine? Hint: 2 weeks/ 1 month/ 3 months.", extra = main)),)
+                    PromptOptions(prompt=MessageFactory.text("How long do you have to take this medicine? Ex: 7 days or 2 weeks or 3 months.", extra = main)),)
             else:
                 med_types2 = "type nite hobe2"
                 reply = MessageFactory.text("Please help me to recognize the type of medicine-", extra = main)
@@ -339,6 +339,11 @@ class caseTwoDialog(ComponentDialog):
 
         global duration
         global dayss
+        global med_types3
+        global duration2
+
+        med_types3 = "asaiksk"
+        duration2  = 'iaiaiai'
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
@@ -547,12 +552,6 @@ class caseTwoDialog(ComponentDialog):
                     TextPrompt.__name__,
                     PromptOptions(prompt=MessageFactory.text("How many mL has it been recommended?", extra = main)),)
 
-
-        global med_types3
-        global duration2
-
-        med_types3      = "jnsvbubsv"
-        duration2       = "snvsuivsv"
 
         if recurr_or_not == "asking":
             duration2 = step_context.result
@@ -859,12 +858,19 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog() 
 
+        global duration2
+
+        wks.update_acell("F30", str(duration2))
+        wks.update_acell("F31", str(dosage_tab_3))
+        wks.update_acell("F32", str(dayss))
 
         if dosage_tab_3 == "koto dosag3":
             dosage = step_context.result
+            wks.update_acell("F33", str(dosage))
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
+            wks.update_acell("F34", str(dosage))
             med_type = "0"
             pill_name = med_names[0]
             patientid = userId
@@ -872,14 +878,18 @@ class caseTwoDialog(ComponentDialog):
             tokens = token
             color_code = "#DB4F64"
             pill_time = times[0]
+            wks.update_acell("F35", str(pill_name))
+            wks.update_acell("F36", str(pill_time))
             shape_type = "0"
             place = ""
             dosage_ml = ""
-            wks.update_acell("Q8", str(duration2))
+            wks.update_acell("F37", str(duration2))
             duration2 = str(duration2)
             duration2 = duration2.lower()
             duration2 = duration2.replace("for", "").replace("about", "").replace("almost", "")
+            wks.update_acell("F38", str(duration2))
             dates = cal_date_by_day(dayss, duration2)
+            wks.update_acell("F39", str(duration2))
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
