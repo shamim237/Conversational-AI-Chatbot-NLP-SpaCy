@@ -180,6 +180,7 @@ class caseTwoDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
+        
 
         if daily == "daily nite chaise":
 
@@ -227,7 +228,8 @@ class caseTwoDialog(ComponentDialog):
 
 
     async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
+        global duration
+        global dayss
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
@@ -330,7 +332,8 @@ class caseTwoDialog(ComponentDialog):
     async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
         global duration
-        
+        global dayss
+
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
@@ -584,12 +587,13 @@ class caseTwoDialog(ComponentDialog):
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
         global duration
+        global dayss
         global duration2
 
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-        wks.update_acell("P7", str(duration2))
+        # wks.update_acell("P7", str(duration2))
         
         if dropfor1 == "drop kothay":
             place55 = step_context.result
@@ -615,20 +619,25 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog() 
 
-
+        wks.update_acell("G10", str(dosage_drop_2))
+        wks.update_acell("G11", str(dayss))
 
         if dosage_tab_2 == "koto dosage2":
             dosage = step_context.result
+            wks.update_acell("G12", str(dosage))
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
+            wks.update_acell("G13", str(dosage))
             med_type = "0"
             pill_name = med_names[0]
+            wks.update_acell("G13", str(pill_name))
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
             color_code = "#DB4F64"
             pill_time = times[0]
+            wks.update_acell("G13", str(pill_time))
             shape_type = "0"
             place = ""
             dosage_ml = ""
