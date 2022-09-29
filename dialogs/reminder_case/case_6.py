@@ -12,6 +12,7 @@ from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepC
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
 import recognizers_suite as Recognizers
 from recognizers_suite import Culture 
+from recognizers_number import recognize_number, Culture
 import gspread
 
 ####################################################  remind me to take 5ml glucoplus twice a day  #################################################################
@@ -98,7 +99,7 @@ class caseSixDialog(ComponentDialog):
             pass
 
         await step_context.context.send_activity(
-            MessageFactory.text("What times of the day do you want to take the medicine? Ex: 9 AM or 2 PM or 10 PM.", extra = main))
+            MessageFactory.text("At what times of the day do you want to take the medicine? Ex: 9 AM or 2 PM or 10 PM.", extra = main))
         return await step_context.prompt(
             TextPrompt.__name__,
             PromptOptions(prompt=MessageFactory.text("Please enter those times in the day.", extra = main)),) 
@@ -118,7 +119,6 @@ class caseSixDialog(ComponentDialog):
             for j in dd:
                 tim = j['value']  
                 timess.append(tim)    
-
 
         return await step_context.prompt(
             TextPrompt.__name__,
@@ -225,7 +225,17 @@ class caseSixDialog(ComponentDialog):
             wks.update_acell("F4", "entered")
 
             if typeo == "Tablet":
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 wks.update_acell("G4", str(dosage))
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
@@ -264,7 +274,17 @@ class caseSixDialog(ComponentDialog):
             if typeo == "Drop": 
 
                 dropfor1    = "drop kothay"
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage1     = dosage.replace("drops", "").replace("drop ", "")
@@ -292,7 +312,17 @@ class caseSixDialog(ComponentDialog):
 
 
             if typeo == "Capsule":
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage      = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
@@ -322,7 +352,17 @@ class caseSixDialog(ComponentDialog):
 
             if typeo == "Syringe":
                 wks.update_acell("G3", str(quants))
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 wks.update_acell("G4", str(dosage))
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
@@ -359,7 +399,17 @@ class caseSixDialog(ComponentDialog):
 
 
             if typeo == "Syrup":
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage_ml   = dosage.replace("mL", "").replace("ml", "")
@@ -471,7 +521,17 @@ class caseSixDialog(ComponentDialog):
             typeos = step_context.result
 
             if typeos == "Tablet":                     
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage      = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
@@ -500,7 +560,17 @@ class caseSixDialog(ComponentDialog):
 
             if typeos == "Drop": 
                 dropfor2    = "drop kothay2"
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage2     = dosage.replace("drops", "").replace("drop ", "")
@@ -527,7 +597,17 @@ class caseSixDialog(ComponentDialog):
 
             
             if typeos == "Capsule":
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage      = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
@@ -556,7 +636,17 @@ class caseSixDialog(ComponentDialog):
 
 
             if typeos == "Syringe":
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage_ml   = dosage.replace("mL", "").replace("ml", "")
@@ -585,7 +675,17 @@ class caseSixDialog(ComponentDialog):
 
 
             if typeos == "Syrup":
-                dosage      = quants
+                nums = []
+                if "a" != quants or "an" != quants:
+                    result = recognize_number(quants, Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage      = nums[0]
                 dosage      = str(dosage)
                 dosage      = dosage.lower()
                 dosage_ml   = dosage.replace("mL", "").replace("ml", "")

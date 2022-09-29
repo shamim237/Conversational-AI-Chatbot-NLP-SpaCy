@@ -52,5 +52,5 @@ def check(userId, token):
     stat = dictFromServer
     return stat
 
-ss = check("106", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNiIsIm5hbWUiOiJTaGFtaW0iLCJuYmYiOjE2NjQxOTI1NDMsImV4cCI6MTY2NDc5NzM0MywiaWF0IjoxNjY0MTkyNTQzfQ.6-Zp14oJBvDp3WEo8vC9ScgRsXFv6czBIeLhEWqU3I4")
-print(ss)
+# ss = check("131", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMSIsIm5hbWUiOiJEYXZpZCBHbGF1YmVyIEMuIExpbWEiLCJuYmYiOjE2NjQzODI1NjEsImV4cCI6MTY2NDk4NzM2MSwiaWF0IjoxNjY0MzgyNTYxfQ.UjvIDl9c5FQgypKGLmgMOq27HHpX8xcDky1-O23sITU")
+# print(ss)

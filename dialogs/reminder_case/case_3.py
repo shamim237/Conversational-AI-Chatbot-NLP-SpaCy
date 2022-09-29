@@ -2,6 +2,7 @@ import gspread
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from lib.message_factory import MessageFactory
+from recognizers_number import recognize_number, Culture
 from lib.card import CardAction
 from prompt.email_prompt import EmailPrompt
 from nlp_model.pill_predict import reminder_class
@@ -153,10 +154,17 @@ class caseThreeDialog(ComponentDialog):
         typeo = step_context.result
 
         if typeo == "Tablet":
-            dosage = quants[0]
-            dosage = str(dosage)
-            dosage = dosage.lower()
-            dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
+            nums = []
+            if "a" != quants or "an" != quants:
+                result = recognize_number(quants, Culture.English)
+                for i in result:
+                    k = i.resolution
+                    num = k['value']
+                    nums.append(num)
+            else:
+                num = "1"
+                nums.append(num)
+            dosage      = nums[0]
             med_type    = "0"
             pill_name   = med_names[0]
             patientid   = userId
@@ -188,10 +196,17 @@ class caseThreeDialog(ComponentDialog):
 
         if typeo == "Drop":
             dropfor1 = "drop kothay"
-            dosage  = quants[0]
-            dosage  = str(dosage)
-            dosage  = dosage.lower()
-            dosage1 = dosage.replace("drops", "").replace("drop ", "")
+            nums = []
+            if "a" != quants or "an" != quants:
+                result = recognize_number(quants, Culture.English)
+                for i in result:
+                    k = i.resolution
+                    num = k['value']
+                    nums.append(num)
+            else:
+                num = "1"
+                nums.append(num)
+            dosage1      = nums[0]
             reply = MessageFactory.text("Where to use the drop?", extra = main)
             reply.suggested_actions = SuggestedActions(
                 actions=[
@@ -215,10 +230,17 @@ class caseThreeDialog(ComponentDialog):
 
 
         if typeo == "Capsule":
-            dosage      = quants[0]
-            dosage      = str(dosage)
-            dosage      = dosage.lower()
-            dosage      = dosage.replace(" capsules", "").replace(" capsule", "").replace("caps", "")
+            nums = []
+            if "a" != quants or "an" != quants:
+                result = recognize_number(quants, Culture.English)
+                for i in result:
+                    k = i.resolution
+                    num = k['value']
+                    nums.append(num)
+            else:
+                num = "1"
+                nums.append(num)
+            dosage      = nums[0]
             med_type    = "2"
             pill_name   = med_names[0]
             patientid   = userId
@@ -246,12 +268,18 @@ class caseThreeDialog(ComponentDialog):
 
         if typeo == "Syringe":
             wks.update_acell("G2", "entered")
-            dosage       = quants[0]
-            wks.update_acell("G3", str(dosage))
-            dosage       = str(dosage)
-            dosage       = dosage.lower()
-            dosage_ml    = dosage.replace("mL", "").replace("ml", "")
-            wks.update_acell("G4", str(dosage))
+            nums = []
+            if "a" != quants or "an" != quants:
+                result = recognize_number(quants, Culture.English)
+                for i in result:
+                    k = i.resolution
+                    num = k['value']
+                    nums.append(num)
+            else:
+                num = "1"
+                nums.append(num)
+            dosage_ml      = nums[0]
+            wks.update_acell("G4", str(dosage_ml))
             med_type    = "3"
             pill_name   = med_names[0]
             patientid   = userId
@@ -281,10 +309,17 @@ class caseThreeDialog(ComponentDialog):
             return await step_context.end_dialog()  
 
         if typeo == "Syrup":
-            dosage      = quants[0]
-            dosage      = str(dosage)
-            dosage      = dosage.lower()
-            dosage_ml   = dosage.replace("mL", "").replace("ml", "")
+            nums = []
+            if "a" != quants or "an" != quants:
+                result = recognize_number(quants, Culture.English)
+                for i in result:
+                    k = i.resolution
+                    num = k['value']
+                    nums.append(num)
+            else:
+                num = "1"
+                nums.append(num)
+            dosage_ml      = nums[0]
             med_type    = "4"
             pill_name   = med_names[0]
             patientid   = userId

@@ -2,6 +2,7 @@ import gspread
 from word2number import w2n
 from recognizers_suite import Culture 
 import recognizers_suite as Recognizers
+from recognizers_number import recognize_number, Culture
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from lib.message_factory import MessageFactory
@@ -159,10 +160,6 @@ class AdvPillReminderDialog(ComponentDialog):
                 start_date = pred[x]
                 start_dates.append(start_date)
                 classes.append(x)
-            if x == "END_DATE":
-                end_date = pred[x]
-                end_dates.append(end_date)
-                classes.append(x)
             if x == "MULTI_REMIND":
                 multi_dose = pred[x]
                 multi_doses.append(multi_dose)
@@ -281,7 +278,17 @@ class AdvPillReminderDialog(ComponentDialog):
 
             if types in tablet:
                 med_types = "0"
-                dosage = quants[0]
+                nums = []
+                if "a" != quants[0] or "an" != quants[0]:
+                    result = recognize_number(quants[0], Culture.English)
+                    for i in result:
+                        k = i.resolution
+                        num = k['value']
+                        nums.append(num)
+                else:
+                    num = "1"
+                    nums.append(num)
+                dosage = nums[0]
                 pill_name = med_names[0]
                 pill_time = times[0]
                 patientid = userId

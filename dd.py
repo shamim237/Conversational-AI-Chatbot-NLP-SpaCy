@@ -208,9 +208,25 @@
 
 # import recognizers_suite as Recognizers
 # from recognizers_suite import Culture
-# import re
-# culture = Culture.English
-# time = "8.30 am"
+# # import re
+# # culture = Culture.English
+# # time = "a capsule"
+
+# from recognizers_number import recognize_number, Culture
+
+# result = recognize_number("4 ml", Culture.English)
+# nums = []
+# for i in result:
+#     k = i.resolution
+#     num = k['value']
+#     nums.append(num)
+
+# print(nums)
+# ss = "a"
+# if "a" != ss:
+#     print("nai")
+# else:
+#     print("ache")
 # # time = time.split(" ")
 # pm = ["AM", "PM", "A.M", "P.M", "am", "pm", "a.m", "p.m"]
 
@@ -220,12 +236,12 @@
 #     print("time nai")
 # usertext = "4 in the afternoon"
 
-# extract = Recognizers.recognize_datetime(usertext, culture) 
+# extract = Recognizers.recognize_datetime(time, culture) 
 # times = []     
 # for i in extract:
 #     keys = i.resolution
 #     values = keys['values']
-#     #print(keys)
+#     print(keys)
 #     for j in values:
 #         timea = j['value']  
 #         times.append(timea) 
@@ -246,7 +262,8 @@
 #     for j in dd:
 #         tim = j['value']  
 #         times.append(tim) 
-
+# from word2number import w2n
+# print(w2n.word_to_num("one"))
 # print(times)
 # recognizer = DateTimeRecognizer(Culture.English)
 # model = recognizer.get_datetime_model()
