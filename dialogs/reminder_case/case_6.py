@@ -284,11 +284,7 @@ class caseSixDialog(ComponentDialog):
                 else:
                     num = "1"
                     nums.append(num)
-                dosage      = nums[0]
-                dosage      = str(dosage)
-                dosage      = dosage.lower()
-                dosage1     = dosage.replace("drops", "").replace("drop ", "")
-
+                dosage1      = nums[0]
                 reply = MessageFactory.text("Where to use the drop?", extra = main)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
@@ -485,10 +481,11 @@ class caseSixDialog(ComponentDialog):
         global timess
         global duration
         global dropfor2
+        global dosage1
         global dosage2
 
         dropfor2 = "dksbnkjs"
-        dosage2  = "kjsnkjsn"
+        dosage2  = "kjsnksss"
 
         if dropfor1 == "drop kothay":
             place       = step_context.result
@@ -570,10 +567,7 @@ class caseSixDialog(ComponentDialog):
                 else:
                     num = "1"
                     nums.append(num)
-                dosage      = nums[0]
-                dosage      = str(dosage)
-                dosage      = dosage.lower()
-                dosage2     = dosage.replace("drops", "").replace("drop ", "")
+                dosage2      = nums[0]
                 reply = MessageFactory.text("Where to use the drop?", extra = main)
                 reply.suggested_actions = SuggestedActions(
                     actions=[
@@ -718,6 +712,7 @@ class caseSixDialog(ComponentDialog):
         
         global dayss
         global timess
+        global dosage2
         global duration
 
 
