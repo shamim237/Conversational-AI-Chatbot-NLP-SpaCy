@@ -1,4 +1,5 @@
 import gspread
+import re
 from word2number import w2n
 from recognizers_suite import Culture 
 import recognizers_suite as Recognizers
@@ -509,16 +510,35 @@ class AdvPillReminderDialog(ComponentDialog):
         dura44  = "snxsgsdg"
 
         if time_med == "just name,u_time and period is here-med_time needs to be added":
-            times = []
             time = step_context.result
+            time = str(time)
+            
             culture = Culture.English
-            ss = Recognizers.recognize_datetime(time, culture)  
-            for i in ss:
-                ss = i.resolution
-                dd = ss['values']
-                for j in dd:
-                    tim = j['value']  
-                    times.append(tim)   
+            times = [] 
+            if "AM" in time or "PM" in time or "A.M" in time or "P.M" in time or "am" in time or "pm" in time or "a.m" in time or "p.m" in time:
+                wks.update_acell("A29", "entered1")
+                time = re.sub(r"(\d{1,10})\.(\d+)", r"\1:\2", time)
+                wks.update_acell("A32", str(time))
+                raw = Recognizers.recognize_datetime(str(time), culture)
+                for i in raw:
+                    raw = i.resolution
+                    dd = raw['values']
+                    for j in dd:
+                        tim = j['value']  
+                        times.append(tim)     
+            else: 
+                wks.update_acell("A31", "entered2")
+                time = re.sub(r"(\d{1,10})\.(\d+)", r"\1:\2", time)
+                tt = str(time) + " in the " + str(u_times[0])
+                wks.update_acell("A32", str(tt))
+                raw = Recognizers.recognize_datetime(tt, culture)
+                for i in raw:
+                    raw = i.resolution
+                    dd = raw['values']
+                    for j in dd:
+                        tim = j['value']  
+                        times.append(tim)   
+                        
             times44 = times[0]
             dura44 = "duration nite hbe"
             return await step_context.prompt(
