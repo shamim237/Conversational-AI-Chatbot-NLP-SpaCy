@@ -538,7 +538,7 @@ class AdvPillReminderDialog(ComponentDialog):
                     for j in dd:
                         tim = j['value']  
                         times.append(tim)   
-                        
+
             times44 = times[0]
             dura44 = "duration nite hbe"
             return await step_context.prompt(
@@ -551,16 +551,35 @@ class AdvPillReminderDialog(ComponentDialog):
 
         if time_med == "just name,u_time,period and duration is here-med_time needs to be added":
             types_med = "type nite hobe"   
-            times1 = []
-            time1 = step_context.result
+            time = step_context.result
+            time = str(time)
+            
             culture = Culture.English
-            ss = Recognizers.recognize_datetime(time1, culture)  
-            for i in ss:
-                ss = i.resolution
-                dd = ss['values']
-                for j in dd:
-                    tim = j['value']  
-                    times1.append(tim)   
+            times1 = [] 
+            if "AM" in time or "PM" in time or "A.M" in time or "P.M" in time or "am" in time or "pm" in time or "a.m" in time or "p.m" in time:
+                wks.update_acell("A29", "entered1")
+                time = re.sub(r"(\d{1,10})\.(\d+)", r"\1:\2", time)
+                wks.update_acell("A32", str(time))
+                raw = Recognizers.recognize_datetime(str(time), culture)
+                for i in raw:
+                    raw = i.resolution
+                    dd = raw['values']
+                    for j in dd:
+                        tim = j['value']  
+                        times1.append(tim)     
+            else: 
+                wks.update_acell("A31", "entered2")
+                time = re.sub(r"(\d{1,10})\.(\d+)", r"\1:\2", time)
+                tt = str(time) + " in the " + str(u_times[0])
+                wks.update_acell("A32", str(tt))
+                raw = Recognizers.recognize_datetime(tt, culture)
+                for i in raw:
+                    raw = i.resolution
+                    dd = raw['values']
+                    for j in dd:
+                        tim = j['value']  
+                        times1.append(tim)    
+                          
             timess = times1[0]
 
             wks.update_acell("A3", str(timess))
@@ -826,7 +845,6 @@ class AdvPillReminderDialog(ComponentDialog):
 
         if types_med == "type nite hobe" and time_med == "just name,u_time,period and duration is here-med_time needs to be added":
             med_type1 = step_context.result
-            # wks.update_acell("A4", str(med_type1))
             if med_type1 == "Tablet":
                 dosage_tab_11 = "koto dosage11"
                 return await step_context.prompt(
@@ -1441,7 +1459,7 @@ class AdvPillReminderDialog(ComponentDialog):
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog() 
