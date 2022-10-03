@@ -49,7 +49,6 @@ class ToBeLoggedInDialog(ComponentDialog):
             WaterfallDialog(
                 "WFDialog",
                 [
-                    self.initial_step,
                     self.scnd2_step,
                     self.third_step,
                     self.fourths_step,
@@ -67,60 +66,61 @@ class ToBeLoggedInDialog(ComponentDialog):
 
         self.initial_dialog_id = "WFDialog"
 
-    async def initial_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    # async def initial_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        global main
-
-        main = step_context.context.activity.text
        
-        msg = predict_class(step_context.context.activity.text)
-        if msg == "morning":
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Good Morning! How are you doing today?", extra = step_context.context.activity.text)),)
-        if msg == "afternoon":
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Good Afternoon! How can I help you today?", extra = step_context.context.activity.text)),)
-        if msg == "evening":
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Good Evening! How may I assist you today?", extra = step_context.context.activity.text)),)
+        # msg = predict_class(step_context.context.activity.text)
+        # if msg == "morning":
+        #     return await step_context.prompt(
+        #         TextPrompt.__name__,
+        #         PromptOptions(
+        #             prompt=MessageFactory.text("Good Morning! How are you doing today?", extra = step_context.context.activity.text)),)
+        # if msg == "afternoon":
+        #     return await step_context.prompt(
+        #         TextPrompt.__name__,
+        #         PromptOptions(
+        #             prompt=MessageFactory.text("Good Afternoon! How can I help you today?", extra = step_context.context.activity.text)),)
+        # if msg == "evening":
+        #     return await step_context.prompt(
+        #         TextPrompt.__name__,
+        #         PromptOptions(
+        #             prompt=MessageFactory.text("Good Evening! How may I assist you today?", extra = step_context.context.activity.text)),)
 
-        if msg ==  "whatsup":
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("I'm good. How about you?", extra = step_context.context.activity.text)),)
+        # if msg ==  "whatsup":
+        #     return await step_context.prompt(
+        #         TextPrompt.__name__,
+        #         PromptOptions(
+        #             prompt=MessageFactory.text("I'm good. How about you?", extra = step_context.context.activity.text)),)
 
-        if msg == "meet":
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Good to see you too. How may I help you today?", extra = step_context.context.activity.text)),)
+        # if msg == "meet":
+        #     return await step_context.prompt(
+        #         TextPrompt.__name__,
+        #         PromptOptions(
+        #             prompt=MessageFactory.text("Good to see you too. How may I help you today?", extra = step_context.context.activity.text)),)
 
-        if msg == "hey":
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Hey there, how are you feeling today?", extra = step_context.context.activity.text)),)
+        # if msg == "hey":
+        #     return await step_context.prompt(
+        #         TextPrompt.__name__,
+        #         PromptOptions(
+        #             prompt=MessageFactory.text("Hey there, how are you feeling today?", extra = step_context.context.activity.text)),)
 
-        else:
+        # else:
 
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Hello there! I am Jarvis, your personalized health assistant.", extra = step_context.context.activity.text))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("How are you feeling today?", extra = step_context.context.activity.text)),)
+        #     await step_context.context.send_activity(
+        #         MessageFactory.text(f"Hello there! I am Jarvis, your personalized health assistant.", extra = step_context.context.activity.text))
+        #     return await step_context.prompt(
+        #         TextPrompt.__name__,
+        #         PromptOptions(
+        #             prompt=MessageFactory.text("How are you feeling today?", extra = step_context.context.activity.text)),)
 
 
     async def scnd2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
         global prompts
+
+        global main
+
+        main = step_context.context.activity.text
         prompts = "nothing"
         
         health = predict_class(step_context.result)
@@ -128,41 +128,41 @@ class ToBeLoggedInDialog(ComponentDialog):
         if health == "good":
             prompts = "Would you like to subscribe to a daily health tip from an expert?"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today?", extra = main))
-            reply = MessageFactory.text("Would you like my help with any of these?" ,extra = main)
+                MessageFactory.text(f"Glad to hear it.\n\nHow can I help you today?", extra = step_context.context.activity.text))
+            reply = MessageFactory.text("Would you like my help with any of these?" , extra = step_context.context.activity.text)
             reply.suggested_actions = SuggestedActions(
                 actions=[
                     CardAction(
                         title = "Book an Appointment",
                         type  = ActionTypes.im_back,
                         value = "Book an Appointment",
-                        extra = main),
+                        extra = step_context.context.activity.text),
                     CardAction(
                         title = "Pill Reminder",
                         type  = ActionTypes.im_back,
                         value = "Pill Reminder",
-                        extra = main),
+                        extra = step_context.context.activity.text),
                     CardAction(
                         title = "Upload Health Records",
                         type  = ActionTypes.im_back,
                         value = "Upload Health Records",
-                        extra = main),
+                        extra = step_context.context.activity.text),
                         ])
             return await step_context.context.send_activity(reply, step_context.result)  
         if health == "bad":
             prompts = "Have you consulted with a Doctor/Pharmacist?"
             await step_context.context.send_activity(
-                MessageFactory.text(f"Sorry to hear that!", extra = main))
+                MessageFactory.text(f"Sorry to hear that!", extra = step_context.context.activity.text))
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Have you consulted with any Doctor/Pharmacist?", extra = main)),)
+                PromptOptions(prompt=MessageFactory.text("Have you consulted with any Doctor/Pharmacist?", extra = step_context.context.activity.text)),)
         else:
             prompts = "What would you like to start with?"
             await step_context.context.send_activity(
-                MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = main))
+                MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = step_context.context.activity.text))
             return await step_context.prompt(
                 TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = main)),)    
+                PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = step_context.context.activity.text)),)    
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
