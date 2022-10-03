@@ -163,7 +163,7 @@ class caseFourDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
         global dropfor1
         global dosage1
@@ -226,7 +226,7 @@ class caseFourDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
 
         if dosages == "syringe dose":
@@ -255,7 +255,7 @@ class caseFourDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
 
         if dosages == "syrup dose":
@@ -284,7 +284,7 @@ class caseFourDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -311,4 +311,4 @@ class caseFourDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")

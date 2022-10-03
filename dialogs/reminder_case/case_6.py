@@ -268,7 +268,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
     
 
             if typeo == "Drop": 
@@ -343,7 +343,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
         
 
             if typeo == "Syringe":
@@ -391,7 +391,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()    
+                return await step_context.replace_dialog("passing")   
 
 
             if typeo == "Syrup":
@@ -431,7 +431,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
         global dayss
         global med_type2
@@ -509,7 +509,7 @@ class caseSixDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage1) + " drops of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
 
 
@@ -553,7 +553,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
             if typeos == "Drop": 
                 dropfor2    = "drop kothay2"
@@ -626,7 +626,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()       
+                return await step_context.replace_dialog("passing")      
 
 
             if typeos == "Syringe":
@@ -665,7 +665,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()    
+                return await step_context.replace_dialog("passing")   
 
 
             if typeos == "Syrup":
@@ -705,7 +705,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()          
+                return await step_context.replace_dialog("passing")         
 
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
@@ -738,4 +738,4 @@ class caseSixDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage1) + " drops of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()         
+            return await step_context.replace_dialog("passing")        

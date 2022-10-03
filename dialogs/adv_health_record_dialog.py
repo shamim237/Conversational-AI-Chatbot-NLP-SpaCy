@@ -633,7 +633,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                                 MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                             await step_context.context.send_activity(
                                 MessageFactory.text("end dialog", extra = main))
-                            return await step_context.end_dialog()  
+                            return await step_context.replace_dialog("passing") 
 
                         if case6a == "upload attachments_case6": 
 
@@ -645,7 +645,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                                 MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
                             await step_context.context.send_activity(
                                 MessageFactory.text("end dialog", extra = main))
-                            return await step_context.end_dialog() 
+                            return await step_context.replace_dialog("passing")
 
                 else:
                     if case4a == "upload attachments_case4":
@@ -655,7 +655,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog() 
+                        return await step_context.replace_dialog("passing")
 
                     if case6a == "upload attachments_case6": 
 
@@ -667,7 +667,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog()  
+                        return await step_context.replace_dialog("passing") 
 
 
     async def sixth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -733,7 +733,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
 
                 if case5a == "upload attachments_case5": 
                     summary = ""
@@ -744,7 +744,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
@@ -795,7 +795,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                                 MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                             await step_context.context.send_activity(
                                 MessageFactory.text("end dialog", extra = main))
-                            return await step_context.end_dialog() 
+                            return await step_context.replace_dialog("passing")
 
                         if case4a == "upload attachments_case6":
 
@@ -807,7 +807,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                                 MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                             await step_context.context.send_activity(
                                 MessageFactory.text("end dialog", extra = main))
-                            return await step_context.end_dialog()                              
+                            return await step_context.replace_dialog("passing")                             
 
                 else:
                     if case4a == "upload attachments_case4":
@@ -817,7 +817,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog() 
+                        return await step_context.replace_dialog("passing")
 
                     if case4a == "upload attachments_case6":
 
@@ -829,7 +829,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                                 MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                             await step_context.context.send_activity(
                                 MessageFactory.text("end dialog", extra = main))
-                            return await step_context.end_dialog()                              
+                            return await step_context.replace_dialog("passing")                             
 
         if case4e == "add summary_case4":
             
@@ -862,7 +862,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog()  
+                        return await step_context.replace_dialog("passing") 
                     
                     if case4a == "upload attachments_case6":
 
@@ -873,7 +873,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog() 
+                        return await step_context.replace_dialog("passing")
 
             else:
                 if case4a == "upload attachments_case4":
@@ -883,7 +883,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()  
+                    return await step_context.replace_dialog("passing") 
 
                 if case4a == "upload attachments_case6":
 
@@ -894,7 +894,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()  
+                    return await step_context.replace_dialog("passing") 
 
         
         if case4e == "name nite hbe_case4":
@@ -907,7 +907,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
             if case4a == "upload attachments_case6":               
                 report_names = diagnostic[0]
                 report_typef = "Diagnostic Reports" 
@@ -916,7 +916,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()        
+                return await step_context.replace_dialog("passing")       
 
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -959,7 +959,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()  
+                    return await step_context.replace_dialog("passing") 
 
                 if case5a == "upload attachments_case5":
                     report_namet = diagnostic[0]
@@ -970,7 +970,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()  
+                    return await step_context.replace_dialog("passing") 
 
 
         if case3f == "report name name should take3_case3":
@@ -992,7 +992,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
 
                 if case5a == "upload attachments_case5":
                     summary = ""
@@ -1003,7 +1003,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()                      
+                    return await step_context.replace_dialog("passing")                     
 
 
         if case3f == "summary add korbe_case3":  
@@ -1015,7 +1015,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
             if case5a == "upload attachments_case5":
                 report_namet = diagnostic[0]
@@ -1025,7 +1025,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()                       
+                return await step_context.replace_dialog("passing")                      
 
 
 
@@ -1068,7 +1068,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog() 
+                        return await step_context.replace_dialog("passing")
                     if case4a == "upload attachments_case6":               
                         report_names = diagnostic[0]
                         report_typef = "Diagnostic Reports" 
@@ -1077,7 +1077,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog() 
+                        return await step_context.replace_dialog("passing")
                       
             else:
                 if case4a == "upload attachments_case4":
@@ -1086,7 +1086,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()    
+                    return await step_context.replace_dialog("passing")   
 
                 if case4a == "upload attachments_case6":               
                     report_names = diagnostic[0]
@@ -1096,7 +1096,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
 
 
 
@@ -1109,7 +1109,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
             if case4a == "upload attachments_case6":               
                 report_names = diagnostic[0]
                 report_typef = "Diagnostic Reports" 
@@ -1118,7 +1118,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()              
+                return await step_context.replace_dialog("passing")             
 
         if case4f == "name nite hbe_case4a":
             names = step_context.result
@@ -1128,7 +1128,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()               
+                return await step_context.replace_dialog("passing")              
             if case4a == "upload attachments_case6":               
                 report_names = diagnostic[0]
                 report_typef = "Diagnostic Reports"
@@ -1137,7 +1137,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()     
+                return await step_context.replace_dialog("passing")    
                 
 
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -1168,7 +1168,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()  
+                    return await step_context.replace_dialog("passing") 
 
                 if case5a == "upload attachments_case5":
                     report_namet = diagnostic[0]
@@ -1179,7 +1179,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
 
 
         if case3g == "summary add korbe1_case3":
@@ -1191,7 +1191,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
             
             if case5a == "upload attachments_case5":
                 report_namet = diagnostic[0]
@@ -1201,7 +1201,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
         
         if case3g == "summary add korbe2_case3":
@@ -1213,7 +1213,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types_case3) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
             
             if case5a == "upload attachments_case5":
                 report_namet = diagnostic[0]
@@ -1223,7 +1223,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
 #########################################################################################################################################################################################################################
 ##################################################################### Case 4: upload my prescriptions for covid test report #####################################################################################################################
@@ -1238,7 +1238,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types_case4) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
             if case4a == "upload attachments_case6":               
                 report_names = diagnostic[0]
@@ -1248,7 +1248,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_typef) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()   
+                return await step_context.replace_dialog("passing")  
 
 
     async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -1266,7 +1266,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types_case3b) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
             if case5a == "upload attachments_case5":
                 report_namet = diagnostic[0]
@@ -1276,7 +1276,7 @@ class AdvHealthRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_typet) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
 
  

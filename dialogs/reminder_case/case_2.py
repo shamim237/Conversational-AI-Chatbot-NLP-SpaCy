@@ -387,7 +387,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
         global dropfor1
         global dosage1
@@ -448,7 +448,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()  
+            return await step_context.replace_dialog("passing") 
 
         if dosage_inj == "koto dosage14":
             dosage = step_context.result
@@ -476,7 +476,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()  
+            return await step_context.replace_dialog("passing") 
 
         if dosage_syrup == "koto dosage15":
             dosage = step_context.result
@@ -504,7 +504,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()  
+            return await step_context.replace_dialog("passing") 
 
 
         global dosage_tab_2
@@ -622,7 +622,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage1) + " drops of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
         wks.update_acell("G10", str(dosage_drop_2))
         wks.update_acell("G11", str(dayss))
@@ -654,7 +654,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()  
+            return await step_context.replace_dialog("passing") 
 
         global dropfor2
         global dosage2
@@ -718,7 +718,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+  ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()  
+            return await step_context.replace_dialog("passing") 
 
         if dosage_inj_2 == "koto dosage2":
             dosage = step_context.result
@@ -744,7 +744,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()   
+            return await step_context.replace_dialog("passing")  
 
         if dosage_syrup_2 == "koto dosage2":
             dosage = step_context.result
@@ -770,7 +770,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
 
         global dosage_tab_3
@@ -856,7 +856,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage2) + " drops of " + str(pill_name) + " at " + str(pill_time) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
         global duration2
 
@@ -897,7 +897,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration2) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()    
+            return await step_context.replace_dialog("passing")   
 
 
         global dropfor3
@@ -961,7 +961,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration2) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()   
+            return await step_context.replace_dialog("passing")  
 
 
         if dosage_inj_3 == "koto dosage3":      
@@ -990,7 +990,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration2) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
 
         if dosage_syrup_3 == "koto dosage3":  
@@ -1019,7 +1019,7 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " at " + str(pill_time) + " for " + str(duration2) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()  
+            return await step_context.replace_dialog("passing") 
 
 
     async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -1054,4 +1054,4 @@ class caseTwoDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage3) + " drops of " + str(pill_name) + " at " + str(pill_time)  + " for " + str(duration2) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")

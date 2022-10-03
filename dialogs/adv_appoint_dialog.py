@@ -309,7 +309,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                         MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()                               
+                    return await step_context.replace_dialog("passing")                              
 
 
             if case1a == "confrim or not":
@@ -372,7 +372,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                         MessageFactory.text("Thank you for connecting with Jarvis Care.", extra = main))    
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))                                                 
-                    return await step_context.end_dialog()  
+                    return await step_context.replace_dialog("passing") 
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -433,7 +433,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                     await step_context.context.send_activity(reply)
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()    
+                    return await step_context.replace_dialog("passing")   
                 
                 else:
                     case1c = "update or not"
@@ -497,7 +497,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                         await step_context.context.send_activity(reply)
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog()   
+                        return await step_context.replace_dialog("passing")  
                     else:
                         await step_context.context.send_activity(
                             MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
@@ -512,7 +512,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                         await step_context.context.send_activity(reply)
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog()   
+                        return await step_context.replace_dialog("passing")  
 
                 else:
                     case1d = "update or not2"
@@ -536,7 +536,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                         MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
 
             
 
@@ -565,4 +565,4 @@ class SupAdvBookAppDialog(ComponentDialog):
                         MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")

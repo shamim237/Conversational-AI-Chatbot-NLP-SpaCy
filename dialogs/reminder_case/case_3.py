@@ -186,7 +186,7 @@ class caseThreeDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()  
+            return await step_context.replace_dialog("passing") 
 
 
         global dropfor1
@@ -262,7 +262,7 @@ class caseThreeDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
         wks.update_acell("G1", str(duration))
 
@@ -306,7 +306,7 @@ class caseThreeDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()  
+            return await step_context.replace_dialog("passing") 
 
         if typeo == "Syrup":
             nums = []
@@ -341,7 +341,7 @@ class caseThreeDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
 
             
@@ -369,4 +369,4 @@ class caseThreeDialog(ComponentDialog):
                 MessageFactory.text("I will remind you to take " + str(dosage1) + " drops of " + str(pill_name) + " at " + str(pill_time)+ " for " + str(duration) + ".", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")

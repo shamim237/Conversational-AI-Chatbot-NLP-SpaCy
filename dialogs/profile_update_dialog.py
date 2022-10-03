@@ -139,7 +139,7 @@ class HealthProfileDialog(ComponentDialog):
                     MessageFactory.text("You are in the state of emergency. Please call 911 or call for emergency help.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()           
+                return await step_context.replace_dialog("passing")          
 
         if profile1 == "high fever":
             yesno = predict_class(step_context.result)
@@ -291,7 +291,7 @@ class HealthProfileDialog(ComponentDialog):
                     MessageFactory.text("Okay. Thanks for connecting with jarvis!", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()          
+                return await step_context.replace_dialog("passing")         
         
         if profile3 == "sugrar level":
 
@@ -346,7 +346,7 @@ class HealthProfileDialog(ComponentDialog):
                     MessageFactory.text("Okay. Thanks for connecting with jarvis!", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()            
+                return await step_context.replace_dialog("passing")           
         
         if profile4 == "sugrar level2":
 

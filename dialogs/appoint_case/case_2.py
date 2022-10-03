@@ -256,7 +256,7 @@ class caseTwoDialog(ComponentDialog):
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -283,7 +283,7 @@ class caseTwoDialog(ComponentDialog):
                 await step_context.context.send_activity(reply)
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()    
+                return await step_context.replace_dialog("passing")   
             else:
                 case1d = "update or not2"
                 await step_context.context.send_activity(
@@ -330,7 +330,7 @@ class caseTwoDialog(ComponentDialog):
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
         if case1d == "question ask3xy":
             msgsc = predict_class(step_context.result)
@@ -348,7 +348,7 @@ class caseTwoDialog(ComponentDialog):
                 await step_context.context.send_activity(reply)
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()    
+                return await step_context.replace_dialog("passing")   
             else:
                 case1e = "update or not2x"
                 await step_context.context.send_activity(
@@ -372,4 +372,4 @@ class caseTwoDialog(ComponentDialog):
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")

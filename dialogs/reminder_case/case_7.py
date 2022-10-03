@@ -308,19 +308,19 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
             if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
         
         
         global dropfor1
@@ -385,7 +385,7 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
             if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
@@ -438,7 +438,7 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
 
         if dosages == "syrup dose":
@@ -480,7 +480,7 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
         global dosages2
         dosages2 = "aerara"
@@ -558,7 +558,7 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
         wks.update_acell("D30", str(times))
         wks.update_acell("D31", str(step_context.result))
@@ -679,19 +679,19 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0])+ " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
             if len(pill_time) == 2:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " at " + str(times[0]) + " and " + str(times[1]) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
 
         if dosages2 == "syringe dose2": 
@@ -733,7 +733,7 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
 
         if dosages2 == "syrup dose2":
@@ -775,7 +775,7 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
 
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
@@ -817,4 +817,4 @@ class caseSevenDialog(ComponentDialog):
                     MessageFactory.text("I will remind you to take " + str(dosage2) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")

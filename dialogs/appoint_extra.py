@@ -176,7 +176,7 @@ class AppointExtraDialog(ComponentDialog):
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()                      
+                return await step_context.replace_dialog("passing")                     
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -199,7 +199,7 @@ class AppointExtraDialog(ComponentDialog):
                 await step_context.context.send_activity(reply)
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()   
+                return await step_context.replace_dialog("passing")  
             
             else:
                 await step_context.context.send_activity(

@@ -388,7 +388,7 @@ class caseOneRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
 
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
@@ -425,7 +425,7 @@ class caseOneRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()                
+                return await step_context.replace_dialog("passing")               
 
 
         if case1g == "summary should take3":
@@ -446,7 +446,7 @@ class caseOneRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()               
+                return await step_context.replace_dialog("passing")              
 
         if case1g == "add summary":
 
@@ -456,7 +456,7 @@ class caseOneRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()     
+            return await step_context.replace_dialog("passing")    
 
 
     async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
@@ -481,7 +481,7 @@ class caseOneRecordDialog(ComponentDialog):
                     MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
 
         if case1h == "add summary2":
@@ -491,7 +491,7 @@ class caseOneRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Your " + str(report_types1) + " has been uploaded successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()             
+            return await step_context.replace_dialog("passing")            
 
         
         if case1h == "add summary3":
@@ -501,7 +501,7 @@ class caseOneRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Your " + str(report_types) + " has been uploaded successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog() 
+            return await step_context.replace_dialog("passing")
 
 
     async def tenth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:

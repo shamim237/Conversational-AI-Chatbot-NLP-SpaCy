@@ -1483,7 +1483,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                     MessageFactory.text(f"Please come again after login with the app.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()                
+                return await step_context.replace_dialog("passing")               
 
     async def reset5_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 

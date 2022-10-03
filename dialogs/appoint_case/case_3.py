@@ -219,7 +219,7 @@ class caseThreeDialog(ComponentDialog):
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()    
+                return await step_context.replace_dialog("passing")   
 
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -243,7 +243,7 @@ class caseThreeDialog(ComponentDialog):
                 await step_context.context.send_activity(reply)
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()    
+                return await step_context.replace_dialog("passing")   
             else:
                 case1d = "update or not2"
                 await step_context.context.send_activity(
@@ -269,4 +269,4 @@ class caseThreeDialog(ComponentDialog):
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")

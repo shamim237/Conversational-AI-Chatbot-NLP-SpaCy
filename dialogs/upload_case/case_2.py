@@ -292,7 +292,7 @@ class caseTwoRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_types_case2a) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog() 
+                        return await step_context.replace_dialog("passing")
                     else:
                         summary = ""
                         save_health_record_1(userId, reportName2a, summary, report_types_case2a, reportDoctor2a, namet, ids2a, urls2a, pharmacyId, token)
@@ -300,7 +300,7 @@ class caseTwoRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_types_case2a) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog() 
+                        return await step_context.replace_dialog("passing")
                 else:
                     summary = ""
                     save_health_record_1(userId, reportName2a, summary, report_types_case2a, reportDoctor2a, patient_name[0], ids2a, urls2a, pharmacyId, token)
@@ -308,7 +308,7 @@ class caseTwoRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case2a) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
 
 
     async def seventh_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -342,7 +342,7 @@ class caseTwoRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_types_case2b) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog()  
+                        return await step_context.replace_dialog("passing") 
                     else:
                         summary = ""
                         save_health_record_2(userId, reportName2b, summary, report_types_case2b, reportDoctor2b, namet, ids2a, urls2a, ids2b, urls2b, pharmacyId, token)
@@ -350,7 +350,7 @@ class caseTwoRecordDialog(ComponentDialog):
                             MessageFactory.text(f"Your " + str(report_types_case2b) + " has been uploaded successfully.", extra = main))
                         await step_context.context.send_activity(
                             MessageFactory.text("end dialog", extra = main))
-                        return await step_context.end_dialog() 
+                        return await step_context.replace_dialog("passing")
                 else:
                     summary = ""
                     save_health_record_2(userId, reportName2b, summary, report_types_case2b, reportDoctor2b, patient_name[0], ids2a, urls2a, ids2b, urls2b, pharmacyId, token)
@@ -358,7 +358,7 @@ class caseTwoRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case2b) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()  
+                    return await step_context.replace_dialog("passing") 
 
         if case2f == "report summary add korbe_case2":
 
@@ -373,14 +373,14 @@ class caseTwoRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case2a) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
                 else:
                     save_health_record_1(userId, reportName2a, summarys, report_types_case2a, reportDoctor2a, namet, ids2a, urls2a, pharmacyId, token)
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Your " + str(report_types_case2a) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog()  
+                    return await step_context.replace_dialog("passing") 
             else:
                 save_health_record_1(userId, reportName2a, summarys, report_types_case2a, reportDoctor2a, patient_name[0], ids2a, urls2a, pharmacyId, token)
                 await step_context.context.send_activity(
@@ -411,14 +411,14 @@ class caseTwoRecordDialog(ComponentDialog):
                         MessageFactory.text(f"Your " + str(report_types_case2b) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
                 else:
                     save_health_record_2(userId, reportName2b, summarys, report_types_case2b, reportDoctor2b, namet, ids2a, urls2a, ids2b, urls2b, pharmacyId, token)
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Your " + str(report_types_case2b) + " has been uploaded successfully.", extra = main))
                     await step_context.context.send_activity(
                         MessageFactory.text("end dialog", extra = main))
-                    return await step_context.end_dialog() 
+                    return await step_context.replace_dialog("passing")
             else:
                 save_health_record_2(userId, reportName2b, summarys, report_types_case2b, reportDoctor2b, patient_name[0], ids2a, urls2a, ids2b, urls2b, pharmacyId, token)
                 await step_context.context.send_activity(

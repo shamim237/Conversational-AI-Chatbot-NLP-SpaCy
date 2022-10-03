@@ -347,14 +347,14 @@ class AppointExtraPlusDialog(ComponentDialog):
                 await step_context.context.send_activity(reply)
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()   
+                return await step_context.replace_dialog("passing")  
 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
         if scnd_time == "ask to save 2nd time":
             yesno = predict_class(step_context.result)
@@ -451,14 +451,14 @@ class AppointExtraPlusDialog(ComponentDialog):
                 await step_context.context.send_activity(reply)
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()   
+                return await step_context.replace_dialog("passing")  
 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()  
+                return await step_context.replace_dialog("passing") 
 
         global question22
         global appointId4
@@ -509,14 +509,14 @@ class AppointExtraPlusDialog(ComponentDialog):
                 await step_context.context.send_activity(reply)
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()   
+                return await step_context.replace_dialog("passing")  
 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
 
     async def save4_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
@@ -536,10 +536,10 @@ class AppointExtraPlusDialog(ComponentDialog):
                 await step_context.context.send_activity(reply)
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()   
+                return await step_context.replace_dialog("passing")  
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog() 
+                return await step_context.replace_dialog("passing")
