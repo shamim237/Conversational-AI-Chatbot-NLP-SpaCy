@@ -157,7 +157,7 @@ class ToBeLoggedInDialog(ComponentDialog):
                 TextPrompt.__name__,
                 PromptOptions(prompt=MessageFactory.text("Have you consulted with any Doctor/Pharmacist?", extra = step_context.context.activity.text)),)
         else:
-            # prompts = "What would you like to start with?"
+            prompts = "What would you like to start with?"
             # await step_context.context.send_activity(
             #     MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = step_context.context.activity.text))
             # return await step_context.prompt(
