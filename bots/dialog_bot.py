@@ -71,7 +71,7 @@ class DialogBot(ActivityHandler):
         for member in members_added:
             if member.id != turn_context.activity.recipient.id:
                     await turn_context.send_activity("Hello, Welcome to Jarvis Care!")
-                    await turn_context.send_activity("How are you feeling today?")
+                    await turn_context.send_activity("I am Jarvis. How can I help you?")
 
 
 
