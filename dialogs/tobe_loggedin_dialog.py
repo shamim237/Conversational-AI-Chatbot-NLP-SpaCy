@@ -158,12 +158,12 @@ class ToBeLoggedInDialog(ComponentDialog):
                 PromptOptions(prompt=MessageFactory.text("Have you consulted with any Doctor/Pharmacist?", extra = step_context.context.activity.text)),)
         else:
             prompts = "What would you like to start with?"
-            # await step_context.context.send_activity(
-            #     MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = step_context.context.activity.text))
-            # return await step_context.prompt(
-            #     TextPrompt.__name__,
-            #     PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = step_context.context.activity.text)),)    
-            return await step_context.next([])
+            await step_context.context.send_activity(
+                MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = step_context.context.activity.text))
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(prompt=MessageFactory.text("What would you like to start with?", extra = step_context.context.activity.text)),)    
+            # return await step_context.next([])
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
