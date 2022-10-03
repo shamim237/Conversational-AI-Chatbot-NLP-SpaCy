@@ -63,7 +63,7 @@ class DialogExtra(ComponentDialog):
 
         return await step_context.prompt(
             TextPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("Would you like any help from me?", extra =  step_context.context.activity.text),))   
+            PromptOptions(prompt=MessageFactory.text("Would you like me to do anything else for you?", extra =  step_context.context.activity.text),))   
 
     async def scnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
