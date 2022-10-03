@@ -11,7 +11,7 @@ from lib.message_factory import MessageFactory
 from dialogs.book_appointment import AppointmentDialog
 from dialogs.adv_book_app_dialog import AdvBookAppDialog
 from dialogs.adv_appoint_dialog import SupAdvBookAppDialog
-from botbuilder.schema import ActionTypes, SuggestedActions, ChannelAccount
+from botbuilder.schema import ActionTypes, SuggestedActions
 from dialogs.tobe_loggedin_dialog import ToBeLoggedInDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
@@ -20,6 +20,7 @@ from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.bypass_appoint_dialog import ByPassAppointmentDialog
 from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
 from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
+from dialogs.dialog_extra import DialogExtra
 from botbuilder.dialogs import ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, PromptOptions
 translator = Translator()
@@ -46,6 +47,7 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(DatePrompt("date_prompt"))
         self.add_dialog(EmailPrompt("email_prompt"))
         self.add_dialog(TimePrompt("time_prompt"))
+        self.add_dialog(DialogExtra("passing"))
         self.add_dialog(DateTimePrompt(DateTimePrompt.__name__))
         self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
         self.add_dialog(AdvBookAppDialog(AdvBookAppDialog.__name__))
