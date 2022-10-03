@@ -266,8 +266,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")
     
 
@@ -341,8 +340,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")
         
 
@@ -389,8 +387,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")   
 
 
@@ -429,8 +426,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing") 
 
         global dayss
@@ -507,8 +503,7 @@ class caseSixDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage1) + " drops of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 
@@ -551,8 +546,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing") 
 
             if typeos == "Drop": 
@@ -624,8 +618,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")      
 
 
@@ -663,8 +656,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")   
 
 
@@ -703,8 +695,7 @@ class caseSixDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")         
 
 
@@ -736,6 +727,5 @@ class caseSixDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage1) + " drops of " + str(pill_name) + " for " + str(duration) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")        

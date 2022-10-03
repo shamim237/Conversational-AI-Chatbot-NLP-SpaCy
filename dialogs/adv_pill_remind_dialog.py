@@ -305,8 +305,6 @@ class AdvPillReminderDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.replace_dialog("passing") 
 
             if types in drop:
@@ -352,8 +350,7 @@ class AdvPillReminderDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing") 
 
             if types in syringe:
@@ -376,8 +373,7 @@ class AdvPillReminderDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")   
 
             if types in syrup:
@@ -400,8 +396,6 @@ class AdvPillReminderDialog(ComponentDialog):
                     MessageFactory.text(f"Your pill reminder has been set.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.replace_dialog("passing")  
         else:
             return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
@@ -452,8 +446,6 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dose) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
             return await step_context.replace_dialog("passing")           
             
 
@@ -697,8 +689,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing") 
 
         if dosage_drop_1 == "koto drop1":
@@ -760,8 +751,6 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
             return await step_context.replace_dialog("passing")
 
         if dosage_inj_1 == "koto dosage3":
@@ -793,8 +782,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")  
 
         if dosage_syrup_1 == "koto dosage4":
@@ -823,8 +811,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")   
 
 ################################################################################ CASE-2 ############################################################################################################################################
@@ -993,8 +980,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage11) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 ################################################################################ CASE-2 ############################################################################################################################################
@@ -1028,8 +1014,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
         global dropfor22
@@ -1097,8 +1082,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
         if dosage_inj_11 == "koto dosage14":
@@ -1127,8 +1111,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")  
 
         if dosage_syrup_11 == "koto dosage15":
@@ -1157,8 +1140,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing") 
 
 ################################################################################ CASE-3 ############################################################################################################################################
@@ -1191,8 +1173,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
         global dropfor33
@@ -1260,8 +1241,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")  
 
         if dosage_inj_33 == "koto dosage14":
@@ -1290,8 +1270,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing") 
 
         if dosage_syrup_33 == "koto dosage15":
@@ -1320,8 +1299,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 ################################################################################ CASE-4 ############################################################################################################################################
@@ -1399,8 +1377,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage22) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 ################################################################################ CASE-3 ############################################################################################################################################
@@ -1425,8 +1402,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage33) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 
@@ -1460,8 +1436,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing") 
 
         global dropfor44
@@ -1529,8 +1504,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")  
 
         if dosage_inj_44 == "koto dosage14":
@@ -1559,8 +1533,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing") 
 
         if dosage_syrup_44 == "koto dosage15":
@@ -1589,8 +1562,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 
@@ -1618,8 +1590,7 @@ class AdvPillReminderDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage44) + " drops of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration44) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 

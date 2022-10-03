@@ -217,8 +217,7 @@ class caseThreeDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")   
 
 
@@ -241,8 +240,7 @@ class caseThreeDialog(ComponentDialog):
                             value= str(appointId), 
                             extra = main)])
                 await step_context.context.send_activity(reply)
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")   
             else:
                 case1d = "update or not2"
@@ -267,6 +265,5 @@ class caseThreeDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")

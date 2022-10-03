@@ -66,17 +66,11 @@ class HealthRecordDialog(ComponentDialog):
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
              
-        if step_context.context.activity.text == "end dialog now":
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))            
-            return await step_context.end_dialog()
-
-        else:
                 
-            await step_context.context.send_activity(
-                MessageFactory.text("Please upload the document.", extra = main))            
-            prompt_options = PromptOptions(prompt = MessageFactory.text("Tap \U0001F4CE to upload", extra= main), retry_prompt = MessageFactory.text("Please upload a valid document.", extra = main),)
-            return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
+        await step_context.context.send_activity(
+            MessageFactory.text("Please upload the document.", extra = main))            
+        prompt_options = PromptOptions(prompt = MessageFactory.text("Tap \U0001F4CE to upload", extra= main), retry_prompt = MessageFactory.text("Please upload a valid document.", extra = main),)
+        return await step_context.prompt(AttachmentPrompt.__name__, prompt_options)
 
 
     async def upload2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -394,8 +388,7 @@ class HealthRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.end_dialog()
 
         if upload7 == "reportname--":  
@@ -455,8 +448,7 @@ class HealthRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.end_dialog()
 
 
@@ -469,8 +461,7 @@ class HealthRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.end_dialog()
 
         if upload8 == "reportsummary--":
@@ -481,8 +472,7 @@ class HealthRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.end_dialog()
 
 
@@ -530,8 +520,7 @@ class HealthRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.end_dialog()
 
 
@@ -552,8 +541,7 @@ class HealthRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.end_dialog()
 
         if upload9 == "reportsummary132":
@@ -564,8 +552,7 @@ class HealthRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.end_dialog()
 
 
@@ -579,7 +566,6 @@ class HealthRecordDialog(ComponentDialog):
                 MessageFactory.text(f"Thank You! Your report has been saved successfully.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("You can now access all of your reports from health records section of your Jarvis app.", extra = main))                
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.end_dialog()
                 

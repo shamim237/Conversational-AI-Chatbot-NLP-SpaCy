@@ -162,9 +162,8 @@ class AppointExtraPlusDialog(ComponentDialog):
         if slot == "No slots available":
             await step_context.context.send_activity(
                 MessageFactory.text("No slots are available for " + str(pharmacist) + " on " + str(date) + ". Please try another date or pharmacist!", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
-            return await step_context.end_dialog()
+
+            return await step_context.replace_dialog("passing") 
 
         if slot == "NOPE":
             timeslot = "again"
@@ -253,9 +252,8 @@ class AppointExtraPlusDialog(ComponentDialog):
             if confirm == "negative":
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment.", extra = main))
                 await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()
+
+                return await step_context.replace_dialog("passing") 
 
         global timeslot2
         global slott
@@ -279,9 +277,8 @@ class AppointExtraPlusDialog(ComponentDialog):
             if slott == "No slots available":
                 await step_context.context.send_activity(
                     MessageFactory.text("No slots are available for " + str(pharmacist) + " on " + str(date) + ". Please try another date or pharmacist!", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()
+
+                return await step_context.replace_dialog("passing") 
 
             if slott == "NOPE":
                 timeslot2 = "again2"
@@ -310,9 +307,8 @@ class AppointExtraPlusDialog(ComponentDialog):
             if slott is None:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Sorry! You have failed to provide a valid time.", extra = main)) 
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()
+
+                return await step_context.replace_dialog("passing") 
             
             else:
                 confirmation2 = "confirm or not2"
@@ -345,15 +341,13 @@ class AppointExtraPlusDialog(ComponentDialog):
                             value= str(appointId1),
                             extra= step_context.result)])
                 await step_context.context.send_activity(reply)
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")  
 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing") 
 
         if scnd_time == "ask to save 2nd time":
@@ -378,9 +372,8 @@ class AppointExtraPlusDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment.", extra = main))
                 await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()
+
+                return await step_context.replace_dialog("passing") 
 
         global times2
         global appointId3
@@ -425,9 +418,8 @@ class AppointExtraPlusDialog(ComponentDialog):
             if confirm == "negative":
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment.", extra = main))
                 await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()
+
+                return await step_context.replace_dialog("passing") 
 
 
 
@@ -449,15 +441,13 @@ class AppointExtraPlusDialog(ComponentDialog):
                             value= str(appointId2),
                             extra = main)])
                 await step_context.context.send_activity(reply)
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")  
 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing") 
 
         global question22
@@ -489,9 +479,8 @@ class AppointExtraPlusDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(MessageFactory.text("Okay! I will not save your appointment.", extra = main))
                 await step_context.context.send_activity(MessageFactory.text("Thanks for connecting with Jarvis Care!", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.end_dialog()
+
+                return await step_context.replace_dialog("passing") 
 
         if question21 == "ask question2":
             yesno = predict_class(step_context.result)
@@ -507,15 +496,13 @@ class AppointExtraPlusDialog(ComponentDialog):
                             value= str(appointId3),
                             extra = main)])
                 await step_context.context.send_activity(reply)
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")  
 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")
 
     async def save4_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -534,12 +521,9 @@ class AppointExtraPlusDialog(ComponentDialog):
                             value= str(appointId4),
                             extra = main)])
                 await step_context.context.send_activity(reply)
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")  
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.replace_dialog("passing")

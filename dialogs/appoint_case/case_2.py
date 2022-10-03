@@ -218,8 +218,7 @@ class caseTwoDialog(ComponentDialog):
                     MessageFactory.text("Sorry! You have entered a time in the past! I can only book appointments for times in the future.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.end_dialog()
             else:
                 doc_namexy       = pharmacist_name(slotsxx[1])  
@@ -254,8 +253,7 @@ class caseTwoDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")
 
 
@@ -281,8 +279,7 @@ class caseTwoDialog(ComponentDialog):
                             value= str(appointId), 
                             extra = main)])
                 await step_context.context.send_activity(reply)
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")   
             else:
                 case1d = "update or not2"
@@ -328,8 +325,7 @@ class caseTwoDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")
 
         if case1d == "question ask3xy":
@@ -346,8 +342,7 @@ class caseTwoDialog(ComponentDialog):
                             value= str(appointIdx),
                             extra = main)])
                 await step_context.context.send_activity(reply)
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")   
             else:
                 case1e = "update or not2x"
@@ -370,6 +365,5 @@ class caseTwoDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")

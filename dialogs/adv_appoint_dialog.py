@@ -307,8 +307,6 @@ class SupAdvBookAppDialog(ComponentDialog):
                 else:
                     await step_context.context.send_activity(
                         MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-                    await step_context.context.send_activity(
-                        MessageFactory.text("end dialog", extra = main))
                     return await step_context.replace_dialog("passing")                              
 
 
@@ -369,9 +367,7 @@ class SupAdvBookAppDialog(ComponentDialog):
                     await step_context.context.send_activity(
                         MessageFactory.text("Sorry! The time you have entered is invalid!", extra = main))   
                     await step_context.context.send_activity(
-                        MessageFactory.text("Thank you for connecting with Jarvis Care.", extra = main))    
-                    await step_context.context.send_activity(
-                        MessageFactory.text("end dialog", extra = main))                                                 
+                        MessageFactory.text("Thank you for connecting with Jarvis Care.", extra = main))                                                    
                     return await step_context.replace_dialog("passing") 
 
 
@@ -431,8 +427,6 @@ class SupAdvBookAppDialog(ComponentDialog):
                                 value= str(appointId1),
                                 extra = main)])
                     await step_context.context.send_activity(reply)
-                    await step_context.context.send_activity(
-                        MessageFactory.text("end dialog", extra = main))
                     return await step_context.replace_dialog("passing")   
                 
                 else:
@@ -495,8 +489,6 @@ class SupAdvBookAppDialog(ComponentDialog):
                                     value= str(appointId2),
                                     extra = main)])
                         await step_context.context.send_activity(reply)
-                        await step_context.context.send_activity(
-                            MessageFactory.text("end dialog", extra = main))
                         return await step_context.replace_dialog("passing")  
                     else:
                         await step_context.context.send_activity(
@@ -510,8 +502,6 @@ class SupAdvBookAppDialog(ComponentDialog):
                                     value= str(appointId3),
                                     extra = main)])
                         await step_context.context.send_activity(reply)
-                        await step_context.context.send_activity(
-                            MessageFactory.text("end dialog", extra = main))
                         return await step_context.replace_dialog("passing")  
 
                 else:
@@ -534,8 +524,6 @@ class SupAdvBookAppDialog(ComponentDialog):
                 else:
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
-                    await step_context.context.send_activity(
-                        MessageFactory.text("end dialog", extra = main))
                     return await step_context.replace_dialog("passing")
 
             
@@ -563,6 +551,4 @@ class SupAdvBookAppDialog(ComponentDialog):
                 else:
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
-                    await step_context.context.send_activity(
-                        MessageFactory.text("end dialog", extra = main))
                     return await step_context.replace_dialog("passing")

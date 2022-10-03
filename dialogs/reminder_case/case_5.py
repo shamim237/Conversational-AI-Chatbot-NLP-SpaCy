@@ -154,8 +154,6 @@ class caseFiveDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
             return await step_context.replace_dialog("passing")
 
         global dropfor1
@@ -214,8 +212,7 @@ class caseFiveDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 
@@ -240,8 +237,7 @@ class caseFiveDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 
@@ -266,8 +262,7 @@ class caseFiveDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")
 
 
@@ -290,6 +285,5 @@ class caseFiveDialog(ComponentDialog):
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("I will remind you to take " + str(dosage1) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(durations[0]) + ".", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
+
             return await step_context.replace_dialog("passing")      

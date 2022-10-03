@@ -174,8 +174,6 @@ class AppointExtraDialog(ComponentDialog):
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.replace_dialog("passing")                     
 
 
@@ -197,15 +195,13 @@ class AppointExtraDialog(ComponentDialog):
                             value= str(appointId),
                             extra= step_context.result)])
                 await step_context.context.send_activity(reply)
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.replace_dialog("passing")  
             
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. Thanks for connecting with Jarvis Care.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
+
                 return await step_context.end_dialog()
 
 
