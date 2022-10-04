@@ -74,33 +74,38 @@ def outlet_ids(userId, token):
 #         unit = dictFromServer['response']['patientData']['temparatureUnit'] 
 #         lang = dictFromServer['response']['patientData']['language'] 
 
+#         if outletid is None:
+#             outltid = ""
+#         if outletid is None:
+#             outltid = ""        
+
 #         dictToSend2 = {
 #                         "id": userId,
 #                         "pharmacyId": pharmacyid,
 #                         "outletId": outletid,
-#                         "name": name,
-#                         "email": email,
-#                         "countryCode": countrycode,
-#                         "phoneNumber": number,
+#                         "name": str(name),
+#                         "email": str(email),
+#                         "countryCode": str(countrycode),
+#                         "phoneNumber": str(number),
 #                         "age": age,
-#                         "sex": sex,
+#                         "sex": str(sex),
 #                         "isPhoneVerified": verify,
 #                         "pictureId": pic,
-#                         "pictureUrl": picurl,
-#                         "temparature": temp,
-#                         "fastingBloodSugar": fsugar,
-#                         "bloodSugar": bloods,
-#                         "bloodPressureSys": sys,
-#                         "bloodPressureDia": dia,
-#                         "pulse": pulse,
-#                         "allergies": allergy,
-#                         "address": add,
+#                         "pictureUrl": str(picurl),
+#                         "temparature": str(temp),
+#                         "fastingBloodSugar": str(fsugar),
+#                         "bloodSugar": str(bloods),
+#                         "bloodPressureSys": str(sys),
+#                         "bloodPressureDia": str(dia),
+#                         "pulse": str(pulse),
+#                         "allergies": str(allergy),
+#                         "address": str(add),
 #                         "totalAppointments": appoint,
 #                         "rating": rating,
 #                         "totalCalls": calls,
 #                         "dob": dob,
 #                         "temparatureUnit": unit,
-#                         "language": lang
+#                         "language": str(lang)
 #                         }
 #         res2 = requests.post('https://jarvin-dev.azurewebsites.net/api/v1/UpdatePatientProfile', json=dictToSend2)
 #         dictFromServer2 = res2.json()
