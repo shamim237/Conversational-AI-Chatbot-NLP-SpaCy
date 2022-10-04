@@ -94,6 +94,7 @@ class AdvPillReminderDialog(ComponentDialog):
         
         global userId
         global token
+        global wks
         global pharmacyId
         global main
 
@@ -1318,24 +1319,29 @@ class AdvPillReminderDialog(ComponentDialog):
 ################################################################################ CASE-3 ############################################################################################################################################
 ############################################################## remind me to take Fexo daily at 4pm. #############################################################################################################################################
 #############################################################################################################################################################################################################################
+        wks.update_acell("D40", str(dosage_tab_33))
+        wks.update_acell("D41", str(duration33))
 
         if dosage_tab_33 == "koto dosage11":
             dosage = step_context.result
             dosage = str(dosage)
             dosage = dosage.lower()
             dosage = dosage.replace("tablets", "").replace("tabs", "").replace("tablet", "").replace("tab", "")
+            wks.update_acell("D42", str(dosage))
             try:
                 dosage = w2n.word_to_num(dosage)
             except:
                 dosage = dosage
-
+            wks.update_acell("D43", str(dosage))
             med_type = "0"
             pill_name = med_names[0]
+            wks.update_acell("D44", str(pill_name))
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
             color_code = "#DB4F64"
             pill_time = times[0]
+            wks.update_acell("D45", str(pill_time))
 
             extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
             times = [] 
@@ -1353,11 +1359,13 @@ class AdvPillReminderDialog(ComponentDialog):
                 tk.append(dt)
 
             pill_time = tk[0]
+            wks.update_acell("D46", str(pill_time))
             shape_type = "0"
             place = ""
             dosage_ml = ""
-
+            wks.update_acell("D47", str(duration33))
             dates = cal_date_adv(duration33)
+            wks.update_acell("D48", str(dates))
             save_reminder_spec_days(patientid, pharmacyid, tokens, pill_name, med_type, pill_time, dates, dosage, color_code, shape_type, place, dosage_ml)
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
@@ -1600,7 +1608,7 @@ class AdvPillReminderDialog(ComponentDialog):
 ############################################################## remind me to take napa daily at morning for three weeks. #############################################################################################################################################
 #############################################################################################################################################################################################################################
         global duration33
-        
+
         if dropfor22 == "drop kothay":
             place22 = step_context.result
             med_type = "1"
