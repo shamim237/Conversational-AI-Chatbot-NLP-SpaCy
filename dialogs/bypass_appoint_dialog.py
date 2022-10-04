@@ -141,6 +141,4 @@ class ByPassAppointmentDialog(ComponentDialog):
                 return await step_context.begin_dialog(PillReminderDialog.__name__) 
 
             if msg == "Update your health profile" or msg == "Actualiza tu perfil de salud": 
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the health update process!"))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)

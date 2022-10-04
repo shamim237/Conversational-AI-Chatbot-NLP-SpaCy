@@ -144,15 +144,11 @@ class AdvBookAppDialog(ComponentDialog):
                             prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
 
                 else:
-                    await step_context.context.send_activity(
-                        MessageFactory.text("Alright!", extra = main))
                     return await step_context.begin_dialog(AppointmentDialog.__name__) 
 
             if opt == "asking another":
                 msg = predict_class(step_context.result)  
                 if msg == "positive":
-                    await step_context.context.send_activity(
-                        MessageFactory.text("Alright!", extra = main))
                     return await step_context.begin_dialog(AppointmentDialog.__name__)
                 else:
                     await step_context.context.send_activity(
@@ -217,8 +213,6 @@ class AdvBookAppDialog(ComponentDialog):
                 msg = predict_class(step_context.result) 
 
                 if msg == "positive":
-                    await step_context.context.send_activity(
-                        MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
                     return await step_context.begin_dialog(HealthProfileDialog.__name__) 
                 else:
                     await step_context.context.send_activity(

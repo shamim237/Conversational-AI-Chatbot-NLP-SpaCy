@@ -6,6 +6,7 @@ from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, C
 from nlp_model.predict import predict_class
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
+from recognizers_number import recognize_number, Culture
 from prompt.email_prompt import EmailPrompt
 from dialogs.appoint_extra import AppointExtraDialog
 from dialogs.health_record_dialog import HealthRecordDialog
@@ -60,18 +61,26 @@ class HealthProfileDialog(ComponentDialog):
         token = step_context.context.activity.from_property.role  
 
         return await step_context.prompt(
-            NumberPrompt.__name__,
+            TextPrompt.__name__,
             PromptOptions(
-                prompt=MessageFactory.text("What's your body temperature in Celcius?", extra = main)),)
+                prompt=MessageFactory.text("What's your body temperature in Celsius?", extra = main)),)
 
     async def temp1_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
         global profile1
-        profile1 = "xkxksvk"
+        profile1 = "prof1"
 
         temp  = step_context.result
+        result = recognize_number(str(temp), Culture.English)
+        res = []
+        for i in result:
+            raw = i.resolution
+            dd = raw['value']
+            res.append(dd) 
 
-        if "36.1" <= str(temp) <= "37.2" or "98.2" <= str(temp) <= "99.9":
+    
+
+        if 36.1 <= res[0] <= 37.2 or 97 <= res[0] <= 99.9:
             profile1 = "normal health"
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your body temperature is pretty normal.", extra = main))
@@ -114,8 +123,7 @@ class HealthProfileDialog(ComponentDialog):
 
         if profile1 == "normal health" or profile1 == "mild fever":
             bp = step_context.result
-            # wks.update_acell("D5", type(bp))
-            # wks.update_acell("D6", str(bp))
+
             if "60" < str(bp) <= "130":
                 profile2 = "bp normal"
                 return await step_context.prompt(
@@ -137,9 +145,7 @@ class HealthProfileDialog(ComponentDialog):
                     MessageFactory.text("Your blood pressure is higher than normal.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("You are in the state of emergency. Please call 911 or call for emergency help.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
-                return await step_context.replace_dialog("passing")          
+                return await step_context.end_dialog()          
 
         if profile1 == "high fever":
             yesno = predict_class(step_context.result)
@@ -155,8 +161,6 @@ class HealthProfileDialog(ComponentDialog):
             if yesno == "negative":
                 await step_context.context.send_activity(
                     MessageFactory.text("Okay! No problem, Please take care of yourself.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()
 
 
@@ -248,8 +252,6 @@ class HealthProfileDialog(ComponentDialog):
                     MessageFactory.text("Your blood pressure is higher than normal.", extra = main))
                 await step_context.context.send_activity(
                     MessageFactory.text("You are in the state of emergency. Please call 911 or call for emergency help.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()
 
 
@@ -266,8 +268,6 @@ class HealthProfileDialog(ComponentDialog):
             if yesno == "negative":
                 await step_context.context.send_activity(
                     MessageFactory.text("Okay! No problem, Please take care of yourself.", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.end_dialog()
 
 
@@ -289,8 +289,6 @@ class HealthProfileDialog(ComponentDialog):
             if yesno == "negative":    
                 await step_context.context.send_activity(
                     MessageFactory.text("Okay. Thanks for connecting with jarvis!", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.replace_dialog("passing")         
         
         if profile3 == "sugrar level":
@@ -299,8 +297,6 @@ class HealthProfileDialog(ComponentDialog):
                 MessageFactory.text("Thank You! I will remember it for you.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("Thanks for connecting with jarvis!", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog()
 
 
@@ -344,8 +340,6 @@ class HealthProfileDialog(ComponentDialog):
             if yesno == "negative":  
                 await step_context.context.send_activity(
                     MessageFactory.text("Okay. Thanks for connecting with jarvis!", extra = main))
-                await step_context.context.send_activity(
-                    MessageFactory.text("end dialog", extra = main))
                 return await step_context.replace_dialog("passing")           
         
         if profile4 == "sugrar level2":
@@ -354,6 +348,4 @@ class HealthProfileDialog(ComponentDialog):
                 MessageFactory.text("Thank You! I will remember it for you.", extra = main))
             await step_context.context.send_activity(
                 MessageFactory.text("Thanks for connecting with jarvis!", extra = main))
-            await step_context.context.send_activity(
-                MessageFactory.text("end dialog", extra = main))
             return await step_context.end_dialog()

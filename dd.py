@@ -182,6 +182,26 @@
 # # #     greeting = "Good evening"
 
 # # # print("{}!".format(greeting))
+# from recognizers_number import recognize_number, Culture
+
+# result = recognize_number("temperatures is  98.9", Culture.English)
+
+# res = []
+# for i in result:
+#     raw = i.resolution
+#     dd = raw['value']
+#     res.append(dd) 
+
+# print(res)
+
+# if 36.1 <= float(res[0]) <= 37.2 or 97 <= float(res[0]) <= 99.9:
+#     print("normal")
+
+# if 37.3 <= float(res[0]) <= 38.9 or 100.0 <= float(res[0]) <= 100.4:
+#     print("abnormal")
+
+# else:
+#     print("nothing")
 
 # # timeslots = datetime.strptime("22:30:00", "%H:%M:%S")
 # # print(timeslots.strftime("%I:%M %p"))
@@ -208,9 +228,22 @@
 
 # import recognizers_suite as Recognizers
 # from recognizers_suite import Culture
-# # import re
-# # culture = Culture.English
-# # time = "a capsule"
+# from datetime import datetime
+# extract = Recognizers.recognize_datetime("8 am", culture= Culture.English) 
+# times = []  
+# tk = []   
+# for i in extract:
+#     keys = i.resolution
+#     values = keys['values']
+#     for j in values:
+#         timea = j['value']  
+#         times.append(timea) 
+
+# for i in times:
+#     dp = datetime.strptime(i, "%H:%M:%S")
+#     dt = datetime.strftime(dp, "%I:%M %p")
+#     tk.append(dt)
+# print(tk)
 
 # from recognizers_number import recognize_number, Culture
 

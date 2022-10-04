@@ -57,10 +57,6 @@ class DialogExtra(ComponentDialog):
 
     async def initial_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        userId = step_context.context.activity.from_property.id
-        pharmacyId = step_context.context.activity.from_property.name
-        token = step_context.context.activity.from_property.role 
-
         return await step_context.prompt(
             TextPrompt.__name__,
             PromptOptions(prompt=MessageFactory.text("Would you like me to do anything else for you?", extra =  step_context.context.activity.text),))   
@@ -92,13 +88,11 @@ class DialogExtra(ComponentDialog):
             return await step_context.begin_dialog(PillReminderDialog.__name__) 
 
         if msg == "health_profile":
-            await step_context.context.send_activity(
-                MessageFactory.text(f"Okay. I am setting up a health profile!", extra = step_context.context.activity.text))
             return await step_context.begin_dialog(HealthProfileDialog.__name__)  
 
         if msg == "adv_pill_reminder":
             await step_context.context.send_activity(
-                MessageFactory.text(f"Okay. I am setting up a pill reminder!", extra = step_context.context.activity.text))
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = step_context.context.activity.text))
             return await step_context.begin_dialog(AdvPillReminderDialog.__name__) 
 
         if msg == "adv_health_record":
@@ -135,17 +129,15 @@ class DialogExtra(ComponentDialog):
 
             if msg == "reminder":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am setting up a pill reminder!", extra = step_context.context.activity.text))
+                    MessageFactory.text(f"Let me set a pill reminder for you.", extra = step_context.context.activity.text))
                 return await step_context.begin_dialog(PillReminderDialog.__name__)
 
             if msg == "health_profile":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am setting up a health profile!", extra = step_context.context.activity.text))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
 
             if msg == "adv_pill_reminder":
                 await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am setting up a pill reminder!", extra = step_context.context.activity.text))
+                    MessageFactory.text(f"Let me set a pill reminder for you.", extra = step_context.context.activity.text))
                 return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
 
             if msg == "adv_health_record":

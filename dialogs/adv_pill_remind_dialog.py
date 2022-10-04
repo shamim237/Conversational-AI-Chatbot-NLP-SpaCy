@@ -1,6 +1,7 @@
 import gspread
 import re
 from word2number import w2n
+from datetime import datetime
 from recognizers_suite import Culture 
 import recognizers_suite as Recognizers
 from recognizers_number import recognize_number, Culture
@@ -292,6 +293,23 @@ class AdvPillReminderDialog(ComponentDialog):
                 dosage = nums[0]
                 pill_name = med_names[0]
                 pill_time = times[0]
+
+                extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+                times = [] 
+                tk = []    
+                for i in extract:
+                    keys = i.resolution
+                    values = keys['values']
+                    for j in values:
+                        timea = j['value']  
+                        times.append(timea) 
+
+                for i in times:
+                    dp = datetime.strptime(i, "%H:%M:%S")
+                    dt = datetime.strftime(dp, "%I:%M %p")
+                    tk.append(dt)
+
+                pill_time = tk[0]
                 patientid = userId
                 pharmacyid = pharmacyId
                 tokens = token
@@ -336,8 +354,24 @@ class AdvPillReminderDialog(ComponentDialog):
                 patientid = userId
                 pharmacyid = pharmacyId
                 tokens = token
-                color_code = ""
-                pill_time = times[0] 
+                pill_time = times[0]
+
+                extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+                times = [] 
+                tk = []    
+                for i in extract:
+                    keys = i.resolution
+                    values = keys['values']
+                    for j in values:
+                        timea = j['value']  
+                        times.append(timea) 
+
+                for i in times:
+                    dp = datetime.strptime(i, "%H:%M:%S")
+                    dt = datetime.strftime(dp, "%I:%M %p")
+                    tk.append(dt)
+
+                pill_time = tk[0]
                 shape_type = "-1"
                 place = ""
                 dosage_ml = ""
@@ -360,7 +394,24 @@ class AdvPillReminderDialog(ComponentDialog):
                 pharmacyid = pharmacyId
                 tokens = token
                 color_code = ""
-                pill_time = times[0] 
+                pill_time = times[0]
+
+                extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+                times = [] 
+                tk = []    
+                for i in extract:
+                    keys = i.resolution
+                    values = keys['values']
+                    for j in values:
+                        timea = j['value']  
+                        times.append(timea) 
+
+                for i in times:
+                    dp = datetime.strptime(i, "%H:%M:%S")
+                    dt = datetime.strftime(dp, "%I:%M %p")
+                    tk.append(dt)
+
+                pill_time = tk[0] 
                 shape_type = "-1"
                 place = ""
                 dose = "1"
@@ -383,7 +434,24 @@ class AdvPillReminderDialog(ComponentDialog):
                 pharmacyid = pharmacyId
                 tokens = token
                 color_code = ""
-                pill_time = times[0] 
+                pill_time = times[0]
+
+                extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+                times = [] 
+                tk = []    
+                for i in extract:
+                    keys = i.resolution
+                    values = keys['values']
+                    for j in values:
+                        timea = j['value']  
+                        times.append(timea) 
+
+                for i in times:
+                    dp = datetime.strptime(i, "%H:%M:%S")
+                    dt = datetime.strftime(dp, "%I:%M %p")
+                    tk.append(dt)
+
+                pill_time = tk[0]
                 shape_type = "-1"
                 place = ""
                 dose = "1"
@@ -433,7 +501,24 @@ class AdvPillReminderDialog(ComponentDialog):
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
-            pill_time = times[0] 
+            pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0] 
             color_code = ""
             shape_type = "-1"
             dose = quants[0]
@@ -676,7 +761,24 @@ class AdvPillReminderDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = "#DB4F64"
-            pill_time = times[0] 
+            pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0]
             shape_type = "0"
             place = ""
             dosage_ml = ""
@@ -737,7 +839,24 @@ class AdvPillReminderDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = times[0] 
+            pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0]
             shape_type = "-1"
             place = ""
             dosage_ml = ""
@@ -768,7 +887,24 @@ class AdvPillReminderDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = times[0] 
+            pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0] 
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -800,7 +936,24 @@ class AdvPillReminderDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = times[0] 
+            pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0]
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -967,7 +1120,24 @@ class AdvPillReminderDialog(ComponentDialog):
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
-            pill_time = times[0] 
+            pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0]
             color_code = ""
             shape_type = "-1"
             dosage_ml = ""
@@ -1155,7 +1325,8 @@ class AdvPillReminderDialog(ComponentDialog):
             try:
                 dosage = w2n.word_to_num(dosage)
             except:
-                dosage = 1
+                dosage = dosage
+
             med_type = "0"
             pill_name = med_names[0]
             patientid = userId
@@ -1163,6 +1334,23 @@ class AdvPillReminderDialog(ComponentDialog):
             tokens = token
             color_code = "#DB4F64"
             pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0]
             shape_type = "0"
             place = ""
             dosage_ml = ""
@@ -1172,7 +1360,7 @@ class AdvPillReminderDialog(ComponentDialog):
             await step_context.context.send_activity(
                 MessageFactory.text(f"Your pill reminder has been set.", extra = main))
             await step_context.context.send_activity(
-                MessageFactory.text("I will remind you to take " + str(dosage_ml) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
+                MessageFactory.text("I will remind you to take " + str(dosage) + " dose of " + str(pill_name) + " " + str(periods[0]) + " at " + str(pill_time)+ " for " + str(duration33) + ".", extra = main))
 
             return await step_context.replace_dialog("passing")
 
@@ -1192,7 +1380,7 @@ class AdvPillReminderDialog(ComponentDialog):
             try:
                 dosage33 = w2n.word_to_num(dosage)
             except:
-                dosage33 = 1
+                dosage33 = dosage
 
             reply = MessageFactory.text("Where to use the drop?", extra = main)
             reply.suggested_actions = SuggestedActions(
@@ -1223,14 +1411,31 @@ class AdvPillReminderDialog(ComponentDialog):
             try:
                 dosage = w2n.word_to_num(dosage)
             except:
-                dosage = 1
+                dosage = dosage
             med_type = "2"
             pill_name = med_names[0]
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = times[0] 
+            pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0]
             shape_type = "-1"
             place = ""
             dosage_ml = ""
@@ -1252,14 +1457,31 @@ class AdvPillReminderDialog(ComponentDialog):
             try:
                 dosage_ml = w2n.word_to_num(dosage)
             except:
-                dosage_ml = 1
+                dosage_ml = dosage
             med_type = "3"
             pill_name = med_names[0]
             patientid = userId
             pharmacyid = pharmacyId
             tokens = token
             color_code = ""
-            pill_time = times[0] 
+            pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0]
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -1281,7 +1503,7 @@ class AdvPillReminderDialog(ComponentDialog):
             try:
                 dosage_ml = w2n.word_to_num(dosage)
             except:
-                dosage_ml = 1
+                dosage_ml = dosage
             med_type = "4"
             pill_name = med_names[0]
             patientid = userId
@@ -1289,6 +1511,23 @@ class AdvPillReminderDialog(ComponentDialog):
             tokens = token
             color_code = ""
             pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0]
             shape_type = "-1"
             place = ""
             dose = "1"
@@ -1392,6 +1631,23 @@ class AdvPillReminderDialog(ComponentDialog):
             pharmacyid = pharmacyId
             tokens = token
             pill_time = times[0]
+
+            extract = Recognizers.recognize_datetime(pill_time, culture= Culture.English) 
+            times = [] 
+            tk = []    
+            for i in extract:
+                keys = i.resolution
+                values = keys['values']
+                for j in values:
+                    timea = j['value']  
+                    times.append(timea) 
+
+            for i in times:
+                dp = datetime.strptime(i, "%H:%M:%S")
+                dt = datetime.strftime(dp, "%I:%M %p")
+                tk.append(dt)
+
+            pill_time = tk[0]
             color_code = ""
             shape_type = "-1"
             dosage_ml = ""

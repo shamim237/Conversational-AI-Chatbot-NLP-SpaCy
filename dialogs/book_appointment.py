@@ -471,8 +471,6 @@ class AppointmentDialog(ComponentDialog):
             msg = predict_class(step_context.result)
 
             if msg == "positive":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__) 
             else:
                 await step_context.context.send_activity(
@@ -575,8 +573,7 @@ class AppointmentDialog(ComponentDialog):
             msg = predict_class(step_context.result)
 
             if msg == "positive":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
+
                 return await step_context.begin_dialog(HealthProfileDialog.__name__) 
             else:
                 await step_context.context.send_activity(
@@ -612,8 +609,6 @@ class AppointmentDialog(ComponentDialog):
             msg = predict_class(step_context.result)
 
             if msg == "positive":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__) 
             else:
                 await step_context.context.send_activity(
@@ -629,11 +624,8 @@ class AppointmentDialog(ComponentDialog):
             msg = predict_class(step_context.result)
 
             if msg == "positive":
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
                 return await step_context.begin_dialog(HealthProfileDialog.__name__) 
             else:
                 await step_context.context.send_activity(
                     MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-
                 return await step_context.replace_dialog("passing") 

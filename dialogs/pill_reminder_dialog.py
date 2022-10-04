@@ -94,5 +94,5 @@ class PillReminderDialog(ComponentDialog):
             return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
         else:
             await step_context.context.send_activity(
-                MessageFactory.text("Alright! I am initializing other process for setting up a pill reminder!", extra =  step_context.context.activity.text)) 
+                MessageFactory.text("Let me set a pill reminder for you.", extra =  step_context.context.activity.text)) 
             return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
