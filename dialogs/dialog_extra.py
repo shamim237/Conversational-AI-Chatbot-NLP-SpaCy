@@ -16,7 +16,7 @@ from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.bypass_appoint_dialog import ByPassAppointmentDialog
 from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
 from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
-
+from dialogs.simple_reminder_dialog import SimplePillReminderDialog
 
 class DialogExtra(ComponentDialog):
     def __init__(self, dialog_id: str = "passing"):
@@ -31,6 +31,7 @@ class DialogExtra(ComponentDialog):
         self.add_dialog(AdvBookAppDialog(AdvBookAppDialog.__name__))
         self.add_dialog(ByPassAppointmentDialog(ByPassAppointmentDialog.__name__))
         self.add_dialog(SupAdvBookAppDialog(SupAdvBookAppDialog.__name__))
+        self.add_dialog(SimplePillReminderDialog(SimplePillReminderDialog.__name__))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))
@@ -85,7 +86,7 @@ class DialogExtra(ComponentDialog):
         if msg == "reminder":
             await step_context.context.send_activity(
                 MessageFactory.text(f"Okay. I'm setting up a pill reminder!", extra = step_context.context.activity.text))
-            return await step_context.begin_dialog(PillReminderDialog.__name__) 
+            return await step_context.begin_dialog(SimplePillReminderDialog.__name__) 
 
         if msg == "health_profile":
             return await step_context.begin_dialog(HealthProfileDialog.__name__)  
@@ -130,7 +131,7 @@ class DialogExtra(ComponentDialog):
             if msg == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Let me set a pill reminder for you.", extra = step_context.context.activity.text))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
 
             if msg == "health_profile":
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)

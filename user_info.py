@@ -44,76 +44,72 @@ def outlet_ids(userId, token):
 
 
 
-# def check(userId, temp, sys, dia, token):
-#     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
-#     params = {"patientId": userId}
-#     res = requests.get('https://jarvin-dev.azurewebsites.net/api/GetPatientById', params=params, headers= headers)
-#     dictFromServer = res.json()
-#     stat = dictFromServer
-#     if stat == "Success":
-#         outletid = dictFromServer['response']['patientData']['outletId'] 
-#         pharmacyid = dictFromServer['response']['patientData']['pharmacyId'] 
-#         name = dictFromServer['response']['patientData']['name'] 
-#         email = dictFromServer['response']['patientData']['email'] 
-#         countrycode = dictFromServer['response']['patientData']['countryCode'] 
-#         number = dictFromServer['response']['patientData']['phoneNumber'] 
-#         age = dictFromServer['response']['patientData']['age'] 
-#         sex = dictFromServer['response']['patientData']['sex'] 
-#         verify = dictFromServer['response']['patientData']['isPhoneVerified'] 
-#         pic = dictFromServer['response']['patientData']['pictureId'] 
-#         picurl = dictFromServer['response']['patientData']['pictureUrl'] 
-#         fsugar = dictFromServer['response']['patientData']['fastingBloodSugar'] 
-#         bloods = dictFromServer['response']['patientData']['bloodSugar'] 
-#         pulse = dictFromServer['response']['patientData']['pulse'] 
-#         allergy = dictFromServer['response']['patientData']['allergies'] 
-#         add = dictFromServer['response']['patientData']['address'] 
-#         appoint = dictFromServer['response']['patientData']['totalAppointments'] 
-#         rating = dictFromServer['response']['patientData']['rating'] 
-#         calls = dictFromServer['response']['patientData']['totalCalls'] 
-#         dob = dictFromServer['response']['patientData']['dob'] 
-#         unit = dictFromServer['response']['patientData']['temparatureUnit'] 
-#         lang = dictFromServer['response']['patientData']['language'] 
+def update_profile(userId, temp, sys, dia, token):
+    headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
+    params = {"patientId": userId}
+    res = requests.get('https://jarvin-dev.azurewebsites.net/api/GetPatientById', params=params, headers= headers)
+    dictFromServer = res.json()
+    stat = dictFromServer['status']
+    if stat == "Success":
+        outletid = dictFromServer['response']['patientData']['outletId'] 
+        pharmacyid = dictFromServer['response']['patientData']['pharmacyId'] 
+        name = dictFromServer['response']['patientData']['name'] 
+        email = dictFromServer['response']['patientData']['email'] 
+        countrycode = dictFromServer['response']['patientData']['countryCode'] 
+        number = dictFromServer['response']['patientData']['phoneNumber'] 
+        age = dictFromServer['response']['patientData']['age'] 
+        sex = dictFromServer['response']['patientData']['sex'] 
+        verify = dictFromServer['response']['patientData']['isPhoneVerified'] 
+        pic = dictFromServer['response']['patientData']['pictureId'] 
+        picurl = dictFromServer['response']['patientData']['pictureUrl'] 
+        fsugar = dictFromServer['response']['patientData']['fastingBloodSugar'] 
+        bloods = dictFromServer['response']['patientData']['bloodSugar'] 
+        pulse = dictFromServer['response']['patientData']['pulse'] 
+        allergy = dictFromServer['response']['patientData']['allergies'] 
+        add = dictFromServer['response']['patientData']['address'] 
+        appoint = dictFromServer['response']['patientData']['totalAppointments'] 
+        rating = dictFromServer['response']['patientData']['rating'] 
+        calls = dictFromServer['response']['patientData']['totalCalls'] 
+        dob = dictFromServer['response']['patientData']['dob'] 
+        unit = dictFromServer['response']['patientData']['temparatureUnit'] 
+        lang = dictFromServer['response']['patientData']['language']    
 
-#         if outletid is None:
-#             outltid = ""
-#         if outletid is None:
-#             outltid = ""        
+        headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
+        dictToSend2 = {
+                        "id": userId,
+                        "pharmacyId": pharmacyid,
+                        "outletId": outletid,
+                        "name": str(name),
+                        "email": str(email),
+                        "countryCode": str(countrycode),
+                        "phoneNumber": str(number),
+                        "age": age,
+                        "sex": str(sex),
+                        "isPhoneVerified": verify,
+                        "pictureId": pic,
+                        "pictureUrl": str(picurl),
+                        "temparature": str(temp),
+                        "fastingBloodSugar": str(fsugar),
+                        "bloodSugar": str(bloods),
+                        "bloodPressureSys": str(sys),
+                        "bloodPressureDia": str(dia),
+                        "pulse": str(pulse),
+                        "allergies": str(allergy),
+                        "address": str(add),
+                        "totalAppointments": appoint,
+                        "rating": rating,
+                        "totalCalls": calls,
+                        "dob": dob,
+                        "temparatureUnit": unit,
+                        "language": str(lang)
+                        }
+        res2 = requests.post('https://jarvin-dev.azurewebsites.net/api/v1/UpdatePatientProfile', headers= headers, json=dictToSend2)
+        dictFromServer2 = res2.json()
+        stat2 = dictFromServer2
 
-#         dictToSend2 = {
-#                         "id": userId,
-#                         "pharmacyId": pharmacyid,
-#                         "outletId": outletid,
-#                         "name": str(name),
-#                         "email": str(email),
-#                         "countryCode": str(countrycode),
-#                         "phoneNumber": str(number),
-#                         "age": age,
-#                         "sex": str(sex),
-#                         "isPhoneVerified": verify,
-#                         "pictureId": pic,
-#                         "pictureUrl": str(picurl),
-#                         "temparature": str(temp),
-#                         "fastingBloodSugar": str(fsugar),
-#                         "bloodSugar": str(bloods),
-#                         "bloodPressureSys": str(sys),
-#                         "bloodPressureDia": str(dia),
-#                         "pulse": str(pulse),
-#                         "allergies": str(allergy),
-#                         "address": str(add),
-#                         "totalAppointments": appoint,
-#                         "rating": rating,
-#                         "totalCalls": calls,
-#                         "dob": dob,
-#                         "temparatureUnit": unit,
-#                         "language": str(lang)
-#                         }
-#         res2 = requests.post('https://jarvin-dev.azurewebsites.net/api/v1/UpdatePatientProfile', json=dictToSend2)
-#         dictFromServer2 = res2.json()
-#         stat2 = dictFromServer2
+        return stat2
 
-#         return stat2
-
-# ss = check("97", "38.9", "120", "80", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3IiwibmFtZSI6IkppYm9uIiwibmJmIjoxNjY0ODY1MzI3LCJleHAiOjE2NjU0NzAxMjcsImlhdCI6MTY2NDg2NTMyN30.jDRQ1MFkPwAdSilsAnp1itJqtPfwR0wFbwue5BONbV0")
+# ss = check("97", "38.9", "140", "80", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3IiwibmFtZSI6IkppYm9uIiwibmJmIjoxNjY0ODY1MzI3LCJleHAiOjE2NjU0NzAxMjcsImlhdCI6MTY2NDg2NTMyN30.jDRQ1MFkPwAdSilsAnp1itJqtPfwR0wFbwue5BONbV0")
 # print(ss)
 
 

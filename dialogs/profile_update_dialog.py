@@ -5,6 +5,7 @@ from botbuilder.dialogs import WaterfallDialog, DialogTurnResult, WaterfallStepC
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, ConfirmPrompt, PromptOptions
 from nlp_model.predict import predict_class
+from user_info import update_profile
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from recognizers_number import recognize_number, Culture
@@ -34,6 +35,7 @@ class HealthProfileDialog(ComponentDialog):
                     self.temp_step,
                     self.temp1_step,
                     self.temp2_step,
+                    self.temp3_step,
 
                 ],
             )
@@ -67,6 +69,11 @@ class HealthProfileDialog(ComponentDialog):
 
     async def temp1_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 
+        global temps
+        global done
+
+        done = "aiaiia"
+
         temp  = step_context.result
         result = recognize_number(str(temp), Culture.English)
         res = []
@@ -75,30 +82,88 @@ class HealthProfileDialog(ComponentDialog):
             dd = raw['value']
             res.append(dd) 
 
-        
-        return await step_context.prompt(
-            TextPrompt.__name__,
-            PromptOptions(
-                prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings.", extra = main)),)
+        temps = res[0]
+
+        if 36.1 <= float(temps) <= 40.6 or 97.8 <= float(temps) <= 106.3:
+            done = "all okay"    
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings.", extra = main)),)
+        else:
+            done = "not okay"
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Please enter a valid body temperature.", extra = main)),)            
 
 
     async def temp2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        
+        global done2
+        global tempsk
 
-        bp = step_context.result
+        done2 = "ajajaj"
+        tempsk = "sjsjsjs"
 
-        bp = str(bp).lower()
-        bp = bp.replace("its ", "").replace("it's ", "").replace("it is ", "")
+        if done == "all okay":
 
-        sys = re.sub(r"(\d+)\/\d+", r"\1", bp)
-        dia = re.sub(r"\d+\/(\d+)", r"\1", bp)
+            bp = step_context.result
+
+            bp = str(bp).lower()
+            bp = bp.replace("its ", "").replace("it's ", "").replace("it is ", "")
+
+            sys = re.sub(r"(\d+)\/\d+", r"\1", bp)
+            dia = re.sub(r"\d+\/(\d+)", r"\1", bp)
+
+            update_profile(userId, temps, sys, dia, token)
+
+            await step_context.context.send_activity(
+                MessageFactory.text("I've recorded your body parameters.", extra = main))   
+            await step_context.context.send_activity(
+                MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
+            return await step_context.end_dialog()
+
+        if done == "not okay":
+            tempk  = step_context.result
+            result = recognize_number(str(tempk), Culture.English)
+            res = []
+            for i in result:
+                raw = i.resolution
+                dd = raw['value']
+                res.append(dd) 
+
+            tempsk = res[0]
+
+            if 36.1 <= float(tempsk) <= 40.6 or 97.8 <= float(tempsk) <= 106.3:
+                done2 = "all okay"    
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings.", extra = main)),)                   
 
 
+    async def temp3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
-        await step_context.context.send_activity(
-            MessageFactory.text("I've recorded your body parameters.", extra = main))   
-        await step_context.context.send_activity(
-            MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-        return await step_context.end_dialog()       
+
+        if done2 == "all okay":
+
+            bps = step_context.result
+
+            bps = str(bps).lower()
+            bps = bps.replace("its ", "").replace("it's ", "").replace("it is ", "")
+
+            sys = re.sub(r"(\d+)\/\d+", r"\1", bps)
+            dia = re.sub(r"\d+\/(\d+)", r"\1", bps)
+
+            update_profile(userId, tempsk, sys, dia, token)
+
+            await step_context.context.send_activity(
+                MessageFactory.text("I've recorded your body parameters.", extra = main))   
+            await step_context.context.send_activity(
+                MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
+            return await step_context.end_dialog()            
+
 
     # async def temp2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
 

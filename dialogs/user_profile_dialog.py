@@ -15,6 +15,7 @@ from botbuilder.schema import ActionTypes, SuggestedActions
 from dialogs.tobe_loggedin_dialog import ToBeLoggedInDialog
 from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
+from dialogs.simple_reminder_dialog import SimplePillReminderDialog
 from dialogs.profile_update_dialog import HealthProfileDialog
 from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from dialogs.bypass_appoint_dialog import ByPassAppointmentDialog
@@ -57,6 +58,7 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(ToBeLoggedInDialog(ToBeLoggedInDialog.__name__))
         self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
         self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
+        self.add_dialog(SimplePillReminderDialog(SimplePillReminderDialog.__name__))
         self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))
         self.add_dialog(AdvHealthRecordDialog(AdvHealthRecordDialog.__name__))
         self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
@@ -188,7 +190,7 @@ class UserProfileDialog(ComponentDialog):
                 if msg == "reminder":
                     await step_context.context.send_activity(
                         MessageFactory.text("Let me set a pill reminder for you.", extra = step_context.context.activity.text))
-                    return await step_context.begin_dialog(PillReminderDialog.__name__) 
+                    return await step_context.begin_dialog(SimplePillReminderDialog.__name__) 
 
                 if msg == "health_profile":
                     return await step_context.begin_dialog(HealthProfileDialog.__name__)  
@@ -266,7 +268,7 @@ class UserProfileDialog(ComponentDialog):
             if msg == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text("Let me set a pill reminder for you.", extra = main))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
 
             if msg == "health_profile":
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
@@ -313,7 +315,7 @@ class UserProfileDialog(ComponentDialog):
             if msgk == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text("Let me set a pill reminder for you.", extra = main))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
 
             if msgk == "health_profile":
 
@@ -392,7 +394,7 @@ class UserProfileDialog(ComponentDialog):
             if msg == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text("Let me set a pill reminder for you.", extra = main))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
 
             if msg == "health_profile":
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
@@ -460,7 +462,7 @@ class UserProfileDialog(ComponentDialog):
             if msgt == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text("Let me set a pill reminder for you.", extra = main))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
 
             if msgt == "health_profile":
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)
@@ -505,7 +507,7 @@ class UserProfileDialog(ComponentDialog):
             if msgs == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text("Let me set a pill reminder for you.", extra = main))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
 
             if msg == "health_profile":
                 return await step_context.begin_dialog(HealthProfileDialog.__name__)

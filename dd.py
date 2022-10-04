@@ -1023,6 +1023,22 @@
 
 # print(sys, dia)
 # #                     final_days = []
+# from recognizers_number import recognize_number, Culture
+# temp  = "its 100.7"
+# result = recognize_number(str(temp), Culture.English)
+# res = []
+# for i in result:
+#     raw = i.resolution
+#     dd = raw['value']
+#     res.append(dd) 
+
+# temps = res[0]
+
+# if 36.1 <= float(temps) <= 40.6 or 97.8 <= float(temps) <= 106.3:
+#     print("normal")
+# else:
+#     print("wrong")
+# {'status': 'Success', 'response': {'patientData': {'id': 97, 'pharmacyId': 1, 'outletId': 7, 'name': 'Jibon', 'email': 'shamimmahbub230@gmail.com', 'countryCode': None, 'phoneNumber': None, 'age': None, 'sex': None, 'isPhoneVerified': False, 'pictureId': 0, 'pictureUrl': 'https://jarvin-dev.azurewebsites.net/appimages/default-image.png', 'temparature': None, 'fastingBloodSugar': None, 'bloodSugar': None, 'bloodPressureSys': None, 'bloodPressureDia': None, 'pulse': None, 'allergies': None, 'address': None, 'createdOnUtc': '2022-04-23T16:44:47.5279837', 'totalAppointments': 0, 'rating': 0.0, 'totalCalls': 0, 'dob': None, 'temparatureUnit': False, 'language': 'en'}, 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3IiwibmFtZSI6IkppYm9uIiwibmJmIjoxNjY0ODY2NzgxLCJleHAiOjE2NjU0NzE1ODEsImlhdCI6MTY2NDg2Njc4MX0.RacB-QUXeqy3vgqk8Dn71CXOLPxCvzmpWWUPYNTNAh8'}}
 
 # #                     if long_date == "Two Weeks":
 # #                         for i in recur_dates:
