@@ -1013,8 +1013,15 @@
 # #                             dates_finals.append(dates_final[i])
 # #                             if count == 84:
 # #                                 break
+# import re
 
+# bp = "Its 100/80"
+# bp = str(bp).lower()
+# bp = bp.replace("its ", "").replace("it's ", "").replace("it is ", "")
+# sys = re.sub(r"(\d+)\/\d+", r"\1", bp)
+# dia = re.sub(r"\d+\/(\d+)", r"\1", bp)
 
+# print(sys, dia)
 # #                     final_days = []
 
 # #                     if long_date == "Two Weeks":

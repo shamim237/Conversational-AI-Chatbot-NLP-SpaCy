@@ -44,13 +44,45 @@ def outlet_ids(userId, token):
 
 
 
-def check(userId, token):
-    headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
-    params = {"patientId": userId}
-    res = requests.get('https://jarvin-dev.azurewebsites.net/api/GetPatientById', params=params, headers= headers)
-    dictFromServer = res.json()
-    stat = dictFromServer
-    return stat
+# def check(userId, temp, sys, dia, token):
+#     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
+#     params = {"patientId": userId}
+#     res = requests.get('https://jarvin-dev.azurewebsites.net/api/GetPatientById', params=params, headers= headers)
+#     dictFromServer = res.json()
+#     stat = dictFromServer
+    
+#     dictToSend2 = {
+#                     "pharmacyId": 1,
+#                     "outletId": 7,
+#                     "name": name,
+#                     "email": email,
+#                     "countryCode": countrycode,
+#                     "phoneNumber": number,
+#                     "age": age,
+#                     "sex": sex,
+#                     "isPhoneVerified": verify,
+#                     "pictureId": pic,
+#                     "pictureUrl": picurl,
+#                     "temparature": temp,
+#                     "fastingBloodSugar": fsugar,
+#                     "bloodSugar": bloods,
+#                     "bloodPressureSys": sys,
+#                     "bloodPressureDia": dia,
+#                     "pulse": pulse,
+#                     "allergies": allergy,
+#                     "address": add,
+#                     "totalAppointments": appoint,
+#                     "rating": rating,
+#                     "totalCalls": calls,
+#                     "dob": dob,
+#                     "temparatureUnit": unit,
+#                     "language": lang
+#                     }
+#     res = requests.post('https://jarvin-dev.azurewebsites.net/api/v1/UpdatePatientProfile', json=dictToSend2)
 
-# ss = check("131", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMSIsIm5hbWUiOiJEYXZpZCBHbGF1YmVyIEMuIExpbWEiLCJuYmYiOjE2NjQzODI1NjEsImV4cCI6MTY2NDk4NzM2MSwiaWF0IjoxNjY0MzgyNTYxfQ.UjvIDl9c5FQgypKGLmgMOq27HHpX8xcDky1-O23sITU")
+#     return stat
+
+# ss = check("97", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3IiwibmFtZSI6IkppYm9uIiwibmJmIjoxNjY0ODY1MzI3LCJleHAiOjE2NjU0NzAxMjcsImlhdCI6MTY2NDg2NTMyN30.jDRQ1MFkPwAdSilsAnp1itJqtPfwR0wFbwue5BONbV0")
 # print(ss)
+
+
