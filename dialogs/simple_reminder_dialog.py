@@ -50,12 +50,17 @@ class SimplePillReminderDialog(ComponentDialog):
         global userId
         global token
         global main
+        global wks
         global pharmacyId
 
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role 
         main = step_context.context.activity.text
+
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
 
         return await step_context.prompt(
             TextPrompt.__name__,
@@ -255,6 +260,8 @@ class SimplePillReminderDialog(ComponentDialog):
         global duration
         global med_name
         global times
+        global days
+        
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
@@ -496,6 +503,11 @@ class SimplePillReminderDialog(ComponentDialog):
 
 
     async def eighth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
+        
+        global duration
+        global med_name
+        global times
+        global days
 
         if dropfor1 == "drop kothay":
             place       = step_context.result
@@ -531,6 +543,9 @@ class SimplePillReminderDialog(ComponentDialog):
 
                 return await step_context.replace_dialog("passing")
 
+        wks.update_acell("E40", str(dosages2))
+
+        wks.update_acell("E41", str(duration))
 
         if dosages2 == "tablet dose2":
             dosage      = step_context.result
@@ -723,6 +738,11 @@ class SimplePillReminderDialog(ComponentDialog):
 
 
     async def ninth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+        global duration
+        global med_name
+        global times
+        global days
 
         if dropfor2 == "drop kothay2":
             place       = step_context.result
