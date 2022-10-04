@@ -43,13 +43,19 @@ def outlet_ids(userId, token):
         return st
 
 
-
 def update_profile(userId, temp, sys, dia, token):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
     params = {"patientId": userId}
     res = requests.get('https://jarvin-dev.azurewebsites.net/api/GetPatientById', params=params, headers= headers)
     dictFromServer = res.json()
     stat = dictFromServer['status']
+
+    if temp > "45":
+        unit = "true"
+    else:
+        unit = "false"
+    # print(unit)
+
     if stat == "Success":
         outletid = dictFromServer['response']['patientData']['outletId'] 
         pharmacyid = dictFromServer['response']['patientData']['pharmacyId'] 
@@ -71,9 +77,9 @@ def update_profile(userId, temp, sys, dia, token):
         rating = dictFromServer['response']['patientData']['rating'] 
         calls = dictFromServer['response']['patientData']['totalCalls'] 
         dob = dictFromServer['response']['patientData']['dob'] 
-        unit = dictFromServer['response']['patientData']['temparatureUnit'] 
+        # unit = dictFromServer['response']['patientData']['temparatureUnit'] 
         lang = dictFromServer['response']['patientData']['language']    
-
+        # print(unit)
         headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer " + str(token)}
         dictToSend2 = {
                         "id": userId,
@@ -109,7 +115,7 @@ def update_profile(userId, temp, sys, dia, token):
 
         return stat2
 
-# ss = check("97", "38.9", "140", "80", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3IiwibmFtZSI6IkppYm9uIiwibmJmIjoxNjY0ODY1MzI3LCJleHAiOjE2NjU0NzAxMjcsImlhdCI6MTY2NDg2NTMyN30.jDRQ1MFkPwAdSilsAnp1itJqtPfwR0wFbwue5BONbV0")
+# ss = update_profile("97", "39.9", "170", "80", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3IiwibmFtZSI6IkppYm9uIiwibmJmIjoxNjY0ODc0NzY4LCJleHAiOjE2NjU0Nzk1NjgsImlhdCI6MTY2NDg3NDc2OH0.ZU_NQPtVCGHKtE6cFFaMZtsxyvRg2IGpQR3UixhPS7U")
 # print(ss)
 
 
