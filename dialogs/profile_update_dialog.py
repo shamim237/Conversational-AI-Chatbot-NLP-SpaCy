@@ -116,13 +116,12 @@ class HealthProfileDialog(ComponentDialog):
             sys = re.sub(r"(\d+)\/\d+", r"\1", bp)
             dia = re.sub(r"\d+\/(\d+)", r"\1", bp)
 
-            
-
+            #update_profile(userId, temps, sys, dia, token)
             await step_context.context.send_activity(
                 MessageFactory.text("I've recorded your body parameters.", extra = main))   
             await step_context.context.send_activity(
                 MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-            update_profile(userId, temps, sys, dia, token)
+            
             
             return await step_context.end_dialog()
 
@@ -142,7 +141,7 @@ class HealthProfileDialog(ComponentDialog):
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings.", extra = main)),)                   
+                        prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings.", extra = main, input_hint= "sys/dia(180/90)")),)                   
 
 
     async def temp3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -158,11 +157,13 @@ class HealthProfileDialog(ComponentDialog):
             sys = re.sub(r"(\d+)\/\d+", r"\1", bps)
             dia = re.sub(r"\d+\/(\d+)", r"\1", bps)
 
+            # update_profile(userId, tempsk, sys, dia, token)
+
             await step_context.context.send_activity(
                 MessageFactory.text("I've recorded your body parameters.", extra = main))   
             await step_context.context.send_activity(
                 MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-            update_profile(userId, tempsk, sys, dia, token)
+            
 
             return await step_context.end_dialog()            
 
