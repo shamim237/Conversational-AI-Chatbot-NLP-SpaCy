@@ -1,4 +1,5 @@
 import gspread
+from date_regex import date_validate
 from outlets import outlet_name
 from user_info import check_name
 from user_info import outlet_ids
@@ -13,11 +14,6 @@ from lib.card import CardAction
 from prompt.email_prompt import EmailPrompt
 from nlp_model.predict import predict_class
 from nlp_model.appoint_predict import predict_appoint
-from dialogs.book_appointment import AppointmentDialog
-from dialogs.health_record_dialog import HealthRecordDialog
-from dialogs.pill_reminder_dialog import PillReminderDialog
-from dialogs.profile_update_dialog import HealthProfileDialog
-from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
 from outlets2 import get_pharmacist_id, get_slots_sup, pharmacist_name
 from botbuilder.schema import ActionTypes, SuggestedActions
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
@@ -38,12 +34,7 @@ class caseThreeDialog(ComponentDialog):
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
         self.add_dialog(DatePrompt("date_prompt"))
         self.add_dialog(EmailPrompt("email_prompt"))
-        self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
-        self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
-        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__)) 
-        self.add_dialog(AppointmentDialog(AppointmentDialog.__name__)) 
         self.add_dialog(TimePrompt("time_prompt"))
-        self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
@@ -107,7 +98,7 @@ class caseThreeDialog(ComponentDialog):
                         time3x.append(tims)
             
             
-        return await step_context.prompt("date_prompt", PromptOptions(
+        return await step_context.prompt(TextPrompt.__name__, PromptOptions(
             prompt=MessageFactory.text("On which date you would like to book an appointment?", extra = step_context.context.activity.text),
                 retry_prompt= MessageFactory.text(
                 "Please enter a valid day or date. P.S. It can't be past date.", extra = step_context.context.activity.text),))
@@ -131,53 +122,86 @@ class caseThreeDialog(ComponentDialog):
         outletName3x    = "uuauais"
         pharmacistId3x  = "uususus"
         endTime3x       = "wwiwias"
-        use_time3x      = "usususu"                
+        use_time3x      = "usususu"      
 
 
-        date3x           = step_context.result
-        wks.update_acell("O1", str(date3x))
-        outletId         = outlet_ids(userId, token)
-        wks.update_acell("O2", str(outletId))
-        outletName3x       = outlet_name(outletId, token)
-        pharmacistsIds   = get_pharmacist_id(pharmacyId, outletId)  
-        wks.update_acell("O3", str(pharmacistsIds))           
-        slots3x          = get_slots_sup(pharmacistsIds, date3x, time3x[0], timey, token)
+        switch = predict_class(step_context.context.activity.text)
 
-
-        if slots3x is None:
-            case3b = "different time3x"
+        if switch == "appointment":
             await step_context.context.send_activity(
-                MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time.", extra = main))
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = main)),) 
-        else:
+                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
+            return await step_context.begin_dialog("early-book")
 
-            wks.update_acell("O4", str(slots3x)) 
-            doc_name3x       = pharmacist_name(slots3x[1])
-            wks.update_acell("O5", str(doc_name3x)) 
-            pharmacistId3x   = slots3x[1]
-            userName         = check_name(userId, token) 
-            times3xx         = slots3x[0]
-            wks.update_acell("O5", str(times3xx)) 
-            ss               = datetime.strptime(times3xx, "%H:%M:%S")
-            dd               = ss + timedelta(minutes= 15)
-            endTime3x        = datetime.strftime(dd, "%H:%M:%S")
-            use_time3x       = datetime.strptime(times3xx, "%H:%M:%S").strftime("%I:%M %p")
-            wks.update_acell("O6", str(time3x[0]))
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("pill-reminder")
 
-            if userName != "not found":
-                case3b = "confirm or not3x"
+        if switch == "health_profile":
+            return await step_context.begin_dialog("health-profile")
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("adv-reminder")
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog("adv-record")
+
+        if switch == "adv_appointment":
+            return await step_context.begin_dialog("spacy-book")
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Please let me check...", extra = main))
+            return await step_context.begin_dialog("up-appoints")
+
+        if switch == "bypass_appoint":
+            return await step_context.begin_dialog("bypass-appoint")
+
+        else:          
+
+            date3x           = date_validate(step_context.result)
+            outletId         = outlet_ids(userId, token)
+            outletName3x     = outlet_name(outletId, token)
+            pharmacistsIds   = get_pharmacist_id(pharmacyId, outletId)  
+            slots3x          = get_slots_sup(pharmacistsIds, date3x[0], time3x[0], timey, token)
+
+
+            if slots3x is None:
+                case3b = "different time3x"
                 await step_context.context.send_activity(
-                    MessageFactory.text("Hey " + str(userName) + ", on " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = main))
+                    MessageFactory.text("Sorry! All our pharmacists are occupied at the selected time.", extra = main))
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would you like to book the appointment at a different time?", extra = main)),) 
             else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("On " + str(date3x) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = main))            
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = main)),)
+
+                wks.update_acell("O4", str(slots3x)) 
+                doc_name3x       = pharmacist_name(slots3x[1])
+                wks.update_acell("O5", str(doc_name3x)) 
+                pharmacistId3x   = slots3x[1]
+                userName         = check_name(userId, token) 
+                times3xx         = slots3x[0]
+                wks.update_acell("O5", str(times3xx)) 
+                ss               = datetime.strptime(times3xx, "%H:%M:%S")
+                dd               = ss + timedelta(minutes= 15)
+                endTime3x        = datetime.strftime(dd, "%H:%M:%S")
+                use_time3x       = datetime.strptime(times3xx, "%H:%M:%S").strftime("%I:%M %p")
+                wks.update_acell("O6", str(time3x[0]))
+
+                if userName != "not found":
+                    case3b = "confirm or not3x"
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Hey " + str(userName) + ", on " + str(date3x[0]) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = main))
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("On " + str(date3x[0]) + " at " + str(use_time3x) + ", " + str(doc_name3x) + " of " + str(outletName3x) + " outlet is available.", extra = main))            
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Would you like to confirm the appointment?", extra = main)),)
 
 
 
@@ -188,33 +212,69 @@ class caseThreeDialog(ComponentDialog):
         appointId   = "aayayyaaa" 
         case3c      = "ruausauzz"
 
-        if case3b == "confirm or not3x":
-            msgsxy = predict_class(step_context.result)
-            if msgsxy == "positive":
-                case3c = "question ask3xx"
-                save_appoint(date3x, times3xx, endTime3x, userId, pharmacistId3x, doc_name3x, pharmacyId, token)
-                appointId = appoint_id(userId, token)
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! Your appointment with " + str(doc_name3x) + " has been booked on " + str(date3x) + " at "  + str(use_time3x) + ".", extra = main)) 
-                await step_context.context.send_activity(
-                    MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = main))
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
+        switch = predict_class(step_context.context.activity.text)
 
-            else:
-                return await step_context.begin_dialog(AppointmentDialog.__name__)  
+        if switch == "appointment":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
+            return await step_context.begin_dialog("early-book")
 
-        if case3b == "different time3x":
-            msgx = predict_class(step_context.result)
-            if msgx == "positive":
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("pill-reminder")
 
-                return await step_context.replace_dialog("passing")   
+        if switch == "health_profile":
+            return await step_context.begin_dialog("health-profile")
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("adv-reminder")
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog("adv-record")
+
+        if switch == "adv_appointment":
+            return await step_context.begin_dialog("spacy-book")
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Please let me check...", extra = main))
+            return await step_context.begin_dialog("up-appoints")
+
+        if switch == "bypass_appoint":
+            return await step_context.begin_dialog("bypass-appoint")
+
+        else:
+
+            if case3b == "confirm or not3x":
+                msgsxy = predict_class(step_context.result)
+                if msgsxy == "positive":
+                    case3c = "question ask3xx"
+                    save_appoint(date3x, times3xx, endTime3x, userId, pharmacistId3x, doc_name3x, pharmacyId, token)
+                    appointId = appoint_id(userId, token)
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thank You! Your appointment with " + str(doc_name3x) + " has been booked on " + str(date3x) + " at "  + str(use_time3x) + ".", extra = main)) 
+                    await step_context.context.send_activity(
+                        MessageFactory.text("It is recommended by the pharmacist to answer a questionnaire prior to the appointment.", extra = main))
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Would  you like to attempt the questionnaire now?", extra = main)),)     
+
+                else:
+                    return await step_context.begin_dialog("book-appoint")  
+
+            if case3b == "different time3x":
+                msgx = predict_class(step_context.result)
+                if msgx == "positive":
+                    return await step_context.begin_dialog("book-appoint")
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
+
+                    return await step_context.replace_dialog("passing")   
 
 
     async def fourth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -222,41 +282,113 @@ class caseThreeDialog(ComponentDialog):
         global case1d
         case1d = "sjksksk"
 
-        if case3c == "question ask3xx":
-            msgs = predict_class(step_context.result)
-            if msgs == "positive":       
-                await step_context.context.send_activity(
-                    MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
-                reply = MessageFactory.text("go to question page", extra = main)
-                reply.suggested_actions = SuggestedActions(
-                    actions=[
-                        CardAction(
-                            title= "go to question page",
-                            type=ActionTypes.im_back,
-                            value= str(appointId), 
-                            extra = main)])
-                await step_context.context.send_activity(reply)
+        switch = predict_class(step_context.context.activity.text)
 
-                return await step_context.replace_dialog("passing")   
-            else:
-                case1d = "update or not2"
-                await step_context.context.send_activity(
-                    MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition.", extra = main))    
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text("Would you like to update health profile now?", extra = main)),) 
+        if switch == "appointment":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
+            return await step_context.begin_dialog("early-book")
+
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("pill-reminder")
+
+        if switch == "health_profile":
+            return await step_context.begin_dialog("health-profile")
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("adv-reminder")
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog("adv-record")
+
+        if switch == "adv_appointment":
+            return await step_context.begin_dialog("spacy-book")
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Please let me check...", extra = main))
+            return await step_context.begin_dialog("up-appoints")
+
+        if switch == "bypass_appoint":
+            return await step_context.begin_dialog("bypass-appoint")
+
+        else:
+
+            if case3c == "question ask3xx":
+                msgs = predict_class(step_context.result)
+                if msgs == "positive":       
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Thank You! I am opening the questionnare page.", extra = main))
+                    reply = MessageFactory.text("go to question page", extra = main)
+                    reply.suggested_actions = SuggestedActions(
+                        actions=[
+                            CardAction(
+                                title= "go to question page",
+                                type=ActionTypes.im_back,
+                                value= str(appointId), 
+                                extra = main)])
+                    await step_context.context.send_activity(reply)
+
+                    return await step_context.replace_dialog("passing")   
+                else:
+                    case1d = "update or not2"
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Keep your health profile updated. This will help pharmacist better assess your health condition.", extra = main))    
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text("Would you like to update health profile now?", extra = main)),) 
 
 
-    async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:        
+    async def fifth_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:       
 
-        if case1d == "update or not2":
-            msg = predict_class(step_context.result) 
+        switch = predict_class(step_context.context.activity.text)
 
-            if msg == "positive":
-                return await step_context.begin_dialog(HealthProfileDialog.__name__) 
-            else:
-                await step_context.context.send_activity(
-                    MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
+        if switch == "appointment":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
+            return await step_context.begin_dialog("early-book")
 
-                return await step_context.replace_dialog("passing")
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("pill-reminder")
+
+        if switch == "health_profile":
+            return await step_context.begin_dialog("health-profile")
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("adv-reminder")
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog("adv-record")
+
+        if switch == "adv_appointment":
+            return await step_context.begin_dialog("spacy-book")
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Please let me check...", extra = main))
+            return await step_context.begin_dialog("up-appoints")
+
+        if switch == "bypass_appoint":
+            return await step_context.begin_dialog("bypass-appoint")
+
+        else: 
+
+            if case1d == "update or not2":
+                msg = predict_class(step_context.result) 
+
+                if msg == "positive":
+                    return await step_context.begin_dialog("health-profile") 
+                else:
+                    await step_context.context.send_activity(
+                        MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))
+
+                    return await step_context.replace_dialog("passing")
