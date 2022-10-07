@@ -1014,12 +1014,17 @@
 # #                             if count == 84:
 # #                                 break
 # import re
-
-# bp = "Its 100/80"
+# bp = "190.92/80"
 # bp = str(bp).lower()
 # bp = bp.replace("its ", "").replace("it's ", "").replace("it is ", "")
+
 # sys = re.sub(r"(\d+)\/\d+", r"\1", bp)
 # dia = re.sub(r"\d+\/(\d+)", r"\1", bp)
+
+# if  100 <= float(sys) <= 129:
+#     print("normal")
+# else:
+#     print("abnormal")
 
 # print(sys, dia)
 # #                     final_days = []
@@ -1031,7 +1036,21 @@
 #     raw = i.resolution
 #     dd = raw['value']
 #     res.append(dd) 
+# import recognizers_suite as Recognizers
+# from recognizers_suite import Culture
+# culture = Culture.English
 
+# raw = Recognizers.recognize_datetime("Fri, Wed, Thu", culture) 
+# times = []     
+# for i in raw:
+#     raw = i.resolution
+#     dd = raw['values']
+#     print(dd)
+#     for j in dd:
+#         tim = j['value']  
+#         times.append(tim) 
+
+# print(times)
 # temps = res[0]
 
 # if 36.1 <= float(temps) <= 40.6 or 97.8 <= float(temps) <= 106.3:

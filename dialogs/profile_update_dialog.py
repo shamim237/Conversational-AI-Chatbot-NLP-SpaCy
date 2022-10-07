@@ -35,7 +35,7 @@ class HealthProfileDialog(ComponentDialog):
                     self.temp_step,
                     self.temp1_step,
                     self.temp2_step,
-                    self.temp3_step,
+                    # self.temp3_step,
 
                 ],
             )
@@ -84,14 +84,37 @@ class HealthProfileDialog(ComponentDialog):
 
         temps = res[0]
 
-        if 36.1 <= float(temps) <= 40.6 or 97.8 <= float(temps) <= 106.3:
-            done = "all okay"    
+        if 36.1 <= float(temps) <= 37.2 or 93 <= float(temps) <= 98.9:
+            done = "normal temp"    
+            await step_context.context.send_activity(
+                MessageFactory.text("Your body temperature is pretty normal.", extra = main))  
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings.", extra = main)),)
+                    prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings. Ex: 120/60 or Sys: 120, Dia: 60 or Upper: 120 and Lower: 60.", extra = main)),)
+
+        if 37.3 <= float(temps) <= 39.3 or 99 <= float(temps) <= 100.4:
+            done = "mild fever"    
+            await step_context.context.send_activity(
+                MessageFactory.text("Your body temperature shows you have mild fever.", extra = main))  
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings. Ex: 120/60 or Sys: 120, Dia: 60 or Upper: 120 and Lower: 60.", extra = main)),) 
+
+        if 39.4 <= float(temps) <= 40.9 or 100.5 <= float(temps) <= 102.6: 
+            done = "high fever"
+            await step_context.context.send_activity(
+                MessageFactory.text("Your body temperature shows you have high fever. I suggest you should see a doctor or pharmacist.", extra = main))  
+            await step_context.context.send_activity(
+                MessageFactory.text("Keep monitoring your temperature every three hours.", extra = main))  
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text("I can book an appointment with currently available pharmacist. Would you like book the appointment now?", extra = main)),) 
+            
         else:
-            done = "not okay"
+            done = "invalid temp"
             return await step_context.prompt(
                 TextPrompt.__name__,
                 PromptOptions(
@@ -100,72 +123,94 @@ class HealthProfileDialog(ComponentDialog):
 
     async def temp2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
-        global done2
+        global bps
+        global sys
+        global dia
         global tempsk
 
-        done2 = "ajajaj"
         tempsk = "sjsjsjs"
 
-        if done == "all okay":
+        if done == "normal temp" or done == "mild fever":
 
             bp = step_context.result
-
             bp = str(bp).lower()
             bp = bp.replace("its ", "").replace("it's ", "").replace("it is ", "")
 
             sys = re.sub(r"(\d+)\/\d+", r"\1", bp)
             dia = re.sub(r"\d+\/(\d+)", r"\1", bp)
 
-            #update_profile(userId, temps, sys, dia, token)
-            await step_context.context.send_activity(
-                MessageFactory.text("I've recorded your body parameters.", extra = main))   
-            await step_context.context.send_activity(
-                MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
-            
-            
-            return await step_context.end_dialog()
-
-        if done == "not okay":
-            tempk  = step_context.result
-            result = recognize_number(str(tempk), Culture.English)
-            res = []
-            for i in result:
-                raw = i.resolution
-                dd = raw['value']
-                res.append(dd) 
-
-            tempsk = res[0]
-
-            if 36.1 <= float(tempsk) <= 40.6 or 97.8 <= float(tempsk) <= 106.3:
-                done2 = "all okay"    
+            if 100 <= float(sys) <= 129:
+                bps = "normal bp"
                 return await step_context.prompt(
                     TextPrompt.__name__,
                     PromptOptions(
-                        prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings.", extra = main, input_hint= "sys/dia(180/90)")),)                   
+                        prompt=MessageFactory.text("Your blood pressure is normal. Please enter the pulse rate.", extra = main)),)  
+
+            if 130 <= float(sys) <= 179:
+                bps = "mild bp"
+                await step_context.context.send_activity(
+                    MessageFactory.text("Your blood pressure is higher than normal.", extra = main))                  
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Are you on medication and taking them on time?", extra = main)),)  
+
+            if float(sys) >= 180:
+                await step_context.context.send_activity(
+                    MessageFactory.text("The patient is in the state of emergency. Please call 911.", extra = main))    
+                return await step_context.end_dialog()
+
+            else: 
+                bps = "invalid bp"
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(
+                        prompt=MessageFactory.text("Please enter a valid bp readings.", extra = main)),)                                
+  
+            
+        if done == "invalid temp":
+
+            return step_context.next([-2])
+            # tempk  = step_context.result
+            # result = recognize_number(str(tempk), Culture.English)
+            # res = []
+            # for i in result:
+            #     raw = i.resolution
+            #     dd = raw['value']
+            #     res.append(dd) 
+
+            # tempsk = res[0]
+
+            # if 36.1 <= float(tempsk) <= 40.6 or 97.8 <= float(tempsk) <= 106.3:
+            #     done2 = "all okay"    
+            #     return await step_context.prompt(
+            #         TextPrompt.__name__,
+            #         PromptOptions(
+            #             prompt=MessageFactory.text("Please measure your blood pressure with BP apparatus and share the readings.", extra = main)),)                   
 
 
-    async def temp3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    # async def temp3_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
 
 
-        if done2 == "all okay":
+    #     if done2 == "all okay":
 
-            bps = step_context.result
+    #         bps = step_context.result
 
-            bps = str(bps).lower()
-            bps = bps.replace("its ", "").replace("it's ", "").replace("it is ", "")
+    #         bps = str(bps).lower()
+    #         bps = bps.replace("its ", "").replace("it's ", "").replace("it is ", "")
 
-            sys = re.sub(r"(\d+)\/\d+", r"\1", bps)
-            dia = re.sub(r"\d+\/(\d+)", r"\1", bps)
+    #         sys = re.sub(r"(\d+)\/\d+", r"\1", bps)
+    #         dia = re.sub(r"\d+\/(\d+)", r"\1", bps)
 
-            # update_profile(userId, tempsk, sys, dia, token)
+    #         # update_profile(userId, tempsk, sys, dia, token)
 
-            await step_context.context.send_activity(
-                MessageFactory.text("I've recorded your body parameters.", extra = main))   
-            await step_context.context.send_activity(
-                MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
+    #         await step_context.context.send_activity(
+    #             MessageFactory.text("I've recorded your body parameters.", extra = main))   
+    #         await step_context.context.send_activity(
+    #             MessageFactory.text("Thanks for connecting with Jarvis Care.", extra = main))
             
 
-            return await step_context.end_dialog()            
+    #         return await step_context.end_dialog()            
 
 
     # async def temp2_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
