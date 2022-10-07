@@ -7,8 +7,7 @@ from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
 import gspread
-from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
-from dialogs.simple_reminder_dialog import SimplePillReminderDialog
+
 
 
 class PillReminderDialog(ComponentDialog):
@@ -22,8 +21,6 @@ class PillReminderDialog(ComponentDialog):
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
-        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))
-        self.add_dialog(SimplePillReminderDialog(SimplePillReminderDialog.__name__))
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog",
@@ -43,8 +40,10 @@ class PillReminderDialog(ComponentDialog):
 
         global userId
         global token
+        global main
         global pharmacyId
 
+        main = step_context.context.activity.text
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
@@ -66,18 +65,54 @@ class PillReminderDialog(ComponentDialog):
         global excepts
         excepts = "msmnsmn"
 
-        response = predict_class(step_context.result)
+        switch = predict_class(step_context.context.activity.text)
 
-        if response == "adv_pill_reminder":
-            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+        if switch == "appointment":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
+            return await step_context.begin_dialog("early-book")
+
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("pill-reminder")
+
+        if switch == "health_profile":
+            return await step_context.begin_dialog("health-profile")
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("adv-reminder")
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog("adv-record")
+
+        if switch == "adv_appointment":
+            return await step_context.begin_dialog("spacy-book")
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Please let me check...", extra = main))
+            return await step_context.begin_dialog("up-appoints")
+
+        if switch == "bypass_appoint":
+            return await step_context.begin_dialog("bypass-appoint")
 
         else:
-            excepts = "didn't do it"
-            await step_context.context.send_activity(
-                MessageFactory.text(f"To set a pill reminder, please follow the example:", extra =  step_context.context.activity.text)) 
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("'set a pill reminder for Bendix Syrup daily at 9 pm'", extra =  step_context.context.activity.text)),)  
+
+            response = predict_class(step_context.result)
+
+            if response == "adv_pill_reminder":
+                return await step_context.begin_dialog("adv-reminder")
+
+            else:
+                excepts = "didn't do it"
+                await step_context.context.send_activity(
+                    MessageFactory.text(f"To set a pill reminder, please follow the example:", extra =  step_context.context.activity.text)) 
+                return await step_context.prompt(
+                    TextPrompt.__name__,
+                    PromptOptions(prompt=MessageFactory.text("'set a pill reminder for Bendix Syrup daily at 9 pm'", extra =  step_context.context.activity.text)),)  
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -86,13 +121,49 @@ class PillReminderDialog(ComponentDialog):
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
 
-        wks.update_acell("E10", str(step_context.result))
-        response = predict_class(step_context.result)
-        wks.update_acell("E11", str(response))
-        
-        if response == "adv_pill_reminder":
-            return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
-        else:
+        switch = predict_class(step_context.context.activity.text)
+
+        if switch == "appointment":
             await step_context.context.send_activity(
-                MessageFactory.text("Let me set a pill reminder for you.", extra =  step_context.context.activity.text)) 
-            return await step_context.begin_dialog(SimplePillReminderDialog.__name__)
+                MessageFactory.text(f"Let me check the earliest appointment slots for you.", extra = main))
+            return await step_context.begin_dialog("early-book")
+
+        if switch == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("pill-reminder")
+
+        if switch == "health_profile":
+            return await step_context.begin_dialog("health-profile")
+
+        if switch == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Let me set a pill reminder for you.", extra = main))
+            return await step_context.begin_dialog("adv-reminder")
+
+        if switch == "adv_health_record":
+            return await step_context.begin_dialog("adv-record")
+
+        if switch == "adv_appointment":
+            return await step_context.begin_dialog("spacy-book")
+
+        if switch == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text(f"Okay. Please let me check...", extra = main))
+            return await step_context.begin_dialog("up-appoints")
+
+        if switch == "bypass_appoint":
+            return await step_context.begin_dialog("bypass-appoint")
+
+        else:
+
+            wks.update_acell("E10", str(step_context.result))
+            response = predict_class(step_context.result)
+            wks.update_acell("E11", str(response))
+            
+            if response == "adv_pill_reminder":
+                return await step_context.begin_dialog("adv-reminder")
+            else:
+                await step_context.context.send_activity(
+                    MessageFactory.text("Let me set a pill reminder for you.", extra =  step_context.context.activity.text)) 
+                return await step_context.begin_dialog("pill-reminder")

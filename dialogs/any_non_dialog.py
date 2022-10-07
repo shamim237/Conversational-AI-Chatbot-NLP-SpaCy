@@ -6,9 +6,6 @@ from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from nlp_model.predict import predict_class
 from prompt.email_prompt import EmailPrompt
-from dialogs.book_appointment import AppointmentDialog
-from dialogs.health_record_dialog import HealthRecordDialog
-from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
 
 class NonAnyDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -19,9 +16,6 @@ class NonAnyDialog(ComponentDialog):
         self.add_dialog(DatePrompt("date_prompt"))
         self.add_dialog(EmailPrompt("email_prompt"))
         self.add_dialog(TimePrompt("time_prompt"))
-        self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
-        self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
-        self.add_dialog(AdvHealthRecordDialog(AdvHealthRecordDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
@@ -60,10 +54,10 @@ class NonAnyDialog(ComponentDialog):
                 PromptOptions(prompt=MessageFactory.text("Okay, Tell me which one you want me to do?", extra = step_context.context.activity.text),))
         
         if msg == "appointment":
-            return await step_context.begin_dialog(AppointmentDialog.__name__)
+            return await step_context.begin_dialog("book-appoint")
         
         if msg == "adv_health_record":
-            return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
+            return await step_context.begin_dialog("adv-record") 
         else:
             want = "nothing"
             return await step_context.prompt(
@@ -80,10 +74,10 @@ class NonAnyDialog(ComponentDialog):
             if msg == "appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text("I am initializing the book appointment process.", extra = step_context.context.activity.text))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                return await step_context.begin_dialog("book-appoint")
             
             if msg == "adv_health_record":
-                return await step_context.begin_dialog(AdvHealthRecordDialog.__name__) 
+                return await step_context.begin_dialog("adv-record") 
             else:
                 return await step_context.prompt(
                     TextPrompt.__name__,

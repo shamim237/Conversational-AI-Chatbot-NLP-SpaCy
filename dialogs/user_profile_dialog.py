@@ -22,6 +22,7 @@ from dialogs.bypass_appoint_dialog import ByPassAppointmentDialog
 from dialogs.adv_health_record_dialog import AdvHealthRecordDialog
 from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
 from dialogs.health_info_dialog import HealthInfoDialog
+from dialogs.non_upapp_dialog import UploadNonInDialogApp
 from dialogs.dialog_extra import DialogExtra
 from botbuilder.dialogs import ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, PromptOptions
@@ -65,6 +66,7 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(AdvHealthRecordDialog("adv-record"))
         self.add_dialog(HealthProfileDialog("health-profile"))
         self.add_dialog(UpcomingAppointmentDialog("up-appoints"))
+        self.add_dialog(UploadNonInDialogApp("bypass-record"))
         self.initial_dialog_id = "WFDialog"
 
         

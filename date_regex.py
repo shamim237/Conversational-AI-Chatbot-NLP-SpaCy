@@ -5,6 +5,51 @@ import recognizers_suite as Recognizers
 from recognizers_suite import Culture
 culture = Culture.English
 
+def date_validate(date):
+
+    try:
+
+        today = datetime.now()
+        today = datetime.strftime(today, "%Y-%m-%d")   
+        today = datetime.strptime(today, "%Y-%m-%d").date()
+
+        raw = Recognizers.recognize_datetime(date, culture = Culture.English) 
+        dates = []     
+        for i in raw:
+            raw = i.resolution
+            dd = raw['values']
+            # print(dd)
+            for j in dd:
+                tim = j['value']  
+                dates.append(tim) 
+        f_date = []
+        for i in dates:
+            datey = datetime.strptime(i, "%Y-%m-%d").date()
+            if datey >= today:
+                datey = datetime.strftime(datey, "%Y-%m-%d")
+                f_date.append(datey)
+            else:
+                return None
+    except:
+        return None
+
+    return f_date
+
+
+def time_validate(time):
+
+    extract = Recognizers.recognize_datetime(time, culture = Culture.English) 
+    times = []     
+    for i in extract:
+        keys = i.resolution
+        values = keys['values']
+        print(values)
+        for j in values:
+            timea = j['value']  
+            times.append(timea)  
+
+    return times
+    
 
 def cal_date(present, date_str):
 

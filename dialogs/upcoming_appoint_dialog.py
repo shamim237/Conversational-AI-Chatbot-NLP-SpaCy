@@ -6,12 +6,7 @@ from nlp_model.predict import predict_class
 from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from prompt.email_prompt import EmailPrompt
-from dialogs.book_appointment import AppointmentDialog
 from appointment import upcoming_appointment
-from dialogs.profile_update_dialog import HealthProfileDialog
-from dialogs.pill_reminder_dialog import PillReminderDialog
-from dialogs.adv_pill_remind_dialog import AdvPillReminderDialog
-from dialogs.health_record_dialog import HealthRecordDialog
 import gspread
 
 class UpcomingAppointmentDialog(ComponentDialog):
@@ -22,12 +17,7 @@ class UpcomingAppointmentDialog(ComponentDialog):
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
         self.add_dialog(DatePrompt("date_prompt"))
         self.add_dialog(EmailPrompt("email_prompt"))           
-        self.add_dialog(TimePrompt("time_prompt"))
-        self.add_dialog(AppointmentDialog(AppointmentDialog.__name__))
-        self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
-        self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
-        self.add_dialog(AdvPillReminderDialog(AdvPillReminderDialog.__name__))
-        self.add_dialog(HealthProfileDialog(HealthProfileDialog.__name__))        
+        self.add_dialog(TimePrompt("time_prompt"))      
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog",
@@ -54,9 +44,6 @@ class UpcomingAppointmentDialog(ComponentDialog):
         ac = gspread.service_account("chatbot-logger-985638d4a780.json")
         sh = ac.open("chatbot_logger")
         wks = sh.worksheet("Sheet1")
-
-        
-
 
         prompts = "appapapap"
         main = step_context.context.activity.text
@@ -126,7 +113,7 @@ class UpcomingAppointmentDialog(ComponentDialog):
             if response == "positive":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                return await step_context.begin_dialog("book-appoint")
             if response == "negative":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"I can help you connect with a pharmacist, set a pill reminder, and upload health records.", extra = main))
@@ -136,31 +123,27 @@ class UpcomingAppointmentDialog(ComponentDialog):
             if response == "appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                return await step_context.begin_dialog("book-appoint")
 
             if response == "health_records":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = main))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                return await step_context.begin_dialog("health-record")
 
             if response == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog("pill-reminder")
 
             if response == "health_profile":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
-                return await step_context.begin_dialog(HealthProfileDialog.__name__)
+                return await step_context.begin_dialog("health-profile")
 
             if response == "adv_pill_reminder":
-                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-                sh = ac.open("chatbot_logger")
-                wks = sh.worksheet("Sheet1")
-                wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
-                return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                return await step_context.begin_dialog("adv-reminder")
 
             else:
                 await step_context.context.send_activity(
@@ -189,31 +172,27 @@ class UpcomingAppointmentDialog(ComponentDialog):
             if response == "appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                return await step_context.begin_dialog("book-appoint")
 
             if response == "health_records":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = main))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                return await step_context.begin_dialog("health-record")
 
             if response == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog("pill-reminder")
 
             if response == "health_profile":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
-                return await step_context.begin_dialog(HealthProfileDialog.__name__)
+                return await step_context.begin_dialog("health-profile")
 
             if response == "adv_pill_reminder":
-                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-                sh = ac.open("chatbot_logger")
-                wks = sh.worksheet("Sheet1")
-                wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
-                return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                return await step_context.begin_dialog("adv-reminder")
 
             else:
                 await step_context.context.send_activity(
@@ -231,31 +210,27 @@ class UpcomingAppointmentDialog(ComponentDialog):
             if response == "appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                return await step_context.begin_dialog("book-appoint")
 
             if response == "health_records":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = main))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                return await step_context.begin_dialog("health-record")
 
             if response == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog("pill-reminder")
 
             if response == "health_profile":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
-                return await step_context.begin_dialog(HealthProfileDialog.__name__)
+                return await step_context.begin_dialog("health-profile")
 
             if response == "adv_pill_reminder":
-                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-                sh = ac.open("chatbot_logger")
-                wks = sh.worksheet("Sheet1")
-                wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
-                return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                return await step_context.begin_dialog("adv-reminder")
 
             else:
                 await step_context.context.send_activity(
@@ -270,31 +245,27 @@ class UpcomingAppointmentDialog(ComponentDialog):
             if response == "appointment":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of booking an appointment!", extra = main))
-                return await step_context.begin_dialog(AppointmentDialog.__name__)
+                return await step_context.begin_dialog("book-appoint")
 
             if response == "health_records":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of uploading health records!", extra = main))
-                return await step_context.begin_dialog(HealthRecordDialog.__name__)
+                return await step_context.begin_dialog("health-record")
 
             if response == "reminder":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
-                return await step_context.begin_dialog(PillReminderDialog.__name__)
+                return await step_context.begin_dialog("pill-reminder")
 
             if response == "health_profile":
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a health profile!", extra = main))
-                return await step_context.begin_dialog(HealthProfileDialog.__name__)
+                return await step_context.begin_dialog("health-profile")
 
             if response == "adv_pill_reminder":
-                ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-                sh = ac.open("chatbot_logger")
-                wks = sh.worksheet("Sheet1")
-                wks.update_acell("A2", str(step_context.result))
                 await step_context.context.send_activity(
                     MessageFactory.text(f"Okay. I am initializing the process of setting up a pill reminder!", extra = main))
-                return await step_context.begin_dialog(AdvPillReminderDialog.__name__)
+                return await step_context.begin_dialog("adv-reminder")
 
             else:
                 await step_context.context.send_activity(
