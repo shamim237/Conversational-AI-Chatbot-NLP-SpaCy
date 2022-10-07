@@ -22,7 +22,7 @@ from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, C
 
 
 class AdvBookAppDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "early-book"):
         super(AdvBookAppDialog, self).__init__(dialog_id or AdvBookAppDialog.__name__)
         self.add_dialog(DatePrompt("date_prompt"))
         self.add_dialog(TimePrompt("time_prompt"))

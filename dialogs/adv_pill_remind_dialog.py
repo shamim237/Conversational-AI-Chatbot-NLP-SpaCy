@@ -32,7 +32,7 @@ from dialogs.reminder_case.case_7 import caseSevenDialog
 
 
 class AdvPillReminderDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "adv-reminder"):
         super(AdvPillReminderDialog, self).__init__(dialog_id or AdvPillReminderDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))

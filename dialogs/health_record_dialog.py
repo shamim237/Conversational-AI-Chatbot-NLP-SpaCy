@@ -15,7 +15,7 @@ from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, C
 
 
 class HealthRecordDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "health-record"):
         super(HealthRecordDialog, self).__init__(dialog_id or HealthRecordDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))

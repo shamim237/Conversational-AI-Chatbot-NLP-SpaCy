@@ -27,7 +27,7 @@ from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, ChoicePrompt, C
 
 
 class SupAdvBookAppDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "spacy-book"):
         super(SupAdvBookAppDialog, self).__init__(dialog_id or SupAdvBookAppDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))

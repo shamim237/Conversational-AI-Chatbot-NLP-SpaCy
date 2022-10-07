@@ -24,7 +24,7 @@ import gspread
 
 
 class AppointmentDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "book-appoint"):
         super(AppointmentDialog, self).__init__(dialog_id or AppointmentDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))

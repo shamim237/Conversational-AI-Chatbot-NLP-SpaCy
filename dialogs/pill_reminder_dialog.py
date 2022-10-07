@@ -12,7 +12,7 @@ from dialogs.simple_reminder_dialog import SimplePillReminderDialog
 
 
 class PillReminderDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "bypass-reminder"):
         super(PillReminderDialog, self).__init__(dialog_id or PillReminderDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))

@@ -19,7 +19,7 @@ from dialogs.profile_update_dialog import HealthProfileDialog
 
 
 class ByPassAppointmentDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "bypass-appoint"):
         super(ByPassAppointmentDialog, self).__init__(dialog_id or ByPassAppointmentDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))

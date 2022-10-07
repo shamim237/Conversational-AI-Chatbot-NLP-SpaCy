@@ -15,7 +15,7 @@ from dialogs.health_record_dialog import HealthRecordDialog
 import gspread
 
 class UpcomingAppointmentDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "up-appoints"):
         super(UpcomingAppointmentDialog, self).__init__(dialog_id or UpcomingAppointmentDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))

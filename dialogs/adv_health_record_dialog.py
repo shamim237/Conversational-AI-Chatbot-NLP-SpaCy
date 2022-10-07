@@ -16,7 +16,7 @@ from dialogs.upload_case.case_1 import caseOneRecordDialog
 from dialogs.upload_case.case_7 import caseSevenRecordDialog
 
 class AdvHealthRecordDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "adv-record"):
         super(AdvHealthRecordDialog, self).__init__(dialog_id or AdvHealthRecordDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))

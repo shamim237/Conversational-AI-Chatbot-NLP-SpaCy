@@ -15,7 +15,7 @@ from dialogs.health_record_dialog import HealthRecordDialog
 from dialogs.pill_reminder_dialog import PillReminderDialog
 
 class HealthProfileDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, dialog_id: str = "health-profile"):
         super(HealthProfileDialog, self).__init__(dialog_id or HealthProfileDialog.__name__)
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
@@ -168,9 +168,9 @@ class HealthProfileDialog(ComponentDialog):
                         prompt=MessageFactory.text("Please enter a valid bp readings.", extra = main)),)                                
   
             
-        if done == "invalid temp":
+        # if done == "invalid temp":
 
-            return step_context.next([-2])
+        #     return step_context.next([-2])
             # tempk  = step_context.result
             # result = recognize_number(str(tempk), Culture.English)
             # res = []
