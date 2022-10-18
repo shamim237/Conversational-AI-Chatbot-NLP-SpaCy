@@ -6,7 +6,7 @@ from botbuilder.core import UserState
 from prompt.time_prompt import TimePrompt
 from prompt.date_prompt import DatePrompt
 from prompt.email_prompt import EmailPrompt
-from nlp_model.predict import predict_class
+from nlp_model.predict import predict_class, response
 from lib.message_factory import MessageFactory
 from dialogs.book_appointment import AppointmentDialog
 from dialogs.adv_book_app_dialog import AdvBookAppDialog
@@ -24,7 +24,6 @@ from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
 from dialogs.health_info_dialog import HealthInfoDialog
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
 from dialogs.dialog_extra import DialogExtra
-from model.predict_context import get_response, classify
 from botbuilder.dialogs import ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, PromptOptions
 translator = Translator()
@@ -105,8 +104,8 @@ class UserProfileDialog(ComponentDialog):
             return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
         else:
             if status == "Success":
-                # msg = predict_class(step_context.context.activity.text)
-                msg = classify(step_context.context.activity.text)
+                msg = predict_class(step_context.context.activity.text)
+
 
                 # if msg == "good":
                 #     prompts = "Would you like to subscribe to a daily health tip from an expert?"
@@ -216,12 +215,8 @@ class UserProfileDialog(ComponentDialog):
                     return await step_context.begin_dialog("bypass-appoint")                                  
 
                 else:
-                    ss = get_response(main)
-                    return await step_context.prompt(
-                        TextPrompt.__name__,
-                        PromptOptions(
-                            prompt=MessageFactory.text(ss)))
-                    # prompts = "nothing understand"
+                    prompts = "nothing understand"
+                    resp = response(main)
                     # await step_context.context.send_activity(
                     #     MessageFactory.text("Sorry! I don't understand!", extra = step_context.context.activity.text))
                     # return await step_context.prompt(
@@ -229,6 +224,11 @@ class UserProfileDialog(ComponentDialog):
                     #     PromptOptions(
                     #         prompt=MessageFactory.text("Can you please rephrase it for me?", extra = step_context.context.activity.text)),)
 
+                    return await step_context.prompt(
+                        TextPrompt.__name__,
+                        PromptOptions(
+                            prompt=MessageFactory.text(resp, extra = step_context.context.activity.text)),)
+                            
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         
