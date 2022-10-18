@@ -24,6 +24,7 @@ from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
 from dialogs.health_info_dialog import HealthInfoDialog
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
 from dialogs.dialog_extra import DialogExtra
+from model.predict_context import get_response, classify
 from botbuilder.dialogs import ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, PromptOptions
 translator = Translator()
@@ -104,82 +105,83 @@ class UserProfileDialog(ComponentDialog):
             return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
         else:
             if status == "Success":
-                msg = predict_class(step_context.context.activity.text)
+                # msg = predict_class(step_context.context.activity.text)
+                msg = classify(step_context.context.activity.text)
 
-                if msg == "good":
-                    prompts = "Would you like to subscribe to a daily health tip from an expert?"
-                    await step_context.context.send_activity(
-                        MessageFactory.text("Okay. I am assuming that your health is well.", extra = main))
-                    reply = MessageFactory.text("Would you like my help with any of these?", extra = main)
-                    reply.suggested_actions = SuggestedActions(
-                        actions=[
-                            CardAction(
-                                title= "Book an Appointment",
-                                type=ActionTypes.im_back,
-                                value= "Book an Appointment",
-                                extra = main),
-                            CardAction(
-                                title = "Pill Reminder",
-                                type = ActionTypes.im_back,
-                                value = "Pill Reminder",
-                                extra = main),
-                            CardAction(
-                                title = "Upload Health Records",
-                                type = ActionTypes.im_back,
-                                value = "Upload Health Records",
-                                extra = main),
-                                ])
-                    return await step_context.context.send_activity(reply)      
+                # if msg == "good":
+                #     prompts = "Would you like to subscribe to a daily health tip from an expert?"
+                #     await step_context.context.send_activity(
+                #         MessageFactory.text("Okay. I am assuming that your health is well.", extra = main))
+                #     reply = MessageFactory.text("Would you like my help with any of these?", extra = main)
+                #     reply.suggested_actions = SuggestedActions(
+                #         actions=[
+                #             CardAction(
+                #                 title= "Book an Appointment",
+                #                 type=ActionTypes.im_back,
+                #                 value= "Book an Appointment",
+                #                 extra = main),
+                #             CardAction(
+                #                 title = "Pill Reminder",
+                #                 type = ActionTypes.im_back,
+                #                 value = "Pill Reminder",
+                #                 extra = main),
+                #             CardAction(
+                #                 title = "Upload Health Records",
+                #                 type = ActionTypes.im_back,
+                #                 value = "Upload Health Records",
+                #                 extra = main),
+                #                 ])
+                #     return await step_context.context.send_activity(reply)      
 
-                if msg == "bad":
-                    prompts = "Have you consulted with a Doctor/Pharmacist?"
-                    await step_context.context.send_activity(
-                        MessageFactory.text("Sorry to hear that!", extra = main))
-                    return await step_context.prompt(
-                        TextPrompt.__name__,
-                        PromptOptions(prompt=MessageFactory.text("Have you consulted with any Doctor or Pharmacist?", extra = main)),)
+                # if msg == "bad":
+                #     prompts = "Have you consulted with a Doctor/Pharmacist?"
+                #     await step_context.context.send_activity(
+                #         MessageFactory.text("Sorry to hear that!", extra = main))
+                #     return await step_context.prompt(
+                #         TextPrompt.__name__,
+                #         PromptOptions(prompt=MessageFactory.text("Have you consulted with any Doctor or Pharmacist?", extra = main)),)
                 
-                if msg == "morning":
-                    prompts = "morning"
-                    return await step_context.prompt(
-                        TextPrompt.__name__,
-                        PromptOptions(
-                            prompt=MessageFactory.text("Good Morning! How are you doing today?", extra = step_context.context.activity.text)),)
+                # if msg == "morning":
+                #     prompts = "morning"
+                #     return await step_context.prompt(
+                #         TextPrompt.__name__,
+                #         PromptOptions(
+                #             prompt=MessageFactory.text("Good Morning! How are you doing today?", extra = step_context.context.activity.text)),)
                 
-                if msg == "afternoon":
-                    prompts = "afternoon"
-                    return await step_context.prompt(
-                        TextPrompt.__name__,
-                        PromptOptions(
-                            prompt=MessageFactory.text("Good Afternoon! How can I help you today?", extra = step_context.context.activity.text)),)
+                # if msg == "afternoon":
+                #     prompts = "afternoon"
+                #     return await step_context.prompt(
+                #         TextPrompt.__name__,
+                #         PromptOptions(
+                #             prompt=MessageFactory.text("Good Afternoon! How can I help you today?", extra = step_context.context.activity.text)),)
                 
-                if msg == "evening":
-                    prompts = "evening"
-                    return await step_context.prompt(
-                        TextPrompt.__name__,
-                        PromptOptions(
-                            prompt=MessageFactory.text("Good Evening! How may I assist you today?", extra = step_context.context.activity.text)),)
+                # if msg == "evening":
+                #     prompts = "evening"
+                #     return await step_context.prompt(
+                #         TextPrompt.__name__,
+                #         PromptOptions(
+                #             prompt=MessageFactory.text("Good Evening! How may I assist you today?", extra = step_context.context.activity.text)),)
 
-                if msg ==  "whatsup":
-                    prompts = "whatup"
-                    return await step_context.prompt(
-                        TextPrompt.__name__,
-                        PromptOptions(
-                            prompt=MessageFactory.text("I'm good. How about you?", extra = step_context.context.activity.text)),)
+                # if msg ==  "whatsup":
+                #     prompts = "whatup"
+                #     return await step_context.prompt(
+                #         TextPrompt.__name__,
+                #         PromptOptions(
+                #             prompt=MessageFactory.text("I'm good. How about you?", extra = step_context.context.activity.text)),)
 
-                if msg == "meet":
-                    prompts = "meet"
-                    return await step_context.prompt(
-                        TextPrompt.__name__,
-                        PromptOptions(
-                            prompt=MessageFactory.text("Good to see you too. How may I help you today?", extra = step_context.context.activity.text)),)
+                # if msg == "meet":
+                #     prompts = "meet"
+                #     return await step_context.prompt(
+                #         TextPrompt.__name__,
+                #         PromptOptions(
+                #             prompt=MessageFactory.text("Good to see you too. How may I help you today?", extra = step_context.context.activity.text)),)
 
-                if msg == "hey":
-                    prompts = "hey"
-                    return await step_context.prompt(
-                        TextPrompt.__name__,
-                        PromptOptions(
-                            prompt=MessageFactory.text("Hey there, how are you feeling today?", extra = step_context.context.activity.text)),)
+                # if msg == "hey":
+                #     prompts = "hey"
+                #     return await step_context.prompt(
+                #         TextPrompt.__name__,
+                #         PromptOptions(
+                #             prompt=MessageFactory.text("Hey there, how are you feeling today?", extra = step_context.context.activity.text)),)
 
                 if msg == "appointment":
                     await step_context.context.send_activity(
@@ -214,13 +216,18 @@ class UserProfileDialog(ComponentDialog):
                     return await step_context.begin_dialog("bypass-appoint")                                  
 
                 else:
-                    prompts = "nothing understand"
-                    await step_context.context.send_activity(
-                        MessageFactory.text("Sorry! I don't understand!", extra = step_context.context.activity.text))
+                    ss = get_response(main)
                     return await step_context.prompt(
                         TextPrompt.__name__,
                         PromptOptions(
-                            prompt=MessageFactory.text("Can you please rephrase it for me?", extra = step_context.context.activity.text)),)
+                            prompt=MessageFactory.text(ss)))
+                    # prompts = "nothing understand"
+                    # await step_context.context.send_activity(
+                    #     MessageFactory.text("Sorry! I don't understand!", extra = step_context.context.activity.text))
+                    # return await step_context.prompt(
+                    #     TextPrompt.__name__,
+                    #     PromptOptions(
+                    #         prompt=MessageFactory.text("Can you please rephrase it for me?", extra = step_context.context.activity.text)),)
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:

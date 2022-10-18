@@ -1,0 +1,2 @@
+model_checkpoint_path: "D:/Office_Work/JarvisChatbot/saved_model/model.tflearn"
+all_model_checkpoint_paths: "D:/Office_Work/JarvisChatbot/saved_model/model.tflearn"

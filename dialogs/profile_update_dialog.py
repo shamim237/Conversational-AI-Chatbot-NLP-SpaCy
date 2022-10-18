@@ -10,9 +10,6 @@ from prompt.date_prompt import DatePrompt
 from prompt.time_prompt import TimePrompt
 from recognizers_number import recognize_number, Culture
 from prompt.email_prompt import EmailPrompt
-from dialogs.appoint_extra import AppointExtraDialog
-from dialogs.health_record_dialog import HealthRecordDialog
-from dialogs.pill_reminder_dialog import PillReminderDialog
 
 class HealthProfileDialog(ComponentDialog):
     def __init__(self, dialog_id: str = "health-profile"):
@@ -23,9 +20,6 @@ class HealthProfileDialog(ComponentDialog):
         self.add_dialog(DatePrompt("date_prompt"))
         self.add_dialog(EmailPrompt("email_prompt"))             
         self.add_dialog(TimePrompt("time_prompt"))
-        self.add_dialog(AppointExtraDialog(AppointExtraDialog.__name__))
-        self.add_dialog(HealthRecordDialog(HealthRecordDialog.__name__))
-        self.add_dialog(PillReminderDialog(PillReminderDialog.__name__))
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
         self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
