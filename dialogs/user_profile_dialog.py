@@ -219,7 +219,7 @@ class UserProfileDialog(ComponentDialog):
                     resp = response(main)
                     await step_context.context.send_activity(
                         MessageFactory.text(resp, extra = step_context.context.activity.text))
-                    return await step_context.reprompt_dialog()
+                    return await step_context.begin_dialog(UserProfileDialog.__name__)
                     # return await step_context.prompt(
                     #     TextPrompt.__name__,
                     #     PromptOptions(
