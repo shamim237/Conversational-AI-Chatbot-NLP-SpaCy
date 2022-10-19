@@ -24,6 +24,7 @@ class Conv2Dialog(ComponentDialog):
                 "WFDialog",
                 [
                     self.first_step,
+                    self.secnd_step,
 
                 ],
             )
@@ -82,6 +83,52 @@ class Conv2Dialog(ComponentDialog):
         else:
             prompts = "nothing understand"
             resp = response(main)
+            return await step_context.prompt(
+                TextPrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text(resp, extra = main)),)
+
+
+    async def secnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
+
+        msg = predict_class(step_context.result)
+
+        if msg == "appointment":
             await step_context.context.send_activity(
-                MessageFactory.text(resp, extra = step_context.context.activity.text))
-            return await step_context.begin_dialog("conv1")
+                MessageFactory.text("Let me check the earliest appointment slots for you.", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog("early-book")
+
+        if msg == "adv_appointment":
+            return await step_context.begin_dialog("adv-book")
+
+        if msg == "reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text("Let me set a pill reminder for you.", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog("pill-reminder") 
+
+        if msg == "health_profile":
+            return await step_context.begin_dialog("health-profile") 
+
+        if msg == "adv_pill_reminder":
+            await step_context.context.send_activity(
+                MessageFactory.text("Let me set a pill reminder for you.", extra = step_context.context.activity.text))
+            return await step_context.begin_dialog("adv-reminder") 
+
+        if msg == "adv_health_record":
+            return await step_context.begin_dialog("adv-record")  
+
+        if msg == "upcoming_app":
+            await step_context.context.send_activity(
+                MessageFactory.text("Okay. Please let me check...", extra = main))
+            return await step_context.begin_dialog("up-appoints")
+
+        if msg == "bypass_appoint":
+            return await step_context.begin_dialog("bypass-appoint")                                  
+
+        else:
+            prompts = "nothing understand"
+            resp = response(step_context.result)
+            await step_context.context.send_activity(
+                MessageFactory.text(resp, extra = step_context.result))
+            return await step_context.begin_dialog("conv1") 
