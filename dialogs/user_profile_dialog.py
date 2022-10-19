@@ -181,54 +181,54 @@ class UserProfileDialog(ComponentDialog):
                 #         TextPrompt.__name__,
                 #         PromptOptions(
                 #             prompt=MessageFactory.text("Hey there, how are you feeling today?", extra = step_context.context.activity.text)),)
-                while True:
 
-                    if msg == "appointment":
-                        await step_context.context.send_activity(
-                            MessageFactory.text("Let me check the earliest appointment slots for you.", extra = step_context.context.activity.text))
-                        return await step_context.begin_dialog("early-book")
+                if msg == "appointment":
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Let me check the earliest appointment slots for you.", extra = step_context.context.activity.text))
+                    return await step_context.begin_dialog("early-book")
 
-                    if msg == "adv_appointment":
-                        return await step_context.begin_dialog("adv-book")
+                if msg == "adv_appointment":
+                    return await step_context.begin_dialog("adv-book")
 
-                    if msg == "reminder":
-                        await step_context.context.send_activity(
-                            MessageFactory.text("Let me set a pill reminder for you.", extra = step_context.context.activity.text))
-                        return await step_context.begin_dialog("pill-reminder") 
+                if msg == "reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Let me set a pill reminder for you.", extra = step_context.context.activity.text))
+                    return await step_context.begin_dialog("pill-reminder") 
 
-                    if msg == "health_profile":
-                        return await step_context.begin_dialog("health-profile") 
+                if msg == "health_profile":
+                    return await step_context.begin_dialog("health-profile") 
 
-                    if msg == "adv_pill_reminder":
-                        await step_context.context.send_activity(
-                            MessageFactory.text("Let me set a pill reminder for you.", extra = step_context.context.activity.text))
-                        return await step_context.begin_dialog("adv-reminder") 
+                if msg == "adv_pill_reminder":
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Let me set a pill reminder for you.", extra = step_context.context.activity.text))
+                    return await step_context.begin_dialog("adv-reminder") 
 
-                    if msg == "adv_health_record":
-                        return await step_context.begin_dialog("adv-record")  
+                if msg == "adv_health_record":
+                    return await step_context.begin_dialog("adv-record")  
 
-                    if msg == "upcoming_app":
-                        await step_context.context.send_activity(
-                            MessageFactory.text("Okay. Please let me check...", extra = main))
-                        return await step_context.begin_dialog("up-appoints")
+                if msg == "upcoming_app":
+                    await step_context.context.send_activity(
+                        MessageFactory.text("Okay. Please let me check...", extra = main))
+                    return await step_context.begin_dialog("up-appoints")
 
-                    if msg == "bypass_appoint":
-                        return await step_context.begin_dialog("bypass-appoint")                                  
+                if msg == "bypass_appoint":
+                    return await step_context.begin_dialog("bypass-appoint")                                  
 
-                    else:
-                        prompts = "nothing understand"
-                        resp = response(main)
-                        await step_context.context.send_activity(
-                            MessageFactory.text(resp, extra = step_context.context.activity.text))
-                        # return await step_context.prompt(
-                        #     TextPrompt.__name__,
-                        #     PromptOptions(
-                        #         prompt=MessageFactory.text("Can you please rephrase it for me?", extra = step_context.context.activity.text)),)
+                else:
+                    prompts = "nothing understand"
+                    resp = response(main)
+                    await step_context.context.send_activity(
+                        MessageFactory.text(resp, extra = step_context.context.activity.text))
+                    return await step_context.reprompt_dialog()
+                    # return await step_context.prompt(
+                    #     TextPrompt.__name__,
+                    #     PromptOptions(
+                    #         prompt=MessageFactory.text("Can you please rephrase it for me?", extra = step_context.context.activity.text)),)
 
-                        # return await step_context.prompt(
-                        #     TextPrompt.__name__,
-                        #     PromptOptions(
-                        #         prompt=MessageFactory.text(resp, extra = step_context.context.activity.text)),)
+                    # return await step_context.prompt(
+                    #     TextPrompt.__name__,
+                    #     PromptOptions(
+                    #         prompt=MessageFactory.text(resp, extra = step_context.context.activity.text)),)
 
 
     async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
