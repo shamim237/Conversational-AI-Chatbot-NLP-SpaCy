@@ -57,7 +57,7 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(DialogExtra("passing"))
         self.add_dialog(HealthInfoDialog("goodbad"))
         self.add_dialog(Conv1Dialog("conv1"))
-        self.add_dialog(Conv1Dialog("conv2"))
+        self.add_dialog(Conv2Dialog("conv2"))
         self.add_dialog(AppointmentDialog("book-appoint"))
         self.add_dialog(AdvBookAppDialog("early-book"))
         self.add_dialog(ByPassAppointmentDialog("bypass-appoint"))

@@ -11,7 +11,7 @@ from botbuilder.schema import (
     SuggestedActions,
     InputHints,
 )
-import gspread
+# import gspread
 from googletrans import Translator
 translator = Translator()
 
@@ -44,13 +44,13 @@ class MessageFactory:
     @staticmethod
     def text(text: str, extra: str, speak: str = None, input_hint: Union[InputHints, str] = InputHints.accepting_input,) -> Activity:
 
-        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
-        sh = ac.open("chatbot_logger")
-        wks = sh.worksheet("Sheet1")
+        # ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        # sh = ac.open("chatbot_logger")
+        # wks = sh.worksheet("Sheet1")
 
         raw  = translator.detect(extra)
-        wks.update_acell('C6', str(extra))
-        wks.update_acell('C7', str(raw.lang))
+        # wks.update_acell('C6', str(extra))
+        # wks.update_acell('C7', str(raw.lang))
         type =  raw.lang
         if raw.lang == "es":
             convert = translator.translate(text, dest= type)
