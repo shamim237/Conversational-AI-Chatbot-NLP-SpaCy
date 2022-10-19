@@ -81,12 +81,9 @@ class Conv1Dialog(ComponentDialog):
             return await step_context.begin_dialog("bypass-appoint")                                  
 
         else:
-            prompts = "nothing understand"
-            resp = response(main)
-            return await step_context.prompt(
-                TextPrompt.__name__,
-                PromptOptions(
-                    prompt=MessageFactory.text(resp, extra = main)),)
+            # prompts = "nothing understand"
+            # resp = response(main)
+            return await step_context.next()
 
 
     async def secnd_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
