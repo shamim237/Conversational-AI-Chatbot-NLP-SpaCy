@@ -24,6 +24,8 @@ from dialogs.upcoming_appoint_dialog import UpcomingAppointmentDialog
 from dialogs.health_info_dialog import HealthInfoDialog
 from dialogs.non_upapp_dialog import UploadNonInDialogApp
 from dialogs.dialog_extra import DialogExtra
+from dialogs.conv1 import Conv1Dialog
+from dialogs.conv2 import Conv2Dialog
 from botbuilder.dialogs import ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult
 from botbuilder.dialogs.prompts import TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, PromptOptions
 translator = Translator()
@@ -54,6 +56,8 @@ class UserProfileDialog(ComponentDialog):
         self.add_dialog(TimePrompt("time_prompt"))
         self.add_dialog(DialogExtra("passing"))
         self.add_dialog(HealthInfoDialog("goodbad"))
+        self.add_dialog(Conv1Dialog("conv1"))
+        self.add_dialog(Conv1Dialog("conv2"))
         self.add_dialog(AppointmentDialog("book-appoint"))
         self.add_dialog(AdvBookAppDialog("early-book"))
         self.add_dialog(ByPassAppointmentDialog("bypass-appoint"))
@@ -219,7 +223,7 @@ class UserProfileDialog(ComponentDialog):
                     resp = response(main)
                     await step_context.context.send_activity(
                         MessageFactory.text(resp, extra = step_context.context.activity.text))
-                    return await step_context.begin_dialog(UserProfileDialog.__name__)
+                    return await step_context.begin_dialog("conv1")
                     # return await step_context.prompt(
                     #     TextPrompt.__name__,
                     #     PromptOptions(
