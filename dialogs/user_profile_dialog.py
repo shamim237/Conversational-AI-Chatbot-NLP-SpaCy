@@ -302,8 +302,8 @@ class UserProfileDialog(ComponentDialog):
         else:
             prompts = "nothing understand"
             wks.update_acell("C27", str(msg))
-            wks.update_acell("C28", str(main))
-            resp = response(main)
+            wks.update_acell("C28", str(step_context.result))
+            resp = response(step_context.result)
             wks.update_acell("C29", str(resp))
             resp = resp.replace(". ", ".\n")
             wks.update_acell("C30", str(resp))

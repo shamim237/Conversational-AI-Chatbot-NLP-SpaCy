@@ -85,8 +85,11 @@ class Conv1Dialog(ComponentDialog):
             return await step_context.begin_dialog("bypass-appoint")                                  
 
         else:
-            # prompts = "nothing understand"
-            # resp = response(main)
+            try:
+                wks.update_acell("A25", str(main))
+                wks.update_acell("A26", str(step_context.result))
+            except:
+                pass
             return await step_context.next()
 
 
@@ -130,8 +133,8 @@ class Conv1Dialog(ComponentDialog):
         else:
             prompts = "nothing understand"
             wks.update_acell("D27", str(msg))
-            wks.update_acell("D28", str(main))
-            resp = response(main)
+            wks.update_acell("D28", str(step_context.result))
+            resp = response(step_context.result)
             wks.update_acell("D29", str(resp))
             resp = resp.replace(". ", ".\n")
             wks.update_acell("D30", str(resp))
