@@ -124,6 +124,9 @@ class Conv2Dialog(ComponentDialog):
         else:
             prompts = "nothing understand"
             resp = response(step_context.result)
+            resp = resp.replace(". ", ".\n")
+            resp = list(resp.split("\n"))
+
             if len(resp) == 1:
                 return await step_context.prompt(
                     TextPrompt.__name__,
