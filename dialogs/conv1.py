@@ -39,12 +39,16 @@ class Conv1Dialog(ComponentDialog):
         global token
         global pharmacyId
         global main
+        global wks
 
         userId = step_context.context.activity.from_property.id
         pharmacyId = step_context.context.activity.from_property.name
         token = step_context.context.activity.from_property.role  
         main = step_context.context.activity.text
 
+        ac = gspread.service_account("chatbot-logger-985638d4a780.json")
+        sh = ac.open("chatbot_logger")
+        wks = sh.worksheet("Sheet1")
 
         msg = predict_class(main)
 
@@ -125,9 +129,15 @@ class Conv1Dialog(ComponentDialog):
 
         else:
             prompts = "nothing understand"
-            resp = response(step_context.result)
+            wks.update_acell("D27", str(msg))
+            wks.update_acell("D28", str(main))
+            resp = response(main)
+            wks.update_acell("D29", str(resp))
             resp = resp.replace(". ", ".\n")
+            wks.update_acell("D30", str(resp))
             resp = list(resp.split("\n"))
+            wks.update_acell("D31", str(resp))
+
             if len(resp) == 1:
                 return await step_context.prompt(
                     TextPrompt.__name__,

@@ -221,9 +221,15 @@ class UserProfileDialog(ComponentDialog):
 
                 else:
                     prompts = "nothing understand"
+                    wks.update_acell("B27", str(msg))
+                    wks.update_acell("B28", str(main))
                     resp = response(main)
+                    wks.update_acell("B29", str(resp))
                     resp = resp.replace(". ", ".\n")
+                    wks.update_acell("B30", str(resp))
                     resp = list(resp.split("\n"))
+                    wks.update_acell("B31", str(resp))
+
                     if len(resp) == 1:
                         return await step_context.prompt(
                             TextPrompt.__name__,
@@ -295,9 +301,15 @@ class UserProfileDialog(ComponentDialog):
 
         else:
             prompts = "nothing understand"
-            resp = response(step_context.result)
+            wks.update_acell("C27", str(msg))
+            wks.update_acell("C28", str(main))
+            resp = response(main)
+            wks.update_acell("C29", str(resp))
             resp = resp.replace(". ", ".\n")
+            wks.update_acell("C30", str(resp))
             resp = list(resp.split("\n"))
+            wks.update_acell("C31", str(resp))
+
             if len(resp) == 1:
                 return await step_context.prompt(
                     TextPrompt.__name__,
