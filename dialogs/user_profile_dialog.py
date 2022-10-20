@@ -311,26 +311,25 @@ class UserProfileDialog(ComponentDialog):
             wks.update_acell("C31", str(resp))
 
             if len(resp) == 1:
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text(resp[0], extra = step_context.context.activity.text)),)
+                await step_context.context.send_activity(
+                    MessageFactory.text(resp[0], extra = main)) 
+                return await step_context.begin_dialog("conv1") 
+
             if len(resp) == 2:
                 await step_context.context.send_activity(
-                    MessageFactory.text(resp[0], extra = main))                        
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text(resp[1], extra = step_context.context.activity.text)),)
+                    MessageFactory.text(resp[0], extra = main))       
+                await step_context.context.send_activity(
+                    MessageFactory.text(resp[1], extra = main))                   
+                return await step_context.begin_dialog("conv1") 
+
             if len(resp) == 3:
                 await step_context.context.send_activity(
                     MessageFactory.text(resp[0], extra = main)) 
                 await step_context.context.send_activity(
-                    MessageFactory.text(resp[1], extra = main))                         
-                return await step_context.prompt(
-                    TextPrompt.__name__,
-                    PromptOptions(
-                        prompt=MessageFactory.text(resp[2], extra = step_context.context.activity.text)),)        
+                    MessageFactory.text(resp[1], extra = main))   
+                await step_context.context.send_activity(
+                    MessageFactory.text(resp[2], extra = main))                       
+                return await step_context.begin_dialog("conv1")      
 
 
     # async def third_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
