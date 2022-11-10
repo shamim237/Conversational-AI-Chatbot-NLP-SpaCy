@@ -106,7 +106,7 @@ class UserProfileDialog(ComponentDialog):
         status = check_user(userId, token)
 
         if userId == 0 or status == "Fail" or status == 400:
-            return await step_context.begin_dialog(ToBeLoggedInDialog.__name__)
+            return await step_context.begin_dialog("login-process")
         else:
             if status == "Success":
                 msg = predict_class(step_context.context.activity.text)
