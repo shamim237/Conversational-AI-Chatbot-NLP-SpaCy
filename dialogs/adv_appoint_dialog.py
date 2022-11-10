@@ -290,7 +290,7 @@ class SupAdvBookAppDialog(ComponentDialog):
             return await step_context.begin_dialog("bypass-appoint")
 
         else:
-
+            
             if case1a == "abar date nibo":
                 dat = step_context.result
                 outletId         = outlet_ids(userId, token)

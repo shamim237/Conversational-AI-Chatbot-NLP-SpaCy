@@ -170,7 +170,7 @@ class AdvBookAppDialog(ComponentDialog):
             if opt == "asking another":
                 msg = predict_class(step_context.result)  
                 if msg == "positive":
-                    return await step_context.begin_dialog("health-profile")
+                    return await step_context.begin_dialog("book-appoint")
                 else:
                     await step_context.context.send_activity(
                         MessageFactory.text(f"Thanks for connecting with Jarvis Care.", extra = main))

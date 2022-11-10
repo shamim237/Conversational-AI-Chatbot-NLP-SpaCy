@@ -67,32 +67,32 @@
 
 # print(dd)
 
-from datasets import load_dataset
-from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM, TFBlenderbotForConditionalGeneration
-import tensorflow
-import numpy as np
-from tensorflow.keras.optimizers import Adam
+# from datasets import load_dataset
+# from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM, TFBlenderbotForConditionalGeneration
+# import tensorflow
+# import numpy as np
+# from tensorflow.keras.optimizers import Adam
 
-dataset = load_dataset("glue", "cola")
-dataset = dataset["train"]
+# dataset = load_dataset("glue", "cola")
+# dataset = dataset["train"]
 
-# with open("dataf.txt", "r") as dataf:
-#     data = dataf.read()
+# # with open("dataf.txt", "r") as dataf:
+# #     data = dataf.read()
 
-tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
-model = TFAutoModelForSeq2SeqLM.from_pretrained("facebook/blenderbot-400M-distill")
+# tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
+# model = TFAutoModelForSeq2SeqLM.from_pretrained("facebook/blenderbot-400M-distill")
 
 
 
-tokenized_data = tokenizer(dataset["sentence"], return_tensors="np", padding=True)
+# tokenized_data = tokenizer(dataset["sentence"], return_tensors="np", padding=True)
 
-labels = np.array(dataset["label"]) 
+# labels = np.array(dataset["label"]) 
 
-# dataf = np.array(tokenized_data)
+# # dataf = np.array(tokenized_data)
 
-model.compile(optimizer=Adam(3e-5), loss = "None")
+# model.compile(optimizer=Adam(3e-5), loss = "None")
 
-model.fit(tokenized_data, labels)
+# model.fit(tokenized_data, labels)
 
 
 # import re
